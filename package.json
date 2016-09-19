@@ -1,0 +1,38 @@
+{
+	"name": "sango",
+	"version": "0.0.1",
+	"description": "Academic data analysis platform",
+	"main": "index.js",
+	"scripts": {
+		"start": "node api/index.js",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"insert": "node api/insert_mock_data.js"
+  },
+	"config": {
+		"port": "3000",
+		"db_url": "mongodb://localhost:27017/sango"
+  },
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/rafarm/sango.git"
+	},
+	"keywords": [
+		"analysis",
+		"assessment",
+		"student"
+	],
+	"author": {
+		"name": "Rafa Rubio",
+		"email": "rubio_rafmor@gva.es"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/rafarm/sango/issues"
+	},
+	"homepage": "https://github.com/rafarm/sango#readme",
+	"dependencies": {
+		"body-parser": "^1.15.2",
+		"express": "^4.14.0",
+		"mongodb": "^2.2.10"
+	}
+}
