@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongodb = require('../mongo_connection');
-var studentsCollection = mongodb.db.collection('Students');
+var studentsCollection = mongodb.db.collection('students');
 var bodyParser = require('body-parser');
 
 /*

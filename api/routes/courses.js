@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongodb = require('../mongo_connection');
-var coursesCollection = mongodb.db.collection('Courses');
+var coursesCollection = mongodb.db.collection('courses');
 var ObjectID = require('mongodb').ObjectID;
 
 /*

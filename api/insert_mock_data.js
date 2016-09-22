@@ -69,20 +69,20 @@ var course = {
 mongodb.connect
 	.then(function () {
 		// Insert students
-		var studentsCollection = mongodb.db.collection('Students');
+		var studentsCollection = mongodb.db.collection('students');
 		studentsCollection.insertMany(students, null)
 			.then(function(result) {
 				console.info('Insert students: ' + result);
 				
 				// Insert course
-				var coursesCollection = mongodb.db.collection('Courses');
+				var coursesCollection = mongodb.db.collection('courses');
 				coursesCollection.insertOne(course, null)
 					.then(function(result) {
 						console.info('Insert course: ' + result);
 						mongodb.db.close();
 					})
 					.catch(function(err) {
-						console.error('Insert students: ' + err);
+						console.error('Insert course: ' + err);
 						mongodb.db.close();
 					});
 			})
