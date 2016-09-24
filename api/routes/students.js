@@ -10,14 +10,14 @@ var bodyParser = require('body-parser');
  * Returns all students.
  */
 router.get('/', function(req, res) {
-	studentsCollection.find().toArray()
-		.then(function(students) {
-			res.json(students);
-		})
-		.catch(function(err) {
-			res.status(500);
-			res.json(err);
-		});
+    studentsCollection.find().toArray()
+	.then(function(students) {
+	    res.json(students);
+	})
+	.catch(function(err) {
+	    res.status(500);
+	    res.json(err);
+	});
 });
 
 /*
@@ -26,14 +26,14 @@ router.get('/', function(req, res) {
  * Returns the student identified by 'id'.
  */
 router.get('/:id', function(req, res) {
-	studentsCollection.findOne({'_id': req.params.id})
-		.then(function(student) {
-			res.json(student);
-		})
-		.catch(function(err) {
-			res.status(500);
-			res.json(err);
-		});
+    studentsCollection.findOne({'_id': req.params.id})
+	.then(function(student) {
+	    res.json(student);
+	})
+	.catch(function(err) {
+	    res.status(500);
+	    res.json(err);
+	});
 });
 
 /*
@@ -42,16 +42,16 @@ router.get('/:id', function(req, res) {
  * Inserts a new student.
  */
 router.post('/', bodyParser.json(), function(req, res) {
-	studentsCollection.insertOne(req.body, null)
-		.then(function(result) {
-			console.info('student POST: ' + result);
-			res.json(result);
-		})
-		.catch(function(err) {
-			console.error('student POST: ' + err);
-			res.status(500);
-			res.json(err);
-		});
+    studentsCollection.insertOne(req.body, null)
+	.then(function(result) {
+	    console.info('student POST: ' + result);
+	    res.json(result);
+	})
+	.catch(function(err) {
+	    console.error('student POST: ' + err);
+	    res.status(500);
+	    res.json(err);
+	});
 });
 
 /*
@@ -60,16 +60,16 @@ router.post('/', bodyParser.json(), function(req, res) {
  * Inserts an array of new students.
  */
 router.post('/many', bodyParser.json(), function(req, res) {
-	studentsCollection.insertMany(req.body, null)
-		.then(function(result) {
-			console.info('student/many POST: ' + result);
-			res.json(student);
-		})
-		.catch(function(err) {
-			console.error('student POST: ' + err);
-			res.status(500);
-			res.json(err);
-		});
+    studentsCollection.insertMany(req.body, null)
+	.then(function(result) {
+	    console.info('student/many POST: ' + result);
+	    res.json(student);
+	})
+	.catch(function(err) {
+	    console.error('student POST: ' + err);
+	    res.status(500);
+	    res.json(err);
+	});
 });
 
 module.exports = router;
