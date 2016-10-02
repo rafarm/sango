@@ -13,6 +13,8 @@ mongodb.connect
     .then(function () {
 	// Client app...
         app.use(express.static('web'));
+        app.use('/dashboard', express.static('web'));
+        app.use('/viewer', express.static('web'));
         app.use('/node_modules', express.static('node_modules'));
 
         // Loading routes...

@@ -1,0 +1,26 @@
+<div class="fixed-top-sub">
+    <session-selector (sessionChanged)="onSessionChanged($event)"></session-selector>
+
+    <div class="container-fluid" *ngIf="sessionId">
+	<ngb-tabset>
+	    <ngb-tab title="Alumnes">
+                <template ngbTabContent>
+		    <h3>Alumnes</h3>
+                    <!--<session-list [session]="session"></session-list>-->
+                </template>
+            </ngb-tab>
+	    <ngb-tab title="Grup">
+                <template ngbTabContent>
+		    <h3>Grup</h3>
+                    <!--<session-group [session]="session"></session-group>-->
+                </template>
+            </ngb-tab>
+	    <ngb-tab title="Notes">
+		<template ngbTabContent>
+		    <h3>Notes</h3>
+		    <!--<session-table [session]="session"></session-table>-->
+		</template>
+	    </ngb-tab>
+	</ngb-tabset>
+    </div>
+</div>

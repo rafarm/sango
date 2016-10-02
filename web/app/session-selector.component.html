@@ -1,0 +1,14 @@
+<div class="session-selector">
+    <select id="year" (change)="yearSelected($event)" class="form-control" [disabled]="coursesTree==null">
+	<option value="-1">Selecciona l'any...</option>
+	<option *ngFor="let c of coursesTree; let i=index" [value]="i">{{c._id}}</option>
+    </select>
+    <select id="group" (change)="groupSelected($event)" class="form-control" [disabled]="groups==null">
+        <option value="-1">Selecciona un grup...</option>
+        <option *ngFor="let g of groups; let i=index" [value]="i">{{g.group}}</option>
+    </select>
+    <select #session id="session" (change)="sessionSelected($event)" class="form-control" [disabled]="sessions==null">
+        <option value="-1" [selected]="selectedSessionIndex==null">Selecciona la sessió...</option>
+        <option *ngFor="let s of sessions; let i=index" [value]="i">{{s}}</option>
+    </select>
+</div>

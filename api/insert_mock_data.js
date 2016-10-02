@@ -1,5 +1,4 @@
 var mongodb = require('./mongo_connection');
-var ObjectID = require('mongodb').ObjectID;
 
 // Students list
 var students = [

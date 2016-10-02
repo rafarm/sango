@@ -1,6 +1,6 @@
 {
     "name": "sango",
-    "version": "0.0.1",
+    "version": "0.0.1-alpha",
     "description": "Academic data analysis platform",
     "main": "index.js",
     "scripts": {

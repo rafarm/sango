@@ -1,0 +1,23 @@
+.fixed-top-sub {
+    position: fixed;
+    top: 54px;
+    right: 0px;
+    left: 0px;
+    z-index: 1000;
+    background-color: white;
+}
+
+.nav {
+    margin-top: -40px;
+}
+
+.nav-tabs {
+	margin-left: -15px;
+	margin-right: -15px;
+        padding-left: 15px;
+        padding-right: 15px;
+}
+
+.nav-item {
+    float: right;
+}

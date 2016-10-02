@@ -1,0 +1,8 @@
+.session-selector {
+    padding: 10px;
+}
+
+select {
+    width: 15%;
+    display: inline;
+}
