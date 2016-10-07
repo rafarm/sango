@@ -41,7 +41,7 @@ router.get('/tree', function(req, res) {
 		$unwind: "$assessments"
 	    },
 	    {
-		$sort: { group: 1, "assessments.order": 1 }
+		$sort: { academic_year: -1, group: -1, "assessments.order": 1 }
 	    },
 	    {
 		$lookup: {
