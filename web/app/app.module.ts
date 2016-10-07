@@ -8,7 +8,7 @@ import { routing } 			from './app.routing';
 import { AppComponent }  		from './app.component';
 import { DashboardComponent } 		from './dashboard.component';
 import { ViewerComponent } 		from './viewer.component';
-import { SessionSelectorComponent } 	from './session-selector.component';
+import { AssessmentSelectorComponent } 	from './assessment-selector.component';
 //import { SessionTableComponent } 	from './session-table.component';
 //import { SessionGroupComponent } 	from './session-group.component';
 //import { SessionListComponent } 	from './session-list.component';
@@ -28,7 +28,7 @@ import { DataService } 			from './data.service';
 	AppComponent,
 	DashboardComponent,
 	ViewerComponent,
-	SessionSelectorComponent,
+	AssessmentSelectorComponent,
 	//SessionTableComponent,
 	//SessionGroupComponent,
 	//SessionListComponent,

@@ -1,7 +1,7 @@
 <div class="fixed-top-sub">
-    <session-selector (sessionChanged)="onSessionChanged($event)"></session-selector>
+    <assessment-selector (assessmentChanged)="onAssessmentChanged($event)"></assessment-selector>
 
-    <div class="container-fluid" *ngIf="sessionId">
+    <div class="container-fluid" *ngIf="assessmentId">
 	<ngb-tabset>
 	    <ngb-tab title="Alumnes">
                 <template ngbTabContent>

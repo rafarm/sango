@@ -27,26 +27,61 @@ router.get('/', function(req, res) {
  * structure to create courses navigation menu.
  */
 router.get('/tree', function(req, res) {
+    // TODO: Match by school
     coursesCollection.aggregate(
 	[
 	    {
 		$project: {
 		    academic_year: 1,
 		    group:  { $concat: [ "$level", " ", "$stage", " ", "$name" ] },
-		    sessions: "$assessment_sessions.name"
+		    assessments: 1
 		}
 	    },
 	    {
-		$sort: { group: 1 }
+		$unwind: "$assessments"
+	    },
+	    {
+		$sort: { group: 1, "assessments.order": 1 }
+	    },
+	    {
+		$lookup: {
+		    from: "assessments",
+		    localField: "assessments.assessment_id",
+		    foreignField: "_id",
+		    as: "assessments_data"
+		}
+	    },
+	    {
+		$unwind: "$assessments_data"
+	    },
+	    {
+		$project: {
+		    academic_year: 1,
+		    group: 1,
+		    "assessments.assessment_id": 1,
+		    "assessments_data.name": 1
+		}
 	    },
 	    {
 		$group: {
-		    _id: "$academic_year",
+		    _id: { academic_year: "$academic_year", group: "$group", course_id: "$_id" },
+		    assessments: {
+			$push: {
+			    assessments_id: "$assessments.assessment_id",
+			    assessments_name: "$assessments_data.name"
+			}
+		    }
+		}
+	    },
+	    {
+		$group: {
+		    _id: "$_id.academic_year",
 		    groups: {
 			$push: {
-			    course_id: "$_id",
-			    group: "$group",
-			    sessions: "$sessions"
+			    group: "$_id.group",
+			    course_id: "$_id.course_id",
+			    assessments_id: "$assessments.assessments_id",
+			    assessments_name: "$assessments.assessments_name"
 			}
 		    }
 		}

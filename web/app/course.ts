@@ -1,5 +1,6 @@
 export class Course {
     course_id: string;
     group: string;
-    sessions: string[];
+    assessments_id: string[];
+    assessments_name: string[];
 }

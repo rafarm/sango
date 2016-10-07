@@ -1,17 +1,15 @@
 import { Component } from '@angular/core';
 
-import { SessionId } from './sessionid';
-
 @Component({
     selector: 'viewer',
     templateUrl: 'app/viewer.component.html',
     styleUrls: ['app/viewer.component.css']
 })
 export class ViewerComponent {
-    sessionId: SessionId;
+    assessmentId: string;
 
-    onSessionChanged(event) {
-	this.sessionId = event;
+    onAssessmentChanged(event) {
+	this.assessmentId = event;
     }
 }
 
