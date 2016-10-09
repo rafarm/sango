@@ -21,19 +21,19 @@ router.get('/', function(req, res) {
 });
 
 /*
- * /courses/tree GET
+ * /courses/byyear GET
  * 
  * Returns the courses identification data organized in a tree
- * structure to create courses navigation menu.
+ * structure grouped by year to create courses navigation menu.
  */
-router.get('/tree', function(req, res) {
+router.get('/byyear', function(req, res) {
     // TODO: Match by school
     coursesCollection.aggregate(
 	[
 	    {
 		$project: {
 		    academic_year: 1,
-		    group:  { $concat: [ "$level", " ", "$stage", " ", "$name" ] },
+		    name:  { $concat: [ "$level", " ", "$stage", " ", "$name" ] },
 		    assessments: 1
 		}
 	    },
@@ -41,50 +41,36 @@ router.get('/tree', function(req, res) {
 		$unwind: "$assessments"
 	    },
 	    {
-		$sort: { academic_year: -1, group: -1, "assessments.order": 1 }
-	    },
-	    {
-		$lookup: {
-		    from: "assessments",
-		    localField: "assessments.assessment_id",
-		    foreignField: "_id",
-		    as: "assessments_data"
-		}
-	    },
-	    {
-		$unwind: "$assessments_data"
-	    },
-	    {
-		$project: {
-		    academic_year: 1,
-		    group: 1,
-		    "assessments.assessment_id": 1,
-		    "assessments_data.name": 1
-		}
+		$sort: { "assessments.order": 1 }
 	    },
 	    {
 		$group: {
-		    _id: { academic_year: "$academic_year", group: "$group", course_id: "$_id" },
+		    _id: { academic_year: "$academic_year", name: "$name", course_id: "$_id" },
 		    assessments: {
 			$push: {
-			    assessments_id: "$assessments.assessment_id",
-			    assessments_name: "$assessments_data.name"
+			    assessment_id: "$assessments.assessment_id",
+			    name: "$assessments.name"
 			}
 		    }
 		}
+	    },
+	    {
+		$sort: { "_id.name": 1 }
 	    },
 	    {
 		$group: {
 		    _id: "$_id.academic_year",
-		    groups: {
+		    courses: {
 			$push: {
-			    group: "$_id.group",
+			    name: "$_id.name",
 			    course_id: "$_id.course_id",
-			    assessments_id: "$assessments.assessments_id",
-			    assessments_name: "$assessments.assessments_name"
+			    assessments: "$assessments"
 			}
 		    }
 		}
+	    },
+	    {
+		$sort: { "_id": -1 }
 	    }
 	],
 	function(err, result) {

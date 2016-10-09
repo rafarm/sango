@@ -1,18 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var mongodb = require('../mongo_connection');
-var studentsCollection = mongodb.db.collection('students');
+var assessmentsCollection = mongodb.db.collection('assessments');
 var bodyParser = require('body-parser');
 
 /*
- * /students GET
+ * /assessments GET
  * 
- * Returns all students.
+ * Returns all assessments.
  */
 router.get('/', function(req, res) {
-    studentsCollection.find().toArray()
-	.then(function(students) {
-	    res.json(students);
+    assessmentsCollection.find().toArray()
+	.then(function(assessments) {
+	    res.json(assessments);
 	})
 	.catch(function(err) {
 	    res.status(500);
@@ -21,14 +21,14 @@ router.get('/', function(req, res) {
 });
 
 /*
- * /students/:id GET
+ * /assessments/:id GET
  * 
- * Returns the student identified by 'id'.
+ * Returns the assessment identified by 'id'.
  */
 router.get('/:id', function(req, res) {
-    studentsCollection.findOne({'_id': req.params.id})
-	.then(function(student) {
-	    res.json(student);
+    assessmentsCollection.findOne({'_id': req.params.id})
+	.then(function(assessment) {
+	    res.json(assessment);
 	})
 	.catch(function(err) {
 	    res.status(500);
@@ -37,36 +37,36 @@ router.get('/:id', function(req, res) {
 });
 
 /*
- * /students POST
+ * /assessments POST
  * 
- * Inserts a new student.
+ * Inserts a new assessment.
  */
 router.post('/', bodyParser.json(), function(req, res) {
-    studentsCollection.insertOne(req.body, null)
+    assessmentsCollection.insertOne(req.body, null)
 	.then(function(result) {
-	    console.info('studentPOST: ' + result);
+	    console.info('assessment POST: ' + result);
 	    res.json(result);
 	})
 	.catch(function(err) {
-	    console.error('students POST: ' + err);
+	    console.error('assessment POST: ' + err);
 	    res.status(500);
 	    res.json(err);
 	});
 });
 
 /*
- * /students/many POST
+ * /assessments/many POST
  * 
- * Inserts an array of new students.
+ * Inserts an array of new assessments.
  */
 router.post('/many', bodyParser.json(), function(req, res) {
-    studentsCollection.insertMany(req.body, null)
+    assessmentsCollection.insertMany(req.body, null)
 	.then(function(result) {
-	    console.info('students/many POST: ' + result);
+	    console.info('assessments/many POST: ' + result);
 	    res.json(result);
 	})
 	.catch(function(err) {
-	    console.error('students POST: ' + err);
+	    console.error('assessments/many POST: ' + err);
 	    res.status(500);
 	    res.json(err);
 	});

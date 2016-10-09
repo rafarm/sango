@@ -3,7 +3,7 @@ import { Headers, Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { CoursesTree } from './courses-tree';
+import { SelectorCoursesTree } from './model/selector-courses-tree';
 
 @Injectable()
 export class DataService {
@@ -11,12 +11,12 @@ export class DataService {
 
     constructor(private http: Http) {}
 
-    getCoursesTree(): Promise<CoursesTree[]> {
-	var coursesUrl = this.apiUrl + 'courses/tree';
+    getCoursesByYear(): Promise<SelectorCoursesTree[]> {
+	var coursesUrl = this.apiUrl + 'courses/byyear';
 	
 	return this.http.get(coursesUrl)
 	    .toPromise()
-	    .then(response => response.json() as CoursesTree[])
+	    .then(response => response.json() as SelectorCoursesTree[])
 	    .catch(this.handleError);
     }
 

@@ -274,8 +274,8 @@ var course_1_15 = {
     level: '2',
     name: 'C',
     assessments: [
-        {assessment_id: assessment_session_1_1_15._id, order: 1},
-        {assessment_id: assessment_session_1_2_15._id, order: 2}
+        {assessment_id: assessment_session_1_1_15._id, order: 1, name: assessment_session_1_1_15.name},
+        {assessment_id: assessment_session_1_2_15._id, order: 2, name: assessment_session_1_2_15.name}
     ]
 };
 
@@ -517,8 +517,8 @@ var course_2_15 = {
     level: '2',
     name: 'A',
     assessments: [
-        {assessment_id: assessment_session_2_1_15._id, order: 1},
-        {assessment_id: assessment_session_2_2_15._id, order: 2}
+        {assessment_id: assessment_session_2_1_15._id, order: 1, name: assessment_session_2_1_15.name},
+        {assessment_id: assessment_session_2_2_15._id, order: 2, name: assessment_session_2_2_15.name}
     ]
 };
 
@@ -761,8 +761,8 @@ var course_1_16 = {
     level: '3',
     name: 'C',
     assessments: [
-        {assessment_id: assessment_session_1_1_16._id, order: 1},
-        {assessment_id: assessment_session_1_2_16._id, order: 2}
+        {assessment_id: assessment_session_1_1_16._id, order: 1, name: assessment_session_1_1_16.name},
+        {assessment_id: assessment_session_1_2_16._id, order: 2, name: assessment_session_1_2_16.name}
     ]
 };
 
@@ -1004,8 +1004,8 @@ var course_2_16 = {
     level: '3',
     name: 'A',
     assessments: [
-        {assessment_id: assessment_session_2_1_16._id, order: 1},
-        {assessment_id: assessment_session_2_2_16._id, order: 2}
+        {assessment_id: assessment_session_2_1_16._id, order: 1, name: assessment_session_2_1_16.name},
+        {assessment_id: assessment_session_2_2_16._id, order: 2, name: assessment_session_2_2_16.name}
     ]
 };
 

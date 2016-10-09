@@ -3,12 +3,12 @@
 	<option value="-1">Selecciona l'any...</option>
 	<option *ngFor="let c of coursesTree; let i=index" [value]="i">{{c._id}}</option>
     </select>
-    <select id="group" (change)="groupSelected($event)" class="form-control" [disabled]="groups==null">
-        <option value="-1">Selecciona un grup...</option>
-        <option *ngFor="let g of groups; let i=index" [value]="i">{{g.group}}</option>
+    <select id="course" (change)="courseSelected($event)" class="form-control" [disabled]="courses==null">
+        <option value="-1">Selecciona un curs...</option>
+        <option *ngFor="let c of courses; let i=index" [value]="i">{{c.name}}</option>
     </select>
-    <select id="assessment" (change)="assessmentSelected($event)" class="form-control" [disabled]="assessments_id==null">
+    <select id="assessment" (change)="assessmentSelected($event)" class="form-control" [disabled]="assessments==null">
         <option value="-1" [selected]="selectedAssessmentId==null">Selecciona l'avaluació...</option>
-        <option *ngFor="let s of assessments_name; let i=index" [value]="i">{{s}}</option>
+        <option *ngFor="let a of assessments; let i=index" [value]="i">{{a.name}}</option>
     </select>
 </div>
