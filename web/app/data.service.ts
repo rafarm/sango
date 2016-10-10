@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -16,8 +16,13 @@ export class DataService {
 	
 	return this.http.get(coursesUrl)
 	    .toPromise()
-	    .then(response => response.json() as SelectorCoursesTree[])
+	    .then(this.unwrapResponse)
 	    .catch(this.handleError);
+    }
+
+    private unwrapResponse(res: Response) {
+	let body = res.json();
+	return body.data || {};
     }
 
     private handleError(error: any): Promise<any> {
