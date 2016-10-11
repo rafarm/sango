@@ -12,12 +12,13 @@ var wrapResult = require('./wrap-result').wrapResult;
  * if there's no query array.
  */
 router.get('/', function(req, res) {
-    console.log('students GET: ' + req.query.ids);
     var filter = null;
     if (req.query.ids != null) {
 	filter = { _id: { $in: req.query.ids } };
     }
-    studentsCollection.find(filter).toArray()
+    //var order = { last_name: 1, first_name: 1 };
+
+    studentsCollection.find(filter)/*.sort(order)*/.toArray()
 	.then(function(students) {
 	    res.json(wrapResult(students));
 	})
