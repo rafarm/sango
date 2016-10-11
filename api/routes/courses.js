@@ -37,12 +37,8 @@ router.get('/byyear', function(req, res) {
                     assessments: 1
                 }
             },
-            {
-                $unwind: "$assessments"
-            },
-            {
-                $sort: { "assessments.order": 1 }
-            },
+            {   $unwind: "$assessments" },
+            {	$sort: { "assessments.order": 1 } },
             {
                 $group: {
                     _id: { academic_year: "$academic_year", name: "$name", course_id: "$_id" },
@@ -54,9 +50,7 @@ router.get('/byyear', function(req, res) {
                     }
                 }
             },
-            {
-                $sort: { "_id.name": 1 }
-            },
+            {	$sort: { "_id.name": 1 } },
             {
                 $group: {
                     _id: "$_id.academic_year",
@@ -69,9 +63,7 @@ router.get('/byyear', function(req, res) {
                     }
                 }
             },
-            {
-                $sort: { "_id": -1 }
-            }
+            { 	$sort: { "_id": -1 } }
         ];
 
     coursesCollection.aggregate(pipe, function(err, result) {
