@@ -3,6 +3,9 @@ var router = express.Router();
 var mongodb = require('../mongo_connection');
 var assessmentsCollection = mongodb.db.collection('assessments');
 var bodyParser = require('body-parser');
+var wrapResult = require('./wrap-result').wrapResult;
+
+// TODO: Match by school.
 
 /*
  * /assessments GET
@@ -12,7 +15,7 @@ var bodyParser = require('body-parser');
 router.get('/', function(req, res) {
     assessmentsCollection.find().toArray()
 	.then(function(assessments) {
-	    res.json(assessments);
+	    res.json(wrapResult(assessments));
 	})
 	.catch(function(err) {
 	    res.status(500);
@@ -28,7 +31,7 @@ router.get('/', function(req, res) {
 router.get('/:id', function(req, res) {
     assessmentsCollection.findOne({'_id': req.params.id})
 	.then(function(assessment) {
-	    res.json(assessment);
+	    res.json(wrapResult(assessment));
 	})
 	.catch(function(err) {
 	    res.status(500);
@@ -45,7 +48,7 @@ router.post('/', bodyParser.json(), function(req, res) {
     assessmentsCollection.insertOne(req.body, null)
 	.then(function(result) {
 	    console.info('assessment POST: ' + result);
-	    res.json(result);
+	    res.json(wrapResult(result));
 	})
 	.catch(function(err) {
 	    console.error('assessment POST: ' + err);
@@ -63,7 +66,7 @@ router.post('/many', bodyParser.json(), function(req, res) {
     assessmentsCollection.insertMany(req.body, null)
 	.then(function(result) {
 	    console.info('assessments/many POST: ' + result);
-	    res.json(result);
+	    res.json(wrapResult(result));
 	})
 	.catch(function(err) {
 	    console.error('assessments/many POST: ' + err);

@@ -8,14 +8,15 @@ var wrapResult = require('./wrap-result').wrapResult;
 /*
  * /students GET
  * 
- * Returns all students.
+ * Returns all students in query array or all students
+ * if there's no query array.
  */
-router.get('/', bodyParser.json(), function(req, res) {
+router.get('/', function(req, res) {
+    console.log('students GET: ' + req.query.ids);
     var filter = null;
-    if (req.body != null) {
-	filter = { _id: { $in: req.body } };
+    if (req.query.ids != null) {
+	filter = { _id: { $in: req.query.ids } };
     }
-    console.info('students GET: ', + req);
     studentsCollection.find(filter).toArray()
 	.then(function(students) {
 	    res.json(wrapResult(students));
