@@ -1,0 +1,36 @@
+/*
+ * Main content
+ */
+
+.main {
+	padding: 20px;
+}
+
+/*
+ * Qualifications table
+ */
+td, th {
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+}
+
+.qualification-header {
+	width: 3em;
+	padding-right: 0;
+	padding-left: 0;
+	text-align: center;
+}
+
+.qualification {
+	padding: 0.1em;
+}
+
+input {
+	text-align: right;
+	width: 3em;
+	height: 2em;
+	float: right;
+	background-color: transparent;
+	outline: none;
+	border: 0px;
+}

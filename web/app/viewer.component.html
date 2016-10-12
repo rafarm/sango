@@ -17,8 +17,8 @@
             </ngb-tab>
 	    <ngb-tab title="Notes" id="marks">
 		<template ngbTabContent>
-		    <h3>Notes</h3>
-		    <!--<session-table [session]="session"></session-table>-->
+		    <!--<h3 *ngIf="assessment">Notes de {{assessment.name}}</h3>-->
+		    <assessment-table [assessment]="assessment"></assessment-table>
 		</template>
 	    </ngb-tab>
 	</ngb-tabset>
