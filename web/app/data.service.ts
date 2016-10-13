@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
 import { SelectorCoursesTree } from './model/selector-courses-tree';
 import { Assessment } from './model/assessment';
+import { Student } from './model/student';
 
 @Injectable()
 export class DataService {
@@ -12,12 +13,13 @@ export class DataService {
 
     constructor(private http: Http) {}
 
-    /* getCousesByYear
+    /*
+     * getCousesByYear
      *
      * Queries server for courses grouped by year.
      */
     getCoursesByYear(): Promise<SelectorCoursesTree[]> {
-	var url = this.apiUrl + 'courses/byyear';
+	let  url = this.apiUrl + 'courses/byyear';
 	
 	return this.http.get(url)
 	    .toPromise()
@@ -26,10 +28,12 @@ export class DataService {
     }
 
     /*
+     * getAssessment
      *
+     * Returns assessment identified by 'id'.
      */
     getAssessment(id: string): Promise<Assessment> {
-        var url = this.apiUrl + 'assessments/' + id;
+        let url = this.apiUrl + 'assessments/' + id;
 
         return this.http.get(url)
             .toPromise()
@@ -37,7 +41,47 @@ export class DataService {
             .catch(this.handleError);
     }
 
-    /* unwrapResponse
+    /*
+     * replaceAssessment
+     *
+     * Replaces the assessment.
+     */
+    replaceAssessment(assessment: Assessment): Promise<any> {
+	let url = this.apiUrl + 'assessments/' + assessment._id;
+	let body = JSON.stringify(assessment);
+	let headers = new Headers({ 'Content-Type': 'application/json' });
+	let options = new RequestOptions({ headers: headers });
+
+	return this.http.put(url, body, options)
+	    .toPromise()
+	    .then(this.unwrapResponse)
+	    .catch(this.handleError);
+    }
+
+    /*
+     * getStudents
+     *
+     * Returns the students identified by the array of ids.
+     */
+    getStudents(ids: string[]): Promise<Student[]> {
+	var url = this.apiUrl + 'students';
+
+	if (ids.length > 0) {
+	    url += '?ids=' + ids[0];
+
+	    for (var i=1; i<ids.length; i++) {
+		url += '&ids=' +  ids[i];
+	    }
+	}
+
+	return this.http.get(url)
+            .toPromise()
+            .then(this.unwrapResponse)
+            .catch(this.handleError);
+    }
+
+    /*
+     * unwrapResponse
      *
      * Extracts data from server response.
      */
@@ -47,7 +91,8 @@ export class DataService {
 	return body.data || {};
     }
 
-    /* handleError
+    /*
+     * handleError
      *
      * Basic server error handling.
      */

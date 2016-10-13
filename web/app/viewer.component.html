@@ -1,5 +1,5 @@
 <div class="fixed-top-sub">
-    <assessment-selector (assessmentChanged)="onAssessmentChanged($event)"></assessment-selector>
+    <assessment-selector (selectedAssessmentChanged)="onSelectedAssessmentChanged($event)"></assessment-selector>
 
     <div class="container-fluid" *ngIf="assessmentId">
 	<ngb-tabset activeId="marks">
@@ -18,7 +18,7 @@
 	    <ngb-tab title="Notes" id="marks">
 		<template ngbTabContent>
 		    <!--<h3 *ngIf="assessment">Notes de {{assessment.name}}</h3>-->
-		    <assessment-table [assessment]="assessment"></assessment-table>
+		    <assessment-table (onSaveAssessment)="onSaveAssessment($event)" [assessment]="assessment" [students]="students"></assessment-table>
 		</template>
 	    </ngb-tab>
 	</ngb-tabset>

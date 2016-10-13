@@ -40,6 +40,21 @@ router.get('/:id', function(req, res) {
 });
 
 /*
+ * /assessments/:id PUT
+ *
+ * Replaces the assessment identified by 'id' by
+ * the one received.
+ */
+router.put('/:id', bodyParser.json(), function(req, res) {
+    assessmentsCollection.replaceOne({ '_id': req.params.id }, req.body, null)
+	.then(result => res.json(wrapResult(result)))
+	.catch(function(err) {
+	    res.status(500);
+	    res.json(err);
+	});
+});
+
+/*
  * /assessments POST
  * 
  * Inserts a new assessment.

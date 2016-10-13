@@ -1,4 +1,4 @@
-<div *ngIf="assessment" class="main">
+<div *ngIf="assessment && students" class="main">
 	<div class="row-fluid">
 		<table class="table table-bordered table-hover table-condensed col-sm-12">
 			<thead>
@@ -9,14 +9,14 @@
 			</thead>
 			<tbody>
 				<tr *ngFor="let s of assessment.students">
-					<td>{{s.student_id}}</td>
-					<td *ngFor="let q of s.qualifications; let i=index; trackBy:trackByIndex" class="qualification" [style.background-color]="cellBackgroundColor(q.qualification)"><input type="text" [ngModel]="s.qualifications[i].qualification" (ngModelChange)="s.qualifications[i].qualification=processInput(q.qualification, $event)" [disabled]="q.qualification==null"></td>
+					<td>{{students[s.student_id].last_name + ', ' + students[s.student_id].first_name}}</td>
+					<td *ngFor="let q of s.qualifications; let i=index; trackBy:trackByIndex" class="qualification" [style.background-color]="cellBackgroundColor(q.qualification)"><input #input type="text" [ngModel]="s.qualifications[i].qualification" (ngModelChange)="s.qualifications[i].qualification=processInput(q.qualification, $event, input)" [disabled]="q.qualification==null || saving"></td>
 				</tr>
 			</tbody>
 		</table>
 		<div class="pull-sm-right">
-		    <button type="button" class="btn btn-default" (click)="cancel()">Cancel·la</button>
-		    <button type="button" class="btn" (click)="save()">Desa</button>
+		    <button type="button" class="btn btn-default" (click)="cancel()" [disabled]="saving || !edited">Cancel·la</button>
+		    <button type="button" class="btn" (click)="save()" [disabled]="saving || !edited">Desa</button>
 		</div>
 	</div>
 </div>

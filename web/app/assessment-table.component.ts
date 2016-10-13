@@ -1,40 +1,66 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChange,
+	 Output, EventEmitter } from '@angular/core';
 
 import { Assessment } from './model/assessment';
-//import { Student } from './student';
+import { Student } from './model/student';
     
 @Component({
-	selector: 'assessment-table',
-	templateUrl: 'app/assessment-table.component.html',
-	styleUrls: ['app/assessment-table.component.css']
+    selector: 'assessment-table',
+    templateUrl: 'app/assessment-table.component.html',
+    styleUrls: ['app/assessment-table.component.css']
 })
-export class AssessmentTableComponent {
-	@Input()
-	assessment: Assessment;
-	changed: boolean;
-	saving: boolean;
+export class AssessmentTableComponent implements OnChanges {
+    @Input()
+    assessment: Assessment;
 
-	trackByIndex(index: number, obj: any): any {
-		return index;
-	}
+    @Input()
+    students: any;
+    
+    edited: boolean;
+    saving: boolean;
 
-	// Filters qualification input
-	processInput(oldValue: Number, input: any): Number {
-		var newValue = input*1;
-		
-		if (newValue >=0 && newValue <=10) {
-			return newValue;
-		}
+    @Output()
+    onSaveAssessment: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+    ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
+	this.edited = false;
+	this.saving = false;
+    }	
+
+    save() {
+        this.saving = true;
+	this.onSaveAssessment.emit(true);
+    }
+
+    cancel() {
+        this.saving = true;
+	this.onSaveAssessment.emit(false);
+    }
+
+    trackByIndex(index: number, obj: any): any {
+    	return index;
+    }
+
+    // Filters qualification input
+    processInput(oldValue: Number, newValue: any, element: any): Number {
+        newValue = newValue*1;
+    	
+        if (newValue >=0 && newValue <=10) {
+	    this.edited = true;
+	    return newValue;
+        }
+
+	element.value = oldValue;
 	
-		return oldValue;		
-	}
+	return oldValue;		
+    }
 
-	cellBackgroundColor(qualification: Number): String {
-		if (qualification == null) {
-			return 'WhiteSmoke';
-		}
-		
-		return qualification < 5 ? 'Tomato': 'transparent';
+    cellBackgroundColor(qualification: Number): String {
+    	if (qualification == null) {
+	    return 'WhiteSmoke';
 	}
+		
+	return qualification < 5 ? 'Tomato': 'transparent';
+    }
 }
 
