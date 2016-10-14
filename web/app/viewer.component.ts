@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { DataService } from './data.service';
 import { Assessment } from './model/assessment';
 import { Student } from './model/student';
+import { AssessmentStudentStats } from './model/assessment-student-stats';
 
 @Component({
     selector: 'viewer',
@@ -13,6 +14,7 @@ export class ViewerComponent {
     assessmentId: string;
     assessment: Assessment;
     students: any;
+    studentsStats: any;
 
     constructor( private dataService: DataService ) {}
 
@@ -30,7 +32,8 @@ export class ViewerComponent {
 
     onSaveAssessment(save) {
 	if (save) {
-	    this.dataService.replaceAssessment(this.assessment);
+	    this.dataService.replaceAssessment(this.assessment)
+		.then(result => this.loadRefData(this.assessment));
 	}
 	else {
 	    this.loadAssessment(this.assessmentId);
@@ -53,6 +56,10 @@ export class ViewerComponent {
         this.dataService.getStudents(ids)
             .then(students => this.processStudents(students));
 
+        // Get students statistics
+        this.dataService.getAssessmentStudentsStats(assessment._id)
+            .then(stats => this.processStudentsStats(stats));
+	
 	this.assessment = assessment;
 
     }
@@ -67,6 +74,14 @@ export class ViewerComponent {
 	this.students = s;
     }
 
-    
+    processStudentsStats(stats: AssessmentStudentStats[]) {
+	var s = {};
+
+	for (var i=0; i<stats.length; i++) {
+            s[stats[i]._id] = stats[i];
+        }
+
+        this.studentsStats = s;
+    }
 }
 

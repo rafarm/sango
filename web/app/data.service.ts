@@ -6,6 +6,7 @@ import 'rxjs/add/operator/toPromise';
 import { SelectorCoursesTree } from './model/selector-courses-tree';
 import { Assessment } from './model/assessment';
 import { Student } from './model/student';
+import { AssessmentStudentStats } from './model/assessment-student-stats';
 
 @Injectable()
 export class DataService {
@@ -56,6 +57,21 @@ export class DataService {
 	    .toPromise()
 	    .then(this.unwrapResponse)
 	    .catch(this.handleError);
+    }
+
+    /*
+     * getAssessmentStudentsStats
+     *
+     * Returns assessment's students stats for the assessment
+     * identified by 'id'.
+     */
+    getAssessmentStudentsStats(id: string): Promise<AssessmentStudentStats[]> {
+        let url = this.apiUrl + 'assessments/' + id + '/stats/bystudent';
+
+        return this.http.get(url)
+            .toPromise()
+            .then(this.unwrapResponse)
+            .catch(this.handleError);
     }
 
     /*

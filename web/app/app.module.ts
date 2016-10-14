@@ -10,11 +10,11 @@ import { DashboardComponent } 		from './dashboard.component';
 import { ViewerComponent } 		from './viewer.component';
 import { AssessmentSelectorComponent } 	from './assessment-selector.component';
 import { AssessmentTableComponent } 	from './assessment-table.component';
-//import { SessionGroupComponent } 	from './session-group.component';
+import { AssessmentGroupComponent } 	from './assessment-group.component';
 //import { SessionListComponent } 	from './session-list.component';
 //import { StudentDetailComponent } 	from './student-detail.component';
 import { DataService } 			from './data.service';
-//import { GoogleChartDirective } 	from './directives/google-chart.directive';
+import { GoogleChartDirective } 	from './directives/google-chart.directive';
 
 @NgModule({
     imports: [
@@ -30,12 +30,13 @@ import { DataService } 			from './data.service';
 	ViewerComponent,
 	AssessmentSelectorComponent,
 	AssessmentTableComponent,
-	//SessionGroupComponent,
+	AssessmentGroupComponent,
 	//SessionListComponent,
 	//StudentDetailComponent,
-	//GoogleChartDirective
+	GoogleChartDirective
     ],
     providers: [ DataService ],
     bootstrap: [ AppComponent ]
 })
+
 export class AppModule { }

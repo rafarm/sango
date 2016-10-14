@@ -9,10 +9,10 @@
                     <!--<session-list [session]="session"></session-list>-->
                 </template>
             </ngb-tab>
-	    <ngb-tab title="Grup" id="course">
+	    <ngb-tab title="Grup" id="group">
                 <template ngbTabContent>
-		    <h3>Grup</h3>
-                    <!--<session-group [session]="session"></session-group>-->
+		    <!--<h3>Grup</h3>-->
+                    <assessment-group [students]="students" [studentsStats]="studentsStats"></assessment-group>
                 </template>
             </ngb-tab>
 	    <ngb-tab title="Notes" id="marks">
