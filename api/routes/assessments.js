@@ -91,53 +91,54 @@ router.post('/many', bodyParser.json(), function(req, res) {
 });
 
 /*
- * /assessments/:id/statistics/bystudent GET
+ * /assessments/:id/stats/bystudent GET
  * 
  * Inserts an array of new assessments.
  */
 router.get('/:id/stats/bystudent', function(req, res) {
-    assessmentsCollection.aggregate([
-	{ $match:{ _id: req.params.id } },
-	{ $unwind: '$students' },
-	{ $project: {
-	    student_id: '$students.student_id',
-	    passed: {
-		$filter: {
-		    input: '$students.qualifications',
-		    as: 'qualification',
-		    cond: { $gte: [ '$$qualification.qualification', 5 ] }
-		}
-	    },
-	    failed: {
-		$filter: {
-		    input: '$students.qualifications',
-		    as: 'qualification',
-		    cond: { $and:[ 
-			{ $ne: [ '$$qualification.qualification', null ] },
-			{ $lt: [ '$$qualification.qualification', 5 ] } 
-		    ] }
-		}
-	    },
-	    qualifications: '$students.qualifications'
-	}},
-	{ $project: {
-	    student_id: 1,
-	    passed: { $size: '$passed' },
-	    failed: { $size: '$failed' },
-	    qualifications: 1
-	}},
-	{ $unwind: '$qualifications' },
-	{ $group: {
-	    _id: { student_id: '$student_id', passed: '$passed', failed: '$failed' },
-	    avg: { $avg: '$qualifications.qualification' }
-	}},
-	{ $group: {
-	    _id: '$_id.student_id',
-	    passed: { $first: '$_id.passed' },
-	    failed: { $first: '$_id.failed' },
-	    avg: { $first: '$avg' }
-	}}
-    ], function(err, result) {
+    var pipe = [
+        { $match:{ _id: req.params.id } },
+        { $unwind: '$students' },
+        { $project: {
+            student_id: '$students.student_id',
+            passed: {
+                $filter: {
+                    input: '$students.qualifications',
+                    as: 'q',
+                    cond: { $gte: [ '$$q.qualification', 5 ] }
+                }
+            },
+            failed: {
+                $filter: {
+                    input: '$students.qualifications',
+                    as: 'q',
+                    cond: { $and:[
+                        { $ne: [ '$$q.qualification', null ] },
+                        { $lt: [ '$$q.qualification', 5 ] }
+                    ] }
+                }
+            },
+            qualifications: '$students.qualifications'
+        }},
+        { $project: {
+            student_id: 1,
+            passed: { $size: '$passed' },
+            failed: { $size: '$failed' },
+            qualifications: 1
+        }},
+        { $unwind: '$qualifications' },
+        { $group: {
+            _id: { student_id: '$student_id', passed: '$passed', failed: '$failed' },
+            avg: { $avg: '$qualifications.qualification' }
+        }},
+        { $group: {
+            _id: '$_id.student_id',
+            passed: { $first: '$_id.passed' },
+            failed: { $first: '$_id.failed' },
+            avg: { $first: '$avg' }
+        }}
+    ];
+    assessmentsCollection.aggregate(pipe, function(err, result) {
 	if (err != null) {
 	    res.status(500);
 	    res.json(err);
