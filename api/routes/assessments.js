@@ -95,6 +95,7 @@ router.post('/many', bodyParser.json(), function(req, res) {
  * 
  * Inserts an array of new assessments.
  */
+/*
 router.get('/:id/stats/bystudent', function(req, res) {
     var pipe = [
         { $match:{ _id: req.params.id } },
@@ -148,5 +149,6 @@ router.get('/:id/stats/bystudent', function(req, res) {
 	}
     }); 
 });
+*/
 
 module.exports = router;

@@ -254,7 +254,7 @@ router.get('/:id/stats/bystudent', function(req, res) {
             _id: '$assessment_id',
             students: {
                 $push: {
-                    student_id: '$student_id',
+                    _id: '$student_id',
                     passed: '$passed',
                     failed: '$failed',
                     ratio: '$ratio',
@@ -353,7 +353,7 @@ router.get('/:id/stats/bysubject', function(req, res) {
 	    _id: '$_id.assessment_id',
 	    subjects: {
 		$push: {
-		    subject_id: '$_id.subject_id',
+		    _id: '$_id.subject_id',
 		    passed: '$passed',
 		    failed: '$failed',
                     ratio: '$ratio',
