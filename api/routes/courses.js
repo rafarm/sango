@@ -95,6 +95,101 @@ router.get('/:id', function(req, res) {
 });
 
 /*
+ * /courses/:id/stats/bystudent GET
+ * 
+ * Returns averages and failed/passes count by student
+ * of the course identified by 'id'.
+ */
+router.get('/:id/stats/bystudent', function(req, res) {
+    var o_id = new ObjectID(req.params.id);
+    var pipe = [
+        { $match: { _id: o_id } },
+        { $unwind: '$assessments' },
+        { $lookup: {
+            from: 'assessments',
+            localField: 'assessments.assessment_id',
+            foreignField: '_id',
+            as: 'assessment_data'
+        } },
+        { $unwind: '$assessment_data' },
+        { $unwind: '$assessment_data.students' },
+        { $project: {
+            assessment_id: '$assessment_data._id',
+            student_id: '$assessment_data.students.student_id',
+            passed: {
+                $filter: {
+                    input: '$assessment_data.students.qualifications',
+                    as: 'q',
+                    cond: {
+                        $gte: [ '$$q.qualification' , 5 ]
+                    }
+                }
+            },
+            failed: {
+                $filter: {
+                    input: '$assessment_data.students.qualifications',
+                    as: 'q',
+                    cond: {
+                        $and: [
+                            { $ne: [ '$$q.qualification', null ] },
+                            { $lt: [ '$$q.qualification', 5 ] }
+                        ]
+                    }
+                }
+            },
+            avg: {
+                $avg: '$assessment_data.students.qualifications.qualification'
+            }
+        } },
+        { $project: {
+            assessment_id: 1,
+            student_id: 1,
+            passed: { $size: '$passed' },
+            failed: { $size: '$failed' },
+            avg: 1
+        } },
+        { $project: {
+            assessment_id: 1,
+            student_id: 1,
+            passed: 1,
+            failed: 1,
+            sum: { $add: [ '$passed', '$failed' ] },
+            avg: 1
+        } },
+        { $project: {
+            assessment_id: 1,
+            student_id: 1,
+            passed: 1,
+            failed: 1,
+            ratio: { $divide: [ '$passed', '$sum' ] },
+            avg: 1
+        } },
+        { $group: {
+            _id: '$assessment_id',
+            students: {
+                $push: {
+                    student_id: '$student_id',
+                    passed: '$passed',
+                    failed: '$failed',
+                    ratio: '$ratio',
+                    avg: '$avg'
+                }
+            }
+        } }
+    ];
+
+    coursesCollection.aggregate(pipe, function(err, result) {
+        if (err != null) {
+            res.status(500);
+            res.json(err);
+        }
+        else {
+            res.json(wrapResult(result));
+        }
+    });
+});
+
+/*
  * /courses/:id/stats/bysubject GET
  * 
  * Returns averages and failed/passes count by subject
@@ -124,13 +219,13 @@ router.get('/:id/stats/bysubject', function(req, res) {
 	    }
 	} },
 	{ $project: {
-	    _id: '$_id',
 	    passed: {
 		$filter: {
 		    input: '$qualifications',
 		    as: 'q',
 		    cond: {
-			$gte: [ '$$q', 5] }
+			$gte: [ '$$q', 5]
+                    }
 		}
 	    },
 	    failed: {
@@ -156,6 +251,18 @@ router.get('/:id/stats/bysubject', function(req, res) {
 	    failed: { $size: '$failed' },
 	    avg: 1
 	} },
+        { $project: {
+            passed: 1,
+            failed: 1,
+            sum: { $add: [ '$passed', '$failed' ] },
+            avg: 1
+        } },
+        { $project: {
+            passed: 1,
+            failed: 1,
+            ratio: { $divide: [ '$passed', '$sum' ] },
+            avg: 1
+        } },
 	{ $group: {
 	    _id: '$_id.assessment_id',
 	    subjects: {
@@ -163,6 +270,7 @@ router.get('/:id/stats/bysubject', function(req, res) {
 		    subject_id: '$_id.subject_id',
 		    passed: '$passed',
 		    failed: '$failed',
+                    ratio: '$ratio',
 		    avg: '$avg'
 		}
 	    }
