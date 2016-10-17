@@ -95,6 +95,92 @@ router.get('/:id', function(req, res) {
 });
 
 /*
+ * /courses/:start/:stage/:level/stats/bysubject GET
+ * 
+ * Returns averages and failed/passes count by subject
+ * from the courses with same 'start' year, 'level' and 'stage'.
+ */
+router.get('/:start/:stage/:level/stats/bysubject', function(req, res) {
+    var start = Number(req.params.start);
+    var stage = req.params.stage;
+    var level = req.params.level;
+    var pipe = [
+        { $match: {
+            start_year: start,
+            stage: stage,
+            level: level
+        } },
+        { $unwind: '$assessments' },
+        { $lookup: {
+            from: 'assessments',
+            localField: 'assessments.assessment_id',
+            foreignField: '_id',
+            as: 'assessment_data'
+        } },
+        { $unwind: '$assessment_data' },
+        { $unwind: '$assessment_data.students' },
+        { $unwind: '$assessment_data.students.qualifications' },
+        { $group: {
+            _id: '$assessment_data.students.qualifications.subject_id',
+            qualifications: {
+                $push: '$assessment_data.students.qualifications.qualification'
+            }
+        } },
+        { $project: {
+            passed: {
+                $filter: {
+                    input: '$qualifications',
+                    as: 'q',
+                    cond: {
+                        $gte: [ '$$q', 5 ]
+                    }
+                }
+            },
+            failed: {
+                $filter: {
+                    input: '$qualifications',
+                    as: 'q',
+                    cond: {
+                        $and: [ 
+                            { $ne: [ '$$q', null ] },
+                            { $lt: [ '$$q', 5 ] }
+                        ]
+                    }
+                }
+            },
+            avg: { $avg:'$qualifications' }
+        } },
+        { $project: {
+            passed: { $size: '$passed' },
+            failed: { $size: '$failed' },
+            avg: 1
+        } },
+        { $project: {
+            passed: 1,
+            failed: 1,
+            sum: { $add: [ '$passed', '$failed' ] },
+            avg: 1
+        } },
+        { $project: {
+            passed: 1,
+            failed: 1,
+            ratio: { $divide: [ '$passed', '$sum' ] },
+            avg: 1
+        } }
+    ];
+
+    coursesCollection.aggregate(pipe, function(err, result) {
+        if (err != null) {
+            res.status(500);
+            res.json(err);
+        }
+        else {
+            res.json(wrapResult(result));
+        }
+    });
+});
+
+/*
  * /courses/:id/stats/bystudent GET
  * 
  * Returns averages and failed/passes count by student
