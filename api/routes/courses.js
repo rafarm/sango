@@ -252,7 +252,7 @@ router.get('/:id/stats/bystudent', function(req, res) {
         } },
         { $group: {
             _id: '$assessment_id',
-            students: {
+            stats: {
                 $push: {
                     _id: '$student_id',
                     passed: '$passed',
@@ -351,7 +351,7 @@ router.get('/:id/stats/bysubject', function(req, res) {
         } },
 	{ $group: {
 	    _id: '$_id.assessment_id',
-	    subjects: {
+	    stats: {
 		$push: {
 		    _id: '$_id.subject_id',
 		    passed: '$passed',

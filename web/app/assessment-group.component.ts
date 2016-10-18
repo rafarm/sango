@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { GoogleChartDirective } from './directives/google-chart.directive';
 
 import { Student } from './model/student';
-import { AssessmentStudentStats } from './model/assessment-student-stats';
+//import { AssessmentStats } from './model/assessment-stats';
     
 @Component({
     selector: 'assessment-group',
@@ -13,7 +13,7 @@ export class AssessmentGroupComponent implements OnChanges {
     @Input()
     students: any;
     @Input()
-    studentsStats: any;
+    studentStats: any;
 
     pie_ChartData = [];
     pie_ChartOptions: {};
@@ -105,9 +105,8 @@ export class AssessmentGroupComponent implements OnChanges {
 	pie_data.push( ['3', 0] );
 	pie_data.push( ['4+', 0] );
 	//for (var i = 0; i < studentsStats.length; i++) {
-	for (let i in this.studentsStats) {
-	    let num_failed = this.studentsStats[i].failed;
-	    console.info('AssessmentGroupComponent - OnChanges: failed('+num_failed+')');
+	for (let i in this.studentStats) {
+	    let num_failed = this.studentStats[i].failed;
 	    if (num_failed <= 3) {
 		pie_data[num_failed+1][1]++;
 	    }
@@ -120,9 +119,9 @@ export class AssessmentGroupComponent implements OnChanges {
 	let hist_data = this.histogram_ChartData;
 	hist_data.push( ['Alumne', 'Aprovades'] );
 	//for (var i = 0; i < students.length; i++) {
-	for (let i in this.studentsStats) {
+	for (let i in this.studentStats) {
 	    let student = this.students[i];
-	    hist_data.push( [student.last_name + ', ' + student.first_name, this.studentsStats[i].passed] );
+	    hist_data.push( [student.last_name + ', ' + student.first_name, this.studentStats[i].passed] );
 	}
 
 	/*

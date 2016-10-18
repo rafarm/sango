@@ -4,9 +4,11 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { SelectorCoursesTree } from './model/selector-courses-tree';
+import { Course } from './model/course';
 import { Assessment } from './model/assessment';
 import { Student } from './model/student';
-import { AssessmentStudentStats } from './model/assessment-student-stats';
+import { AssessmentStats } from './model/assessment-stats';
+import { Stats } from './model/stats';
 
 @Injectable()
 export class DataService {
@@ -26,6 +28,20 @@ export class DataService {
 	    .toPromise()
 	    .then(this.unwrapResponse)
 	    .catch(this.handleError);
+    }
+
+    /*
+     * getCourse
+     *
+     * Returns course identified by 'id'.
+     */
+    getCourse(id: string): Promise<Course> {
+        let url = this.apiUrl + 'courses/' + id;
+
+        return this.http.get(url)
+            .toPromise()
+            .then(this.unwrapResponse)
+            .catch(this.handleError);
     }
 
     /*
@@ -60,13 +76,44 @@ export class DataService {
     }
 
     /*
-     * getAssessmentStudentsStats
+     * getStudentStats
      *
-     * Returns assessment's students stats for the assessment
-     * identified by 'id'.
+     * Returns students stats for the course identified by 'id'
+     * and grouped by assessment.
      */
-    getAssessmentStudentsStats(id: string): Promise<AssessmentStudentStats[]> {
-        let url = this.apiUrl + 'assessments/' + id + '/stats/bystudent';
+    getStudentStats(id: string): Promise<AssessmentStats[]> {
+        let url = this.apiUrl + 'courses/' + id + '/stats/bystudent';
+
+        return this.http.get(url)
+            .toPromise()
+            .then(this.unwrapResponse)
+            .catch(this.handleError);
+    }
+
+    /*
+     * getSubjectStats
+     *
+     * Returns subjects stats for the course identified by 'id'
+     * and grouped by assessment.
+     */
+    getSubjectStats(id: string): Promise<AssessmentStats[]> {
+        let url = this.apiUrl + 'courses/' + id + '/stats/bysubject';
+
+        return this.http.get(url)
+            .toPromise()
+            .then(this.unwrapResponse)
+            .catch(this.handleError);
+    }
+
+    /*
+     * getLevelStats
+     *
+     * Returns subject stats for all the courses of the same year,
+     * stage and level.
+     */
+    getLevelStats(year: number, stage: string, level: string): Promise<Stats[]> {
+        let url = this.apiUrl + 'courses/' + year + '/'
+	    + stage + '/' + level + '/stats/bysubject';
 
         return this.http.get(url)
             .toPromise()

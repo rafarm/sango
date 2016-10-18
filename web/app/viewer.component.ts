@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 
 import { DataService } from './data.service';
+import { Course } from './model/course';
 import { Assessment } from './model/assessment';
 import { Student } from './model/student';
-import { AssessmentStudentStats } from './model/assessment-student-stats';
+import { AssessmentStats } from './model/assessment-stats';
+import { Stats } from './model/stats';
 
 @Component({
     selector: 'viewer',
@@ -11,12 +13,30 @@ import { AssessmentStudentStats } from './model/assessment-student-stats';
     styleUrls: ['app/viewer.component.css']
 })
 export class ViewerComponent {
+    courseId: string;
+    course: Course;
     assessmentId: string;
     assessment: Assessment;
     students: any;
-    studentsStats: any;
+    studentStats: any;
+    subjectStats: any;
+    levelStats: any;
 
     constructor( private dataService: DataService ) {}
+
+    onSelectedCourseChanged(event) {
+        this.courseId = event;
+
+        if (this.courseId != null) {
+            this.loadCourse(this.courseId);
+        }
+        else {
+            this.course = null;
+            this.studentStats = null;
+	    this.subjectStats = null;
+	    this.levelStats = null;
+        }
+    }
 
     onSelectedAssessmentChanged(event) {
 	this.assessmentId = event;
@@ -30,22 +50,41 @@ export class ViewerComponent {
 	}
     }
 
+    loadCourse(id: string) {
+        this.dataService.getCourse(id)
+            .then(course => this.loadStats(course));
+    }
+
+    loadAssessment(id: string) {
+        this.dataService.getAssessment(id)
+            .then(assessment => this.loadStudentData(assessment));
+    }
+
     onSaveAssessment(save) {
 	if (save) {
 	    this.dataService.replaceAssessment(this.assessment)
-		.then(result => this.loadRefData(this.assessment));
+		.then(result => this.loadStats(this.course));
 	}
 	else {
 	    this.loadAssessment(this.assessmentId);
 	}
     }
 
-    loadAssessment(id: string) {
-	this.dataService.getAssessment(id)
-	    .then(assessment => this.loadRefData(assessment));
+    loadStats(course: Course) {
+	// Get students stats
+	this.dataService.getStudentStats(course._id)
+	    .then(stats => this.processStudentStats(stats));
+
+	// Get subject stats
+	this.dataService.getSubjectStats(course._id)
+	    .then(stats => this.processSubjectStats(stats));
+
+	// Get course level stats
+	this.dataService.getLevelStats(course.start_year, course.stage, course.level)
+	    .then(stats => this.processLevelStats(stats));
     }
 
-    loadRefData(assessment: Assessment) {
+    loadStudentData(assessment: Assessment) {
 	// Get students id array
         let ids = [];
         for (var i=0; i<assessment.students.length; i++) {
@@ -56,32 +95,57 @@ export class ViewerComponent {
         this.dataService.getStudents(ids)
             .then(students => this.processStudents(students));
 
-        // Get students statistics
-        this.dataService.getAssessmentStudentsStats(assessment._id)
-            .then(stats => this.processStudentsStats(stats));
-	
 	this.assessment = assessment;
-
     }
 
     processStudents(students: Student[]) {
-	var s = {};
+	let s = {};
 
-	for (var i=0; i<students.length; i++) {
+	for (let i=0; i<students.length; i++) {
 	    s[students[i]._id] = students[i];
 	}
 
 	this.students = s;
     }
 
-    processStudentsStats(stats: AssessmentStudentStats[]) {
-	var s = {};
+    processStudentStats(stats: AssessmentStats[]) {
+        this.studentStats = this.processAssessmentStats(stats);
+    }
 
-	for (var i=0; i<stats.length; i++) {
-            s[stats[i]._id] = stats[i];
+    processSubjectStats(stats: AssessmentStats[]) {
+        this.subjectStats = this.processAssessmentStats(stats);
+    }
+
+    processAssessmentStats(stats: AssessmentStats[]): any {
+        let assessmentHash = {};
+
+        for (let i=0; i<stats.length; i++) {
+            let _assessment = stats[i];
+            let _stats = _assessment.stats;
+            let _statsHash = {};
+            
+            for (let j=0; j<_stats.length; j++) {
+                _statsHash[_stats[j]._id] = _stats[j];
+            }
+            
+            let _assessmentHash = {};
+            _assessmentHash['_id'] = _assessment._id;
+            _assessmentHash['stats'] = _statsHash;
+
+            assessmentHash[_assessment._id] = _assessmentHash;
         }
 
-        this.studentsStats = s;
+        return assessmentHash;
+    }
+
+    processLevelStats(stats: Stats[]) {
+	let subjectStats = {};
+
+	for (let i=0; i<stats.length; i++) {
+	    subjectStats[stats[i]._id] = stats[i];
+	}
+
+	this.levelStats = subjectStats;
     }
 }
 

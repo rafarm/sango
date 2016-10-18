@@ -18,6 +18,8 @@ export class AssessmentSelectorComponent implements OnInit {
     selectedAssessmentId: string;
     
     @Output()
+    selectedCourseChanged: EventEmitter<string> = new EventEmitter<string>();
+    @Output()
     selectedAssessmentChanged: EventEmitter<string> = new EventEmitter<string>();
 
     constructor( private dataService: DataService ) {}
@@ -33,7 +35,8 @@ export class AssessmentSelectorComponent implements OnInit {
 	this.selectedCourseId = null;
 	this.assessments = null;
 	this.selectedAssessmentId = null;
-
+	
+	this.notifyCourseChanged(null);
 	this.notifyAssessmentChanged(null);
     }
 
@@ -49,7 +52,8 @@ export class AssessmentSelectorComponent implements OnInit {
 	}
 
 	this.selectedAssessmentId = null;
-
+	
+	this.notifyCourseChanged(this.selectedCourseId);
 	this.notifyAssessmentChanged(null);
     }
 
@@ -65,6 +69,10 @@ export class AssessmentSelectorComponent implements OnInit {
 
 	    this.notifyAssessmentChanged(null);
         }
+    }
+
+    notifyCourseChanged(courseId: string) {
+	this.selectedCourseChanged.emit(courseId);
     }
 
     notifyAssessmentChanged(assessmentId: string) {
