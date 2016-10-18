@@ -14,6 +14,8 @@ export class AssessmentGroupComponent implements OnChanges {
     @Input()
     course: Course;
     @Input()
+    assessmentId: string;
+    @Input()
     students: any;
     @Input()
     studentStats: any;
@@ -99,7 +101,7 @@ export class AssessmentGroupComponent implements OnChanges {
 	// Reset
 	this.pie_ChartData = [];
 	this.histogram_ChartData = [];
-	//this.averages_ChartData = [];
+	this.averages_ChartData = [];
 
 	// Set pie data
 	let pie_data = this.pie_ChartData;
@@ -129,27 +131,38 @@ export class AssessmentGroupComponent implements OnChanges {
 	    hist_data.push( [student.last_name + ', ' + student.first_name, this.studentStats[i].passed] );
 	}
         
-	// Set averages data
+	// Set averages by subject data
 	let averages_data = this.averages_ChartData;
 	let stats = this.subjectStats;
+	// Fins selected assessment order
+	var order = 0;
+	while (order<this.course.assessments.length && 
+		this.course.assessments[order].assessment_id !== this.assessmentId) {
+	    order++;
+	}
+	console.info('Setting stats charts data: ' + order);
 	// ...Headers
 	let headers = ['Assignatura', 'Mitjana nivell'];
-	for (var i = 1; i < this.course.assessments.length; i++) {
+	for (var i = 0; i <= order; i++) {
 	    headers.push( this.course.assessments[i].name );
 	}
 	averages_data.push( headers );
-        /*
 	// ...Values
-	for (var i = 0; i < this.course.assessments.length; i++) {
-            let _assessment = stats[this.course.assessments[i].assessment_id];
-	    let values = [];
-	    values.push( this.session.subjects[i] );
-	    for (var j = 0; j < session_avg.length; j++) {
-		values.push( this.session.averages[j][i] );
+	for (let s in stats[this.course.assessments[0].assessment_id].stats) {
+	    // Subject id
+	    let values = [s];
+
+	    // Level avg for subject
+	    values.push( this.levelStats[s].avg );
+
+	    // Assessment avg for subject
+	    for (var i=0; i<=order; i++) {
+		let a_id = this.course.assessments[i].assessment_id;
+		values.push( this.subjectStats[a_id].stats[s].avg );
 	    }
+
 	    averages_data.push( values );
 	}
-        */
     }
 }
 

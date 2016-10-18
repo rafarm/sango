@@ -12,7 +12,7 @@
 	    <ngb-tab title="Grup" id="group">
                 <template ngbTabContent>
 		    <!--<h3>Grup</h3>-->
-                    <assessment-group [students]="students" [studentStats]="studentStats[assessmentId].stats" [subjectStats]="subjectStats" [levelStats]="levelStats" [course]="course"></assessment-group>
+                    <assessment-group [students]="students" [studentStats]="studentStats[assessmentId].stats" [subjectStats]="subjectStats" [levelStats]="levelStats" [course]="course" [assessmentId]="assessmentId"></assessment-group>
                 </template>
             </ngb-tab>
 	    <ngb-tab title="Notes" id="marks">
