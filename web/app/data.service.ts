@@ -111,9 +111,9 @@ export class DataService {
      * Returns subject stats for all the courses of the same year,
      * stage and level.
      */
-    getLevelStats(year: number, stage: string, level: string): Promise<Stats[]> {
+    getLevelStats(year: number, stage: string, level: string, order: number): Promise<Stats[]> {
         let url = this.apiUrl + 'courses/' + year + '/'
-	    + stage + '/' + level + '/stats/bysubject';
+	    + stage + '/' + level + '/' + order + '/stats/bysubject';
 
         return this.http.get(url)
             .toPromise()

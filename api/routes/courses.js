@@ -95,15 +95,17 @@ router.get('/:id', function(req, res) {
 });
 
 /*
- * /courses/:start/:stage/:level/stats/bysubject GET
+ * /courses/:start/:stage/:level/:order/stats/bysubject GET
  * 
  * Returns averages and failed/passes count by subject
  * from the courses with same 'start' year, 'level' and 'stage'.
- */
-router.get('/:start/:stage/:level/stats/bysubject', function(req, res) {
+ * for corresponding assessment 'order'.
+*/
+router.get('/:start/:stage/:level/:order/stats/bysubject', function(req, res) {
     var start = Number(req.params.start);
     var stage = req.params.stage;
     var level = req.params.level;
+    var order = Number(req.params.order);
     var pipe = [
         { $match: {
             start_year: start,
@@ -116,6 +118,9 @@ router.get('/:start/:stage/:level/stats/bysubject', function(req, res) {
             localField: 'assessments.assessment_id',
             foreignField: '_id',
             as: 'assessment_data'
+        } },
+        { $match: {
+            'assessments.order': order
         } },
         { $unwind: '$assessment_data' },
         { $unwind: '$assessment_data.students' },

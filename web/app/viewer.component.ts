@@ -52,25 +52,27 @@ export class ViewerComponent {
 
     loadCourse(id: string) {
         this.dataService.getCourse(id)
-            .then(course => this.loadStats(course));
+            .then(course => this.course = course);
     }
 
     loadAssessment(id: string) {
         this.dataService.getAssessment(id)
-            .then(assessment => this.loadStudentData(assessment));
+            .then(assessment => this.loadData(assessment));
     }
 
     onSaveAssessment(save) {
 	if (save) {
 	    this.dataService.replaceAssessment(this.assessment)
-		.then(result => this.loadStats(this.course));
+		.then(result => this.loadStats());
 	}
 	else {
 	    this.loadAssessment(this.assessmentId);
 	}
     }
 
-    loadStats(course: Course) {
+    loadStats() {
+	let course = this.course;
+
 	// Get students stats
 	this.dataService.getStudentStats(course._id)
 	    .then(stats => this.processStudentStats(stats));
@@ -80,11 +82,18 @@ export class ViewerComponent {
 	    .then(stats => this.processSubjectStats(stats));
 
 	// Get course level stats
-	this.dataService.getLevelStats(course.start_year, course.stage, course.level)
+        var order = 0;
+        for (let i in course.assessments) {
+            let assessment = course.assessments[i];
+            if (assessment.assessment_id == this.assessmentId) {
+                order = assessment.order;
+            }
+        }
+	this.dataService.getLevelStats(course.start_year, course.stage, course.level, order)
 	    .then(stats => this.processLevelStats(stats));
     }
 
-    loadStudentData(assessment: Assessment) {
+    loadData(assessment: Assessment) {
 	// Get students id array
         let ids = [];
         for (var i=0; i<assessment.students.length; i++) {
@@ -96,6 +105,9 @@ export class ViewerComponent {
             .then(students => this.processStudents(students));
 
 	this.assessment = assessment;
+
+	// Get stats
+        this.loadStats();
     }
 
     processStudents(students: Student[]) {

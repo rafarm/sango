@@ -1,8 +1,9 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { GoogleChartDirective } from './directives/google-chart.directive';
 
+import { Course } from './model/course';
 import { Student } from './model/student';
-//import { AssessmentStats } from './model/assessment-stats';
+import { AssessmentStats } from './model/assessment-stats';
     
 @Component({
     selector: 'assessment-group',
@@ -11,16 +12,22 @@ import { Student } from './model/student';
 })
 export class AssessmentGroupComponent implements OnChanges {
     @Input()
+    course: Course;
+    @Input()
     students: any;
     @Input()
     studentStats: any;
+    @Input()
+    subjectStats: any;
+    @Input()
+    levelStats: any;
 
     pie_ChartData = [];
     pie_ChartOptions: {};
     histogram_ChartData = [];
     histogram_ChartOptions: {};
-    //averages_ChartData = [];
-    //averages_ChartOptions: {};
+    averages_ChartData = [];
+    averages_ChartOptions: {};
 
     constructor() {
 	this.pie_ChartOptions = {
@@ -59,8 +66,7 @@ export class AssessmentGroupComponent implements OnChanges {
 		maxValue: 10,
 		minValue: 0
 	    }
-	}
-	/*
+	}	
 	this.averages_ChartOptions = {
 	    title: 'Mitjanes per assignatura',
 	    titleTextStyle: {
@@ -87,7 +93,6 @@ export class AssessmentGroupComponent implements OnChanges {
 		}
 	    }
 	}
-	*/
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -123,19 +128,20 @@ export class AssessmentGroupComponent implements OnChanges {
 	    let student = this.students[i];
 	    hist_data.push( [student.last_name + ', ' + student.first_name, this.studentStats[i].passed] );
 	}
-
-	/*
+        
 	// Set averages data
 	let averages_data = this.averages_ChartData;
-	let session_avg = this.session.averages;
+	let stats = this.subjectStats;
 	// ...Headers
 	let headers = ['Assignatura', 'Mitjana nivell'];
-	for (var i = 1; i < session_avg.length; i++) {
-	    headers.push( 'Av. '+i );
+	for (var i = 1; i < this.course.assessments.length; i++) {
+	    headers.push( this.course.assessments[i].name );
 	}
 	averages_data.push( headers );
+        /*
 	// ...Values
-	for (var i = 0; i < session_avg[0].length; i++) {
+	for (var i = 0; i < this.course.assessments.length; i++) {
+            let _assessment = stats[this.course.assessments[i].assessment_id];
 	    let values = [];
 	    values.push( this.session.subjects[i] );
 	    for (var j = 0; j < session_avg.length; j++) {
@@ -143,7 +149,7 @@ export class AssessmentGroupComponent implements OnChanges {
 	    }
 	    averages_data.push( values );
 	}
-	*/
+        */
     }
 }
 
