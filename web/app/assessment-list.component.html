@@ -1,0 +1,20 @@
+<div *ngIf="session" class="row-fluid">
+	<div class="col-sm-5 col-md-5 col-lg-4 sidebar">
+		<ul class="nav nav-sidebar students">
+			<li *ngFor="let student of session.students" [class.selected]="student === selectedStudent" (click)="onSelect(student)" class="row">
+				<span *ngIf="isWarning(student)" class="badge warning col-md-1">!</span>
+				<span *ngIf="isDanger(student)" class="badge danger col-md-1">!</span>
+				<span [class]="isWarning(student) || isDanger(student) ? 'col-md-10' : 'offset-md-1 col-md-10'">{{student.name}}</span>
+				<span *ngIf="student.repeat" class="badge repeat col-md-1">R</span>
+			</li>
+		</ul>
+	</div>
+	<div *ngIf="selectedStudent" class="col-sm-7 offset-sm-5 col-md-7 offset-md-5 col-lg-8 offset-lg-4 main">
+		<student-detail [student]="selectedStudent" 
+			[subjects]="session.subjects" 
+			[order]="session.order" 
+			[averages]="session.averages">
+		</student-detail>
+	</div>
+</div>
+

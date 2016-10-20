@@ -11,8 +11,8 @@ import { ViewerComponent } 		from './viewer.component';
 import { AssessmentSelectorComponent } 	from './assessment-selector.component';
 import { AssessmentTableComponent } 	from './assessment-table.component';
 import { AssessmentGroupComponent } 	from './assessment-group.component';
-//import { SessionListComponent } 	from './session-list.component';
-//import { StudentDetailComponent } 	from './student-detail.component';
+import { AssessmentListComponent } 	from './assessment-list.component';
+import { StudentDetailComponent } 	from './student-detail.component';
 import { DataService } 			from './data.service';
 import { GoogleChartDirective } 	from './directives/google-chart.directive';
 
@@ -31,8 +31,8 @@ import { GoogleChartDirective } 	from './directives/google-chart.directive';
 	AssessmentSelectorComponent,
 	AssessmentTableComponent,
 	AssessmentGroupComponent,
-	//SessionListComponent,
-	//StudentDetailComponent,
+	AssessmentListComponent,
+	StudentDetailComponent,
 	GoogleChartDirective
     ],
     providers: [ DataService ],
