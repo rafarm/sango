@@ -22,9 +22,11 @@ export class AssessmentListComponent {
     subjectStats: {};
 
     selectedStudentId: string;
+    selectedStudentIndex: number;
 
-    onSelect(studentId: string) {
+    onSelect(studentId: string, index: number) {
 	this.selectedStudentId = studentId;
+	this.selectedStudentIndex = index;
     }
 
     isWarning(studentId: string) {

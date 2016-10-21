@@ -23,10 +23,6 @@ export class StudentDetailComponent implements OnChanges {
     studentStats: {};
     @Input()
     subjectStats: {};
-    /*
-    @Input()
-    order: number;
-    */
 
     failed_ChartData = [];
     failed_ChartOptions: {};
@@ -106,9 +102,12 @@ export class StudentDetailComponent implements OnChanges {
 
     ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
 	// Reset 			
-	this.marks_ChartData = [];
 	this.failed_ChartData = [];
+	this.marks_ChartData = [];
 	//this.deltas_ChartData = [];
+
+	this.setFailedData();
+	this.setMarksData();
 	/*	
 	let qualifications = this.assessment.students[this.studentIndex].qualifications;
 	let failed = this.studentStats[this.assessment._id].stats[this.student._id].failed;
@@ -137,4 +136,45 @@ export class StudentDetailComponent implements OnChanges {
 		}
 		*/
 	}
+    
+    private setFailedData() {
+	let failed_data = this.failed_ChartData;
+	let order = this.findAssessmentOrder();
+	console.info( 'setFailedData: ' + order);
+	failed_data.push( ['Avaluació', 'Suspeses'] );
+        for (var i = 0; i <= order; i++) {
+            let a = this.course.assessments[i];
+            let s = this.studentStats[a.assessment_id].stats[this.student._id];
+            failed_data.push( [a.name, s.failed] );
+        }
+    }
+
+    private setMarksData() {
+	let marks_data = this.marks_ChartData;
+	let student_marks = this.assessment.students[this.studentIndex].qualifications;
+	let course_avgs = this.subjectStats[this.assessment._id].stats;
+
+	this.marks_ChartData.push( ['Assignatura',
+				    this.assessment.name,
+				    'Mitjana grup'] );
+	for (var i = 0; i < student_marks.length; i++) {
+	    let mark = student_marks[i];
+            if (mark.qualification != null) {
+                marks_data.push( [mark.subject_id,
+				  mark.qualification,
+				  course_avgs[mark.subject_id].avg] );
+            }
+        }
+    }
+
+    private findAssessmentOrder(): number {
+        var order = 0;
+
+        while (order<this.course.assessments.length && 
+                this.course.assessments[order].assessment_id !== this.assessment._id) {
+            order++;
+        }
+
+        return order;
+    }
 }
