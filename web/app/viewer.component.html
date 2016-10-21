@@ -5,8 +5,8 @@
 	<ngb-tabset activeId="marks">
 	    <ngb-tab title="Alumnes" id="students">
                 <template ngbTabContent>
-		    <h3>Alumnes</h3>
-                    <!--<session-list [session]="session"></session-list>-->
+		    <!--<h3>Alumnes</h3>-->
+                    <assessment-list [course]="course" [assessment]="assessment" [students]="students" [studentStats]="studentStats" [subjectStats]="subjectStats"></assessment-list>
                 </template>
             </ngb-tab>
 	    <ngb-tab title="Grup" id="group">

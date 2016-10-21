@@ -1,33 +1,43 @@
 import { Component, Input } from '@angular/core';
 
+import { Course } from './model/course';
 import { Assessment } from './model/assessment';
 import { Student } from './model/student';
     
 @Component({
-	selector: 'assessment-list',
-	templateUrl: 'app/assessment-list.component.html',
-	styleUrls: ['app/assessment-list.component.css']
+    selector: 'assessment-list',
+    templateUrl: 'app/assessment-list.component.html',
+    styleUrls: ['app/assessment-list.component.css']
 })
 export class AssessmentListComponent {
-	@Input()
-	assessment: Assessment;
-	@Input()
-	students: Student[];
-	@Input()
-	studentStats: {};
+    @Input()
+    course: Course;
+    @Input()
+    assessment: Assessment;
+    @Input()
+    students: {};
+    @Input()
+    studentStats: {};
+    @Input()
+    subjectStats: {};
 
-	selectedStudent: Student;
+    selectedStudentId: string;
 
-	onSelect(student: Student) {
-		this.selectedStudent = student;
-	}
+    onSelect(studentId: string) {
+	this.selectedStudentId = studentId;
+    }
 
-	isWarning(student: Student) {
-		return student.num_failed[this.session.order-1] > 1 && student.num_failed[this.session.order-1] < 4
-	}
+    isWarning(studentId: string) {
+	let assessment_id = this.assessment._id
+	let failed = this.studentStats[assessment_id].stats[studentId].failed;
+	
+	return failed > 1 && failed < 4;
+    }
 
-	isDanger(student: Student) {
-		return student.num_failed[this.session.order-1] > 3
-	}
+    isDanger(studentId: string) {
+	let assessment_id = this.assessment._id
+	let failed = this.studentStats[assessment_id].stats[studentId].failed;
+	return failed > 3;
+    }
 }
 

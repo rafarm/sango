@@ -9,7 +9,7 @@
 @media (min-width: 768px) {
   .sidebar {
     position: fixed;
-    top: 100px;
+    top: 116px;
     bottom: 0;
     left: 0;
     z-index: 1000;
@@ -27,6 +27,7 @@
   margin-right: -21px; /* 20px padding + 1px border */
   margin-bottom: 20px;
   margin-left: -20px;
+  margin-top: 0px;
 }
 .nav-sidebar > li {
   padding-right: 20px;
