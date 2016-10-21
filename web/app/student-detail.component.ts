@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, SimpleChange } from '@angular/core';
 import { GoogleChartDirective } from './directives/google-chart.directive';
 
+import { DataService } from './data.service';
 import { Course } from './model/course';
 import { Assessment } from './model/assessment';
 import { Student } from './model/student';
@@ -28,10 +29,10 @@ export class StudentDetailComponent implements OnChanges {
     failed_ChartOptions: {};
     marks_ChartData = [];
     marks_ChartOptions: {};
-    //deltas_ChartData = [];
-    //deltas_ChartOptions: {};
+    deltas_ChartData = [];
+    deltas_ChartOptions: {};
 
-    constructor() {
+    constructor(private dataService: DataService) {
 	this.failed_ChartOptions = {
 	    title: 'Assignatures suspeses',
 	    titleTextStyle: {
@@ -77,7 +78,6 @@ export class StudentDetailComponent implements OnChanges {
 		}
 	    }
 	}
-	/*
 	this.deltas_ChartOptions = {
 	    title: 'Diferència amb avaluació anterior',
 	    titleTextStyle: {
@@ -97,45 +97,26 @@ export class StudentDetailComponent implements OnChanges {
 		minValue: -2
 	    }
 	}
-	*/
     }
 
     ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
 	// Reset 			
 	this.failed_ChartData = [];
 	this.marks_ChartData = [];
-	//this.deltas_ChartData = [];
+	this.deltas_ChartData = [];
 
 	this.setFailedData();
 	this.setMarksData();
-	/*	
-	let qualifications = this.assessment.students[this.studentIndex].qualifications;
-	let failed = this.studentStats[this.assessment._id].stats[this.student._id].failed;
-	//let deltas = this.student.deltas;
 
-	// Set marks data
-	this.marks_ChartData.push( ['Assignatura', this.assessment.name, 'Mitjana grup'] );
-	for (var i = 0; i < qualifications.length; i++) {
-	    if (qualifications[i].qualification != null) {
-		this.marks_ChartData.push( [this.subjects[i], qualifications[i], this.averages[this.order][i]] );
-			}
-		}
+	let order = this.findAssessmentOrder();
+        if (order > 0) {
+            let prev_assessment_id = this.course.assessments[order-1].assessment_id;
 
-		// Set number of subjects failed
-		this.failed_ChartData.push( ['Avaluació', 'Suspeses'] );
-		for (var i = 0; i < failed.length; i++) {
-			this.failed_ChartData.push( ['Av. '+(i+1), failed[i]] );
-		}
-
-		// Set deltas data
-		this.deltas_ChartData.push( ['Assignatura', 'Difència'] );
-		for (var i = 0; i < deltas.length; i++) {
-			if (deltas[i] != null) {
-				this.deltas_ChartData.push( [this.subjects[i], deltas[i]] );
-			}
-		}
-		*/
-	}
+            // Get previous assessment
+            this.dataService.getAssessment(prev_assessment_id)
+                .then(assessment => this.setDeltasData(assessment));
+        }
+    }
     
     private setFailedData() {
 	let failed_data = this.failed_ChartData;
@@ -163,6 +144,22 @@ export class StudentDetailComponent implements OnChanges {
                 marks_data.push( [mark.subject_id,
 				  mark.qualification,
 				  course_avgs[mark.subject_id].avg] );
+            }
+        }
+    }
+
+    private setDeltasData(prev_assessment: Assessment) {
+	let deltas_data = this.marks_ChartData;
+	let marks = this.assessment.students[this.studentIndex].qualifications;
+	let prev_marks = prev_assessment.students[this.studentIndex].qualifications;
+
+        deltas_data.push( ['Assignatura', 'Difència'] );
+        for (var i = 0; i < marks.length; i++) {
+	    let mark = marks[i];
+	    let prev_mark = prev_marks[i];
+            if (mark.qualification != null && prev_mark.qualification != null) {
+                deltas_data.push( [mark.subject_id,
+                                  (mark.qualification-prev_mark.qualification)] );
             }
         }
     }
