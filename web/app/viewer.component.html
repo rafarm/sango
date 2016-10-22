@@ -5,20 +5,33 @@
 	<ngb-tabset activeId="marks">
 	    <ngb-tab title="Alumnes" id="students">
                 <template ngbTabContent>
-		    <!--<h3>Alumnes</h3>-->
-                    <assessment-list [course]="course" [assessment]="assessment" [students]="students" [studentStats]="studentStats" [subjectStats]="subjectStats"></assessment-list>
+                    <assessment-list [course]="course"
+				     [assessment]="assessment"
+				     [assessmentOrder]="assessmentOrder"
+				     [prevAssessment]="prevAssessment"
+				     [students]="students"
+				     [studentStats]="studentStats"
+				     [subjectStats]="subjectStats">
+		    </assessment-list>
                 </template>
             </ngb-tab>
 	    <ngb-tab title="Grup" id="group">
                 <template ngbTabContent>
-		    <!--<h3>Grup</h3>-->
-                    <assessment-group [students]="students" [studentStats]="studentStats[assessmentId].stats" [subjectStats]="subjectStats" [levelStats]="levelStats" [course]="course" [assessmentId]="assessmentId"></assessment-group>
+                    <assessment-group [course]="course"
+				      [assessmentOrder]="assessmentOrder"
+				      [students]="students"
+				      [studentStats]="studentStats[assessmentId].stats"
+				      [subjectStats]="subjectStats"
+				      [levelStats]="levelStats">
+		    </assessment-group>
                 </template>
             </ngb-tab>
 	    <ngb-tab title="Notes" id="marks">
 		<template ngbTabContent>
-		    <!--<h3 *ngIf="assessment">Notes de {{assessment.name}}</h3>-->
-		    <assessment-table (onSaveAssessment)="onSaveAssessment($event)" [assessment]="assessment" [students]="students"></assessment-table>
+		    <assessment-table (onSaveAssessment)="onSaveAssessment($event)"
+				      [assessment]="assessment"
+				      [students]="students">
+		    </assessment-table>
 		</template>
 	    </ngb-tab>
 	</ngb-tabset>

@@ -1,4 +1,4 @@
-<div *ngIf="course && assessmentId && students && studentStats && subjectStats && levelStats">
+<div *ngIf="course && assessmentOrder>=0 && students && studentStats && subjectStats && levelStats">
 	<div class="row-fluid">
 		<div id="pie_chart" chartType="PieChart" [chartData]="pie_ChartData" [chartOptions]="pie_ChartOptions" GoogleChart class="col-sm-6 chart_300"></div>
 		<div id="histogram_chart" chartType="Histogram" [chartData]="histogram_ChartData" [chartOptions]="histogram_ChartOptions" GoogleChart class="col-sm-6 chart_300"></div>

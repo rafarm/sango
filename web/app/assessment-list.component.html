@@ -1,4 +1,4 @@
-<div *ngIf="course && assessment && students && studentStats && subjectStats" class="row-fluid">
+<div *ngIf="course && assessment && assessmentOrder>=0 && prevAssessment && students && studentStats && subjectStats" class="row-fluid">
     <div class="col-sm-5 col-md-5 col-lg-4 sidebar">
 	<ul class="nav nav-sidebar students">
 	    <li *ngFor="let student of assessment.students; let i=index" [class.selected]="student.student_id === selectedStudentId" (click)="onSelect(student.student_id, i)" class="row">
@@ -12,6 +12,8 @@
     <div *ngIf="selectedStudentId" class="col-sm-7 offset-sm-5 col-md-7 offset-md-5 col-lg-8 offset-lg-4 main">
 	<student-detail [course]="course"
 			[assessment]="assessment"
+			[assessmentOrder]="assessmentOrder"
+			[prevAssessment]="prevAssessment"
 			[studentIndex]="selectedStudentIndex"
 			[student]="students[selectedStudentId]" 
 			[studentStats]="studentStats" 

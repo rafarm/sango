@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, SimpleChange } from '@angular/core';
 import { GoogleChartDirective } from './directives/google-chart.directive';
 
-import { DataService } from './data.service';
 import { Course } from './model/course';
 import { Assessment } from './model/assessment';
 import { Student } from './model/student';
@@ -17,13 +16,17 @@ export class StudentDetailComponent implements OnChanges {
     @Input()
     assessment: Assessment;
     @Input()
+    assessmentOrder: number;
+    @Input()
+    prevAssessment: Assessment;
+    @Input()
     studentIndex: number;
     @Input()
     student: Student;
     @Input()
-    studentStats: {};
+    studentStats: any;
     @Input()
-    subjectStats: {};
+    subjectStats: any;
 
     failed_ChartData = [];
     failed_ChartOptions: {};
@@ -32,7 +35,7 @@ export class StudentDetailComponent implements OnChanges {
     deltas_ChartData = [];
     deltas_ChartOptions: {};
 
-    constructor(private dataService: DataService) {
+    constructor() {
 	this.failed_ChartOptions = {
 	    title: 'Assignatures suspeses',
 	    titleTextStyle: {
@@ -107,26 +110,17 @@ export class StudentDetailComponent implements OnChanges {
 
 	this.setFailedData();
 	this.setMarksData();
-
-	let order = this.findAssessmentOrder();
-        if (order > 0) {
-            let prev_assessment_id = this.course.assessments[order-1].assessment_id;
-
-            // Get previous assessment
-            this.dataService.getAssessment(prev_assessment_id)
-                .then(assessment => this.setDeltasData(assessment));
-        }
+	this.setDeltasData();
     }
     
     private setFailedData() {
 	let failed_data = this.failed_ChartData;
-	let order = this.findAssessmentOrder();
-	console.info( 'setFailedData: ' + order);
+	
 	failed_data.push( ['Avaluació', 'Suspeses'] );
-        for (var i = 0; i <= order; i++) {
-            let a = this.course.assessments[i];
-            let s = this.studentStats[a.assessment_id].stats[this.student._id];
-            failed_data.push( [a.name, s.failed] );
+        for (var i = 0; i <= this.assessmentOrder; i++) {
+            let _a = this.course.assessments[i];
+            let _s = this.studentStats[_a.assessment_id].stats[this.student._id];
+            failed_data.push( [_a.name, _s.failed] );
         }
     }
 
@@ -148,10 +142,10 @@ export class StudentDetailComponent implements OnChanges {
         }
     }
 
-    private setDeltasData(prev_assessment: Assessment) {
-	let deltas_data = this.marks_ChartData;
+    private setDeltasData() {
+	let deltas_data = this.deltas_ChartData;
 	let marks = this.assessment.students[this.studentIndex].qualifications;
-	let prev_marks = prev_assessment.students[this.studentIndex].qualifications;
+	let prev_marks = this.prevAssessment.students[this.studentIndex].qualifications;
 
         deltas_data.push( ['Assignatura', 'Difència'] );
         for (var i = 0; i < marks.length; i++) {
@@ -162,16 +156,5 @@ export class StudentDetailComponent implements OnChanges {
                                   (mark.qualification-prev_mark.qualification)] );
             }
         }
-    }
-
-    private findAssessmentOrder(): number {
-        var order = 0;
-
-        while (order<this.course.assessments.length && 
-                this.course.assessments[order].assessment_id !== this.assessment._id) {
-            order++;
-        }
-
-        return order;
     }
 }

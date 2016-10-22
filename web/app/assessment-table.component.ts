@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, SimpleChange,
 	 Output, EventEmitter } from '@angular/core';
 
 import { Assessment } from './model/assessment';
-import { Student } from './model/student';
+//import { Student } from './model/student';
     
 @Component({
     selector: 'assessment-table',
@@ -12,7 +12,6 @@ import { Student } from './model/student';
 export class AssessmentTableComponent implements OnChanges {
     @Input()
     assessment: Assessment;
-
     @Input()
     students: any;
     

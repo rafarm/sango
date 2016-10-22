@@ -2,8 +2,8 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { GoogleChartDirective } from './directives/google-chart.directive';
 
 import { Course } from './model/course';
-import { Student } from './model/student';
-import { AssessmentStats } from './model/assessment-stats';
+//import { Student } from './model/student';
+//import { AssessmentStats } from './model/assessment-stats';
     
 @Component({
     selector: 'assessment-group',
@@ -14,7 +14,7 @@ export class AssessmentGroupComponent implements OnChanges {
     @Input()
     course: Course;
     @Input()
-    assessmentId: string;
+    assessmentOrder: number;
     @Input()
     students: any;
     @Input()
@@ -172,7 +172,7 @@ export class AssessmentGroupComponent implements OnChanges {
     private setAveragesData() {
 	let averages_data = this.averages_ChartData;
         let stats = this.subjectStats;
-	let order = this.findAssessmentOrder();        
+	let order = this.assessmentOrder;        
 
         // ...Headers
         let headers = ['Assignatura', 'Mitjana nivell'];
@@ -202,7 +202,7 @@ export class AssessmentGroupComponent implements OnChanges {
     private setRatiosData() {
         let ratios_data = this.ratios_ChartData;
         let stats = this.subjectStats; 
-        let order = this.findAssessmentOrder();
+        let order = this.assessmentOrder;
 
         // ...Headers
         let headers = ['Assignatura', 'Ratio nivell'];
@@ -227,17 +227,6 @@ export class AssessmentGroupComponent implements OnChanges {
 
             ratios_data.push( values );
         }
-    }
-
-    private findAssessmentOrder(): number {
-	var order = 0;
-
-        while (order<this.course.assessments.length && 
-                this.course.assessments[order].assessment_id !== this.assessmentId) {
-            order++;
-        }
-
-	return order;
     }
 }
 

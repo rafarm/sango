@@ -17,6 +17,8 @@ export class ViewerComponent {
     course: Course;
     assessmentId: string;
     assessment: Assessment;
+    assessmentOrder: number;
+    prevAssessment: Assessment;
     students: any;
     studentStats: any;
     subjectStats: any;
@@ -50,12 +52,12 @@ export class ViewerComponent {
 	}
     }
 
-    loadCourse(id: string) {
+    private loadCourse(id: string) {
         this.dataService.getCourse(id)
             .then(course => this.course = course);
     }
 
-    loadAssessment(id: string) {
+    private loadAssessment(id: string) {
         this.dataService.getAssessment(id)
             .then(assessment => this.loadData(assessment));
     }
@@ -70,7 +72,7 @@ export class ViewerComponent {
 	}
     }
 
-    loadStats() {
+    private loadStats() {
 	let course = this.course;
 
 	// Get students stats
@@ -82,18 +84,15 @@ export class ViewerComponent {
 	    .then(stats => this.processSubjectStats(stats));
 
 	// Get course level stats
-        var order = 0;
-        for (let i in course.assessments) {
-            let assessment = course.assessments[i];
-            if (assessment.assessment_id == this.assessmentId) {
-                order = assessment.order;
-            }
-        }
-	this.dataService.getLevelStats(course.start_year, course.stage, course.level, order)
+	this.dataService.getLevelStats(course.start_year,
+				       course.stage,
+				       course.level,
+		    // TODO: Change when removing order from Course model...
+				       this.assessmentOrder+1)
 	    .then(stats => this.processLevelStats(stats));
     }
 
-    loadData(assessment: Assessment) {
+    private loadData(assessment: Assessment) {
 	// Get students id array
         let ids = [];
         for (var i=0; i<assessment.students.length; i++) {
@@ -106,11 +105,29 @@ export class ViewerComponent {
 
 	this.assessment = assessment;
 
+	// Find current assessment order in course
+	var order = -1;
+	let course = this.course;
+        for (let i=0; i<course.assessments.length; i++) {
+            let _a = course.assessments[i];
+            if (_a.assessment_id === assessment._id) {
+                order = i;
+            }
+	}
+	this.assessmentOrder = order;
+
+	// Load previous assessment in course
+	if (order > 0) {
+	    let _pId = this.course.assessments[order-1].assessment_id;
+	    this.dataService.getAssessment(_pId)
+		.then(assessment => this.prevAssessment = assessment);
+	}
+
 	// Get stats
         this.loadStats();
     }
 
-    processStudents(students: Student[]) {
+    private processStudents(students: Student[]) {
 	let s = {};
 
 	for (let i=0; i<students.length; i++) {
@@ -120,15 +137,15 @@ export class ViewerComponent {
 	this.students = s;
     }
 
-    processStudentStats(stats: AssessmentStats[]) {
+    private processStudentStats(stats: AssessmentStats[]) {
         this.studentStats = this.processAssessmentStats(stats);
     }
 
-    processSubjectStats(stats: AssessmentStats[]) {
+    private processSubjectStats(stats: AssessmentStats[]) {
         this.subjectStats = this.processAssessmentStats(stats);
     }
 
-    processAssessmentStats(stats: AssessmentStats[]): any {
+    private processAssessmentStats(stats: AssessmentStats[]): any {
         let assessmentHash = {};
 
         for (let i=0; i<stats.length; i++) {
@@ -150,7 +167,7 @@ export class ViewerComponent {
         return assessmentHash;
     }
 
-    processLevelStats(stats: Stats[]) {
+    private processLevelStats(stats: Stats[]) {
 	let subjectStats = {};
 
 	for (let i=0; i<stats.length; i++) {

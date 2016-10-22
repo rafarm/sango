@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { Course } from './model/course';
 import { Assessment } from './model/assessment';
-import { Student } from './model/student';
+//import { Student } from './model/student';
     
 @Component({
     selector: 'assessment-list',
@@ -15,11 +15,15 @@ export class AssessmentListComponent {
     @Input()
     assessment: Assessment;
     @Input()
-    students: {};
+    assessmentOrder: number;
     @Input()
-    studentStats: {};
+    prevAssessment: Assessment;
     @Input()
-    subjectStats: {};
+    students: any;
+    @Input()
+    studentStats: any;
+    @Input()
+    subjectStats: any;
 
     selectedStudentId: string;
     selectedStudentIndex: number;
