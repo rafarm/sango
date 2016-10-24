@@ -65,7 +65,7 @@ export class ViewerComponent {
     onSaveAssessment(save) {
 	if (save) {
 	    this.dataService.replaceAssessment(this.assessment)
-		.then(result => this.loadStats());
+		.then(result => this.loadData(this.assessment));
 	}
 	else {
 	    this.loadAssessment(this.assessmentId);
