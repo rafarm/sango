@@ -37,7 +37,7 @@ export class AssessmentListComponent {
 	let assessment_id = this.assessment._id
 	let failed = this.studentStats[assessment_id].stats[studentId].failed;
 	
-	return failed > 1 && failed < 4;
+	return failed > 0 && failed < 4;
     }
 
     isDanger(studentId: string) {
