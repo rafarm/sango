@@ -21,7 +21,7 @@ import { GoogleChartDirective } 	from './directives/google-chart.directive';
 	BrowserModule,
 	FormsModule,
 	routing,
-	NgbModule,
+	NgbModule.forRoot(),
 	HttpModule
     ],
     declarations: [ 
