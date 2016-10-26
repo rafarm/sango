@@ -144,6 +144,36 @@ export class DataService {
     }
 
     /*
+     * uploadFile
+     *
+     * Uploads a file to server.
+     */
+    uploadFile(file: File) {
+	let request = new Promise((resolve, reject) => {
+	    let formData = new FormData();
+	    let xhr = new XMLHttpRequest();
+
+	    formData.append('upload', file, file.name);
+
+	    xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4) {
+		    if (xhr.status == 200) {
+			resolve(JSON.parse(xhr.response));
+		    }
+		    else {
+			reject(xhr.response);
+		    }
+		}
+	    }
+
+	    xhr.open('POST', this.apiUrl+'ingest', true);
+	    xhr.send(formData);
+	});
+
+	return request;
+    } 
+
+    /*
      * unwrapResponse
      *
      * Extracts data from server response.

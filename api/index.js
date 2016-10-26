@@ -24,6 +24,8 @@ mongodb.connect
         app.use('/api/students', students);
         var assessments = require('./routes/assessments');
         app.use('/api/assessments', assessments);
+        var ingest = require('./routes/ingest');
+        app.use('/api/ingest', ingest);
     })
     .catch(function (err) {
         // Close server on database connection error.
