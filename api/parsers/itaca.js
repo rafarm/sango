@@ -39,10 +39,12 @@ function parseDoc(doc, index, result, res) {
 
 	switch (child.name) {
 	    case 'contenidos':
-		parseSubjects(child, doc, index, result, res);
+                parseChildren(child, processSubject, 'subjects', doc, index, result, res);
+		//parseSubjects(child, doc, index, result, res);
 		break;
 	    case 'alumnos':
-		parseStudents(child, doc, index, result, res);
+                parseChildren(child, processStudent, 'students', doc, index, result, res);
+		//parseStudents(child, doc, index, result, res);
 		break;
 	    default: // Continue...
 		parseDoc(doc, ++index, result, res);
@@ -53,6 +55,68 @@ function parseDoc(doc, index, result, res) {
     }
 }
 
+function parseChildren(item, process, collection, doc, index, result, res) {
+    var operations = [];
+
+    for (var i=0; i<item.children.length; i++) {
+        var c = item.children[i];
+	operations.push(process(c, doc));
+    }
+
+    mongodb.db.collection(collection).bulkWrite(operations)
+        .then(function(resp) {
+            result[collection] = resp.nUpserted;
+            parseDoc(doc, ++index, result, res);
+        })
+        .catch(function(error) {
+            res.status(500);
+            res.json(error);
+        });
+}
+
+function processSubject(sub, doc) {
+    if (sub.name == 'contenido') {
+        var op = {
+            updateOne: {
+                filter: { _id: sub.attr.codigo },
+                update: { $set: {
+                    level: sub.attr.ensenanza,
+                    name: sub.attr.nombre_val,
+                    school_id: doc.attr.codigo
+                } },
+                upsert: true 
+            }
+        };
+
+        return op;
+    }
+
+    return null;
+}
+
+function processStudent(st, doc) {
+    if (st.name == 'alumno') {
+        var op = {
+            updateOne: {
+                filter: { _id: st.attr.NIA },
+                update: { $set: {
+                    last_name: st.attr.apellido1 + ' ' + st.attr.apellido2,
+                    first_name: st.attr.nombre,
+                    birth_date: st.attr.fecha_nac,
+                    genre: st.attr.sexo,
+                    school_id: doc.attr.codigo
+                } },
+                upsert: true
+            }
+        };
+
+        return op;
+    }
+
+    return null;
+}
+
+/*
 function parseSubjects(subjects, doc, index, result, res) {
     var operations = [];
 
@@ -122,5 +186,6 @@ function parseStudents(students, doc, index, result, res) {
             res.json(error);
         });
 }
+*/
 
 module.exports = parser;
