@@ -1,3 +1,3 @@
-<input type="file" (change)="fileChangeEvent($event)">
-<button type="button" class="btn btn-success" (click)="upload()" [disabled]="fileToUpload==null">Upload</button>
+<input type="file" (change)="fileChangeEvent($event)" [disabled]="uploading">
+<button type="button" class="btn btn-success" (click)="upload()" [disabled]="fileToUpload==null || uploading" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Uploading">Upload</button>
 <div>{{response | json}}</div>

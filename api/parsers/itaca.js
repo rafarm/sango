@@ -65,7 +65,7 @@ function parseChildren(item, process, collection, doc, index, result, res) {
 
     mongodb.db.collection(collection).bulkWrite(operations)
         .then(function(resp) {
-            result[collection] = resp.nUpserted;
+            result[collection] = resp.nInserted + resp.nUpserted + resp.nMatched;
             parseDoc(doc, ++index, result, res);
         })
         .catch(function(error) {
@@ -102,8 +102,8 @@ function processStudent(st, doc) {
                 update: { $set: {
                     last_name: st.attr.apellido1 + ' ' + st.attr.apellido2,
                     first_name: st.attr.nombre,
-                    birth_date: st.attr.fecha_nac,
-                    genre: st.attr.sexo,
+                    birth_date: new Date(st.attr.fecha_nac),
+                    gender: st.attr.sexo == 'H' ? 'M' : 'F',
                     school_id: doc.attr.codigo
                 } },
                 upsert: true
