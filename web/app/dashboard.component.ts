@@ -10,9 +10,11 @@ export class DashboardComponent {
     private fileToUpload: File;
     private response: any;
     private uploading: boolean;
+    private button_text: string;
 
     constructor(private dataService: DataService) {
         this.uploading = false;
+	this.button_text = 'Upload';
     }
 
     fileChangeEvent(event: any) {
@@ -21,6 +23,7 @@ export class DashboardComponent {
 
     upload() {
 	this.uploading = true;
+	this.button_text = 'Uploading...';
 	this.dataService.uploadFile(this.fileToUpload)
 	    .then(response => this.response = response);
     }
