@@ -7,10 +7,8 @@
     "start": "node api/index.js",
     "tscstart": "tsc && concurrently \"npm run tsc:w\" \"npm start\"",
     "insert": "node api/insert_mock_data.js",
-    "postinstall": "typings install",
     "tsc": "tsc",
-    "tsc:w": "tsc -w",
-    "typings": "typings"
+    "tsc:w": "tsc -w"
   },
   "config": {
     "port": "3000",
@@ -61,6 +59,8 @@
   "devDependencies": {
     "concurrently": "^2.0.0",
     "typescript": "^2.0.3",
-    "typings": "^1.0.4"
+    "@types/core-js": "^0.9.34",
+    "@types/jasmine": "^2.5.37",
+    "@types/node": "^6.0.46"
   }
 }
