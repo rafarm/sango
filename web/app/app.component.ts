@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+//import { Router } from '@angular/router';
 
 @Component({
     selector: 'aa-app',
     templateUrl: 'app/app.component.html'
 })
 export class AppComponent {
-    title = 'Assistent d\'avaluació';
-
-    constructor(
-	//private dataService: DataService,
-	private router: Router) {}
+    title = 'Sango';
 
     /*
+    constructor(
+	//private dataService: DataService,
+	//private router: Router) {}
+
     ngOnInit() {
 	this.dataService.getSessions().then(sessions => this.sessions = sessions);
     }

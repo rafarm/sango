@@ -43,7 +43,7 @@ export class GoogleChartDirective implements OnChanges {
 	}
 
 	@HostListener('window:resize', ['$event'])
-	onResize(event) {
+	onResize(event: any) {
   		this.drawChart();
 	}
 }

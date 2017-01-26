@@ -28,11 +28,11 @@ export class StudentDetailComponent implements OnChanges {
     @Input()
     subjectStats: any;
 
-    failed_ChartData = [];
+    failed_ChartData: any[];
     failed_ChartOptions: {};
-    marks_ChartData = [];
+    marks_ChartData: any[];
     marks_ChartOptions: {};
-    deltas_ChartData = [];
+    deltas_ChartData: any[];
     deltas_ChartOptions: {};
 
     constructor() {

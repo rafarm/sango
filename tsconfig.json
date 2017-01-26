@@ -6,7 +6,9 @@
     	"sourceMap": true,
     	"emitDecoratorMetadata": true,
     	"experimentalDecorators": true,
+ 	"lib": [ "es2015", "dom" ],
     	"removeComments": false,
-    	"noImplicitAny": true
+    	"noImplicitAny": true,
+	"suppressImplicitAnyIndexErrors": true
     }
 }

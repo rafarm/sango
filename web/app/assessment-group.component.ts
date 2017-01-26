@@ -24,13 +24,13 @@ export class AssessmentGroupComponent implements OnChanges {
     @Input()
     levelStats: any;
 
-    pie_ChartData = [];
+    pie_ChartData: any[];
     pie_ChartOptions: {};
-    histogram_ChartData = [];
+    histogram_ChartData: any[];
     histogram_ChartOptions: {};
-    averages_ChartData = [];
+    averages_ChartData: any[];
     averages_ChartOptions: {};
-    ratios_ChartData = [];
+    ratios_ChartData: any[];
     ratios_ChartOptions: {};
 
     constructor() {

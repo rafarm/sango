@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="512"
+   height="512"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="sango_logo.svg"
+   inkscape:export-filename="/datos/usuarios/profesores/rrubiom/Imatges/sango_logo.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.18"
+     inkscape:cx="319.64559"
+     inkscape:cy="264.82141"
+     inkscape:document-units="px"
+     inkscape:current-layer="capa1"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="1375"
+     inkscape:window-height="876"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="capa1"
+     transform="translate(0,-540.36218)">
+    <g
+       id="g3003"
+       transform="translate(5.8025633,-3.000004)">
+      <path
+         transform="matrix(2.1119496,-2.1041021,2.1041021,2.1119496,-826.9338,938.30745)"
+         sodipodi:end="3.1415927"
+         sodipodi:start="2.0620331"
+         d="m 242.37087,277.03362 c -19.04953,-9.94251 -30.9423,-29.30842 -30.9423,-50.38572 l 58.57143,0 z"
+         sodipodi:ry="57.142857"
+         sodipodi:rx="58.57143"
+         sodipodi:cy="226.6479"
+         sodipodi:cx="270"
+         id="path2985"
+         style="fill:#279d1e;fill-opacity:1;stroke:none"
+         sodipodi:type="arc" />
+      <path
+         sodipodi:type="arc"
+         style="fill:#f18a00;fill-opacity:1;stroke:none"
+         id="path3757"
+         sodipodi:cx="270"
+         sodipodi:cy="226.6479"
+         sodipodi:rx="58.57143"
+         sodipodi:ry="57.142857"
+         d="m 328.57143,226.6479 c 0,31.55913 -26.22332,57.14286 -58.57143,57.14286 -9.69267,0 -19.23384,-2.34676 -27.76802,-6.82987 L 270,226.6479 z"
+         sodipodi:start="0"
+         sodipodi:end="2.0647245"
+         transform="matrix(2.1119496,-2.1041021,2.1041021,2.1119496,-815.42064,928.71315)" />
+      <g
+         id="g2997">
+        <path
+           sodipodi:end="3.1415927"
+           sodipodi:start="1.9278763"
+           d="m 249.52695,280.18627 c -22.90906,-8.33829 -38.09838,-29.68332 -38.09838,-53.53837 l 58.57143,0 z"
+           sodipodi:ry="57.142857"
+           sodipodi:rx="58.57143"
+           sodipodi:cy="226.6479"
+           sodipodi:cx="270"
+           id="path3755"
+           style="fill:#4e8cec;fill-opacity:1;stroke:none"
+           sodipodi:type="arc"
+           transform="matrix(-2.1054347,2.1106211,-2.1106211,-2.1054347,1327.0339,657.19354)" />
+        <path
+           transform="matrix(-2.1054347,2.1106211,-2.1106211,-2.1054347,1315.5208,664.86899)"
+           sodipodi:type="arc"
+           style="fill:#d52323;fill-opacity:1;stroke:none"
+           id="path3759"
+           sodipodi:cx="270"
+           sodipodi:cy="226.6479"
+           sodipodi:rx="58.57143"
+           sodipodi:ry="57.142857"
+           d="m 328.57143,226.6479 c 0,31.55913 -26.22332,57.14286 -58.57143,57.14286 -7.14158,0 -14.22295,-1.27421 -20.89465,-3.75974 L 270,226.6479 z"
+           sodipodi:start="0"
+           sodipodi:end="1.9355701" />
+      </g>
+    </g>
+  </g>
+</svg>

@@ -26,7 +26,7 @@ export class ViewerComponent {
 
     constructor( private dataService: DataService ) {}
 
-    onSelectedCourseChanged(event) {
+    onSelectedCourseChanged(event: string) {
         this.courseId = event;
 
         if (this.courseId != null) {
@@ -40,7 +40,7 @@ export class ViewerComponent {
         }
     }
 
-    onSelectedAssessmentChanged(event) {
+    onSelectedAssessmentChanged(event: string) {
 	this.assessmentId = event;
 
 	if (this.assessmentId != null) {
@@ -62,7 +62,7 @@ export class ViewerComponent {
             .then(assessment => this.loadData(assessment));
     }
 
-    onSaveAssessment(save) {
+    onSaveAssessment(save: boolean) {
 	if (save) {
 	    this.dataService.replaceAssessment(this.assessment)
 		.then(result => this.loadData(this.assessment));
@@ -94,7 +94,7 @@ export class ViewerComponent {
 
     private loadData(assessment: Assessment) {
 	// Get students id array
-        let ids = [];
+        let ids: any[];
         for (var i=0; i<assessment.students.length; i++) {
             ids.push(assessment.students[i].student_id);
         }

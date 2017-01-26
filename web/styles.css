@@ -1,3 +1,4 @@
+/*
 body {
 	padding-top: 60px;
 }
@@ -5,7 +6,7 @@ body {
 /*
  * Charts styles
  */
-
+/*
 .chart_200 {
 	height: 200px;
 }
@@ -25,6 +26,7 @@ body {
 /*
  * Subtop navigation bar
  */
+/*
 .fixed-top-sub .nav {
     margin-top: -40px;
 }
@@ -39,3 +41,5 @@ body {
 .fixed-top-sub .nav-item {
     float: right;
 }
+*
+*/
