@@ -1,12 +1,17 @@
 <nav class="navbar fixed-top navbar-light bg-faded">
+    <button class="navbar-toggler hidden-sm-up navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggler">
+	<span class="navbar-toggler-icon"></span>
+    </button>
     <span class="navbar-brand">
-	<img src="/assets/sango_logo.svg" width="30" height="30" class="d-inline-block align-top" alt="Sango">
-	{{title}}
+        <img src="/assets/sango_logo.svg" width="30" height="30" class="d-inline-block align-top" alt="Sango">
+        {{title}}
     </span>
-    <nav class="navbar-nav">
+    <div class="collapse navbar-toggleable-xs" id="navbarToggler">
+	<nav class="navbar-nav">
 	    <a class="nav-item nav-link" routerLink="dashboard">Dashboard</a>
 	    <a class="nav-item nav-link" routerLink="viewer">Viewer</a>
-    </nav>
+	</nav>
+    </div>
 </nav>
 <!--
 <router-outlet></router-outlet>
