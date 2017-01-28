@@ -15,6 +15,7 @@ import { AppComponent }  		from './app.component';
 //import { StudentDetailComponent } 	from './student-detail.component';
 //import { DataService } 			from './data.service';
 //import { GoogleChartDirective } 	from './directives/google-chart.directive';
+import { CollapseDirective } 	from './directives/collapse.directive';
 
 @NgModule({
     imports: [
@@ -33,7 +34,8 @@ import { AppComponent }  		from './app.component';
 	//AssessmentGroupComponent,
 	//AssessmentListComponent,
 	//StudentDetailComponent,
-	//GoogleChartDirective
+	//GoogleChartDirective,
+	CollapseDirective
     ],
     //providers: [ DataService ],
     bootstrap: [ AppComponent ]
