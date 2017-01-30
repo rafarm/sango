@@ -51,13 +51,30 @@ export class CollapseDirective {
 
 	let capitalizedDimension = dimension[0].toUpperCase() + dimension.slice(1);
 	let scrollSize = 'scroll' + capitalizedDimension;
-	console.log(scrollSize);
-	target.style[dimension] = /*target.style[scrollSize] +*/ '80px';
-	console.log(target.style[scrollSize] + 'px');
+	
+	target.style[dimension] = target[scrollSize] + 'px';
     }
 
     hide(target: any) {
-	target.classList.remove("show");
+	let classList = target.classList;
+
+	let dimension = 'height';
+	let offsetDimension = 'offsetHeight';
+
+	target.style[dimension] = target[offsetDimension] + 'px';
+
+	classList.add(ClassName.COLLAPSING);
+        classList.remove(ClassName.COLLAPSE);
+        classList.remove(ClassName.SHOW);
+
+	let complete = () => {
+            classList.remove(ClassName.COLLAPSING);
+            classList.add(ClassName.COLLAPSE);
+        }
+
+	target.addEventListener("transitionend", complete, true);
+        
+	target.style[dimension] = '';
     }
 }
 
