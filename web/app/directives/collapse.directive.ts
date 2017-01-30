@@ -60,21 +60,21 @@ export class CollapseDirective {
 
 	let dimension = 'height';
 	let offsetDimension = 'offsetHeight';
-
-	target.style[dimension] = target[offsetDimension] + 'px';
-
+        
 	classList.add(ClassName.COLLAPSING);
         classList.remove(ClassName.COLLAPSE);
         classList.remove(ClassName.SHOW);
 
+	target.style[dimension] = target[offsetDimension] + 'px';
+        
 	let complete = () => {
             classList.remove(ClassName.COLLAPSING);
             classList.add(ClassName.COLLAPSE);
-        }
+       }
 
-	target.addEventListener("transitionend", complete, true);
-        
-	target.style[dimension] = '';
+       target.addEventListener("transitionend", complete, true);
+
+       target.style[dimension] = '';
     }
 }
 
