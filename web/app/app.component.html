@@ -1,12 +1,13 @@
 <nav class="navbar fixed-top navbar-toggleable-md navbar-light bg-faded">
-    <button class="navbar-toggler navbar-toggler-right" type="button" [sgCollapse]="'topToggleableNavbar'">
+    <!--<button class="navbar-toggler navbar-toggler-right" type="button" [sgCollapse]="'topToggleableNavbar'">-->
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#topToggleableNavbar" aria-controls="topToggleableNavbar" aria-expanded="false" aria-label="Toggle top navigation bar">
 	<span class="navbar-toggler-icon"></span>
     </button>
     <span class="navbar-brand">
         <img src="/assets/sango_logo.svg" width="30" height="30" class="d-inline-block align-top" alt="Sango">
         {{title}}
     </span>
-    <div class="collapse navbar-collapse" id="topToggleableNavbar">
+    <div sgCollapse class="collapse navbar-collapse" id="topToggleableNavbar">
 	<nav class="navbar-nav">
 	    <a class="nav-item nav-link" routerLink="dashboard">Dashboard</a>
 	    <a class="nav-item nav-link" routerLink="viewer">Viewer</a>
