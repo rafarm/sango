@@ -86,6 +86,8 @@ export class CollapseDirective {
         classList.remove(ClassName.COLLAPSE);
         classList.remove(ClassName.SHOW);
 
+	this.target.style[dimension] = this.target[offsetDimension] + 'px';
+        
 	let complete = () => {
             classList.remove(ClassName.COLLAPSING);
             classList.add(ClassName.COLLAPSE);
