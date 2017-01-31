@@ -13,6 +13,7 @@ const ClassName = {
 export class CollapseDirective {
     trigger: any = null;
     target: any = null;
+    isTransitioning: boolean = false;
 
     constructor( el: ElementRef ) {
 	this.target = el.nativeElement;
@@ -46,6 +47,10 @@ export class CollapseDirective {
     }
 
     show() {
+        if (this.isTransitioning) {
+	    return;
+	}
+
 	let classList = this.target.classList;
 
 	classList.remove(ClassName.COLLAPSE);
@@ -54,6 +59,14 @@ export class CollapseDirective {
 	let dimension = 'height';
 
 	this.target.style[dimension] = 0;
+	this.target.setAttribute('aria-expanded', true);
+
+	if (this.trigger) {
+	    this.trigger.classList.remove(ClassName.COLLAPSED);
+            this.trigger.setAttribute('aria-expanded', true);
+	}
+
+	this.isTransitioning = true;
 
 	let complete = () => {
 	    classList.remove(ClassName.COLLAPSING);
@@ -62,6 +75,7 @@ export class CollapseDirective {
 
 	    this.target.style[dimension] = '';
 	    this.target.removeEventListener("transitionend", complete, true);
+	    this.isTransitioning = false;
 	}
 
 	this.target.addEventListener("transitionend", complete, true);
@@ -73,6 +87,9 @@ export class CollapseDirective {
     }
 
     hide() {
+	if (this.isTransitioning) {
+            return;
+        }
 	
 	let classList = this.target.classList;
 
@@ -86,9 +103,20 @@ export class CollapseDirective {
         classList.remove(ClassName.COLLAPSE);
         classList.remove(ClassName.SHOW);
 
+	this.target.setAttribute('aria-expanded', false);
+
+	if (this.trigger) {
+	    this.trigger.classList.add(ClassName.COLLAPSED);
+            this.trigger.setAttribute('aria-expanded', false);
+	}
+
 	this.target.style[dimension] = this.target[offsetDimension] + 'px';
+
+	this.isTransitioning = true;
         
 	let complete = () => {
+	    this.isTransitioning = false;
+
             classList.remove(ClassName.COLLAPSING);
             classList.add(ClassName.COLLAPSE);
 
