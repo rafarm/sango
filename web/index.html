@@ -21,11 +21,25 @@
 		<script src="systemjs.config.js"></script>
 		<script>
 			var googleChartsLoaded = false;
-			System.import('app').catch(function(err){ console.error(err); });
+			//System.import('app').catch(function(err){ console.error(err); });
 		</script>
 	</head>
 	<!-- 3. Display the application -->
 	<body>
-		<aa-app>Loading...</aa-app>
+		<aa-app>
+			<div class="container-fluid">
+                        	<div class="row align-items-center justify-content-center">
+                                	<div class="col-3">
+                                       		<img src="/assets/sango_logo.svg" width="200px" height="200px" alt="Sango" class="img-responsive"> 
+                                	</div>
+                        	</div>
+                        	<div class="row align-items-center justify-content-center">
+                                	<div class="col-3">
+                                       		<h1 class="text-center">Sango</h1>
+						<small class="text-muted text-center">Loading...</small>
+                                	</div>
+                        	</div>
+                	</div>
+		</aa-app>
 	</body>
 </html>
