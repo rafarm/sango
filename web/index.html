@@ -1,45 +1,45 @@
 <html>
-	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<base href="/">
-		<title>Sango - Academic data analisys platform</title>
-		<meta name="description" content="Application to analize and visualize academic data">
-    <meta name="author" content="Rafa Rubio">
-		<!-- Bootstrap core CSS -->
-    <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
-		<link rel="stylesheet" href="styles.css">
-		<!-- 1. Load libraries -->
-		<!-- Polyfill(s) for older browsers -->
-		<script src="node_modules/core-js/client/shim.min.js"></script>
-		<script src="node_modules/zone.js/dist/zone.js"></script>
-		<script src="node_modules/reflect-metadata/Reflect.js"></script>
-		<script src="node_modules/systemjs/dist/system.src.js"></script>
-		<!-- Google Chart -->
-		<script src="https://www.gstatic.com/charts/loader.js"></script>
-		<!-- 2. Configure SystemJS -->
-		<script src="systemjs.config.js"></script>
-		<script>
-			var googleChartsLoaded = false;
-			//System.import('app').catch(function(err){ console.error(err); });
-		</script>
-	</head>
-	<!-- 3. Display the application -->
-	<body>
-		<aa-app>
-			<div class="container-fluid">
-                        	<div class="row align-items-center justify-content-center">
-                                	<div class="col-3">
-                                       		<img src="/assets/sango_logo.svg" width="200px" height="200px" alt="Sango" class="img-responsive"> 
-                                	</div>
-                        	</div>
-                        	<div class="row align-items-center justify-content-center">
-                                	<div class="col-3">
-                                       		<h1 class="text-center">Sango</h1>
-						<small class="text-muted text-center">Loading...</small>
-                                	</div>
-                        	</div>
-                	</div>
-		</aa-app>
-	</body>
+    <head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<base href="/">
+	<title>Sango - Academic data analisys platform</title>
+	<meta name="description" content="Application to analize and visualize academic data">
+	<meta name="author" content="Rafa Rubio">
+	<!-- Bootstrap core CSS -->
+	<link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css">
+	<!-- 1. Load libraries -->
+	<!-- Polyfill(s) for older browsers -->
+	<script src="node_modules/core-js/client/shim.min.js"></script>
+	<script src="node_modules/zone.js/dist/zone.js"></script>
+	<script src="node_modules/reflect-metadata/Reflect.js"></script>
+	<script src="node_modules/systemjs/dist/system.src.js"></script>
+	<!-- Google Chart -->
+	<script src="https://www.gstatic.com/charts/loader.js"></script>
+	<!-- 2. Configure SystemJS -->
+	<script src="systemjs.config.js"></script>
+	<script>
+	    var googleChartsLoaded = false;
+	    System.import('app').catch(function(err){ console.error(err); });
+	</script>
+    </head>
+    <!-- 3. Display the application -->
+    <body>
+	<aa-app>
+	    <div class="container" style="height: 100%; display: flex; align-items: center;">
+		<div class="row justify-content-center">
+		    <div class="col">
+			<div class="media">
+			    <img src="/assets/sango_logo.svg" width="80px" height="80px" alt="Sango" class="d-flex mr-3">
+			    <div class="media-body">
+				<h1 class="mt-0">Sango</h1>
+				Loading...
+			    </div>
+			</div>
+		    </div>
+		</div>
+	    </div>
+	</aa-app>
+    </body>
 </html>
