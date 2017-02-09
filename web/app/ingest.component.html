@@ -1,0 +1,3 @@
+<input type="file" (change)="fileChangeEvent($event)" [disabled]="uploading">
+<button type="button" class="btn btn-primary" (click)="upload()" [disabled]="fileToUpload==null || uploading"><i class="fa fa-spinner fa-spin" style="font-size:24px" *ngIf="uploading"></i>{{button_text}}</button>
+<div>{{response | json}}</div>

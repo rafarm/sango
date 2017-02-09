@@ -1,10 +1,12 @@
 import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './dashboard.component';
-import { ViewerComponent } from './viewer.component';
+//import { DashboardComponent } from './dashboard.component';
+//import { ViewerComponent } from './viewer.component';
+import { IngestComponent } from './ingest.component';
 
 const appRoutes: Routes = [
+	/*
 	{
 		path: '',
 		redirectTo: '/dashboard',
@@ -17,6 +19,11 @@ const appRoutes: Routes = [
 	{
 		path: 'viewer',
 		component: ViewerComponent
+	}
+	*/
+	{
+		path: 'ingest',
+		component: IngestComponent
 	}
 ];
 

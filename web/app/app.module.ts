@@ -2,12 +2,12 @@ import { NgModule }      		from '@angular/core';
 import { BrowserModule } 		from '@angular/platform-browser';
 //import { FormsModule }   		from '@angular/forms';
 //import { HttpModule } 	 		from '@angular/http';
-//import { NgbModule }     		from '@ng-bootstrap/ng-bootstrap';
 
-//import { routing } 			from './app.routing';
+import { routing } 			from './app.routing';
 import { AppComponent }  		from './app.component';
 //import { DashboardComponent } 		from './dashboard.component';
 //import { ViewerComponent } 		from './viewer.component';
+import { IngestComponent } 		from './ingest.component';
 //import { AssessmentSelectorComponent } 	from './assessment-selector.component';
 //import { AssessmentTableComponent } 	from './assessment-table.component';
 //import { AssessmentGroupComponent } 	from './assessment-group.component';
@@ -21,14 +21,14 @@ import { CollapseDirective } 	from './directives/collapse.directive';
     imports: [
 	BrowserModule,
 	//FormsModule,
-	//routing,
-	//NgbModule.forRoot(),
+	routing,
 	//HttpModule
     ],
     declarations: [ 
 	AppComponent,
 	//DashboardComponent,
 	//ViewerComponent,
+	IngestComponent,
 	//AssessmentSelectorComponent,
 	//AssessmentTableComponent,
 	//AssessmentGroupComponent,
