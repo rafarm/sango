@@ -43,6 +43,12 @@ export class CollapseDirective {
 	    }
 
 	    this.trigger.setAttribute('aria-expanded', isOpen);
+	
+	    this.target.addEventListener('click', () => {
+		if (this.target.classList.contains(ClassName.SHOW)) {
+                    this.hide();
+                }
+	    });
 	}
     }
 
