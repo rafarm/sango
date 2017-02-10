@@ -1,3 +1,18 @@
+<div style="height: 100%; display: flex; align-items: center; justify-content: center">
+    <div class="card text-center" style="width: 30rem;">
+	<h4 class="card-header">Ingest</h4>
+        <div class="card-block">
+	    <h6 class="card-subtitle mb-2 text-muted">Upload a file containing academic data from your organization.</h6>
+	    <input type="file" (change)="fileChangeEvent($event)" [disabled]="uploading">
+	    <button type="button" class="btn btn-primary" (click)="upload()" [disabled]="fileToUpload==null || uploading">
+		<i class="fa fa-spinner fa-spin" style="font-size:24px" *ngIf="uploading"></i>
+		{{button_text}}
+	    </button>
+        </div>
+    </div>
+</div>
+<!--
 <input type="file" (change)="fileChangeEvent($event)" [disabled]="uploading">
 <button type="button" class="btn btn-primary" (click)="upload()" [disabled]="fileToUpload==null || uploading"><i class="fa fa-spinner fa-spin" style="font-size:24px" *ngIf="uploading"></i>{{button_text}}</button>
 <div>{{response | json}}</div>
+-->
