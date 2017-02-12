@@ -30,7 +30,7 @@ function parser(req, res) {
 
 function responseError(msg, res) {
     res.status(500);
-    res.json({msg: msg});
+    res.send(msg);
 }
 
 function parseDoc(doc, index, result, res) {
