@@ -1,7 +1,7 @@
 import { NgModule }      		from '@angular/core';
 import { BrowserModule } 		from '@angular/platform-browser';
 //import { FormsModule }   		from '@angular/forms';
-//import { HttpModule } 	 		from '@angular/http';
+import { HttpModule } 	 		from '@angular/http';
 
 import { routing } 			from './app.routing';
 import { AppComponent }  		from './app.component';
@@ -13,7 +13,7 @@ import { IngestComponent } 		from './ingest.component';
 //import { AssessmentGroupComponent } 	from './assessment-group.component';
 //import { AssessmentListComponent } 	from './assessment-list.component';
 //import { StudentDetailComponent } 	from './student-detail.component';
-//import { DataService } 			from './data.service';
+import { DataService } 			from './data.service';
 //import { GoogleChartDirective } 	from './directives/google-chart.directive';
 import { CollapseDirective } 	from './directives/collapse.directive';
 
@@ -22,7 +22,7 @@ import { CollapseDirective } 	from './directives/collapse.directive';
 	BrowserModule,
 	//FormsModule,
 	routing,
-	//HttpModule
+	HttpModule
     ],
     declarations: [ 
 	AppComponent,
@@ -37,7 +37,7 @@ import { CollapseDirective } 	from './directives/collapse.directive';
 	//GoogleChartDirective,
 	CollapseDirective
     ],
-    //providers: [ DataService ],
+    providers: [ DataService ],
     bootstrap: [ AppComponent ]
 })
 

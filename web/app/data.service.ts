@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -149,6 +151,38 @@ export class DataService {
      * Uploads a file to server.
      */
     uploadFile(file: File) {
+	let request = new Observable((observer: Observer<number>) => {
+	    let formData = new FormData();
+            let xhr = new XMLHttpRequest();
+
+            formData.append('upload', file, file.name);
+
+	    xhr.upload.onprogress = (event: ProgressEvent) => {
+		if (event.lengthComputable) {
+		    let completed = event.loaded / event.total * 100;
+		    observer.next(completed);
+		}
+		else {
+		    observer.next(-1);
+		}
+	    };
+
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        observer.complete();
+                    }
+                    else {
+                        observer.error(xhr.response);
+                    }
+                }
+            };
+
+            xhr.open('POST', this.apiUrl+'ingest', true);
+            xhr.send(formData);
+	});
+
+	/*
 	let request = new Promise((resolve, reject) => {
 	    let formData = new FormData();
 	    let xhr = new XMLHttpRequest();
@@ -169,6 +203,7 @@ export class DataService {
 	    xhr.open('POST', this.apiUrl+'ingest', true);
 	    xhr.send(formData);
 	});
+	*/
 
 	return request;
     } 

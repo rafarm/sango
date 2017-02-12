@@ -3,11 +3,13 @@
 	<h4 class="card-header">Ingest</h4>
         <div class="card-block">
 	    <h6 class="card-subtitle mb-2 text-muted">Upload a file containing academic data from your organization.</h6>
-	    <input type="file" (change)="fileChangeEvent($event)" [disabled]="uploading">
-	    <button type="button" class="btn btn-primary" (click)="upload()" [disabled]="fileToUpload==null || uploading">
-		<i class="fa fa-spinner fa-spin" style="font-size:24px" *ngIf="uploading"></i>
-		{{button_text}}
-	    </button>
+	    <div *ngIf="state==IngestState.SELECT">
+		<input type="file" (change)="fileChangeEvent($event)" style="width: 20rem;">
+		<button type="button" class="btn btn-primary" (click)="upload()" [disabled]="fileToUpload==null">Upload</button>
+	    </div>
+	    <div *ngIf="state!=IngestState.SELECT" class="progress">
+		<div class="progress-bar" role="progressbar" [style.width]="progress_msg" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{{progress_msg}}</div>
+	    </div>
         </div>
     </div>
 </div>
