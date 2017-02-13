@@ -15,6 +15,7 @@ var parser = require('../parsers/' + process.env.npm_package_config_parser);
  */
 router.post('/', upload.single('upload'), function (req, res, next) {
     console.log('Ingest - file received: '+ req.file.originalname);
+
     next();
 });
 

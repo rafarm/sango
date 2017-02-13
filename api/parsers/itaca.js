@@ -3,11 +3,13 @@ var xmldoc = require('xmldoc');
 
 function parser(req, res) {
     console.log('Ingest - parse init: '+ req.file.originalname);
+    /*
     if (req.file.mimetype != 'text/xml') {
-	responseError('Not an xml file.', res);
-	return;
+        res.status(500);
+        responseError('Not an xml file.', res);
+        return;
     }
-    
+    */
     var doc = new xmldoc.XmlDocument(req.file.buffer);
     if (doc.name != 'centro') {
         responseError('Invalid file format.', res);
