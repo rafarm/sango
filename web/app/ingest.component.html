@@ -5,19 +5,19 @@
 	    <h6 class="card-subtitle mb-2 text-muted">Upload a file containing academic data from your organization.</h6>
 	</div>
 	<div class="card-block">
-	    <input type="file" (change)="fileChangeEvent($event)" style="width: 20rem;" [disabled]="state!=IngestState.SELECT">
-	    <button type="button" class="btn btn-primary" (click)="upload()" [disabled]="fileToUpload==null" [disabled]="state!=IngestState.SELECT">Upload</button>
+	    <input type="file" (change)="fileChangeEvent($event)" style="width: 20rem;" [disabled]="state==IngestState.UPLOAD || state==IngestState.PROCESS">
+	    <button type="button" class="btn btn-primary" (click)="upload()" [disabled]="fileToUpload==null" [disabled]="upload_disabled()">Upload</button>
 	</div>
-	<div *ngIf="alert_show" class="card-block" style="text-align: start;">
-	    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	<div class="card-block" style="text-align: start;">
+            <div [ngClass]="alert_classes()" class="alert alert-danger alert-dismissible fade" role="alert">
+                <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button>
+                </button>-->
                 <strong>{{alert_title}}</strong> {{alert_msg}}
             </div>
         </div>
 	<div class="card-footer"> 
-	    <div class="progress">
+	    <div [ngClass]="progress_classes()" class="progress fade">
 		<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{{progress_msg}}</div>
 	    </div>
 	</div>

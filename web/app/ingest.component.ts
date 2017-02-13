@@ -9,29 +9,32 @@ import { DataService } from './data.service';
 })
 export class IngestComponent implements AfterViewInit {
     IngestState = {
+	NONE    : 'none',
 	SELECT  : 'select',
 	UPLOAD  : 'upload',
-	PROCESS : 'process'
+	PROCESS : 'process',
+	SUCCESS : 'success',
+	ERROR   : 'error'
     }
 
-    private state = this.IngestState.SELECT;
+    private state: string;
     private fileToUpload: File;
-    private response: any;
     private progress_value: number;
     private progress_msg: string;
     private progress_bar: any = null;
     private alert_title: string;
     private alert_msg: string;
-    private alert_show = false;
 
     constructor(private dataService: DataService) {}
 
     ngAfterViewInit() {
 	this.progress_bar = document.querySelector(".progress-bar");
+	this.state = this.IngestState.NONE;
     }
 
     fileChangeEvent(event: any) {
 	this.fileToUpload = event.target.files[0];
+	this.state = this.IngestState.SELECT;
     }
 
     upload() {
@@ -39,8 +42,6 @@ export class IngestComponent implements AfterViewInit {
 	this.progress_value = 0;
 	this.progress_msg = '0%';
 
-	this.alert_show = false;
-	
 	this.dataService.uploadFile(this.fileToUpload)
 	    .subscribe(
 		value => this.process_progress(value),
@@ -61,10 +62,52 @@ export class IngestComponent implements AfterViewInit {
     process_error(error: any) {
 	this.alert_title = "Error!";
 	this.alert_msg = error;
-	this.alert_show = true;
+
+	this.state = this.IngestState.ERROR;
+	
     }
 
-    process_finished() {
+   process_finished() {
 	// ToDo:
+    }
+
+    alert_classes() {
+	let show = this.state == this.IngestState.ERROR || this.state == this.IngestState.SUCCESS;
+	let danger = this.state == this.IngestState.ERROR;
+	let success = this.state == this.IngestState.SUCCESS;
+
+	let classes = {
+	    'show': show,
+	    'alert-danger': danger,
+	    'alert-success': success
+	};
+
+	return classes;
+    }
+
+    progress_classes() {
+        let show = this.state == this.IngestState.UPLOAD || this.state == this.IngestState.PROCESS;
+
+        let classes = {
+            'show': show,
+        };
+
+        return classes;
+    }
+
+    upload_disabled() {
+	let disabled: boolean;
+
+	switch (this.state) {
+	    case this.IngestState.SELECT:
+	    case this.IngestState.ERROR:
+	    case this.IngestState.SUCCESS:
+		disabled = false;
+		break;
+	    default:
+		disabled = true;
+	}
+
+	return disabled;
     }
 }
