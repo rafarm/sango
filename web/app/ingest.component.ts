@@ -51,10 +51,19 @@ export class IngestComponent implements AfterViewInit {
     }
 
     process_progress(value: any) {
-	this.progress_value = Math.floor(value);
-	this.progress_msg = this.progress_value + '%';
+	let parsed_value = Math.floor(value);
+	if (isNaN(parsed_value)) {
+	    this.progress_value = 100;
+	    this.progress_msg = value;
 
-	this.progress_bar.style.width = this.progress_msg;
+	    this.state = this.IngestState.PROCESS;
+	}
+	else {
+	    this.progress_value = Math.floor(parsed_value);
+	    this.progress_msg = this.progress_value + '%';
+	}
+
+	this.progress_bar.style.width = this.progress_value + '%';
 	this.progress_bar.innerHTML = this.progress_msg;
 	this.progress_bar.setAttribute('aria-valuenow', this.progress_value);
     }
@@ -68,7 +77,10 @@ export class IngestComponent implements AfterViewInit {
     }
 
    process_finished() {
-	// ToDo:
+	this.alert_title = "Success!";
+        this.alert_msg = "File processed without errors.";
+
+        this.state = this.IngestState.SUCCESS;
     }
 
     alert_classes() {
@@ -77,8 +89,8 @@ export class IngestComponent implements AfterViewInit {
 	let success = this.state == this.IngestState.SUCCESS;
 
 	let classes = {
-	    'show': show,
-	    'alert-danger': danger,
+	    'show'         : show,
+	    'alert-danger' : danger,
 	    'alert-success': success
 	};
 
@@ -87,9 +99,12 @@ export class IngestComponent implements AfterViewInit {
 
     progress_classes() {
         let show = this.state == this.IngestState.UPLOAD || this.state == this.IngestState.PROCESS;
+	let striped = this.state == this.IngestState.PROCESS;
 
         let classes = {
-            'show': show,
+	    'progress-bar-striped' : striped,
+	    'progress-bar-animated': striped,
+            'show'                 : show
         };
 
         return classes;

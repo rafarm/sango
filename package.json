@@ -13,7 +13,8 @@
   "config": {
     "port": "3000",
     "db_url": "mongodb://localhost:27017/sango",
-    "parser": "itaca"
+    "parser": "itaca",
+    "upload_path": "/tmp/sango-uploads"
   },
   "repository": {
     "type": "git",

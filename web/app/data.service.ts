@@ -151,7 +151,7 @@ export class DataService {
      * Uploads a file to server.
      */
     uploadFile(file: File) {
-	let request = new Observable((observer: Observer<number>) => {
+	let request = new Observable((observer: Observer<any>) => {
 	    let formData = new FormData();
             let xhr = new XMLHttpRequest();
 
@@ -163,13 +163,15 @@ export class DataService {
 		    observer.next(completed);
 		}
 		else {
-		    observer.next(-1);
+		    observer.next("Uploading...");
 		}
 	    };
 
             xhr.onreadystatechange = () => {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
+			//let evtSource = new EventSource
+			console.log("Uploaded file name: " + xhr.response); 
                         observer.complete();
                     }
                     else {
