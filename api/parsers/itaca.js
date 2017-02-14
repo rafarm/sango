@@ -1,15 +1,23 @@
 var mongodb = require('../mongo_connection');
 var xmldoc = require('xmldoc');
+var fs = require('fs');
+var path = process.env.npm_package_config_upload_path;
 
 function parser(req, res) {
-    console.log('Ingest - parse init: '+ req.params.name);
     /*
+    console.log('Ingest - parse init: '+ req.params.name);
+    
     if (req.file.mimetype != 'text/xml') {
         res.status(500);
         responseError('Not an xml file.', res);
         return;
     }
     */
+
+    var buffer = fs.readFile(path + '/' + req.params.name);
+    setupEvents(res);
+    sendEvent(res, "File read...");
+    /*
     var doc = new xmldoc.XmlDocument(req.file.buffer);
     if (doc.name != 'centro') {
         responseError('Invalid file format.', res);
@@ -28,6 +36,19 @@ function parser(req, res) {
 	    res.status(500);
 	    res.json(error);	    
 	});
+    */
+}
+
+function setupEvents(res) {
+    res.writeHead(200, {
+	'Content-Type': 'text/event-stream',
+	'Cache-Control': 'no-cache',
+	'Connection': 'keep-alive'
+    });
+}
+
+function sendEvent(res, data) {
+    res.write("data: " + data + "\n\n");
 }
 
 function responseError(msg, res) {

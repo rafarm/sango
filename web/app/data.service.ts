@@ -3,7 +3,10 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 
+declare var EventSource: any;
+
 import 'rxjs/add/operator/toPromise';
+
 
 import { SelectorCoursesTree } from './model/selector-courses-tree';
 import { Course } from './model/course';
@@ -170,10 +173,10 @@ export class DataService {
             xhr.onreadystatechange = () => {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
-			let name = xhr.response;
+			let name = xhr.response; // Uploaded file name on server returned.
 
 			let evtSource = new EventSource(this.apiUrl+'ingest/'+name);
-			evtSource.onmessage = (e) => {
+			evtSource.onmessage = (e: any) => {
 				observer.next(e.data);
 			}
                         //observer.complete();

@@ -27,6 +27,6 @@ router.post('/', upload.single('upload'), function (req, res, next) {
  * User package defined parser to parse and
  * ingest uploaded data file with name 'name'.
  */
-router.post('/:name', parser);
+router.get('/:name', parser);
 
 module.exports = router;
