@@ -170,9 +170,13 @@ export class DataService {
             xhr.onreadystatechange = () => {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
-			//let evtSource = new EventSource
-			console.log("Uploaded file name: " + xhr.response); 
-                        observer.complete();
+			let name = xhr.response;
+
+			let evtSource = new EventSource(this.apiUrl+'ingest/'+name);
+			evtSource.onmessage = (e) => {
+				observer.next(e.data);
+			}
+                        //observer.complete();
                     }
                     else {
                         observer.error(xhr.response);

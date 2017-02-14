@@ -2,7 +2,7 @@ var mongodb = require('../mongo_connection');
 var xmldoc = require('xmldoc');
 
 function parser(req, res) {
-    console.log('Ingest - parse init: '+ req.file.originalname);
+    console.log('Ingest - parse init: '+ req.params.name);
     /*
     if (req.file.mimetype != 'text/xml') {
         res.status(500);
