@@ -38,9 +38,11 @@ export class IngestComponent implements AfterViewInit {
     }
 
     upload() {
-	this.state = this.IngestState.UPLOAD;
 	this.progress_value = 0;
 	this.progress_msg = '0%';
+	this.state = this.IngestState.UPLOAD;
+
+	this.show_progress();
 
 	this.dataService.uploadFile(this.fileToUpload)
 	    .subscribe(
@@ -63,9 +65,7 @@ export class IngestComponent implements AfterViewInit {
 	    this.progress_msg = this.progress_value + '%';
 	}
 
-	this.progress_bar.style.width = this.progress_value + '%';
-	this.progress_bar.innerHTML = this.progress_msg;
-	this.progress_bar.setAttribute('aria-valuenow', this.progress_value);
+        this.show_progress();
     }
 
     process_error(error: any) {
@@ -81,6 +81,12 @@ export class IngestComponent implements AfterViewInit {
         this.alert_msg = "File processed without errors.";
 
         this.state = this.IngestState.SUCCESS;
+    }
+
+    show_progress() {
+        this.progress_bar.style.width = this.progress_value + '%';
+        this.progress_bar.innerHTML = this.progress_msg;
+        this.progress_bar.setAttribute('aria-valuenow', this.progress_value);
     }
 
     alert_classes() {
