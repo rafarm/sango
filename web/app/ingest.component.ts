@@ -87,6 +87,15 @@ export class IngestComponent implements AfterViewInit {
         this.progress_bar.style.width = this.progress_value + '%';
         this.progress_bar.innerHTML = this.progress_msg;
         this.progress_bar.setAttribute('aria-valuenow', this.progress_value);
+
+	if (this.state == this.IngestState.PROCESS) {
+            this.progress_bar.classList.add('progress-bar-striped');
+            this.progress_bar.classList.add('progress-bar-animated');
+	}
+	else {
+            this.progress_bar.classList.remove('progress-bar-striped');
+            this.progress_bar.classList.remove('progress-bar-animated');
+	}
     }
 
     alert_classes() {
@@ -105,11 +114,8 @@ export class IngestComponent implements AfterViewInit {
 
     progress_classes() {
         let show = this.state == this.IngestState.UPLOAD || this.state == this.IngestState.PROCESS;
-	let striped = this.state == this.IngestState.PROCESS;
 
         let classes = {
-	    'progress-bar-striped' : striped,
-	    'progress-bar-animated': striped,
             'show'                 : show
         };
 

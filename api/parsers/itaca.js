@@ -4,25 +4,31 @@ var fs = require('fs');
 var path = process.env.npm_package_config_upload_path;
 
 function parser(req, res) {
-    /*
-    console.log('Ingest - parse init: '+ req.params.name);
-    
-    if (req.file.mimetype != 'text/xml') {
-        res.status(500);
-        responseError('Not an xml file.', res);
-        return;
+    // Open file
+    try {
+        var buffer = fs.readFileSync(path + '/' + req.params.name);
     }
-    */
-
-    var buffer = fs.readFile(path + '/' + req.params.name);
-    res.sseEnd("File loaded...");
-    /*
-    var doc = new xmldoc.XmlDocument(req.file.buffer);
-    if (doc.name != 'centro') {
-        responseError('Invalid file format.', res);
+    catch(err) {
+        res.sseError(err.message);
+	return;
+    }
+    res.sseSend('Processing file...');
+    
+    // Parse XML data
+    try {
+        var doc = new xmldoc.XmlDocument(buffer);
+    }
+    catch(err) {
+        res.sseError('Invalid XML file.');
 	return;
     }
 
+    // Init file processing
+    if (doc.name != 'centro') {
+        res.sseError('Invalid file format.');
+	return;
+    }
+    /*
     // Insert school data...
     mongodb.db.collection('schools').updateOne(
 	{_id: doc.attr.codigo },
