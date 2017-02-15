@@ -28,41 +28,29 @@ function parser(req, res) {
         res.sseError('Invalid file format.');
 	return;
     }
-    /*
+    
     // Insert school data...
     mongodb.db.collection('schools').updateOne(
 	{_id: doc.attr.codigo },
 	{ $set: { name: doc.attr.denominacion } },
 	{ upsert: true })
-	.then(function(result) {
-	    parseDoc(doc, 0, {}, res);
+	.then(result => {
+	    //parseDoc(doc, 0, {}, res);
+            parseDoc(doc, res);
 	})
-	.catch(function(error) {
-	    res.status(500);
-	    res.json(error);	    
+	.catch(error => {
+	    res.sseError(error);	    
 	});
-    */
 }
+
+function parseDoc(doc, res) {
+    // Parse stages
+    //var stages = doc.childNamed('ensenyanzas');
+
+	
+}
+
 /*
-function sendEventMessage(res, data) {
-    res.write("data: " + data + "\n\n");
-}
-
-function sendEventError(res, data) {
-    res.write("event: error\n");
-    sendEventMessage(res, data);
-}
-
-function sendEventEnd(res, data) {
-    res.write("event: end\n");
-    sendEventMessage(res, data);
-}
-*/
-function responseError(msg, res) {
-    res.status(500);
-    res.send(msg);
-}
-
 function parseDoc(doc, index, result, res) {
     if (index < doc.children.length) {
 	var child = doc.children[index];
@@ -84,6 +72,7 @@ function parseDoc(doc, index, result, res) {
         res.json(result);
     }
 }
+*/
 
 function parseChildren(item, process, collection, doc, index, result, res) {
     var operations = [];
