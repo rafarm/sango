@@ -20,7 +20,36 @@ var parser = require('../parsers/' + process.env.npm_package_config_parser);
 router.post('/', upload.single('upload'), function (req, res, next) {
     console.log('Ingest - file received: '+ req.file.originalname);
     res.send(req.file.filename);
-    //next();
+});
+
+/*
+ * After uploading file, client inits a SSE connection
+ * for tracking file processing.
+ *
+ * First, set required headers and add SSE utility functions to res.
+ */
+router.get('/:name', function (req, res, next) {
+    res.writeHead(200, {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive'
+    });
+
+    res.sseSend = (data) => {
+	res.write("data: " + data + "\n\n");
+    };
+
+    res.sseError = (data) => {
+	res.write("event: error\n");
+	res.sseSend(data);
+    };
+
+    res.sseEnd = (data) => {
+	res.write("event: end\n");
+	res.sseSend(data);
+    };
+
+    next();
 });
 
 /*

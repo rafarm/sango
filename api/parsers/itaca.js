@@ -15,8 +15,7 @@ function parser(req, res) {
     */
 
     var buffer = fs.readFile(path + '/' + req.params.name);
-    setupEvents(res);
-    sendEvent(res, "File read...");
+    res.sseEnd("File loaded...");
     /*
     var doc = new xmldoc.XmlDocument(req.file.buffer);
     if (doc.name != 'centro') {
@@ -38,19 +37,21 @@ function parser(req, res) {
 	});
     */
 }
-
-function setupEvents(res) {
-    res.writeHead(200, {
-	'Content-Type': 'text/event-stream',
-	'Cache-Control': 'no-cache',
-	'Connection': 'keep-alive'
-    });
-}
-
-function sendEvent(res, data) {
+/*
+function sendEventMessage(res, data) {
     res.write("data: " + data + "\n\n");
 }
 
+function sendEventError(res, data) {
+    res.write("event: error\n");
+    sendEventMessage(res, data);
+}
+
+function sendEventEnd(res, data) {
+    res.write("event: end\n");
+    sendEventMessage(res, data);
+}
+*/
 function responseError(msg, res) {
     res.status(500);
     res.send(msg);

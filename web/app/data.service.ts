@@ -176,10 +176,20 @@ export class DataService {
 			let name = xhr.response; // Uploaded file name on server returned.
 
 			let evtSource = new EventSource(this.apiUrl+'ingest/'+name);
+			
 			evtSource.onmessage = (e: any) => {
 				observer.next(e.data);
 			}
-                        //observer.complete();
+
+			evtSource.addEventListener("end", (e: any) => {
+			    observer.complete();
+			    evtSource.close();
+			}, false);
+
+			evtSource.addEventListener("error", (e: any) => {
+                            observer.error(e.data);
+                            evtSource.close();
+                        }, false);
                     }
                     else {
                         observer.error(xhr.response);
