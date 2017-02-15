@@ -36,45 +36,69 @@ function parser(req, res) {
 	{ upsert: true })
 	.then(result => {
 	    //parseDoc(doc, 0, {}, res);
-            parseDoc(doc, res);
+            parseDoc(doc, 'ensenyanzas', res);
 	})
 	.catch(error => {
 	    res.sseError(error);	    
 	});
 }
 
-function parseDoc(doc, res) {
-    // Parse stages
-    //var stages = doc.childNamed('ensenyanzas');
-
+// Use recursion to parse data file...
+function parseDoc(doc, childName,  res) {
+    if (childName != null) {
+	var child = doc.childNamed(childName);
 	
-}
-
-/*
-function parseDoc(doc, index, result, res) {
-    if (index < doc.children.length) {
-	var child = doc.children[index];
-
 	switch (child.name) {
-	    case 'contenidos':
-                parseChildren(child, processSubject, 'subjects', doc, index, result, res);
-		//parseSubjects(child, doc, index, result, res);
-		break;
-	    case 'alumnos':
-                parseChildren(child, processStudent, 'students', doc, index, result, res);
-		//parseStudents(child, doc, index, result, res);
-		break;
-	    default: // Continue...
-		parseDoc(doc, ++index, result, res);
-	}
+            case 'ensenyanzas':
+                parseStages(child, doc, res);
+                break;
+            default: // Error...
+                res.sseError(childName + ' entity data missing.');
+        }
     }
     else {
-        res.json(result);
+	res.sseEnd('OK');
     }
 }
-*/
 
-function parseChildren(item, process, collection, doc, index, result, res) {
+function parseStages(item, doc, res) {
+    var operations = [];
+
+    for (var i=0; i<item.children.length; i++) {
+        var child = item.children[i];
+
+	if (child.name == 'ensenyanza') {
+	    var op = {
+		updateOne: { // TODO: change to Ensenyanza's attributes...
+		    filter: { _id: child.attr.codigo },
+		    update: { $set: {
+			level: sub.attr.ensenanza,
+			name: sub.attr.nombre_val,
+			school_id: doc.attr.codigo
+		    } },
+		    upsert: true
+		}
+	    };
+
+	    operations.push(op);
+	}
+    }
+
+    if (operations.length > 0) {
+	mongodb.db.stages.bulkWrite(operations)
+	    .then(resp => {
+		parseDoc(doc, null, res);
+	    })
+	    .catch(error => {
+		res.sseError(error);
+	    });
+    }
+    else {
+	res.sseError('No stages found in data file');
+    }
+}
+
+function parseChildren(item, process, collection, doc, res) {
     var operations = [];
 
     for (var i=0; i<item.children.length; i++) {
@@ -84,7 +108,7 @@ function parseChildren(item, process, collection, doc, index, result, res) {
 
     mongodb.db.collection(collection).bulkWrite(operations)
         .then(function(resp) {
-            result[collection] = resp.nInserted + resp.nUpserted + resp.nMatched;
+            //result[collection] = resp.nInserted + resp.nUpserted + resp.nMatched;
             parseDoc(doc, ++index, result, res);
         })
         .catch(function(error) {
