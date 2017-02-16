@@ -52,7 +52,15 @@ function parseDoc(doc, childName, res) {
 	    switch (child.name) {
                 case 'ensenanzas':
 		    res.sseSend('Processing stages...');
-                    parseChildren(child, processStage, 'stages', null, doc, res);
+                    parseChildren(child, processStage, 'stages', 'cursos', doc, res);
+                    break;
+                case 'cursos':
+                    res.sseSend('Processing courses...');
+                    parseChildren(child, processCourse, 'courses', 'contenidos', doc, res);
+                    break;
+	        case 'contenidos':
+                    res.sseSend('Processing subjects...');
+                    parseChildren(child, processSubject, 'subjects', null, doc, res);
                     break;
                 default: // Error...
                     res.sseError('"' + childName + '" entity data not processed.');
@@ -112,15 +120,36 @@ function processStage(child) {
     return null;
 }
 
-function processSubject(sub, doc) {
-    if (sub.name == 'contenido') {
+function processCourse(child) {
+    if (child.name == 'curso') {
         var op = {
             updateOne: {
-                filter: { _id: sub.attr.codigo },
+                filter: { _id: child.attr.codigo },
                 update: { $set: {
-                    level: sub.attr.ensenanza,
-                    name: sub.attr.nombre_val,
-                    school_id: doc.attr.codigo
+                    stage_id: child.attr.ensenanza,
+                    name: child.attr.nombre_val,
+                    short_name: child.attr.abreviatura,
+                    parent_id: child.attr.padre
+                } },
+                upsert: true
+            }
+        };
+
+        return op;
+    }
+
+    return null;
+}
+
+function processSubject(child) {
+    if (child.name == 'contenido') {
+        var op = {
+            updateOne: {
+                filter: { _id: child.attr.codigo },
+                update: { $set: {
+                    name: child.attr.nombre_val,
+                    stage_id: child.attr.ensenanza,
+                    course_id: child.attr.curso
                 } },
                 upsert: true 
             }
