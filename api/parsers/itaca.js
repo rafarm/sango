@@ -60,7 +60,11 @@ function parseDoc(doc, childName, res) {
                     break;
 	        case 'contenidos':
                     res.sseSend('Processing subjects...');
-                    parseChildren(child, processSubject, 'subjects', null, doc, res);
+                    parseChildren(child, processSubject, 'subjects', 'grupos', doc, res);
+                    break;
+		case 'grupos':
+                    res.sseSend('Processing groups...');
+                    parseChildren(child, processGroup, 'groups', null, doc, res);
                     break;
                 default: // Error...
                     res.sseError('"' + childName + '" entity data not processed.');
@@ -81,7 +85,7 @@ function parseChildren(item, process, collection, next, doc, res) {
     for (var i=0; i<item.children.length; i++) {
         var child = item.children[i];
 
-	var op = process(child);
+	var op = process(child, doc);
 	if (op != null) {
 	    operations.push(op);
 	}
@@ -101,7 +105,7 @@ function parseChildren(item, process, collection, next, doc, res) {
     }
 }
 
-function processStage(child) {
+function processStage(child, doc) {
     if (child.name == 'ensenanza') {
         var op = {
             updateOne: {
@@ -120,7 +124,7 @@ function processStage(child) {
     return null;
 }
 
-function processCourse(child) {
+function processCourse(child, doc) {
     if (child.name == 'curso') {
         var op = {
             updateOne: {
@@ -141,7 +145,7 @@ function processCourse(child) {
     return null;
 }
 
-function processSubject(child) {
+function processSubject(child, doc) {
     if (child.name == 'contenido') {
         var op = {
             updateOne: {
@@ -152,6 +156,29 @@ function processSubject(child) {
                     course_id: child.attr.curso
                 } },
                 upsert: true 
+            }
+        };
+
+        return op;
+    }
+
+    return null;
+}
+
+function processGroup(child, doc) {
+    if (child.name == 'grupo') {
+	var id = doc.attr.codigo + child.attr.codigo + doc.attr.curso;
+        var op = {
+            updateOne: {
+                filter: { _id: id },
+                update: { $set: {
+                    short_name: child.attr.codigo,
+		    school_id: doc.attr.codigo,
+		    year: doc.attr.curso,
+		    name: child.attr.nombre,
+                    stage_id: child.attr.ensenanza,
+                } },
+                upsert: true
             }
         };
 
