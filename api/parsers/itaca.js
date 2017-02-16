@@ -36,7 +36,7 @@ function parser(req, res) {
 	{ upsert: true })
 	.then(result => {
 	    //parseDoc(doc, 0, {}, res);
-            parseDoc(doc, 'ensenyanzas', res);
+            parseDoc(doc, 'ensenanzas', res);
 	})
 	.catch(error => {
 	    res.sseError(error);	    
@@ -46,15 +46,21 @@ function parser(req, res) {
 // Use recursion to parse data file...
 function parseDoc(doc, childName,  res) {
     if (childName != null) {
-	var child = doc.childNamed(childName);
-	
-	switch (child.name) {
-            case 'ensenyanzas':
-                parseStages(child, doc, res);
-                break;
-            default: // Error...
-                res.sseError(childName + ' entity data missing.');
+    	var child = doc.childNamed(childName);
+    
+    	if (child != undefined) {
+	    switch (child.name) {
+                case 'ensenanzas':
+		    res.sseSend('Processing stages...');
+                    parseStages(child, doc, res);
+                    break;
+                default: // Error...
+                    res.sseError('"' + childName + '" entity data not processed.');
+            }
         }
+	else {
+	    res.sseError('"' + childName + '" entity not found in data file.');
+	}
     }
     else {
 	res.sseEnd('OK');
@@ -67,25 +73,14 @@ function parseStages(item, doc, res) {
     for (var i=0; i<item.children.length; i++) {
         var child = item.children[i];
 
-	if (child.name == 'ensenyanza') {
-	    var op = {
-		updateOne: { // TODO: change to Ensenyanza's attributes...
-		    filter: { _id: child.attr.codigo },
-		    update: { $set: {
-			level: sub.attr.ensenanza,
-			name: sub.attr.nombre_val,
-			school_id: doc.attr.codigo
-		    } },
-		    upsert: true
-		}
-	    };
-
+	var op = processStage(child);
+	if (op != null) {
 	    operations.push(op);
 	}
     }
 
     if (operations.length > 0) {
-	mongodb.db.stages.bulkWrite(operations)
+	mongodb.db.collection('stages').bulkWrite(operations)
 	    .then(resp => {
 		parseDoc(doc, null, res);
 	    })
@@ -115,6 +110,25 @@ function parseChildren(item, process, collection, doc, res) {
             res.status(500);
             res.json(error);
         });
+}
+
+function processStage(child) {
+    if (child.name == 'ensenanza') {
+        var op = {
+            updateOne: {
+                filter: { _id: child.attr.ensenanza },
+                update: { $set: {
+                    name: child.attr.nombre_val,
+                    short_name: child.attr.abreviatura
+                } },
+                upsert: true
+            }
+        };
+
+        return op;
+    }
+
+    return null;
 }
 
 function processSubject(sub, doc) {
