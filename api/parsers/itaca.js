@@ -64,7 +64,10 @@ function parseDoc(doc, childName, res) {
                     break;
 		case 'grupos':
                     res.sseSend('Processing groups...');
-                    parseChildren(child, processGroup, 'groups', null, doc, res);
+                    parseChildren(child, processGroup, 'groups','cursos_grupo', doc, res);
+                    break;
+		case 'cursos_grupo':
+                    parseChildren(child, processCourseGroup, 'groups', null, doc, res);
                     break;
                 default: // Error...
                     res.sseError('"' + childName + '" entity data not processed.');
@@ -179,6 +182,24 @@ function processGroup(child, doc) {
                     stage_id: child.attr.ensenanza,
                 } },
                 upsert: true
+            }
+        };
+
+        return op;
+    }
+
+    return null;
+}
+
+function processCourseGroup(child, doc) {
+    if (child.name == 'curso_grupo') {
+        var id = doc.attr.codigo + child.attr.grupo + doc.attr.curso;
+        var op = {
+            updateOne: {
+                filter: { _id: id },
+                update: { $addToSet: {
+                    courses: child.attr.curso
+                } }
             }
         };
 
