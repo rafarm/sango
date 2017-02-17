@@ -64,10 +64,14 @@ function parseDoc(doc, childName, res) {
                     break;
 		case 'grupos':
                     res.sseSend('Processing groups...');
-                    parseChildren(child, processGroup, 'groups','cursos_grupo', doc, res);
+                    parseChildren(child, processGroup, 'groups', 'cursos_grupo', doc, res);
                     break;
 		case 'cursos_grupo':
-                    parseChildren(child, processCourseGroup, 'groups', null, doc, res);
+                    parseChildren(child, processCourseGroup, 'groups', 'alumnos', doc, res);
+                    break;
+		case 'alumnos':
+                    res.sseSend('Processing students...');
+                    parseChildren(child, processStudent, 'students', null, doc, res);
                     break;
                 default: // Error...
                     res.sseError('"' + childName + '" entity data not processed.');
@@ -209,18 +213,26 @@ function processCourseGroup(child, doc) {
     return null;
 }
 
-function processStudent(st, doc) {
-    if (st.name == 'alumno') {
+function processStudent(child, doc) {
+    if (child.name == 'alumno') {
         var op = {
             updateOne: {
-                filter: { _id: st.attr.NIA },
+                filter: { _id: child.attr.NIA },
                 update: { $set: {
-                    last_name: st.attr.apellido1 + ' ' + st.attr.apellido2,
-                    first_name: st.attr.nombre,
-                    birth_date: new Date(st.attr.fecha_nac),
-                    gender: st.attr.sexo == 'H' ? 'M' : 'F',
-                    school_id: doc.attr.codigo
-                } },
+                    last_name: child.attr.apellido1 + ' ' + child.attr.apellido2,
+                    first_name: child.attr.nombre,
+                    birth_date: new Date(child.attr.fecha_nac),
+                    gender: child.attr.sexo == 'H' ? 'M' : 'F'
+                }, $addToSet: {
+		    enrolments: {
+			school_id: doc.attr.codigo,
+			stage_id: child.attr.ensenanza,
+			course_id: child.attr.curso,
+			group_id: doc.attr.codigo + child.attr.grupo + doc.attr.curso,
+			active: child.attr.estado_matricula == 'M',
+			repeats: child.attr.repite != '0'
+		    }
+		} },
                 upsert: true
             }
         };
