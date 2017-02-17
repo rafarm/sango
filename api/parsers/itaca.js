@@ -35,7 +35,7 @@ function parser(req, res) {
 	{ $set: { name: doc.attr.denominacion } },
 	{ upsert: true })
 	.then(result => {
-	    //parseDoc(doc, 0, {}, res);
+	    // Parse document
             parseDoc(doc, 'ensenanzas', res);
 	})
 	.catch(error => {
@@ -76,8 +76,11 @@ function parseDoc(doc, childName, res) {
 		case 'medidas_neses':
                     parseChildren(child, processNese, 'students', 'compensatorias', doc, res);
                     break;
-                 case 'compensatorias':
-                    parseChildren(child, processComp, 'students', null, doc, res);
+                case 'compensatorias':
+                    parseChildren(child, processComp, 'students', 'contenidos_alumno', doc, res);
+                    break;
+		case 'contenidos_alumno':
+                    parseChildren(child, processSubjectStudent, 'students', null, doc, res);
                     break;
                 default: // Error...
                     res.sseError('"' + childName + '" entity data not processed.');
@@ -271,7 +274,7 @@ function processEdMeasure(child, name, doc) {
                         'enrolments.year': doc.attr.curso
                     },
                     update: { $addToSet: {
-                        'enrolments.$.ed_measure': measure
+                        'enrolments.$.ed_measures': measure
                     } }
                 }
             };
@@ -289,6 +292,30 @@ function getEdMeasure(m_id, doc) {
 
     if (m != undefined) {
     	return m.attr.nombre_val;
+    }
+
+    return null;
+}
+
+function processSubjectStudent(child, doc) {
+    if (child.name == 'contenido_alumno' && child.attr.curso_pendiente == ' ') {
+        var op = {
+            updateOne: {
+                filter: {
+                    _id: child.attr.alumno,
+                    'enrolments.school_id': doc.attr.codigo,
+                    'enrolments.year': doc.attr.curso
+                },
+                update: { $addToSet: {
+                    'enrolments.$.subjects': {
+                        subject_id: child.attr.contenido,
+			adapted: child.attr.acis == 'S'
+		    }
+                } }
+            }
+        };
+
+        return op;
     }
 
     return null;
