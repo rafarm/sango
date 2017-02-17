@@ -224,9 +224,10 @@ function processCourseGroup(child, doc) {
 
 function processStudent(child, doc) {
     if (child.name == 'alumno') {
+	var group = doc.attr.codigo + child.attr.grupo + doc.attr.curso;
         var op = {
             updateOne: {
-                filter: { _id: child.attr.NIA },
+                filter: { _id: child.attr.NIA, 'enrolments.group_id': { $ne: group } },
                 update: { $set: {
                     last_name: child.attr.apellido1 + ' ' + child.attr.apellido2,
                     first_name: child.attr.nombre,
@@ -238,7 +239,7 @@ function processStudent(child, doc) {
                         year: doc.attr.curso,
 			stage_id: child.attr.ensenanza,
 			course_id: child.attr.curso,
-			group_id: doc.attr.codigo + child.attr.grupo + doc.attr.curso,
+			group_id: group,
 			active: child.attr.estado_matricula == 'M',
 			repeats: child.attr.repite != '0'
 		    }
