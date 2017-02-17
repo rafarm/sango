@@ -71,10 +71,13 @@ function parseDoc(doc, childName, res) {
                     break;
 		case 'alumnos':
                     res.sseSend('Processing students...');
-                    parseChildren(child, processStudent, 'students', 'neses', doc, res);
+                    parseChildren(child, processStudent, 'students', 'medidas_neses', doc, res);
                     break;
-		case 'neses':
-                    parseChildren(child, processNese, 'students', null, doc, res);
+		case 'medidas_neses':
+                    parseChildren(child, processNese, 'students', 'compensatorias', doc, res);
+                    break;
+                 case 'compensatorias':
+                    parseChildren(child, processComp, 'students', null, doc, res);
                     break;
                 default: // Error...
                     res.sseError('"' + childName + '" entity data not processed.');
@@ -111,7 +114,7 @@ function parseChildren(item, process, collection, next, doc, res) {
 	    });
     }
     else {
-	res.sseError('No ' + collection + ' found in data file');
+	res.sseError('No ' + item.name + ' found in data file');
     }
 }
 
@@ -248,18 +251,26 @@ function processStudent(child, doc) {
 }
 
 function processNese(child, doc) {
-    if (child.name == 'medida_nese') {
-	var measure = getEdMeasure(child.attr.medida_educativa, doc);
-	
-	if (measure != null) {
+    return processEdMeasure(child, 'medida_nese', doc);
+}
+
+function processComp(child, doc) {
+    return processEdMeasure(child, 'compensatoria', doc);
+}
+
+function processEdMeasure(child, name, doc) {
+    if (child.name == name) {
+        var measure = getEdMeasure(child.attr.medida_educativa, doc);
+
+        if (measure != null) {
             var op = {
                 updateOne: {
-                    filter: { 
+                    filter: {
                         _id: child.attr.alumno,
                         'enrolments.school_id': doc.attr.codigo,
-		        'enrolments.year': doc.attr.curso
+                        'enrolments.year': doc.attr.curso
                     },
-                    update: { $set: {
+                    update: { $addToSet: {
                         'enrolments.$.ed_measure': measure
                     } }
                 }
