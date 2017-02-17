@@ -71,7 +71,10 @@ function parseDoc(doc, childName, res) {
                     break;
 		case 'alumnos':
                     res.sseSend('Processing students...');
-                    parseChildren(child, processStudent, 'students', null, doc, res);
+                    parseChildren(child, processStudent, 'students', 'neses', doc, res);
+                    break;
+		case 'neses':
+                    parseChildren(child, processNese, 'students', null, doc, res);
                     break;
                 default: // Error...
                     res.sseError('"' + childName + '" entity data not processed.');
@@ -226,6 +229,7 @@ function processStudent(child, doc) {
                 }, $addToSet: {
 		    enrolments: {
 			school_id: doc.attr.codigo,
+                        year: doc.attr.curso,
 			stage_id: child.attr.ensenanza,
 			course_id: child.attr.curso,
 			group_id: doc.attr.codigo + child.attr.grupo + doc.attr.curso,
@@ -238,6 +242,42 @@ function processStudent(child, doc) {
         };
 
         return op;
+    }
+
+    return null;
+}
+
+function processNese(child, doc) {
+    if (child.name == 'medida_nese') {
+	var measure = getEdMeasure(child.attr.medida_educativa, doc);
+	
+	if (measure != null) {
+            var op = {
+                updateOne: {
+                    filter: { 
+                        _id: child.attr.alumno,
+                        'enrolments.school_id': doc.attr.codigo,
+		        'enrolments.year': doc.attr.curso
+                    },
+                    update: { $set: {
+                        'enrolments.$.ed_measure': measure
+                    } }
+                }
+            };
+
+            return op;
+        }
+    }
+
+    return null;
+}
+
+function getEdMeasure(m_id, doc) {
+    var measures = doc.childNamed('medidas_educativas');
+    var m = measures.childWithAttribute('codigo', m_id);
+
+    if (m != undefined) {
+    	return m.attr.nombre_val;
     }
 
     return null;
