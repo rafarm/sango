@@ -80,7 +80,11 @@ function parseDoc(doc, childName, res) {
                     parseChildren(child, processComp, 'students', 'contenidos_alumno', doc, res);
                     break;
 		case 'contenidos_alumno':
-                    parseChildren(child, processSubjectStudent, 'students', null, doc, res);
+                    parseChildren(child, processSubjectStudent, 'students', 'evaluaciones', doc, res);
+                    break;
+		case 'evaluaciones':
+                    res.sseSend('Processing assessments...');
+                    parseChildren(child, processAssessment, 'assessments', null, doc, res);
                     break;
                 default: // Error...
                     res.sseError('"' + childName + '" entity data not processed.');
@@ -313,6 +317,30 @@ function processSubjectStudent(child, doc) {
 			adapted: child.attr.acis == 'S'
 		    }
                 } }
+            }
+        };
+
+        return op;
+    }
+
+    return null;
+}
+
+function processAssessment(child, doc) {
+    if (child.name == 'evaluacion' && child.attr.curso != ' ') {
+	var id = doc.attr.codigo + child.attr.curso + child.attr.codigo + doc.attr.curso;
+        var op = {
+            updateOne: {
+                filter: { _id: id },
+                update: { $set: {
+                    school_id: doc.attr.codigo,
+                    year: doc.attr.curso,
+                    stage_id: child.attr.ensenanza,
+		    course_id: child.attr.curso,
+                    name: child.attr.nombre,
+		    order: child.attr.orden
+                } },
+                upsert: true
             }
         };
 
