@@ -2,7 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 //import { DashboardComponent } from './dashboard.component';
-//import { ViewerComponent } from './viewer.component';
+import { AssessmentsComponent } from './assessments.component';
 import { IngestComponent } from './ingest.component';
 
 const appRoutes: Routes = [
@@ -16,11 +16,11 @@ const appRoutes: Routes = [
 		path: 'dashboard',
 		component: DashboardComponent
 	},
-	{
-		path: 'viewer',
-		component: ViewerComponent
-	}
 	*/
+	{
+		path: 'assessments',
+		component: AssessmentsComponent
+	},
 	{
 		path: 'ingest',
 		component: IngestComponent

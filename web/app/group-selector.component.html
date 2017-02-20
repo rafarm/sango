@@ -1,4 +1,8 @@
-<div class="assessment-selector">
+<div class="group-selector">
+    <select id="year" class="custom-select">
+        <option value="-1">Year...</option>
+    </select>
+    <!--
     <select id="year" (change)="yearSelected($event)" class="form-control" [disabled]="coursesTree==null">
 	<option value="-1">Selecciona l'any...</option>
 	<option *ngFor="let c of coursesTree; let i=index" [value]="i">{{c._id}}</option>
@@ -11,4 +15,5 @@
         <option value="-1" [selected]="selectedAssessmentId==null">Selecciona l'avaluació...</option>
         <option *ngFor="let a of assessments; let i=index" [value]="i">{{a.name}}</option>
     </select>
+    -->
 </div>

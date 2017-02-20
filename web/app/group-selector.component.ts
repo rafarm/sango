@@ -1,16 +1,17 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
-import { DataService } from './data.service';
-import { SelectorAssessment } from './model/selector-assessment';
-import { SelectorCourse } from './model/selector-course';
-import { SelectorCoursesTree } from './model/selector-courses-tree';
+//import { DataService } from './data.service';
+//import { SelectorAssessment } from './model/selector-assessment';
+//import { SelectorCourse } from './model/selector-course';
+//import { SelectorCoursesTree } from './model/selector-courses-tree';
 
 @Component({
-    selector: 'assessment-selector',
-    templateUrl: 'app/assessment-selector.component.html',
-    styleUrls: [ 'app/assessment-selector.component.css' ]
+    selector: 'group-selector',
+    templateUrl: 'app/group-selector.component.html',
+    styleUrls: [ 'app/group-selector.component.css' ]
 })
-export class AssessmentSelectorComponent implements OnInit {
+export class GroupSelectorComponent implements OnInit {
+    /*
     coursesTree: SelectorCoursesTree[];
     courses: SelectorCourse[];
     assessments: SelectorAssessment[];
@@ -78,4 +79,5 @@ export class AssessmentSelectorComponent implements OnInit {
     notifyAssessmentChanged(assessmentId: string) {
 	this.selectedAssessmentChanged.emit(assessmentId);
     }
+    */
 }

@@ -6,9 +6,9 @@ import { HttpModule } 	 		from '@angular/http';
 import { routing } 			from './app.routing';
 import { AppComponent }  		from './app.component';
 //import { DashboardComponent } 		from './dashboard.component';
-//import { ViewerComponent } 		from './viewer.component';
+import { AssessmentsComponent } 		from './assessments.component';
 import { IngestComponent } 		from './ingest.component';
-//import { AssessmentSelectorComponent } 	from './assessment-selector.component';
+import { GroupSelectorComponent } 	from './group-selector.component';
 //import { AssessmentTableComponent } 	from './assessment-table.component';
 //import { AssessmentGroupComponent } 	from './assessment-group.component';
 //import { AssessmentListComponent } 	from './assessment-list.component';
@@ -27,9 +27,9 @@ import { CollapseDirective } 	from './directives/collapse.directive';
     declarations: [ 
 	AppComponent,
 	//DashboardComponent,
-	//ViewerComponent,
+	AssessmentsComponent,
 	IngestComponent,
-	//AssessmentSelectorComponent,
+	GroupSelectorComponent,
 	//AssessmentTableComponent,
 	//AssessmentGroupComponent,
 	//AssessmentListComponent,

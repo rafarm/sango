@@ -1,12 +1,13 @@
 .fixed-top-sub {
     position: fixed;
-    top: 54px;
+    top: 56px;
     right: 0px;
     left: 0px;
-    z-index: 1000;
+    z-index: 900;
     background-color: white;
 }
 
+/*
 .nav {
     margin-top: -40px;
 }
@@ -21,3 +22,4 @@
 .nav-item {
     float: right;
 }
+*/

@@ -1,18 +1,19 @@
 import { Component } from '@angular/core';
 
-import { DataService } from './data.service';
-import { Course } from './model/course';
-import { Assessment } from './model/assessment';
-import { Student } from './model/student';
-import { AssessmentStats } from './model/assessment-stats';
-import { Stats } from './model/stats';
+//import { DataService } from './data.service';
+//import { Course } from './model/course';
+//import { Assessment } from './model/assessment';
+//import { Student } from './model/student';
+//import { AssessmentStats } from './model/assessment-stats';
+//import { Stats } from './model/stats';
 
 @Component({
-    selector: 'viewer',
-    templateUrl: 'app/viewer.component.html',
-    styleUrls: ['app/viewer.component.css']
+    selector: 'assessments',
+    templateUrl: 'app/assessments.component.html',
+    styleUrls: ['app/assessments.component.css']
 })
-export class ViewerComponent {
+export class AssessmentsComponent {
+    /*
     courseId: string;
     course: Course;
     assessmentId: string;
@@ -176,5 +177,6 @@ export class ViewerComponent {
 
 	this.levelStats = subjectStats;
     }
+    */
 }
 
