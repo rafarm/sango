@@ -6,11 +6,11 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 //import { SelectorCoursesTree } from './model/selector-courses-tree';
 
 @Component({
-    selector: 'group-selector',
-    templateUrl: 'app/group-selector.component.html',
-    styleUrls: [ 'app/group-selector.component.css' ]
+    selector: 'breadcrumb-selector',
+    templateUrl: 'app/breadcrumb-selector.component.html',
+    styleUrls: [ 'app/breadcrumb-selector.component.css' ]
 })
-export class GroupSelectorComponent /*implements OnInit*/ {
+export class BreadcrumbSelectorComponent /*implements OnInit*/ {
     /*
     coursesTree: SelectorCoursesTree[];
     courses: SelectorCourse[];
