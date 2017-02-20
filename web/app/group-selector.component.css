@@ -8,3 +8,15 @@ select {
     display: inline;
 }
 */
+
+.breadcrumb {
+    padding: 0 0 0 1rem;
+    margin-bottom: 0;
+    background-color: transparent;
+    border-radius: 0;
+}
+
+.breadcrumb .custom-select {
+    color: white;
+    border: 0;
+}

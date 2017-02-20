@@ -10,7 +10,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
     templateUrl: 'app/group-selector.component.html',
     styleUrls: [ 'app/group-selector.component.css' ]
 })
-export class GroupSelectorComponent implements OnInit {
+export class GroupSelectorComponent /*implements OnInit*/ {
     /*
     coursesTree: SelectorCoursesTree[];
     courses: SelectorCourse[];
