@@ -8,7 +8,7 @@ import { AppComponent }  		from './app.component';
 //import { DashboardComponent } 		from './dashboard.component';
 import { AssessmentsComponent } 		from './assessments.component';
 import { IngestComponent } 		from './ingest.component';
-import { GroupSelectorComponent } 	from './group-selector.component';
+import { BreadcrumbSelectorComponent } 	from './breadcrumb-selector.component';
 //import { AssessmentTableComponent } 	from './assessment-table.component';
 //import { AssessmentGroupComponent } 	from './assessment-group.component';
 //import { AssessmentListComponent } 	from './assessment-list.component';
@@ -29,7 +29,7 @@ import { CollapseDirective } 	from './directives/collapse.directive';
 	//DashboardComponent,
 	AssessmentsComponent,
 	IngestComponent,
-	GroupSelectorComponent,
+	BreadcrumbSelectorComponent,
 	//AssessmentTableComponent,
 	//AssessmentGroupComponent,
 	//AssessmentListComponent,

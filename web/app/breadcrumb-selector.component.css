@@ -18,5 +18,5 @@ select {
 
 .breadcrumb .custom-select {
     color: white;
-    border: 0;
+    border: none;
 }
