@@ -4,6 +4,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 //import { SelectorAssessment } from './model/selector-assessment';
 //import { SelectorCourse } from './model/selector-course';
 //import { SelectorCoursesTree } from './model/selector-courses-tree';
+import { BreadcrumbSelectorElement } from './model/breadcrumb-selector/breadcrumb-selector-element';
 
 @Component({
     selector: 'breadcrumb-selector',
