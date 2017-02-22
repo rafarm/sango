@@ -4,7 +4,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 //import { SelectorAssessment } from './model/selector-assessment';
 //import { SelectorCourse } from './model/selector-course';
 //import { SelectorCoursesTree } from './model/selector-courses-tree';
-import { BreadcrumbSelectorElement } from './model/breadcrumb-selector/breadcrumb-selector-element';
+import { BreadcrumbSelectorSelect } from './model/breadcrumb-selector/breadcrumb-selector-select';
 
 @Component({
     selector: 'breadcrumb-selector',
@@ -12,7 +12,11 @@ import { BreadcrumbSelectorElement } from './model/breadcrumb-selector/breadcrum
     styleUrls: [ 'app/breadcrumb-selector.component.css' ]
 })
 export class BreadcrumbSelectorComponent /*implements OnInit*/ {
-    tree: BreadcrumbSelectorElement[];
+    selects: BreadcrumbSelectorSelect[] = null;
+
+    selectChangeHandler(event: any) {
+
+    }
     
     /*
     coursesTree: SelectorCoursesTree[];

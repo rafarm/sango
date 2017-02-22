@@ -1,6 +1,21 @@
-<ol class="breadcrumb">
-    <li class="breadcrumb-item">
-        <select id="year" class="custom-select">
+<ol *ngIf="selects" class="breadcrumb">
+    <li *ngFor="let select of selects; let l = last" class="breadcrumb-item" [ngClass]="{'active': l}">
+	<select id="select.id" class="custom-select" (change)="selectChangeHandler($event)">
+	    <template ngFor let-item [ngForOf]="select.items">
+		<template [ngIf]="item.isGroup">
+		    <optgroup label="item.label">
+			<option *ngFor="let i of item.value" value="i.value">{{i.label}}</option>
+		    </optgroup>
+		</template>
+		<template [ngIf]="!item.isGroup">
+		    <option value="item.value">{{item.label}}</option>
+                </template>
+	    </template>
+	</select>
+    </li>
+<!--
+    <li *ngFor="let s of selects; let i = index; let l = last" class="breadcrumb-item">
+        <select id="s.id" class="custom-select">
             <option value="-1">Year...</option>
         </select>
     </li>
@@ -9,6 +24,7 @@
             <option value="-1">Course...</option>
         </select>
     </li>
+-->
 </ol>
     <!--
     <select id="year" (change)="yearSelected($event)" class="form-control" [disabled]="coursesTree==null">
