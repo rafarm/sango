@@ -12,6 +12,8 @@ import { BreadcrumbSelectorElement } from './model/breadcrumb-selector/breadcrum
     styleUrls: [ 'app/breadcrumb-selector.component.css' ]
 })
 export class BreadcrumbSelectorComponent /*implements OnInit*/ {
+    tree: BreadcrumbSelectorElement[];
+    
     /*
     coursesTree: SelectorCoursesTree[];
     courses: SelectorCourse[];
