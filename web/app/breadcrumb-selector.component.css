@@ -16,6 +16,11 @@ select {
     border-radius: 0;
 }
 
+.breadcrumb-item + .breadcrumb-item::before {
+  color: #fff;
+  content: ">";
+}
+
 .breadcrumb .custom-select {
     color: white;
     border: none;
