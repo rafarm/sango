@@ -5,6 +5,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 //import { SelectorCourse } from './model/selector-course';
 //import { SelectorCoursesTree } from './model/selector-courses-tree';
 import { BreadcrumbSelectorSelect } from './model/breadcrumb-selector/breadcrumb-selector-select';
+import { BreadcrumbSelectorEvent } from './model/breadcrumb-selector/breadcrumb-selector-event';
 
 @Component({
     selector: 'breadcrumb-selector',
@@ -14,8 +15,16 @@ import { BreadcrumbSelectorSelect } from './model/breadcrumb-selector/breadcrumb
 export class BreadcrumbSelectorComponent /*implements OnInit*/ {
     selects: BreadcrumbSelectorSelect[] = null;
 
+    @Output()
+    breadcrumbSelectorChanged = new EventEmitter<BreadcrumbSelectorEvent>();
+    
     selectChangeHandler(event: any) {
+	let bsEvent = new BreadcrumbSelectorEvent();
 
+	bsEvent.select_id = event.target.id;
+	bsEvent.select_value = event.target.value;
+
+	this.breadcrumbSelectorChanged.emit(bsEvent);
     }
     
     /*
