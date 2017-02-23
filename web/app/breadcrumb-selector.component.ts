@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 //import { DataService } from './data.service';
 //import { SelectorAssessment } from './model/selector-assessment';
@@ -12,7 +12,8 @@ import { BreadcrumbSelectorEvent } from './model/breadcrumb-selector/breadcrumb-
     templateUrl: 'app/breadcrumb-selector.component.html',
     styleUrls: [ 'app/breadcrumb-selector.component.css' ]
 })
-export class BreadcrumbSelectorComponent /*implements OnInit*/ {
+export class BreadcrumbSelectorComponent {
+    @Input()
     selects: BreadcrumbSelectorSelect[] = null;
 
     @Output()

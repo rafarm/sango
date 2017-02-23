@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
 //import { Student } from './model/student';
 //import { AssessmentStats } from './model/assessment-stats';
 //import { Stats } from './model/stats';
+import { BreadcrumbSelectorSelect } from './model/breadcrumb-selector/breadcrumb-selector-select';
 
 @Component({
     selector: 'assessments',
@@ -13,6 +14,8 @@ import { Component } from '@angular/core';
     styleUrls: ['app/assessments.component.css']
 })
 export class AssessmentsComponent {
+    selects: BreadcrumbSelectorSelect[] = null;
+	
     /*
     courseId: string;
     course: Course;
