@@ -337,7 +337,7 @@ function processAssessment(child, doc) {
                     year: doc.attr.curso,
                     stage_id: child.attr.ensenanza,
 		    course_id: child.attr.curso,
-                    name: child.attr.nombre,
+                    name: child.attr.abreviatura_val,
 		    order: child.attr.orden
                 } },
                 upsert: true
