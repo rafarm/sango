@@ -91,6 +91,33 @@ router.post('/many', bodyParser.json(), function(req, res) {
 });
 
 /*
+ * /assessments/tree/years GET
+ *
+ * Returns the years with assessments. Used to construct
+ * assessment selector tree.
+ */
+router.get('/tree/years', (req, res) => {
+    var pipe = [
+	{
+	    $group: {
+		_id: '$year'		
+    	    }
+	}
+    ];
+
+    
+    assessmentsCollection.aggregate(pipe, (err, result) => {
+	if (err != null) {
+	    res.status(500);
+	    res.json(err);
+	}
+	else {
+	    res.json(wrapResult(result));
+	}
+    }); 
+});
+
+/*
  * /assessments/:id/stats/bystudent GET
  * 
  * Inserts an array of new assessments.
