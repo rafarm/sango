@@ -20,12 +20,7 @@ export class BreadcrumbSelectorComponent {
     breadcrumbSelectorChanged = new EventEmitter<BreadcrumbSelectorEvent>();
     
     selectChangeHandler(event: any) {
-	let bsEvent = new BreadcrumbSelectorEvent();
-
-	bsEvent.select_id = event.target.id;
-	bsEvent.select_value = event.target.value;
-
-	this.breadcrumbSelectorChanged.emit(bsEvent);
+	this.breadcrumbSelectorChanged.emit(new BreadcrumbSelectorEvent(event.target.id, event.target.value));
     }
     
     /*

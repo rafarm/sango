@@ -9,6 +9,8 @@ import 'rxjs/add/operator/toPromise';
 
 
 //import { SelectorCoursesTree } from './model/selector-courses-tree';
+import { BreadcrumbSelectorItem } from './model/breadcrumb-selector/breadcrumb-selector-item';
+import { BreadcrumbSelectorSelect } from './model/breadcrumb-selector/breadcrumb-selector-select';
 import { Course } from './model/course';
 import { Assessment } from './model/assessment';
 import { Student } from './model/student';
@@ -207,11 +209,31 @@ export class DataService {
     } 
 
     /*
-     * getAssessmentsYears
+     * getAssessmentsSelectYear
      *
-     * Returns the assessments' years to build assessments selector tree.
+     * Returns the assessments' year select to build assessments selector tree.
      */
+    getAssessmentsSelectYear(): Promise<BreadcrumbSelectorSelect> {
+        let  url = this.apiUrl + 'assessments/tree/years';
 
+        return this.http.get(url)
+            .toPromise()
+            .then(res => {
+                let data = res.json().data;
+
+		if (data != null) {
+		    let items = data.map((value:any) => {
+			return new BreadcrumbSelectorItem(value._id, value._id, false);
+		    });
+		    items.unshift(new BreadcrumbSelectorItem('Year...', '-1', false));
+
+		    return new BreadcrumbSelectorSelect('year', items);
+		}
+
+		return null;
+            })
+            .catch(this.handleError);
+    }
     
 
     /*

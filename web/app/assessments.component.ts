@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-//import { DataService } from './data.service';
+import { DataService } from './data.service';
 //import { Course } from './model/course';
 //import { Assessment } from './model/assessment';
 //import { Student } from './model/student';
@@ -13,8 +13,8 @@ import { BreadcrumbSelectorSelect } from './model/breadcrumb-selector/breadcrumb
     templateUrl: 'app/assessments.component.html',
     styleUrls: ['app/assessments.component.css']
 })
-export class AssessmentsComponent {
-    selects: BreadcrumbSelectorSelect[] = null;
+export class AssessmentsComponent implements OnInit {
+    selects: BreadcrumbSelectorSelect[] = [];
 	
     /*
     courseId: string;
@@ -27,9 +27,16 @@ export class AssessmentsComponent {
     studentStats: any;
     subjectStats: any;
     levelStats: any;
+    */
 
     constructor( private dataService: DataService ) {}
 
+    ngOnInit() {
+        this.dataService.getAssessmentsSelectYear()
+            .then(select => this.selects.push(select));
+    }
+
+    /*
     onSelectedCourseChanged(event: string) {
         this.courseId = event;
 
