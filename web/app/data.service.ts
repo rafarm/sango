@@ -8,7 +8,7 @@ declare var EventSource: any;
 import 'rxjs/add/operator/toPromise';
 
 
-import { SelectorCoursesTree } from './model/selector-courses-tree';
+//import { SelectorCoursesTree } from './model/selector-courses-tree';
 import { Course } from './model/course';
 import { Assessment } from './model/assessment';
 import { Student } from './model/student';
@@ -26,6 +26,7 @@ export class DataService {
      *
      * Queries server for courses grouped by year.
      */
+    /*
     getCoursesByYear(): Promise<SelectorCoursesTree[]> {
 	let  url = this.apiUrl + 'courses/byyear';
 	
@@ -34,6 +35,7 @@ export class DataService {
 	    .then(this.unwrapResponse)
 	    .catch(this.handleError);
     }
+    */
 
     /*
      * getCourse
@@ -201,31 +203,16 @@ export class DataService {
             xhr.send(formData);
 	});
 
-	/*
-	let request = new Promise((resolve, reject) => {
-	    let formData = new FormData();
-	    let xhr = new XMLHttpRequest();
-
-	    formData.append('upload', file, file.name);
-
-	    xhr.onreadystatechange = function () {
-		if (xhr.readyState == 4) {
-		    if (xhr.status == 200) {
-			resolve(JSON.parse(xhr.response));
-		    }
-		    else {
-			reject(xhr.response);
-		    }
-		}
-	    }
-
-	    xhr.open('POST', this.apiUrl+'ingest', true);
-	    xhr.send(formData);
-	});
-	*/
-
 	return request;
     } 
+
+    /*
+     * getAssessmentsYears
+     *
+     * Returns the assessments' years to build assessments selector tree.
+     */
+
+    
 
     /*
      * unwrapResponse
