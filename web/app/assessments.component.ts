@@ -33,7 +33,7 @@ export class AssessmentsComponent implements OnInit {
     constructor( private dataService: DataService ) {}
 
     ngOnInit() {
-        this.dataService.getAssessmentsSelectYear()
+        this.dataService.getGroupsSelectYear()
             .then(select => this.selects.push(select));
     }
 
@@ -47,7 +47,7 @@ export class AssessmentsComponent implements OnInit {
 		    }
 		}
  		else {
-		    this.dataService.getAssessmentsSelectCourse(value)
+		    this.dataService.getGroupsSelectCourse(value)
 			.then(select => this.selects.push(select));
 		}
 		break;

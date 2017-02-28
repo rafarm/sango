@@ -19,6 +19,8 @@ mongodb.connect
         app.use('/node_modules', express.static('node_modules'));
 
         // Loading routes...
+        var groups = require('./routes/groups');
+        app.use('/api/groups', groups);
         var courses = require('./routes/courses');
         app.use('/api/courses', courses);
         var students = require('./routes/students');

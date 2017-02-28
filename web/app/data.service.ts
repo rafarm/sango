@@ -209,12 +209,12 @@ export class DataService {
     } 
 
     /*
-     * getAssessmentsSelectYear
+     * getGroupsSelectYear
      *
-     * Returns the assessments' year select to build assessments selector tree.
+     * Returns the groups' year select to build group selector tree.
      */
-    getAssessmentsSelectYear(): Promise<BreadcrumbSelectorSelect> {
-        let  url = this.apiUrl + 'assessments/tree/years';
+    getGroupsSelectYear(): Promise<BreadcrumbSelectorSelect> {
+        let  url = this.apiUrl + 'groups/tree/years';
 
         return this.http.get(url)
             .toPromise()
@@ -236,12 +236,12 @@ export class DataService {
     }
 
     /*
-     * getAssessmentsSelectCourse
+     * getGroupSelectCourse
      *
-     * Returns the assessments' course select to build assessments selector tree.
+     * Returns the groups' course select to build group selector tree.
      */
-    getAssessmentsSelectCourse(year: string): Promise<BreadcrumbSelectorSelect> {
-        let  url = this.apiUrl + 'assessments/tree/' + year + '/courses';
+    getGroupsSelectCourse(year: string): Promise<BreadcrumbSelectorSelect> {
+        let  url = this.apiUrl + 'groups/tree/' + year + '/courses';
 
         return this.http.get(url)
             .toPromise()
@@ -249,16 +249,21 @@ export class DataService {
                 let data = res.json().data;
 
                 if (data != null) {
-                    let stages = data.map((value:any) => {
+                    let parents = data.map((value:any) => {
 			let courses = value.courses.map((value:any) => {
-			    return new BreadcrumbSelectorItem(value, value, false);
+			    return new BreadcrumbSelectorItem(value.name, value._id, false);
 			});
+			
+			let value_id = value._id.parent;
+			if (value_id == null) {
+			    value_id = value._id.stage;
+			}
 
-                        return new BreadcrumbSelectorItem(value._id, courses, true);
+			return new BreadcrumbSelectorItem(value_id, courses, true);
                     });
-                    stages.unshift(new BreadcrumbSelectorItem('Course...', '-1', false));
+                    parents.unshift(new BreadcrumbSelectorItem('Course...', '-1', false));
 
-                    return new BreadcrumbSelectorSelect('course', stages);
+                    return new BreadcrumbSelectorSelect('course', parents);
                 }
 
                 return null;
