@@ -234,7 +234,38 @@ export class DataService {
             })
             .catch(this.handleError);
     }
-    
+
+    /*
+     * getAssessmentsSelectCourse
+     *
+     * Returns the assessments' course select to build assessments selector tree.
+     */
+    getAssessmentsSelectCourse(year: string): Promise<BreadcrumbSelectorSelect> {
+        let  url = this.apiUrl + 'assessments/tree/' + year + 'courses';
+
+        return this.http.get(url)
+            .toPromise()
+            .then(res => {
+                let data = res.json().data;
+
+                if (data != null) {
+                    let stages = data.map((value:any) => {
+			let courses = value.courses.map((value:any) => {
+			    return new BreadcrumbSelectorItem(value, value, false);
+			});
+			let coursesSel = new BreadcrumbSelectorSelect('courses', courses);
+
+                        return new BreadcrumbSelectorItem(value._id, coursesSel, true);
+                    });
+                    stages.unshift(new BreadcrumbSelectorItem('Course...', '-1', false));
+
+                    return new BreadcrumbSelectorSelect('course', stages);
+                }
+
+                return null;
+            })
+            .catch(this.handleError);
+    }    
 
     /*
      * unwrapResponse

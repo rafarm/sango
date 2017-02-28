@@ -7,6 +7,7 @@ import { DataService } from './data.service';
 //import { AssessmentStats } from './model/assessment-stats';
 //import { Stats } from './model/stats';
 import { BreadcrumbSelectorSelect } from './model/breadcrumb-selector/breadcrumb-selector-select';
+import { BreadcrumbSelectorEvent } from './model/breadcrumb-selector/breadcrumb-selector-event';
 
 @Component({
     selector: 'assessments',
@@ -34,6 +35,10 @@ export class AssessmentsComponent implements OnInit {
     ngOnInit() {
         this.dataService.getAssessmentsSelectYear()
             .then(select => this.selects.push(select));
+    }
+
+    onSelectorChanged(event: BreadcrumbSelectorEvent) {
+	console.log(event);
     }
 
     /*
