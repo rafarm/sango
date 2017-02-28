@@ -38,7 +38,21 @@ export class AssessmentsComponent implements OnInit {
     }
 
     onSelectorChanged(event: BreadcrumbSelectorEvent) {
-	console.log(event);
+	let value = event.select_value;
+	switch(event.select_id) {
+	    case 'year':
+                if (value == '-1') {
+		    while(this.selects.length > 1) {
+			this.selects.pop();
+		    }
+		}
+ 		else {
+		    this.dataService.getAssessmentsSelectCourse(value)
+			.then(select => this.selects.push(select));
+		}
+		break;
+	    default:
+	}
     }
 
     /*

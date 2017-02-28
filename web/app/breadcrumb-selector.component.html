@@ -3,7 +3,7 @@
 	<select id="{{select.id}}" class="custom-select" (change)="selectChangeHandler($event)">
 	    <template ngFor let-item [ngForOf]="select.items">
 		<template [ngIf]="item.isGroup">
-		    <optgroup label="item.label">
+		    <optgroup label="{{item.label}}">
 			<option *ngFor="let i of item.value" value="{{i.value}}">{{i.label}}</option>
 		    </optgroup>
 		</template>

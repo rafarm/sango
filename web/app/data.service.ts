@@ -241,7 +241,7 @@ export class DataService {
      * Returns the assessments' course select to build assessments selector tree.
      */
     getAssessmentsSelectCourse(year: string): Promise<BreadcrumbSelectorSelect> {
-        let  url = this.apiUrl + 'assessments/tree/' + year + 'courses';
+        let  url = this.apiUrl + 'assessments/tree/' + year + '/courses';
 
         return this.http.get(url)
             .toPromise()
@@ -253,9 +253,8 @@ export class DataService {
 			let courses = value.courses.map((value:any) => {
 			    return new BreadcrumbSelectorItem(value, value, false);
 			});
-			let coursesSel = new BreadcrumbSelectorSelect('courses', courses);
 
-                        return new BreadcrumbSelectorItem(value._id, coursesSel, true);
+                        return new BreadcrumbSelectorItem(value._id, courses, true);
                     });
                     stages.unshift(new BreadcrumbSelectorItem('Course...', '-1', false));
 
