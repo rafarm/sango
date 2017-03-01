@@ -6,6 +6,18 @@
     z-index: 900;
 }
 
+.fixed-top-sub .btn-link {
+    color: white;
+}
+
+.fixed-top-sub .btn-link:hover {
+    text-decoration: none;
+    background: url("data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 4'><path fill='%23fff' d='M1 3L0 4h2z'/></svg>") no-repeat center 1px;
+    -webkit-transition: none;
+    -o-transition: none;
+    transition: none;
+}
+
 /*
 .nav {
     margin-top: -40px;

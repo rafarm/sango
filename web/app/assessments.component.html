@@ -1,8 +1,16 @@
-<div class="fixed-top-sub bg-primary">
-    <breadcrumb-selector [selects]="selects" (breadcrumbSelectorChanged)="onSelectorChanged($event)"></breadcrumb-selector>
-    <!--
-    <assessment-selector (selectedCourseChanged)="onSelectedCourseChanged($event)" (selectedAssessmentChanged)="onSelectedAssessmentChanged($event)"></assessment-selector>
--->
+<div class="fixed-top-sub bg-primary container-fluid">
+    <div class="row align-items-end">
+	<div class="col-8">
+	    <breadcrumb-selector [selects]="selects" (breadcrumbSelectorChanged)="onSelectorChanged($event)"></breadcrumb-selector>
+	</div>
+	<div class="col-4">
+	    <div class="float-right">
+		<button type="button" class="btn btn-link">Table</button>
+		<button type="button" class="btn btn-link">Group</button>
+		<button type="button" class="btn btn-link">Students</button>
+	    </div>
+	</div>
+    </div>
 </div>
     <!--
     <div class="container-fluid" *ngIf="assessmentId">
