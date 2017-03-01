@@ -269,7 +269,34 @@ export class DataService {
                 return null;
             })
             .catch(this.handleError);
-    }    
+    }
+
+    /*
+     * getGroupsSelectGroup
+     *
+     * Returns the groups' select for 'year' and 'course' to build group selector tree.
+     */
+    getGroupsSelectGroup(year: string, course: string): Promise<BreadcrumbSelectorSelect> {
+        let  url = this.apiUrl + 'groups/tree/' + year + '/' + course + '/groups';
+
+        return this.http.get(url)
+            .toPromise()
+            .then(res => {
+                let data = res.json().data;
+
+                if (data != null) {
+                    let items = data.map((value:any) => {
+                        return new BreadcrumbSelectorItem(value.short_name, value._id, false);
+                    });
+                    items.unshift(new BreadcrumbSelectorItem('Group...', '-1', false));
+
+                    return new BreadcrumbSelectorSelect('group', items);
+                }
+
+                return null;
+            })
+            .catch(this.handleError);
+    } 
 
     /*
      * unwrapResponse

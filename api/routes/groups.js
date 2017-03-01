@@ -148,4 +148,42 @@ var pipe = [
     });
 });
 
+/*
+ * /groups/tree/:year/:course/groups GET
+ *
+ * Returns the groups for 'year' and 'course'. Used to construct
+ * group selector tree.
+ */
+router.get('/tree/:year/:course/groups', (req, res) => {
+    var pipe = [
+	{
+	    $match: {
+		year: req.params.year,
+		courses: req.params.course
+	    }
+	},
+	{
+	    $project: {
+		short_name: 1
+	    }
+	},
+	{
+	    $sort: {
+		short_name: 1
+	    }
+	}
+    ];
+
+
+    groupsCollection.aggregate(pipe, (err, result) => {
+        if (err != null) {
+            res.status(500);
+            res.json(err);
+        }
+        else {
+            res.json(wrapResult(result));
+        }
+    });
+});
+
 module.exports = router;

@@ -16,6 +16,9 @@ import { BreadcrumbSelectorEvent } from './model/breadcrumb-selector/breadcrumb-
 })
 export class AssessmentsComponent implements OnInit {
     selects: BreadcrumbSelectorSelect[] = [];
+    selectedYear: string;
+    selectedCourseId: string;
+    selectedGroupId: string;
 	
     /*
     courseId: string;
@@ -41,17 +44,43 @@ export class AssessmentsComponent implements OnInit {
 	let value = event.select_value;
 	switch(event.select_id) {
 	    case 'year':
-                if (value == '-1') {
-		    while(this.selects.length > 1) {
-			this.selects.pop();
-		    }
+		this.selectedGroupId = null;
+		this.selectedCourseId = null;
+                
+		while(this.selects.length > 1) {
+		    this.selects.pop();
+		}
+		
+		if (value == -1) {
+		    this.selectedYear = null;
 		}
  		else {
-		    this.dataService.getGroupsSelectCourse(value)
+		    this.selectedYear = value;
+		    this.dataService.getGroupsSelectCourse(this.selectedYear)
 			.then(select => this.selects.push(select));
 		}
 		break;
+	    case 'course':
+		this.selectedGroupId = null;
+                
+		while(this.selects.length > 2) {
+                    this.selects.pop();
+                }
+		
+		if (value == '-1') {
+		    this.selectedCourseId = null;
+		}
+                else {
+		    this.selectedCourseId = value
+                    this.dataService.getGroupsSelectGroup(this.selectedYear, this.selectedCourseId)
+                        .then(select => this.selects.push(select));
+                }
+		break;
+	    case 'group':
+		this.selectedGroupId = value == -1 ? null : value;
+		break;
 	    default:
+		break;
 	}
     }
 

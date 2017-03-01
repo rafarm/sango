@@ -13,30 +13,4 @@
 	    </template>
 	</select>
     </li>
-<!--
-    <li *ngFor="let s of selects; let i = index; let l = last" class="breadcrumb-item">
-        <select id="s.id" class="custom-select">
-            <option value="-1">Year...</option>
-        </select>
-    </li>
-    <li class="breadcrumb-item active">
-        <select id="course" class="custom-select">
-            <option value="-1">Course...</option>
-        </select>
-    </li>
--->
 </ol>
-    <!--
-    <select id="year" (change)="yearSelected($event)" class="form-control" [disabled]="coursesTree==null">
-	<option value="-1">Selecciona l'any...</option>
-	<option *ngFor="let c of coursesTree; let i=index" [value]="i">{{c._id}}</option>
-    </select>
-    <select id="course" (change)="courseSelected($event)" class="form-control" [disabled]="courses==null">
-        <option value="-1">Selecciona un curs...</option>
-        <option *ngFor="let c of courses; let i=index" [value]="i">{{c.name}}</option>
-    </select>
-    <select id="assessment" (change)="assessmentSelected($event)" class="form-control" [disabled]="assessments==null">
-        <option value="-1" [selected]="selectedAssessmentId==null">Selecciona l'avaluació...</option>
-        <option *ngFor="let a of assessments; let i=index" [value]="i">{{a.name}}</option>
-    </select>
-    -->
