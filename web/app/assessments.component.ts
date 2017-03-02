@@ -19,6 +19,8 @@ export class AssessmentsComponent implements OnInit {
     selectedYear: string;
     selectedCourseId: string;
     selectedGroupId: string;
+  
+    checkedButtonId: string;  
 	
     /*
     courseId: string;
@@ -82,6 +84,12 @@ export class AssessmentsComponent implements OnInit {
 	    default:
 		break;
 	}
+
+	this.checkedButtonId = "btn-marks";
+    }
+
+    onButtonClicked(event: any) {
+	this.checkedButtonId = event.target.id;
     }
 
     /*
