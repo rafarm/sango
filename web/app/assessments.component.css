@@ -15,7 +15,11 @@
 
 .fixed-top-sub .btn-link:hover {
     text-decoration: none;
-    color: lightgray;
+    color: darkgray;
+}
+
+.fixed-top-sub .btn-link.active:hover {
+    color: white;
 }
 
 .fixed-top-sub .nav-tabs {

@@ -10,10 +10,21 @@ var wrapResult = require('./wrap-result').wrapResult;
 /*
  * /assessments GET
  * 
- * Returns all assessments.
+ * Returns all assessments name and id.
  */
 router.get('/', function(req, res) {
-    assessmentsCollection.find().toArray()
+    var filter = {};
+    if (req.query.year != undefined) {
+	filter.year = req.query.year;
+    }
+    if (req.query.course_id != undefined) {
+	filter.course_id = req.query.course_id;
+    }
+
+    assessmentsCollection.find(filter)
+	.sort({order: 1})
+	.project({name: 1})
+	.toArray()
 	.then(function(assessments) {
 	    res.json(wrapResult(assessments));
 	})

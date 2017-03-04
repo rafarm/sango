@@ -3,6 +3,70 @@ body {
 	padding-top: 94px;
 }
 
+.bg-primary {
+    background-color: #4e8cec !important;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #4e8cec;
+}
+
+.nav-pills .nav-link.active:hover {
+    color: white;
+}
+
+.hz-divider {
+    position: relative;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.hz-divider::before {
+    position: absolute;
+    top: 50%;
+    display: block;
+    content: "";
+    width: 100%;
+    height: 1px;
+    background-color: #4e8cec;
+}
+
+.hz-divider-content {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    padding-left: 1em;
+    padding-right: 1em;
+    /*color: white;*/
+    vertical-align: middle;
+    background-color: white;
+}
+
+.hz-divider-content .nav-item {
+    float: left;
+}
+
+.hz-divider-nav a:not([href]) {
+    color: #4e8cec;
+}
+
+.hz-divider-nav a:hover:not([href]) {
+    color: gray;
+    cursor: default;
+}
+
+/*
+.hz-divider-nav > li > a {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-size: 100%;
+}
+*/
+
 /*
  * Charts styles
  */
