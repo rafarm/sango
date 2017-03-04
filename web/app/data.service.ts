@@ -11,6 +11,7 @@ import 'rxjs/add/operator/toPromise';
 //import { SelectorCoursesTree } from './model/selector-courses-tree';
 import { BreadcrumbSelectorItem } from './model/breadcrumb-selector/breadcrumb-selector-item';
 import { BreadcrumbSelectorSelect } from './model/breadcrumb-selector/breadcrumb-selector-select';
+import { AssessmentId } from './model/assessment-id';
 import { Course } from './model/course';
 import { Assessment } from './model/assessment';
 import { Student } from './model/student';
@@ -47,6 +48,31 @@ export class DataService {
     getCourse(id: string): Promise<Course> {
         let url = this.apiUrl + 'courses/' + id;
 
+        return this.http.get(url)
+            .toPromise()
+            .then(this.unwrapResponse)
+            .catch(this.handleError);
+    }
+
+    /*
+     * getAssessments
+     *
+     * Returns assessments' id and name.
+     * Assessments list can optionally filtered by
+     * year and course_id.
+     */
+    getAssessments(year?: string, course_id?: string): Promise<AssessmentId[]> {
+        let url = this.apiUrl + 'assessments';
+
+	if (year != undefined) {
+	    url = url + '?year=' + year;
+	}
+	if (course_id != undefined) {
+	    url = url + (year != undefined ? '&' : '?');
+	    url = url + 'course_id=' + course_id;
+	}
+	console.log(url);
+	
         return this.http.get(url)
             .toPromise()
             .then(this.unwrapResponse)
@@ -303,7 +329,6 @@ export class DataService {
      *
      * Extracts data from server response.
      */
-
     private unwrapResponse(res: Response) {
 	let body = res.json();
 	return body.data || {};

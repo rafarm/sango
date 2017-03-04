@@ -21,7 +21,7 @@
 <div *ngIf="selectedGroupId" class="container-fluid">
     <div class="tab-content">
 	<div [ngClass]="{'active': checkedButtonId == 'btn-marks'}" class="tab-pane" id="pane-marks" role="tabpanel">
-	    <assessments-marks></assessments-marks>
+	    <assessments-marks [year]="selectedYear" [courseId]="selectedCourseId" [groupId]="selectedGroupId"></assessments-marks>
 	</div>
 	<div [ngClass]="{'active': checkedButtonId == 'btn-group'}" class="tab-pane" id="pane-groups" role="tabpanel">groups</div>
 	<div [ngClass]="{'active': checkedButtonId == 'btn-students'}" class="tab-pane" id="pane-students" role="tabpanel">students</div>
