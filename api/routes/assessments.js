@@ -22,8 +22,8 @@ router.get('/', function(req, res) {
     }
 
     assessmentsCollection.find(filter)
+	.project({name: 1, order: 1})
 	.sort({order: 1})
-	.project({name: 1})
 	.toArray()
 	.then(function(assessments) {
 	    res.json(wrapResult(assessments));

@@ -1,16 +1,7 @@
 <div *ngIf="assessmentsId" class="hz-divider">
     <ul class="nav nav-pills hz-divider-content hz-divider-nav">
 	<li *ngFor="let assId of assessmentsId" class="nav-item">
-	    <a id="{{assId._id}}" class="nav-link">{{assId.name}}</a>
-	    <!--<button [ngClass]="{'active': checkedButtonId == 'btn-group'}" (click)="onButtonClicked($event)" id="btn-group" type="button" class="btn btn-primary active">av1</button>-->
+	    <a id="{{assId._id}}" class="nav-link" [ngClass]="{'active': selectedAssId == assId._id}" (click)="onAssChanged($event)">{{assId.name}}</a>
 	</li>
-	<!--
-	<li class="nav-item">
-	    <a class="nav-link">Tab</a>
-	</li>
-	<li class="nav-item">
-	    <a class="nav-link" href="#">Tab</a>
-	</li>
-	-->
     </ul>
 </div>

@@ -22,16 +22,27 @@ export class AssessmentsMarksComponent implements OnChanges {
     groupId: string;
 
     assessmentsId: AssessmentId[];
+    selectedAssId: string;
 
     constructor( private dataService: DataService ) {}
 
     ngOnChanges() {
-	console.log("year: " + this.year);
-	console.log("courseId: " + this.courseId);
-	console.log("groupId: " + this.groupId);
 	if (this.year != null && this.courseId != null && this.groupId != null) {
 	    this.dataService.getAssessments(this.year, this.courseId)
-		.then(assId => this.assessmentsId = assId);
+		.then(assId => {
+		    this.assessmentsId = assId
+		    if (assId.length > 0) {
+			this.selectedAssId = assId[0]._id
+		    }
+		});
 	}
+	else {
+	    this.assessmentsId = null;
+	    this.selectedAssId = null;
+	}
+    }
+
+    onAssChanged(event: any) {
+	this.selectedAssId = event.target.id;
     }
 }
