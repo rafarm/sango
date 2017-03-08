@@ -102,18 +102,16 @@ router.get('/:id/qualifications', function(req, res) {
 	},
 	{
 	    $group: {
-		_id: {
-		    _id: "$_id",
-		    name: "$name"
-		},
+		_id: "$_id",
 		subjects: {
 		    $push: {
 			_id: "$subject_id",
-		    name: "$subject_name"
+			name: "$subject_name"
+		    }
 		}
 	    }
 	}
-    }];
+    ];
 
     assessmentsCollection.aggregate(pipe, function(err, result) {
         if (err != null) {
@@ -121,6 +119,7 @@ router.get('/:id/qualifications', function(req, res) {
             res.json(err);
         }
         else {
+	    result = result.length > 0 ? result[0] : result;
             res.json(wrapResult(result));
         }
     });

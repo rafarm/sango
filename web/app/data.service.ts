@@ -11,7 +11,6 @@ import 'rxjs/add/operator/toPromise';
 //import { SelectorCoursesTree } from './model/selector-courses-tree';
 import { BreadcrumbSelectorItem } from './model/breadcrumb-selector/breadcrumb-selector-item';
 import { BreadcrumbSelectorSelect } from './model/breadcrumb-selector/breadcrumb-selector-select';
-import { AssessmentId } from './model/assessment-id';
 import { Course } from './model/course';
 import { Assessment } from './model/assessment';
 import { Student } from './model/student';
@@ -57,11 +56,11 @@ export class DataService {
     /*
      * getAssessments
      *
-     * Returns assessments' id and name.
+     * Returns assessments' id, name and order.
      * Assessments list can optionally filtered by
      * year and course_id.
      */
-    getAssessments(year?: string, course_id?: string): Promise<AssessmentId[]> {
+    getAssessments(year?: string, course_id?: string): Promise<Assessment[]> {
         let url = this.apiUrl + 'assessments';
 
 	if (year != undefined) {
@@ -71,7 +70,6 @@ export class DataService {
 	    url = url + (year != undefined ? '&' : '?');
 	    url = url + 'course_id=' + course_id;
 	}
-	console.log(url);
 	
         return this.http.get(url)
             .toPromise()
@@ -86,6 +84,26 @@ export class DataService {
      */
     getAssessment(id: string): Promise<Assessment> {
         let url = this.apiUrl + 'assessments/' + id;
+
+        return this.http.get(url)
+            .toPromise()
+            .then(this.unwrapResponse)
+            .catch(this.handleError);
+    }
+
+    /*
+     * getQualifications
+     *
+     * Returns qualifications for assessment id.
+     * Qualifications can be optionally filtered by
+     * group_id.
+     */
+    getQualifications(id: string, group_id?: string): Promise<Assessment> {
+        let url = this.apiUrl + 'assessments/' + id + '/qualifications';
+
+        if (group_id != undefined) {
+            url = url + '?group_id=' + group_id;
+        }
 
         return this.http.get(url)
             .toPromise()

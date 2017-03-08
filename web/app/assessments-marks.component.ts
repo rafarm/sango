@@ -2,11 +2,10 @@ import { Component, Input, OnChanges } from '@angular/core';
 
 import { DataService } from './data.service';
 //import { Course } from './model/course';
-//import { Assessment } from './model/assessment';
+import { Assessment } from './model/assessment';
 //import { Student } from './model/student';
 //import { AssessmentStats } from './model/assessment-stats';
 //import { Stats } from './model/stats';
-import { AssessmentId } from './model/assessment-id';
 
 @Component({
     selector: 'assessments-marks',
@@ -21,28 +20,28 @@ export class AssessmentsMarksComponent implements OnChanges {
     @Input()
     groupId: string;
 
-    assessmentsId: AssessmentId[];
-    selectedAssId: string;
+    assessments: Assessment[];
+    selectedIndex: number;
 
     constructor( private dataService: DataService ) {}
 
     ngOnChanges() {
 	if (this.year != null && this.courseId != null && this.groupId != null) {
 	    this.dataService.getAssessments(this.year, this.courseId)
-		.then(assId => {
-		    this.assessmentsId = assId
-		    if (assId.length > 0) {
-			this.selectedAssId = assId[0]._id
+		.then(assessments => {
+		    this.assessments = assessments;
+		    if (assessments.length > 0) {
+			this.selectedIndex = 0;
 		    }
 		});
 	}
 	else {
-	    this.assessmentsId = null;
-	    this.selectedAssId = null;
+	    this.assessments = null;
+	    this.selectedIndex = null;
 	}
     }
 
     onAssChanged(event: any) {
-	this.selectedAssId = event.target.id;
+	this.selectedIndex = event.target.id;
     }
 }

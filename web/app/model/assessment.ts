@@ -20,6 +20,7 @@ class Subject {
 export class Assessment {
     _id: string;
     name: string;
+    order: number;
     subjects: Subject[];
     students: Student[];
 }
