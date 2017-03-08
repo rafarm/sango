@@ -66,6 +66,67 @@ router.put('/:id', bodyParser.json(), function(req, res) {
 });
 
 /*
+ * /assessments/:id/qualifications?group_id GET
+ * 
+ * Returns the assessment's qualifications data for assesment
+ * identified by 'id'. Students data can be filtered by group id.
+ */
+router.get('/:id/qualifications', function(req, res) {
+    var pipe = [
+	{
+	    $match: {
+		_id: req.params.id
+	    }
+	},
+	{
+	    $project: {
+		course_id: 1
+	    }
+	},
+	{
+	    $lookup: {
+		from: "subjects",
+		localField: "course_id",
+		foreignField: "course_id",
+		as: "subjects"
+	    }
+	},
+	{
+	    $unwind: "$subjects"
+	},
+	{
+	    $project: {
+		subject_id: "$subjects._id",
+		subject_name: "$subjects.name"
+	    }
+	},
+	{
+	    $group: {
+		_id: {
+		    _id: "$_id",
+		    name: "$name"
+		},
+		subjects: {
+		    $push: {
+			_id: "$subject_id",
+		    name: "$subject_name"
+		}
+	    }
+	}
+    }];
+
+    assessmentsCollection.aggregate(pipe, function(err, result) {
+        if (err != null) {
+            res.status(500);
+            res.json(err);
+        }
+        else {
+            res.json(wrapResult(result));
+        }
+    });
+});
+
+/*
  * /assessments POST
  * 
  * Inserts a new assessment.
