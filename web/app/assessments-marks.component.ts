@@ -22,6 +22,16 @@ export class AssessmentsMarksComponent implements OnChanges {
 
     assessments: Assessment[];
     selectedIndex: number;
+    
+    private _selectedAssessment: Assessment;
+    get selectedAssessment(): Assessment {
+	return this._selectedAssessment;
+    }
+    set selectedAssessment(assessment: Assessment) {
+	if (assessment.students == null) {
+            console.log("Assessment has no students...");
+        }
+    }
 
     constructor( private dataService: DataService ) {}
 
@@ -32,16 +42,20 @@ export class AssessmentsMarksComponent implements OnChanges {
 		    this.assessments = assessments;
 		    if (assessments.length > 0) {
 			this.selectedIndex = 0;
+			this.selectedAssessment = this.assessments[0];
 		    }
 		});
 	}
 	else {
 	    this.assessments = null;
 	    this.selectedIndex = null;
+	    this.selectedAssessment = null;
 	}
     }
 
     onAssChanged(event: any) {
-	this.selectedIndex = event.target.id;
+	let index = event.target.id;
+	this.selectedIndex = index;
+	this.selectedAssessment = this.assessments[index];
     }
 }

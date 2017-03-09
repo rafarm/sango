@@ -10,7 +10,7 @@ import { AssessmentsComponent } 		from './assessments.component';
 import { IngestComponent } 		from './ingest.component';
 import { AssessmentsMarksComponent }	from './assessments-marks.component';
 import { BreadcrumbSelectorComponent } 	from './breadcrumb-selector.component';
-//import { AssessmentTableComponent } 	from './assessment-table.component';
+import { AssessmentTableComponent } 	from './assessment-table.component';
 //import { AssessmentGroupComponent } 	from './assessment-group.component';
 //import { AssessmentListComponent } 	from './assessment-list.component';
 //import { StudentDetailComponent } 	from './student-detail.component';
@@ -32,7 +32,7 @@ import { CollapseDirective } 	from './directives/collapse.directive';
 	IngestComponent,
 	AssessmentsMarksComponent,
 	BreadcrumbSelectorComponent,
-	//AssessmentTableComponent,
+	AssessmentTableComponent,
 	//AssessmentGroupComponent,
 	//AssessmentListComponent,
 	//StudentDetailComponent,
