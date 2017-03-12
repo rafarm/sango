@@ -19,7 +19,7 @@ export class AssessmentsComponent implements OnInit {
     selects: BreadcrumbSelectorSelect[] = [];
     selectedYear: string;
     selectedCourse: Course;
-    selectedGroupId: string;
+    selectedGroup: Group;
   
     checkedButtonId: string;  
 	
@@ -47,7 +47,7 @@ export class AssessmentsComponent implements OnInit {
 	let value = event.select_value;
 	switch(event.select_id) {
 	    case 'year':
-		this.selectedGroupId = null;
+		this.selectedGroup = null;
 		this.selectedCourse = null;
                 
 		while(this.selects.length > 1) {
@@ -64,7 +64,7 @@ export class AssessmentsComponent implements OnInit {
 		}
 		break;
 	    case 'course':
-		this.selectedGroupId = null;
+		this.selectedGroup = null;
                 
 		while(this.selects.length > 2) {
                     this.selects.pop();
@@ -82,7 +82,14 @@ export class AssessmentsComponent implements OnInit {
                 }
 		break;
 	    case 'group':
-		this.selectedGroupId = value == -1 ? null : value;
+		//this.selectedGroupId = value == -1 ? null : value;
+		if (value == -1) {
+		    this.selectedGroup = null;
+		}
+		else {
+		    this.dataService.getGroup(value, this.selectedYear)
+                        .then(group => this.selectedGroup = group);
+		}
 		break;
 	    default:
 		break;

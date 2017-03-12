@@ -2,6 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 
 import { DataService } from './data.service';
 import { Course } from './model/course';
+import { Group } from './model/group';
 import { Assessment } from './model/assessment';
 //import { Student } from './model/student';
 //import { AssessmentStats } from './model/assessment-stats';
@@ -16,7 +17,7 @@ export class AssessmentsMarksComponent implements OnChanges {
     @Input()
     course: Course;
     @Input()
-    groupId: string;
+    group: Group;
 
     assessments: Assessment[];
     selectedIndex: number;
@@ -39,7 +40,7 @@ export class AssessmentsMarksComponent implements OnChanges {
     constructor( private dataService: DataService ) {}
 
     ngOnChanges() {
-	if (/*this.year != null &&*/ this.course != null && this.groupId != null) {
+	if (/*this.year != null &&*/ this.course != null && this.group != null) {
 	    /*
 	    this.dataService.getAssessments(this.year, this.courseId)
 		.then(assessments => {
@@ -53,8 +54,6 @@ export class AssessmentsMarksComponent implements OnChanges {
 	    this.assessments = this.course.assessments;
 	    this.selectedAssessment = this.assessments[0];
 	    this.selectedIndex = 0;
-
-	    console.log(this.course);
 	}
 	else {
 	    this.assessments = null;

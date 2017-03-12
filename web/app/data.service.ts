@@ -13,6 +13,7 @@ import { BreadcrumbSelectorItem } from './model/breadcrumb-selector/breadcrumb-s
 import { BreadcrumbSelectorSelect } from './model/breadcrumb-selector/breadcrumb-selector-select';
 import { Course } from './model/course';
 import { Assessment } from './model/assessment';
+import { Group } from './model/group';
 import { Student } from './model/student';
 import { AssessmentStats } from './model/assessment-stats';
 import { Stats } from './model/stats';
@@ -63,6 +64,20 @@ export class DataService {
      */
     getCourse(id: string, year: string): Promise<Course> {
         let url = this.apiUrl + 'assessments/bycourse/' + id + '/' + year;
+
+        return this.http.get(url)
+            .toPromise()
+            .then(this.unwrapResponse)
+            .catch(this.handleError);
+    }
+
+    /*
+     * getGroup
+     *
+     * Returns group identified by 'id' with its students for 'year'.
+     */
+    getGroup(id: string, year: string): Promise<Group> {
+        let url = this.apiUrl + 'students/bygroup/' + id + '/' + year;
 
         return this.http.get(url)
             .toPromise()
