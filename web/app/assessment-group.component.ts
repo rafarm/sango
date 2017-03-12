@@ -10,7 +10,7 @@ import { Course } from './model/course';
     //directives: [GoogleChartDirective],
     templateUrl: 'app/assessment-group.component.html'
 })
-export class AssessmentGroupComponent implements OnChanges {
+export class AssessmentGroupComponent /*implements OnChanges*/ {
     @Input()
     course: Course;
     @Input()
@@ -124,14 +124,14 @@ export class AssessmentGroupComponent implements OnChanges {
             }
         }
     }
-
+    /*
     ngOnChanges(changes: SimpleChanges) {
 	// Reset
 	this.pie_ChartData = [];
 	this.histogram_ChartData = [];
 	this.averages_ChartData = [];
 	this.ratios_ChartData = [];
-
+	
 	this.setPieData();
 	this.setHistogramData();
 	this.setAveragesData();
@@ -228,5 +228,6 @@ export class AssessmentGroupComponent implements OnChanges {
             ratios_data.push( values );
         }
     }
+    */
 }
 

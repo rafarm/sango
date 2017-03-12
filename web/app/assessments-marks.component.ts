@@ -39,7 +39,7 @@ export class AssessmentsMarksComponent implements OnChanges {
     constructor( private dataService: DataService ) {}
 
     ngOnChanges() {
-	if (this.year != null && this.course != null && this.groupId != null) {
+	if (/*this.year != null &&*/ this.course != null && this.groupId != null) {
 	    /*
 	    this.dataService.getAssessments(this.year, this.courseId)
 		.then(assessments => {
@@ -49,15 +49,17 @@ export class AssessmentsMarksComponent implements OnChanges {
 			this.selectedAssessment = this.assessments[0];
 		    }
 		});
-	    /*
+	    */
 	    this.assessments = this.course.assessments;
 	    this.selectedAssessment = this.assessments[0];
-	    
+	    this.selectedIndex = 0;
+
+	    console.log(this.course);
 	}
 	else {
 	    this.assessments = null;
 	    this.selectedIndex = null;
-	    //this.selectedAssessment = null;
+	    this.selectedAssessment = null;
 	}
     }
 

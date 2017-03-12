@@ -10,7 +10,7 @@ import { Student } from './model/student';
     //directives: [GoogleChartDirective],
     templateUrl: 'app/student-detail.component.html',
 })
-export class StudentDetailComponent implements OnChanges {
+export class StudentDetailComponent /*implements OnChanges*/ {
     @Input()
     course: Course;
     @Input()
@@ -101,7 +101,7 @@ export class StudentDetailComponent implements OnChanges {
 	    }
 	}
     }
-
+    /*
     ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
 	// Reset 			
 	this.failed_ChartData = [];
@@ -157,4 +157,5 @@ export class StudentDetailComponent implements OnChanges {
             }
         }
     }
+    */
 }
