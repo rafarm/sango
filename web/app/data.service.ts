@@ -44,8 +44,25 @@ export class DataService {
      *
      * Returns course identified by 'id'.
      */
+    /*
     getCourse(id: string): Promise<Course> {
         let url = this.apiUrl + 'courses/' + id;
+
+        return this.http.get(url)
+            .toPromise()
+            .then(this.unwrapResponse)
+            .catch(this.handleError);
+    }
+    */
+    
+    /*
+     * getCourse
+     *
+     * Returns course identified by 'id' with its subjects and
+     * assessments for 'year'.
+     */
+    getCourse(id: string, year: string): Promise<Course> {
+        let url = this.apiUrl + 'assessments/bycourse/' + id + '/' + year;
 
         return this.http.get(url)
             .toPromise()

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { DataService } from './data.service';
-//import { Course } from './model/course';
+import { Course } from './model/course';
+import { Group } from './model/group';
 //import { Assessment } from './model/assessment';
 //import { Student } from './model/student';
 //import { AssessmentStats } from './model/assessment-stats';
@@ -17,7 +18,7 @@ import { BreadcrumbSelectorEvent } from './model/breadcrumb-selector/breadcrumb-
 export class AssessmentsComponent implements OnInit {
     selects: BreadcrumbSelectorSelect[] = [];
     selectedYear: string;
-    selectedCourseId: string;
+    selectedCourse: Course;
     selectedGroupId: string;
   
     checkedButtonId: string;  
@@ -47,7 +48,7 @@ export class AssessmentsComponent implements OnInit {
 	switch(event.select_id) {
 	    case 'year':
 		this.selectedGroupId = null;
-		this.selectedCourseId = null;
+		this.selectedCourse = null;
                 
 		while(this.selects.length > 1) {
 		    this.selects.pop();
@@ -70,11 +71,13 @@ export class AssessmentsComponent implements OnInit {
                 }
 		
 		if (value == '-1') {
-		    this.selectedCourseId = null;
+		    this.selectedCourse = null;
 		}
                 else {
-		    this.selectedCourseId = value
-                    this.dataService.getGroupsSelectGroup(this.selectedYear, this.selectedCourseId)
+		    //this.selectedCourseId = value
+		    this.dataService.getCourse(value, this.selectedYear)
+			.then(course => this.selectedCourse = course);
+                    this.dataService.getGroupsSelectGroup(this.selectedYear, value)
                         .then(select => this.selects.push(select));
                 }
 		break;

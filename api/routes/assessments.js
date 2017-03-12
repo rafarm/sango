@@ -162,6 +162,110 @@ router.post('/many', bodyParser.json(), function(req, res) {
 });
 
 /*
+ * /assessments/bycourse/:id/:year GET
+ * 
+ * Returns the assessments corresponding to course with 'id'
+ * for the course's 'year'.
+ * Course's subjects are also included.
+ */
+router.get('/bycourse/:id/:year', function(req, res) {
+    var pipe = [
+	{
+	    $match: {
+		year: req.params.year,
+		course_id: req.params.id
+	    }
+	},
+	{
+	    $project: {
+		year: 1,
+		name: 1,
+		course_id: 1,
+		order: 1
+	    }
+	},
+	{
+	    $lookup: {
+		from: 'courses',
+		localField: 'course_id',
+		foreignField: '_id',
+		as: 'course'
+	    }
+	},
+	{
+	    $unwind: '$course'
+	},
+	{
+	    $sort: {
+		order:1
+	    }
+	},
+	{
+	    $group: {
+		_id: {
+		    _id: '$course_id',
+		    year: '$year',
+		    name: '$course.name',
+		    short_name: '$course.short_name'
+		},
+		assessments: {
+		    $push: {
+			_id: '$_id',
+			name: '$name'
+		    }
+		}
+	    }
+	},
+	{
+	    $lookup: {
+		from: 'subjects',
+		localField: '_id._id',
+		foreignField: 'course_id',
+		as: 'subjects'
+	    }
+	},
+	{
+	    $unwind: '$subjects'
+	},
+	{
+	    $group: {
+		_id: {
+		    _id: '$_id',
+		    assessments: '$assessments'
+		},
+		subjects: {
+		    $push: {
+			_id: '$subjects._id',
+			name: '$subjects.name'
+		    }
+		}
+	    }
+	},
+	{
+	    $project: {
+		_id: '$_id._id._id',
+		name: '$_id._id.name',
+		short_name: '$_id._id.short_name',
+		year: '$_id._id.year',
+		subjects: 1,
+		assessments: '$_id.assessments'
+	    }
+	}
+    ];
+    
+    assessmentsCollection.aggregate(pipe, function(err, result) {
+        if (err != null) {
+            res.status(500);
+            res.json(err);
+        }
+        else {
+            result = result.length > 0 ? result[0] : result;
+            res.json(wrapResult(result));
+        }
+    });
+});
+
+/*
  * /assessments/:id/stats/bystudent GET
  * 
  * Inserts an array of new assessments.

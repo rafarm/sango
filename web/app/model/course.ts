@@ -1,16 +1,11 @@
-class Assessment {
-    assessment_id: string;
-    order: number;
-    name: string;
-}
+import { Assessment } from './assessment';
+import { Subject } from './subject';
 
 export class Course {
     _id: string;
-    school_id: string;
-    start_year: number;
-    academic_year: string;
-    stage: string;
-    level: string;
     name: string;
+    short_name: string;
+    year: string;
+    subject: Subject[];
     assessments: Assessment[];
 }

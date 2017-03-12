@@ -1,4 +1,4 @@
-export class Assessment {
+export class Subject {
     _id: string;
     name: string;
 }
