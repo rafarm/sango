@@ -1,3 +1,8 @@
+class Subject {
+    _id: string;
+    adapted: boolean;
+}
+
 export class Student {
     _id: string;
     first_name: string;
@@ -7,4 +12,5 @@ export class Student {
     active: boolean;
     repeats: boolean;
     ed_measurements: string[];
+    subjects: Subject[];
 }

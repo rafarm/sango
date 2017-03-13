@@ -113,7 +113,8 @@ router.get('/bygroup/:id/:year', function(req, res) {
 		ed_measures: '$enrolments.ed_measures',
 		year: '$enrolments.year',
 		group_id: '$enrolments.group_id',
-		course_id: '$enrolments.course_id'
+		course_id: '$enrolments.course_id',
+		subjects: '$enrolments.subjects'
 	    }
 	},
 	{
@@ -150,7 +151,8 @@ router.get('/bygroup/:id/:year', function(req, res) {
 			birthdate: '$birth_date',
 			gender: '$gender',
 			repeats: '$repeats',
-			ed_measures: '$ed_measures'
+			ed_measures: '$ed_measures',
+			subjects: '$subjects'
 		    }
 		}
 	    }

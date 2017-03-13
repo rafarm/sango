@@ -2,7 +2,8 @@ import { Component, Input, OnChanges, SimpleChange,
 	 Output, EventEmitter } from '@angular/core';
 
 import { Assessment } from './model/assessment';
-//import { Student } from './model/student';
+import { Student } from './model/student';
+import { Subject } from './model/subject';
     
 @Component({
     selector: 'assessment-table',
@@ -13,7 +14,9 @@ export class AssessmentTableComponent implements OnChanges {
     @Input()
     assessment: Assessment;
     @Input()
-    students: any;
+    students: Student[];
+    @Input()
+    subjects: Subject[];
     
     edited: boolean;
     saving: boolean;
