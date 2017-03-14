@@ -4,6 +4,8 @@ import { Component, Input, OnChanges, SimpleChange,
 import { Assessment } from './model/assessment';
 import { Student } from './model/student';
 import { Subject } from './model/subject';
+import { Grade } from './model/grade';
+import { Grades } from './model/grades';
     
 @Component({
     selector: 'assessment-table',
@@ -20,6 +22,7 @@ export class AssessmentTableComponent implements OnChanges {
     
     edited: boolean;
     saving: boolean;
+    grades: Grades;
 
     @Output()
     onSaveAssessment: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -27,7 +30,40 @@ export class AssessmentTableComponent implements OnChanges {
     ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
 	this.edited = false;
 	this.saving = false;
-    }	
+	this.grades = null;
+    
+	if (this.assessment != null && this.students != null && this.subjects != null) {
+	    // TODO: Get assessment's grades. If no grade is returned generate
+	    // empty table.
+	    this.generateGrades();
+	}
+    }
+
+    generateGrades() {
+	let grades = new Grades();
+	grades.assessment_id = this.assessment._id;
+	grades.students = {};
+	
+	this.students.forEach(student => {
+	    let marks = {};
+	    this.subjects.forEach(subject => {
+		marks[subject._id] = new Grade();
+	    });
+	    
+	    student.subjects.forEach(subject => {
+		/*let mark = marks[subject.subject_id];
+		mark.adapted = subject.adapted;
+		mark.enroled = true;*/
+		console.log(subject.subject_id);
+	    });
+
+	    grades.students[student._id] = marks;
+	});
+	
+	this.grades = grades;
+
+	console.log(grades);
+    }
 
     save() {
         this.saving = true;

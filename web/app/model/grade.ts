@@ -1,6 +1,5 @@
 export class Grade {
-    subject_id: string;
-    adapted: boolean;
-    enroled: boolean;
+    adapted: boolean = false;
+    enroled: boolean = false;
     grade: number;
 }

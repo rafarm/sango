@@ -1,5 +1,5 @@
 class Subject {
-    _id: string;
+    subject_id: string;
     adapted: boolean;
 }
 
