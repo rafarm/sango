@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChange,
-	 Output, EventEmitter } from '@angular/core';
+	 Output/*, EventEmitter*/ } from '@angular/core';
 
 import { Assessment } from './model/assessment';
 import { Student } from './model/student';
@@ -24,8 +24,10 @@ export class AssessmentTableComponent implements OnChanges {
     saving: boolean;
     grades: Grades;
 
+    /*
     @Output()
     onSaveAssessment: EventEmitter<boolean> = new EventEmitter<boolean>();
+    */
 
     ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
 	this.edited = false;
@@ -51,10 +53,10 @@ export class AssessmentTableComponent implements OnChanges {
 	    });
 	    
 	    student.subjects.forEach(subject => {
-		/*let mark = marks[subject.subject_id];
+		let mark = marks[subject.subject_id];
 		mark.adapted = subject.adapted;
-		mark.enroled = true;*/
-		console.log(subject.subject_id);
+		mark.enroled = true;
+		//console.log(subject.subject_id);
 	    });
 
 	    grades.students[student._id] = marks;
@@ -67,12 +69,12 @@ export class AssessmentTableComponent implements OnChanges {
 
     save() {
         this.saving = true;
-	this.onSaveAssessment.emit(true);
+	//this.onSaveAssessment.emit(true);
     }
 
     cancel() {
         this.saving = true;
-	this.onSaveAssessment.emit(false);
+	//this.onSaveAssessment.emit(false);
     }
 
     trackByIndex(index: number, obj: any): any {

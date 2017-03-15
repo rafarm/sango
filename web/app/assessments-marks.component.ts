@@ -32,7 +32,7 @@ export class AssessmentsMarksComponent implements OnChanges {
 	if (assessment.students == null) {
             console.log("Assessment has no students...");
         }
-	//TODO: Get students' qualifications...
+	
 	this._selectedAssessment = assessment;
     }
     */

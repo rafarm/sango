@@ -9,8 +9,7 @@ export class Student {
     last_name: string;
     birthdate: Date;
     gender: string;
-    active: boolean;
     repeats: boolean;
-    ed_measurements: string[];
+    ed_measures: string[];
     subjects: Subject[];
 }

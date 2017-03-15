@@ -216,7 +216,7 @@ router.get('/bycourse/:id/:year', function(req, res) {
 		}
 	    }
 	},
-	{
+	/*{
 	    $lookup: {
 		from: 'subjects',
 		localField: '_id._id',
@@ -240,15 +240,16 @@ router.get('/bycourse/:id/:year', function(req, res) {
 		    }
 		}
 	    }
-	},
+	},*/
 	{
 	    $project: {
-		_id: '$_id._id._id',
-		name: '$_id._id.name',
-		short_name: '$_id._id.short_name',
-		year: '$_id._id.year',
-		subjects: 1,
-		assessments: '$_id.assessments'
+		_id: '$_id._id',
+		name: '$_id.name',
+		short_name: '$_id.short_name',
+		year: '$_id.year',
+		//subjects: 1,
+		//assessments: '$_id.assessments'
+		assessments: 1
 	    }
 	}
     ];
