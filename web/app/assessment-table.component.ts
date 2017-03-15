@@ -56,15 +56,12 @@ export class AssessmentTableComponent implements OnChanges {
 		let mark = marks[subject.subject_id];
 		mark.adapted = subject.adapted;
 		mark.enroled = true;
-		//console.log(subject.subject_id);
 	    });
 
 	    grades.students[student._id] = marks;
 	});
 	
 	this.grades = grades;
-
-	console.log(grades);
     }
 
     save() {
