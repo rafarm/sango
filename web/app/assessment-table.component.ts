@@ -94,7 +94,12 @@ export class AssessmentTableComponent implements OnChanges {
 	console.log(oldValue);	
 	return oldValue;		
     }
-
+    
+    isGradeDanger(grade: Grade): boolean {
+	return (grade.enroled && grade.value != null && grade.value  < 5);	
+    }
+    
+    /*
     cellBackgroundColor(grade: Grade): String {
     	if (grade.enroled == false) {
 	    return 'WhiteSmoke';
@@ -102,5 +107,6 @@ export class AssessmentTableComponent implements OnChanges {
 		
 	return grade.grade < 5 ? 'Tomato': 'transparent';
     }
+    */
 }
 

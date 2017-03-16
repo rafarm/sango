@@ -16,6 +16,14 @@
     white-space: nowrap;
 }
 
+.subject {
+    text-align: center;
+}
+
+.not-enroled {
+    background: repeating-linear-gradient( 45deg, #fff, #fff 2px, #eee 2px, #eee 4px);
+}
+
 /*
 td, th {
 	padding-top: 0.5em;
@@ -34,12 +42,12 @@ td, th {
 }
 */
 input {
-	text-align: right;
-	width: 2rem;
-	height: 1rem;
-	float: right;
-	background-color: transparent;
-	/*outline: none;
-	border: 0px;*/
+    text-align: right;
+    width: 2rem;
+    /*height: 1rem;
+    float: right;*/
+    background-color: transparent;
+    outline: none;
+    border: 0px;
 }
 

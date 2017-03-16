@@ -4,24 +4,24 @@
 	    <thead class="thead-default">
 		<tr>
 		    <th>Student</th>
-		    <th *ngFor="let s of subjects">{{s._id.substr(0,3)}}</th>
+		    <th *ngFor="let s of subjects" class="subject">{{s._id.substr(0,3)}}</th>
 		</tr>
 	    </thead>
 	    <tbody>
 		<tr *ngFor="let st of students">
 		    <td>{{st.last_name + ', ' + st.first_name}}</td>
 		    <!--<td *ngFor="let s of s.qualifications; let i=index; trackBy:trackByIndex" class="qualification" [style.background-color]="cellBackgroundColor(q.qualification)"><input #input type="text" [ngModel]="s.qualifications[i].qualification" (ngModelChange)="s.qualifications[i].qualification=processInput(q.qualification, $event, input)" [disabled]="q.qualification==null || saving"></td>-->
-		    <td *ngFor="let sub of subjects">
+		    <td *ngFor="let sub of subjects" [ngClass]="{'table-danger': isGradeDanger(grades.students[st._id].grades[sub._id]), 'not-enroled': !grades.students[st._id].grades[sub._id].enroled}" class="subject">
 			<!--<input #input type="text" [ngModel]="grades.students[st._id][sub._id].grade" (ngModelChange)="grades.students[st._id][sub._id].grade=processInput(grades.students[st._id][sub._id].grade, $event, input)" [disabled]="grades.students[st.id][sub._id].enroled==false || saving">-->
-			<input #input type="text" [ngModel]="grades.students[st._id].grades[sub._id].grade" (ngModelChange)="grades.students[st._id].grades[sub._id].grade=processInput(grades.students[st._id].grades[sub._id].grade, $event, input)" [disabled]="grades.students[st._id].grades[sub._id].enroled==false || saving">
+			<input *ngIf="grades.students[st._id].grades[sub._id].enroled" #input type="text" maxlength="2" [ngModel]="grades.students[st._id].grades[sub._id].value" (ngModelChange)="grades.students[st._id].grades[sub._id].value=processInput(grades.students[st._id].grades[sub._id].value, $event, input)" [disabled]="saving">
 		    </td>
 		</tr>
 	    </tbody>
 	</table>
     </div>
     <div class="float-right">
-	<button type="button" class="btn btn-default" (click)="cancel()" [disabled]="saving || !edited">Cancel·la</button>
-	<button type="button" class="btn" (click)="save()" [disabled]="saving || !edited">Desa</button>
+	<button type="button" class="btn btn-default" (click)="cancel()" [disabled]="saving || !edited">Cancel</button>
+	<button type="button" class="btn" (click)="save()" [disabled]="saving || !edited">Save</button>
     </div>
 </div>
 
