@@ -58,9 +58,12 @@ export class AssessmentTableComponent implements OnChanges {
 		mark.enroled = true;
 	    });
 
-	    grades.students[student._id] = marks;
+	    let qualifications = {};
+	    qualifications['grades'] = marks;
+
+	    grades.students[student._id] = qualifications;
 	});
-	
+
 	this.grades = grades;
     }
 
@@ -88,16 +91,16 @@ export class AssessmentTableComponent implements OnChanges {
         }
 
 	element.value = oldValue;
-	
+	console.log(oldValue);	
 	return oldValue;		
     }
 
-    cellBackgroundColor(qualification: Number): String {
-    	if (qualification == null) {
+    cellBackgroundColor(grade: Grade): String {
+    	if (grade.enroled == false) {
 	    return 'WhiteSmoke';
 	}
 		
-	return qualification < 5 ? 'Tomato': 'transparent';
+	return grade.grade < 5 ? 'Tomato': 'transparent';
     }
 }
 

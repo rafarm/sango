@@ -1,14 +1,21 @@
+
+
 /*
  * Main content
  */
-
+/*
 .main {
 	padding: 20px;
 }
-
+*/
 /*
  * Qualifications table
  */
+.table-sm tr {
+    font-size: 0.7rem;
+}
+
+/*
 td, th {
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
@@ -24,7 +31,7 @@ td, th {
 .qualification {
 	padding: 0.1em;
 }
-
+*/
 input {
 	text-align: right;
 	width: 3em;
@@ -34,3 +41,4 @@ input {
 	outline: none;
 	border: 0px;
 }
+
