@@ -13,6 +13,7 @@
  */
 .table-sm tr {
     font-size: 0.7rem;
+    white-space: nowrap;
 }
 
 /*
@@ -34,11 +35,11 @@ td, th {
 */
 input {
 	text-align: right;
-	width: 3em;
-	height: 2em;
+	width: 2rem;
+	height: 1rem;
 	float: right;
 	background-color: transparent;
-	outline: none;
-	border: 0px;
+	/*outline: none;
+	border: 0px;*/
 }
 

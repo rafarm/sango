@@ -1,10 +1,10 @@
 <div *ngIf="assessment && students && subjects" class="container-fluid">
     <div class="row">
-	<table class="table table-sm table-hover table-responsive">
+	<table class="table table-sm table-hover table-responsive table-bordered">
 	    <thead class="thead-default">
 		<tr>
 		    <th>Student</th>
-		    <th *ngFor="let s of subjects">{{s._id}}</th>
+		    <th *ngFor="let s of subjects">{{s._id.substr(0,3)}}</th>
 		</tr>
 	    </thead>
 	    <tbody>
