@@ -23,6 +23,7 @@ export class AssessmentTableComponent implements OnChanges {
     edited: boolean;
     saving: boolean;
     grades: Grades;
+    editingRow: Element;
 
     /*
     @Output()
@@ -35,10 +36,16 @@ export class AssessmentTableComponent implements OnChanges {
 	this.grades = null;
     
 	if (this.assessment != null && this.students != null && this.subjects != null) {
-	    // TODO: Get assessment's grades. If no grade is returned generate
-	    // empty table.
-	    this.generateGrades();
+	    this.getGrades();
 	}
+    }
+
+    getGrades() {
+	// TODO: Get assessment's grades. If no grade is returned generate
+	// empty table.
+	this.generateGrades();
+	this.edited = false;
+	this.saving = false;
     }
 
     generateGrades() {
@@ -69,11 +76,13 @@ export class AssessmentTableComponent implements OnChanges {
 
     save() {
         this.saving = true;
+	console.log(this.grades);
 	//this.onSaveAssessment.emit(true);
     }
 
     cancel() {
         this.saving = true;
+	this.getGrades();
 	//this.onSaveAssessment.emit(false);
     }
 
@@ -83,20 +92,36 @@ export class AssessmentTableComponent implements OnChanges {
 
     // Filters qualification input
     processInput(oldValue: Number, newValue: any, element: any): Number {
-        newValue = newValue*1;
-    	
-        if (newValue >=0 && newValue <=10) {
+	let numValue = newValue != '' ? newValue * 1 : null;
+
+	if (newValue == '' || (numValue >=0 && numValue <=10)) {
 	    this.edited = true;
-	    return newValue;
+	    return numValue;
         }
 
-	element.value = oldValue;
-	console.log(oldValue);	
+	element.value = oldValue;	
 	return oldValue;		
+    }
+
+    onInputFocus(event: any) {
+	let row = event.target.parentElement.parentElement;
+	
+	if (this.editingRow != row) {
+	    let classActive = 'table-active';
+	    if (this.editingRow != null) {
+		this.editingRow.classList.remove(classActive);
+	    }
+	    row.classList.add(classActive);
+	    this.editingRow = row;
+	}
     }
     
     isGradeDanger(grade: Grade): boolean {
 	return (grade.enroled && grade.value != null && grade.value  < 5);	
+    }
+
+    isGradeMissing(grade: Grade): boolean {
+	return grade.value == null;
     }
     
     /*

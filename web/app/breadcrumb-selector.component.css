@@ -18,6 +18,11 @@
     max-width: 150px;
 }
 
+.breadcrumb .custom-select:hover {
+    color: darkgray;
+}
+
 select {
     font-size: 130%;
 }
+
