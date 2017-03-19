@@ -115,7 +115,18 @@ export class AssessmentTableComponent implements OnChanges {
 	    this.editingRow = row;
 	}
     }
-    
+
+    cellClasses(grade: Grade): any {
+	let classes = {};
+
+	classes['table-danger'] = grade.enroled && grade.value != null && grade.value  < 5;
+	classes['table-warning'] = grade.value == null;
+	classes['not-enroled'] = !grade.enroled;
+	classes['bg-adapted'] = grade.adapted;
+
+	return classes;
+    }
+    /*
     isGradeDanger(grade: Grade): boolean {
 	return (grade.enroled && grade.value != null && grade.value  < 5);	
     }
@@ -123,7 +134,7 @@ export class AssessmentTableComponent implements OnChanges {
     isGradeMissing(grade: Grade): boolean {
 	return grade.value == null;
     }
-    
+    */
     /*
     cellBackgroundColor(grade: Grade): String {
     	if (grade.enroled == false) {
