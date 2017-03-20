@@ -1,4 +1,4 @@
-<ol *ngIf="selects" class="breadcrumb">
+<ul *ngIf="selects" class="breadcrumb">
     <li *ngFor="let select of selects; let l = last" class="breadcrumb-item" [ngClass]="{'active': l}">
 	<select id="{{select.id}}" class="custom-select" (change)="selectChangeHandler($event)">
 	    <template ngFor let-item [ngForOf]="select.items">
@@ -13,4 +13,4 @@
 	    </template>
 	</select>
     </li>
-</ol>
+</ul>
