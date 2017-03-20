@@ -1,10 +1,10 @@
-<div class="fixed-top-sub bg-primary container-fluid">
+<div class="bg-primary container-fluid">
     <div class="row align-items-end">
 	<div class="col-md-8">
 	    <breadcrumb-selector [selects]="selects" (breadcrumbSelectorChanged)="onSelectorChanged($event)"></breadcrumb-selector>
 	</div>
 	<div *ngIf="selectedGroup" class="col-md-4">
-	    <ul class="nav nav-tabs float-right" role="tablist">
+	    <ul class="nav nav-tabs sub-select" role="tablist">
 		<li class="nav-item">
 		    <button [ngClass]="{'active': checkedButtonId == 'btn-marks'}" (click)="onButtonClicked($event)" id="btn-marks" type="button" class="btn btn-link">Grades</button>
 		</li>
