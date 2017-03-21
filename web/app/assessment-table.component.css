@@ -15,23 +15,27 @@
     font-size: 0.7rem;
     white-space: nowrap;
 }
-
+/*
 table {
     table-layout: fixed;
 }
-
+*/
 .subject {
     text-align: center;
     width: 40px;
 }
 
 .student {
-    width: 200px;
+    width: 230px;
+}
+
+thead {
+    display: inline-block;
 }
 
 tbody {
-    display: block;
-    height: 400px;
+    display: inline-block;
+    height: 600px;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -39,17 +43,19 @@ tbody {
 .not-enroled {
     background: repeating-linear-gradient( 45deg, #fff, #fff 2px, #eee 2px, #eee 4px);
 }
-/*
+
 .bg-adapted {
-    background-image: url("data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+    background-image: url("data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'><path fill='%23999' d='M0 0h1L0 1z'/></svg>");
     background-position: 0 0;
     background-repeat: no-repeat;
     background-size: 8px 10px;   
 }
-*/
+
+/*
 .bg-adapted:before {
     content: "*";
 }
+*/
 /*
 td, th {
 	padding-top: 0.5em;

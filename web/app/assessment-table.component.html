@@ -1,29 +1,31 @@
 <div *ngIf="assessment && students && subjects" class="container-fluid">
     <div class="row justify-content-center">
-	<div class="col-12">
+	<div class="col-10">
 	    <table class="table table-sm table-hover table-responsive table-bordered">
 		<thead class="thead-default">
 		    <tr>
-			<th class="student">Student</th>
-			<th *ngFor="let s of subjects" class="subject">{{s._id.substr(0,3)}}</th>
+			<th><div class="student">Student</div></th>
+			<th *ngFor="let s of subjects"><div class="subject">{{s._id.substr(0,3)}}</div></th>
 		    </tr>
 		</thead>
 		<tbody>
 		    <tr *ngFor="let st of students">
-			<td class="student">{{st.last_name + ', ' + st.first_name}}</td>
-			<td *ngFor="let sub of subjects" [ngClass]="cellClasses(grades.students[st._id].grades[sub._id])" class="subject">
-			    <input *ngIf="grades.students[st._id].grades[sub._id].enroled" #input type="text" maxlength="2" [ngModel]="grades.students[st._id].grades[sub._id].value" (ngModelChange)="grades.students[st._id].grades[sub._id].value=processInput(grades.students[st._id].grades[sub._id].value, $event, input)" (focus)="onInputFocus($event)" [disabled]="saving">
+			<td><div class="student">{{st.last_name + ', ' + st.first_name}}</div></td>
+			<td *ngFor="let sub of subjects" [ngClass]="cellClasses(grades.students[st._id].grades[sub._id])">
+			    <div class="subject">
+				<input *ngIf="grades.students[st._id].grades[sub._id].enroled" #input type="text" maxlength="2" [ngModel]="grades.students[st._id].grades[sub._id].value" (ngModelChange)="grades.students[st._id].grades[sub._id].value=processInput(grades.students[st._id].grades[sub._id].value, $event, input)" (focus)="onInputFocus($event)" [disabled]="saving">
+			    </div>
 			</td>
 		    </tr>
 		</tbody>
 	    </table>
 	</div>
     </div>
-    <div class="row">
-	<div class="col-6">
-	    <small class="bg-adapted"><em>With adaptation</em></small>
+    <div class="row justify-content-center">
+	<div class="col-5">
+	    <small class="bg-adapted"><em>&emsp;With adaptation</em></small>
 	</div>
-	<div class="col-6">
+	<div class="col-5">
 	    <div class="float-right">
 		<button type="button" class="btn btn-default" (click)="cancel()" [disabled]="saving || !edited">Cancel</button>
 		<button type="button" class="btn" (click)="save()" [disabled]="saving || !edited">Save</button>
