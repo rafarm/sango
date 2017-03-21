@@ -18,6 +18,17 @@
 
 .subject {
     text-align: center;
+    min-width: 40px;
+}
+
+.student {
+    min-width: 250px;
+}
+
+tbody {
+    display: block;
+    height: 400px;
+    overflow-y: auto;
 }
 
 .not-enroled {

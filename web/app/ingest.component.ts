@@ -5,7 +5,8 @@ import { DataService } from './data.service';
 
 @Component({
 	selector: 'ingest',
-	templateUrl: 'app/ingest.component.html'
+	templateUrl: 'app/ingest.component.html',
+	styleUrls: ['app/ingest.component.css']
 })
 export class IngestComponent implements AfterViewInit {
     IngestState = {

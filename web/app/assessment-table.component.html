@@ -4,13 +4,13 @@
 	    <table class="table table-sm table-hover table-responsive table-bordered">
 		<thead class="thead-default">
 		    <tr>
-			<th>Student</th>
+			<th class="student">Student</th>
 			<th *ngFor="let s of subjects" class="subject">{{s._id.substr(0,3)}}</th>
 		    </tr>
 		</thead>
 		<tbody>
 		    <tr *ngFor="let st of students">
-			<td>{{st.last_name + ', ' + st.first_name}}</td>
+			<td class="student">{{st.last_name + ', ' + st.first_name}}</td>
 			<td *ngFor="let sub of subjects" [ngClass]="cellClasses(grades.students[st._id].grades[sub._id])" class="subject">
 			    <input *ngIf="grades.students[st._id].grades[sub._id].enroled" #input type="text" maxlength="2" [ngModel]="grades.students[st._id].grades[sub._id].value" (ngModelChange)="grades.students[st._id].grades[sub._id].value=processInput(grades.students[st._id].grades[sub._id].value, $event, input)" (focus)="onInputFocus($event)" [disabled]="saving">
 			</td>
