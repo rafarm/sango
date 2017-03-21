@@ -16,19 +16,24 @@
     white-space: nowrap;
 }
 
+table {
+    table-layout: fixed;
+}
+
 .subject {
     text-align: center;
-    min-width: 40px;
+    width: 40px;
 }
 
 .student {
-    min-width: 250px;
+    width: 200px;
 }
 
 tbody {
     display: block;
     height: 400px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .not-enroled {
