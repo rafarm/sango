@@ -30,11 +30,11 @@ table {
     width: 230px;
     overflow: hidden;
 }
-/*
+
 thead {
-    display: inline-block;
+    display: block;
 }
-*/
+
 tbody {
     display: inline-block;
     height: 500px;
