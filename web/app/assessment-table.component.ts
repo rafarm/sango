@@ -104,7 +104,7 @@ export class AssessmentTableComponent implements OnChanges {
     }
 
     onInputFocus(event: any) {
-	let row = event.target.parentElement.parentElement;
+	let row = event.target.parentElement.parentElement.parentElement;
 	
 	if (this.editingRow != row) {
 	    let classActive = 'table-active';

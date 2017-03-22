@@ -23,10 +23,12 @@ table {
 .subject {
     text-align: center;
     width: 40px;
+    overflow: hidden;
 }
 
 .student {
     width: 230px;
+    overflow: hidden;
 }
 
 thead {
