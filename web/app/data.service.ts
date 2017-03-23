@@ -202,9 +202,9 @@ export class DataService {
 	    grades: g
 	};
 
-	console.log(a_grades);
+	//console.log(a_grades);
 	
-        let url = this.apiUrl + 'assessments/' + a_id;
+        let url = this.apiUrl + 'assessments/' + a_id + '/qualifications';
         let body = JSON.stringify(a_grades);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });

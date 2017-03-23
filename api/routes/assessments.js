@@ -119,8 +119,7 @@ router.get('/:id/qualifications', function(req, res) {
                 }
             }
         }]
-
-	pipe.concat(by_group);
+	pipe = pipe.concat(by_group);
     }
 
     assessmentsCollection.aggregate(pipe, function(err, result) {
@@ -134,6 +133,83 @@ router.get('/:id/qualifications', function(req, res) {
         }
     });
 });
+
+/*
+ * /assessments/:id/qualifications PUT
+ * 
+ * Updates qualifications data for assessment
+ * identified by 'id'.
+ */
+router.put('/:id/qualifications', bodyParser.json(), function(req, res) {
+    var grades = req.body.grades;
+
+    if (grades != undefined) {
+	var insertStudent = function(index, wr) {
+	    if (index < grades.length) {
+		var st = grades[index];
+		assessmentsCollection.update(
+		    { _id: req.params.id },
+		    { $push: { grades: st } })
+		    .then(result => {
+			var r = result.result;
+			wr.ok += r.ok;
+			wr.nModified += r.nModified;
+			wr.n += r.n;
+
+			updateStudent(++index, wr);
+                    })
+		    .catch(err => {
+			res.status(500);
+			res.json(err);
+		    });
+	    }
+	    else {
+		res.json(wrapResult(wr));
+            }
+        };
+
+	var updateStudent = function(index, wr) {
+	    if (index < grades.length) {
+		var st = grades[index];
+		assessmentsCollection.update(
+		    { _id: req.params.id, 'grades.student_id': st.student_id },
+		    { $set: { 'grades.$.qualifications': st.qualifications } })
+		    .then(result => {
+			var r = result.result;
+			if (r.nModified == 0) {
+			    insertStudent(index, wr);
+			}
+			else {
+			    wr.ok += r.ok;
+			    wr.nModified += r.nModified;
+			    wr.n += r.n;
+
+			    updateStudent(++index, wr);
+			}
+		    })
+		    .catch(err => {
+			res.status(500);
+			res.json(err);
+		    });
+	    }
+	    else {
+                res.json(wrapResult(wr));
+            }
+	};
+
+	var wr = {
+	    ok: 0,
+	    nModified: 0,
+	    n: 0
+	};
+	updateStudent(0, wr);
+    }
+    else {
+	res.status(500);
+	res.send('No grades received.');
+    }
+});
+
 
 /*
  * /assessments POST
