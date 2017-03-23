@@ -75,43 +75,53 @@ router.get('/:id/qualifications', function(req, res) {
     var pipe = [
 	{
 	    $match: {
-		_id: req.params.id
-	    }
-	},
-	{
-	    $project: {
-		course_id: 1
-	    }
-	},
-	{
-	    $lookup: {
-		from: "subjects",
-		localField: "course_id",
-		foreignField: "course_id",
-		as: "subjects"
-	    }
-	},
-	{
-	    $unwind: "$subjects"
-	},
-	{
-	    $project: {
-		subject_id: "$subjects._id",
-		subject_name: "$subjects.name"
-	    }
-	},
-	{
-	    $group: {
-		_id: "$_id",
-		subjects: {
-		    $push: {
-			_id: "$subject_id",
-			name: "$subject_name"
-		    }
-		}
-	    }
-	}
+                _id: req.params.id
+            }
+        },
+        {
+            $project: {
+                grades: 1
+            }
+        }
     ];
+
+    if (req.query.group_id != null) {
+        var by_group = [{
+            $unwind: '$grades'
+        },
+        {
+            $project: {
+                student_id: '$grades.student_id',
+                qualifications: '$grades.qualifications'
+            }
+        },
+        {
+            $lookup: {
+                from: 'students',
+                localField: 'student_id',
+                foreignField: '_id',
+                as: 'student_data'
+            }
+        },
+        {
+            $match: {
+                'student_data.enrolments.group_id': req.query.group_id
+            }
+        },
+        {
+            $group: {
+                _id: '$_id',
+                grades: {
+                    $push: {
+                        student_id: '$student_id',
+                        qualifications: '$qualifications'
+                    }
+                }
+            }
+        }]
+
+	pipe.concat(by_group);
+    }
 
     assessmentsCollection.aggregate(pipe, function(err, result) {
         if (err != null) {
