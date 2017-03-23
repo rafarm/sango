@@ -11,6 +11,8 @@ import 'rxjs/add/operator/toPromise';
 //import { SelectorCoursesTree } from './model/selector-courses-tree';
 import { BreadcrumbSelectorItem } from './model/breadcrumb-selector/breadcrumb-selector-item';
 import { BreadcrumbSelectorSelect } from './model/breadcrumb-selector/breadcrumb-selector-select';
+import { Grades } from './model/grades';
+import { Grade } from './model/grade';
 import { Course } from './model/course';
 import { Assessment } from './model/assessment';
 import { Group } from './model/group';
@@ -148,6 +150,7 @@ export class DataService {
      *
      * Replaces the assessment.
      */
+    /*
     replaceAssessment(assessment: Assessment): Promise<any> {
 	let url = this.apiUrl + 'assessments/' + assessment._id;
 	let body = JSON.stringify(assessment);
@@ -158,6 +161,58 @@ export class DataService {
 	    .toPromise()
 	    .then(this.unwrapResponse)
 	    .catch(this.handleError);
+    }
+    */
+
+    /*
+     * updateAssessmentGrades
+     *
+     * Update de grades for the assessment.
+     */
+    updateAssessmentGrades(grades: Grades): Promise<any> {
+	let a_id = grades.assessment_id;
+	let st = grades.students;
+
+	// Build assessment's grades array
+	let g:any[] = [];
+	Object.getOwnPropertyNames(st).forEach(st_id => {
+	    let qs: any[] = [];
+	    let st_g = st[st_id].grades;
+	    Object.getOwnPropertyNames(st_g).forEach(sub_id => {
+		let value = st_g[sub_id].value;
+		if (value != null) {
+	 	    let q = {
+		    	subject_id: sub_id,
+		    	qualification: value
+		    };
+		    qs.push(q);
+		}
+	    });
+
+	    if (qs.length > 0) {
+		let s = {
+		    student_id: st_id,
+		    qualifications: qs
+		};
+		g.push(s);
+	    }
+	});
+
+	let a_grades = {
+	    grades: g
+	};
+
+	console.log(a_grades);
+	
+        let url = this.apiUrl + 'assessments/' + a_id;
+        let body = JSON.stringify(a_grades);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.put(url, body, options)
+            .toPromise()
+            .then(this.unwrapResponse)
+            .catch(this.handleError);
     }
 
     /*

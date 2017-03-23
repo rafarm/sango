@@ -57,7 +57,7 @@ router.get('/:id', function(req, res) {
  * the one received.
  */
 router.put('/:id', bodyParser.json(), function(req, res) {
-    assessmentsCollection.replaceOne({ '_id': req.params.id }, req.body, null)
+    assessmentsCollection.updateOne({ '_id': req.params.id },{ $set: req.body }, null)
 	.then(result => res.json(wrapResult(result)))
 	.catch(function(err) {
 	    res.status(500);

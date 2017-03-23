@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, SimpleChange,
 	 Output/*, EventEmitter*/ } from '@angular/core';
 
+import { DataService } from './data.service';
 import { Assessment } from './model/assessment';
 import { Student } from './model/student';
 import { Subject } from './model/subject';
@@ -29,6 +30,8 @@ export class AssessmentTableComponent implements OnChanges {
     @Output()
     onSaveAssessment: EventEmitter<boolean> = new EventEmitter<boolean>();
     */
+
+    constructor( private dataService: DataService ) {}
 
     ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
 	this.edited = false;
@@ -76,7 +79,11 @@ export class AssessmentTableComponent implements OnChanges {
 
     save() {
         this.saving = true;
-	console.log(this.grades);
+	//console.log(this.grades);
+	this.dataService.updateAssessmentGrades(this.grades)
+	    .then(result => {
+		console.log(result);
+	    });
 	//this.onSaveAssessment.emit(true);
     }
 
