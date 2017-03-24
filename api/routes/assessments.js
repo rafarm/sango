@@ -176,7 +176,7 @@ router.put('/:id/qualifications', bodyParser.json(), function(req, res) {
 		    { $set: { 'grades.$.qualifications': st.qualifications } })
 		    .then(result => {
 			var r = result.result;
-			if (r.nModified == 0) {
+			if (r.n == 0) {
 			    insertStudent(index, wr);
 			}
 			else {

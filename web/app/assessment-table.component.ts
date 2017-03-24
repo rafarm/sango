@@ -51,25 +51,25 @@ export class AssessmentTableComponent implements OnChanges {
     getGrades() {
 	// TODO: Get assessment's grades. If no grade is returned generate
 	// empty table.
-	this.generateGrades();
 
 	this.dataService.getQualifications(this.assessment._id, this.group._id)
 	    .then(res => {
-		console.log(res);
+		let grades = this.generateGrades();
 		if (res.grades != undefined) {
 		    res.grades.forEach((st: any) => {
 			st.qualifications.forEach((q: any) => {
-			    let gs = this.grades.students[st.student_id].grades;
+			    let gs = grades.students[st.student_id].grades;
 			    gs[q.subject_id].value = q.qualification;
 			});
 		    });
 		}
+		this.grades = grades;
 		this.edited = false;
 		this.saving = false;
 	    });
     }
 
-    generateGrades() {
+    generateGrades(): Grades {
 	let grades = new Grades();
 	grades.assessment_id = this.assessment._id;
 	grades.students = {};
@@ -92,12 +92,11 @@ export class AssessmentTableComponent implements OnChanges {
 	    grades.students[student._id] = qualifications;
 	});
 
-	this.grades = grades;
+	return grades;
     }
 
     save() {
         this.saving = true;
-	console.log(this.grades);
 	this.dataService.updateQualifications(this.grades)
 	    .then(result => {
 		this.getGrades();
