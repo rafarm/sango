@@ -132,7 +132,7 @@ export class DataService {
      * Qualifications can be optionally filtered by
      * group_id.
      */
-    getQualifications(id: string, group_id?: string): Promise<Assessment> {
+    getQualifications(id: string, group_id?: string): Promise<any> {
         let url = this.apiUrl + 'assessments/' + id + '/qualifications';
 
         if (group_id != undefined) {
@@ -165,11 +165,11 @@ export class DataService {
     */
 
     /*
-     * updateAssessmentGrades
+     * updateQualifications
      *
      * Update de grades for the assessment.
      */
-    updateAssessmentGrades(grades: Grades): Promise<any> {
+    updateQualifications(grades: Grades): Promise<any> {
 	let a_id = grades.assessment_id;
 	let st = grades.students;
 

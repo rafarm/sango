@@ -3,6 +3,7 @@ import { Component, Input, OnChanges, SimpleChange,
 
 import { DataService } from './data.service';
 import { Assessment } from './model/assessment';
+import { Group } from './model/group';
 import { Student } from './model/student';
 import { Subject } from './model/subject';
 import { Grade } from './model/grade';
@@ -17,9 +18,11 @@ export class AssessmentTableComponent implements OnChanges {
     @Input()
     assessment: Assessment;
     @Input()
-    students: Student[];
-    @Input()
+    group: Group;
+    //@Input()
     subjects: Subject[];
+    //@Input()
+    students: Student[];
     
     edited: boolean;
     saving: boolean;
@@ -38,7 +41,9 @@ export class AssessmentTableComponent implements OnChanges {
 	this.saving = false;
 	this.grades = null;
     
-	if (this.assessment != null && this.students != null && this.subjects != null) {
+	if (this.assessment != null && this.group != null /*this.students != null && this.subjects != null*/) {
+	    this.subjects = this.group.subjects;
+	    this.students = this.group.students;
 	    this.getGrades();
 	}
     }
@@ -47,8 +52,21 @@ export class AssessmentTableComponent implements OnChanges {
 	// TODO: Get assessment's grades. If no grade is returned generate
 	// empty table.
 	this.generateGrades();
-	this.edited = false;
-	this.saving = false;
+
+	this.dataService.getQualifications(this.assessment._id, this.group._id)
+	    .then(res => {
+		console.log(res);
+		if (res.grades != undefined) {
+		    res.grades.forEach((st: any) => {
+			st.qualifications.forEach((q: any) => {
+			    let gs = this.grades.students[st.student_id].grades;
+			    gs[q.subject_id].value = q.qualification;
+			});
+		    });
+		}
+		this.edited = false;
+		this.saving = false;
+	    });
     }
 
     generateGrades() {
@@ -79,10 +97,10 @@ export class AssessmentTableComponent implements OnChanges {
 
     save() {
         this.saving = true;
-	//console.log(this.grades);
-	this.dataService.updateAssessmentGrades(this.grades)
+	console.log(this.grades);
+	this.dataService.updateQualifications(this.grades)
 	    .then(result => {
-		console.log(result);
+		this.getGrades();
 	    });
 	//this.onSaveAssessment.emit(true);
     }
