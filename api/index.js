@@ -12,10 +12,10 @@ var server = app.listen(process.env.npm_package_config_port, function () {
 mongodb.connect
     .then(function () {
 	// Client app...
-        app.use(express.static('web'));
+        /*app.use(express.static('web'));
         app.use('/dashboard', express.static('web'));
         app.use('/assessments', express.static('web'));
-        app.use('/ingest', express.static('web'));
+        app.use('/ingest', express.static('web'));*/
         app.use('/node_modules', express.static('node_modules'));
 
         // Loading routes...
@@ -29,6 +29,8 @@ mongodb.connect
         app.use('/api/assessments', assessments);
         var ingest = require('./routes/ingest');
         app.use('/api/ingest', ingest);
+
+	app.use(express.static('web'));
     })
     .catch(function (err) {
         // Close server on database connection error.
