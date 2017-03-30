@@ -11,14 +11,7 @@ var server = app.listen(process.env.npm_package_config_port, function () {
 // Connecting to database...
 mongodb.connect
     .then(function () {
-	// Client app...
-        /*app.use(express.static('web'));
-        app.use('/dashboard', express.static('web'));
-        app.use('/assessments', express.static('web'));
-        app.use('/ingest', express.static('web'));*/
-        app.use('/node_modules', express.static('node_modules'));
-
-        // Loading routes...
+	// Loading routes...
         var groups = require('./routes/groups');
         app.use('/api/groups', groups);
         var courses = require('./routes/courses');
@@ -30,7 +23,11 @@ mongodb.connect
         var ingest = require('./routes/ingest');
         app.use('/api/ingest', ingest);
 
-	app.use(express.static('web'));
+	// Client app...
+        app.use('/node_modules', express.static('node_modules'));
+        app.use('/assets', express.static('web/assets'));
+        app.use('/app', express.static('web/app'));
+	app.use('*', express.static('web'));
     })
     .catch(function (err) {
         // Close server on database connection error.
