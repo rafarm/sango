@@ -5,10 +5,10 @@ import { HttpModule } 	 		from '@angular/http';
 
 import { AppComponent }  		from './app.component';
 import { AppRoutingModule } 		from './app-routing.module';
+import { IngestModule }			from './ingest/ingest.module';
 
 //import { DashboardComponent } 	from './dashboard.component';
 import { AssessmentsComponent } 	from './assessments.component';
-import { IngestComponent } 		from './ingest.component';
 import { PageNotFoundComponent }	from './not-found.component';
 
 import { AssessmentsMarksComponent }	from './assessments-marks.component';
@@ -28,13 +28,13 @@ import { CollapseDirective } 		from './directives/collapse.directive';
 	BrowserModule,
 	FormsModule,
 	HttpModule,
+	IngestModule,
 	AppRoutingModule
     ],
     declarations: [ 
 	AppComponent,
 	//DashboardComponent,
 	AssessmentsComponent,
-	IngestComponent,
 	PageNotFoundComponent,
 	AssessmentsMarksComponent,
 	BreadcrumbSelectorComponent,

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
+//import { Observable } from 'rxjs/Observable';
+//import { Observer } from 'rxjs/Observer';
 
-declare var EventSource: any;
+//declare var EventSource: any;
 
 import 'rxjs/add/operator/toPromise';
 
@@ -288,6 +288,7 @@ export class DataService {
      *
      * Uploads a file to server.
      */
+    /*
     uploadFile(file: File) {
 	let request = new Observable((observer: Observer<any>) => {
 	    let formData = new FormData();
@@ -338,6 +339,7 @@ export class DataService {
 
 	return request;
     } 
+    */
 
     /*
      * getGroupsSelectYear

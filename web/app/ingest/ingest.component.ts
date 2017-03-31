@@ -1,12 +1,12 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component } 	from '@angular/core';
 
-import { DataService } from './data.service';
+import { IngestService } 		from './ingest.service';
 
 
 @Component({
-	selector: 'ingest',
-	templateUrl: 'app/ingest.component.html',
-	styleUrls: ['app/ingest.component.css']
+    templateUrl: 'app/ingest.component.html',
+    styleUrls: ['app/ingest.component.css'],
+    providers: [IngestService]
 })
 export class IngestComponent implements AfterViewInit {
     IngestState = {
@@ -26,7 +26,7 @@ export class IngestComponent implements AfterViewInit {
     private alert_title: string;
     private alert_msg: string;
 
-    constructor(private dataService: DataService) {}
+    constructor(private ingestService: IngestService) {}
 
     ngAfterViewInit() {
 	this.progress_bar = document.querySelector(".progress-bar");
@@ -45,10 +45,10 @@ export class IngestComponent implements AfterViewInit {
 
 	this.show_progress();
 
-	this.dataService.uploadFile(this.fileToUpload)
+	this.ingestService.uploadFile(this.fileToUpload)
 	    .subscribe(
-		value => this.process_progress(value),
-		error => this.process_error(error),
+		(value: any) => this.process_progress(value),
+		(error: any) => this.process_error(error),
 		() => this.process_finished()
 	);
     }
