@@ -4,9 +4,9 @@ import { IngestService } 		from './ingest.service';
 
 
 @Component({
-    templateUrl: 'app/ingest.component.html',
-    styleUrls: ['app/ingest.component.css'],
-    providers: [IngestService]
+    templateUrl: 'app/ingest/ingest.component.html',
+    styleUrls: ['app/ingest/ingest.component.css'],
+    providers: [ IngestService ]
 })
 export class IngestComponent implements AfterViewInit {
     IngestState = {

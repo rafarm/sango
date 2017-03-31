@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-//import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 
@@ -8,8 +7,6 @@ declare var EventSource: any;
 @Injectable()
 export class IngestService {
     private apiUrl = 'http://localhost:3000/api/';
-
-    //constructor(private http: Http) {}
 
     /*
      * uploadFile
