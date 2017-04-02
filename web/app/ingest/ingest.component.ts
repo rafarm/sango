@@ -45,15 +45,15 @@ export class IngestComponent implements AfterViewInit {
 
 	this.show_progress();
 
-	this.ingestService.uploadFile(this.fileToUpload)
+	this.ingestService.ingestFile(this.fileToUpload)
 	    .subscribe(
-		(value: any) => this.process_progress(value),
-		(error: any) => this.process_error(error),
+		(value: string) => this.process_progress(value),
+		(error: string) => this.process_error(error),
 		() => this.process_finished()
 	);
     }
 
-    process_progress(value: any) {
+    process_progress(value: string) {
 	let parsed_value = Math.floor(value);
 	if (isNaN(parsed_value)) {
 	    this.progress_value = 100;
@@ -69,7 +69,7 @@ export class IngestComponent implements AfterViewInit {
         this.show_progress();
     }
 
-    process_error(error: any) {
+    process_error(error: string) {
 	this.alert_title = "Error!";
 	this.alert_msg = error;
 

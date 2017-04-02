@@ -1,18 +1,53 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
+import { Injectable } 		from '@angular/core';
+import { Observable } 		from 'rxjs/Observable';
+import { Observer } 		from 'rxjs/Observer';
 
-declare var EventSource: any;
-
+import { BackendService, CallData } 	from './backend.service';
+ 
 @Injectable()
 export class IngestService {
-    private apiUrl = 'http://localhost:3000/api/';
+
+    constructor(private backendService: BackendService) {};
+
+    /*
+     * ingestFile
+     *
+     * Uploads and processes a data file in backend service.
+     */
+    ingestFile(file: File): Observable<string> {
+	let request = new Observable((observer: Observer<string>) => {
+	    this.backendService.uploadFile(file)
+		.subscribe(
+		    (value: CallData) => {
+			if (value.state == 4) {
+			    if (value.status == 200) {
+				this.backendService.processFile(value.data)
+				    .subscribe(
+					(value: string) => observer.next(value),
+					(error: string) => observer.error(value),
+					() => observer.complete();
+				    );
+			    }
+			    else {
+				observer.error(value.data);
+			    }
+			}
+			else {
+			    observer.next(value.data);
+    			}
+		    }
+		);
+	});
+
+	return request;
+    }
 
     /*
      * uploadFile
      *
      * Uploads a file to server.
      */
+    /*
     uploadFile(file: File): Observable<any> {
         let request = new Observable((observer: Observer<any>) => {
             let formData = new FormData();
@@ -63,5 +98,6 @@ export class IngestService {
 
         return request;
     }
+    */
 }
 

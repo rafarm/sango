@@ -18,6 +18,8 @@ import { AssessmentTableComponent } 	from './assessment-table.component';
 //import { AssessmentListComponent } 	from './assessment-list.component';
 //import { StudentDetailComponent } 	from './student-detail.component';
 
+import { ConfigService }		from './config/config.service';
+import { BackendService }		from './backend.service';
 import { DataService } 			from './data.service';
 
 //import { GoogleChartDirective } 	from './directives/google-chart.directive';
@@ -45,7 +47,11 @@ import { CollapseDirective } 		from './directives/collapse.directive';
 	//GoogleChartDirective,
 	CollapseDirective
     ],
-    providers: [ DataService ],
+    providers: [
+	ConfigService,
+	BackendService,
+	DataService
+    ],
     bootstrap: [ AppComponent ]
 })
 
