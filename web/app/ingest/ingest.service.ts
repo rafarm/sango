@@ -19,21 +19,25 @@ export class IngestService {
 	    this.backendService.uploadFile(file)
 		.subscribe(
 		    (value: CallData) => {
-			if (value.state == 4) {
-			    if (value.status == 200) {
-				this.backendService.processFile(value.data)
-				    .subscribe(
-					(value: string) => observer.next(value),
-					(error: string) => observer.error(error),
-					() => observer.complete()
-				    );
-			    }
-			    else {
-				observer.error(value.data);
-			    }
-			}
-			else {
-			    observer.next(value.data);
+			switch(value.state) {
+			    case 1:
+			    	observer.next(value.data);
+				break;
+			    case 4:
+			        if (value.status == 200) {
+				    this.backendService.processFile(value.data)
+				        .subscribe(
+					    (value: string) => observer.next(value),
+					    (error: string) => observer.error(error),
+					    () => observer.complete()
+				        );
+			        }
+			        else {
+				    observer.error(value.data);
+			        }
+				break;
+				default:
+			
     			}
 		    }
 		);
