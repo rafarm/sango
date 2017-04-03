@@ -2,7 +2,7 @@ import { Injectable } 		from '@angular/core';
 import { Observable } 		from 'rxjs/Observable';
 import { Observer } 		from 'rxjs/Observer';
 
-import { BackendService, CallData } 	from './backend.service';
+import { BackendService, CallData } 	from '../backend.service';
  
 @Injectable()
 export class IngestService {
@@ -24,8 +24,8 @@ export class IngestService {
 				this.backendService.processFile(value.data)
 				    .subscribe(
 					(value: string) => observer.next(value),
-					(error: string) => observer.error(value),
-					() => observer.complete();
+					(error: string) => observer.error(error),
+					() => observer.complete()
 				    );
 			    }
 			    else {

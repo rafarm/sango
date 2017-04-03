@@ -2,7 +2,6 @@ import { AfterViewInit, Component } 	from '@angular/core';
 
 import { IngestService } 		from './ingest.service';
 
-
 @Component({
     templateUrl: 'app/ingest/ingest.component.html',
     styleUrls: ['app/ingest/ingest.component.css'],
@@ -50,11 +49,11 @@ export class IngestComponent implements AfterViewInit {
 		(value: string) => this.process_progress(value),
 		(error: string) => this.process_error(error),
 		() => this.process_finished()
-	);
+	    );
     }
 
     process_progress(value: string) {
-	let parsed_value = Math.floor(value);
+	let parsed_value = Math.floor(+value);
 	if (isNaN(parsed_value)) {
 	    this.progress_value = 100;
 	    this.progress_msg = value;

@@ -8,10 +8,10 @@ declare var EventSource: any;
 
 export class CallData {
     constructor(
-	state: number,
-	status: number,
-	data: string
-    );
+	public state: number,
+	public status: number,
+	public data: string
+    ) {};
 }
 
 @Injectable()
@@ -19,7 +19,7 @@ export class BackendService {
     private backendUrl: string;
 
     constructor(private configService: ConfigService) {
-	this.backendUrl = configService.getBackendUrl();
+	this.backendUrl = configService.backendUrl;
     }
 
     /*
@@ -41,11 +41,11 @@ export class BackendService {
 		    msg = ""+completed;
                 }
 
-                observer.next(new CallData(xhr.readyStatge, xhr.status, msg));
+                observer.next(new CallData(xhr.readyState, xhr.status, msg));
             };
 
             xhr.onreadystatechange = () => {
-		observer.next(new CallData(xhr.readyStatge, xhr.status, xhr.response));
+		observer.next(new CallData(xhr.readyState, xhr.status, xhr.response));
 		if (xhr.readyState == 4) {
 		    observer.complete();
 		}
