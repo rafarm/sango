@@ -28,7 +28,7 @@ export class BackendService {
      * Uploads a file to server.
      */
     uploadFile(file: File): Observable<CallData> {
-        let request = new Observable((observer: Observer<CallData>) => {
+        let request = Observable.create((observer: Observer<CallData>) => {
             let formData = new FormData();
             let xhr = new XMLHttpRequest();
 
@@ -64,7 +64,7 @@ export class BackendService {
      * Process data file previously uploaded.
      */
     processFile(name: string): Observable<string> {
-	let request = new Observable((observer: Observer<string>) => {
+	let request = Observable.create((observer: Observer<string>) => {
 	    let evtSource = new EventSource(this.backendUrl+'ingest/'+name);
 
             evtSource.onmessage = (e: any) => {
