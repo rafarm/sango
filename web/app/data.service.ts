@@ -9,8 +9,8 @@ import 'rxjs/add/operator/toPromise';
 
 
 //import { SelectorCoursesTree } from './model/selector-courses-tree';
-import { BreadcrumbSelectorItem } from './model/breadcrumb-selector/breadcrumb-selector-item';
-import { BreadcrumbSelectorSelect } from './model/breadcrumb-selector/breadcrumb-selector-select';
+import { BreadcrumbSelectorItem } from './utils/breadcrumb-selector.component';
+import { BreadcrumbSelectorSelect } from './utils/breadcrumb-selector.component';
 import { Grades } from './model/grades';
 import { Grade } from './model/grade';
 import { Course } from './model/course';

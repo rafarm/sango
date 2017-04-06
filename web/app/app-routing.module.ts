@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 //import { AppComponent } from './app.component';
 //import { DashboardComponent } from './dashboard.component';
-import { AssessmentsComponent } from './assessments.component';
+//import { AssessmentsComponent } from './assessments.component';
 import { PageNotFoundComponent } from './not-found.component';
 
 const appRoutes: Routes = [
@@ -13,10 +13,10 @@ const appRoutes: Routes = [
     },
     {
 	path: 'dashboard', component: DashboardComponent
-    },*/
+    },
     {
 	path: 'assessments', component: AssessmentsComponent
-    },
+    },*/
     {
 	path: '', redirectTo: '/assessments', pathMatch: 'full'
     },

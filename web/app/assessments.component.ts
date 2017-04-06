@@ -7,8 +7,8 @@ import { Group } from './model/group';
 //import { Student } from './model/student';
 //import { AssessmentStats } from './model/assessment-stats';
 //import { Stats } from './model/stats';
-import { BreadcrumbSelectorSelect } from './model/breadcrumb-selector/breadcrumb-selector-select';
-import { BreadcrumbSelectorEvent } from './model/breadcrumb-selector/breadcrumb-selector-event';
+import { BreadcrumbSelectorSelect } from './utils/breadcrumb-selector.component';
+import { BreadcrumbSelectorEvent } from './utils/breadcrumb-selector.component';
 
 @Component({
     selector: 'assessments',
