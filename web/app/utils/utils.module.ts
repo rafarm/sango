@@ -13,6 +13,7 @@ import { CollapseDirective }		from './collapse.directive';
 	CollapseDirective
     ],
     exports: [
+	CommonModule,
 	BreadcrumbSelectorComponent,
 	CollapseDirective
     ]

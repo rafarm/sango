@@ -7,7 +7,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/empty';
 
-import { BackendService, CallData } 	from '../backend.service';
+import { BackendService, CallData } 	from '../core/backend.service';
  
 @Injectable()
 export class IngestService {

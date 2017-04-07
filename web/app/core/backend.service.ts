@@ -2,7 +2,7 @@ import { Injectable } 		from '@angular/core';
 import { Observable } 		from 'rxjs/Observable';
 import { Observer } 		from 'rxjs/Observer';
 
-import { ConfigService }	from './config/config.service';
+import { ConfigService }	from './config.service';
 
 declare var EventSource: any;
 

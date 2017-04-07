@@ -5,6 +5,7 @@ import { HttpModule } 	 		from '@angular/http';
 
 import { AppComponent }  		from './app.component';
 import { AppRoutingModule } 		from './app-routing.module';
+import { CoreModule }			from './core/core.module';
 import { UtilsModule }			from './utils/utils.module';
 import { IngestModule }			from './ingest/ingest.module';
 import { AssessmentsModule }		from './assessments/assessments.module';
@@ -20,9 +21,6 @@ import { PageNotFoundComponent }	from './not-found.component';
 //import { AssessmentListComponent } 	from './assessment-list.component';
 //import { StudentDetailComponent } 	from './student-detail.component';
 
-import { ConfigService }		from './config/config.service';
-import { BackendService }		from './backend.service';
-
 // TO BE REMOVED--->
 import { DataService } 			from './data.service';
 //--->
@@ -35,6 +33,7 @@ import { DataService } 			from './data.service';
 	BrowserModule,
 	FormsModule,
 	HttpModule,
+	CoreModule,
 	UtilsModule,
 	IngestModule,
 	AssessmentsModule,
@@ -56,10 +55,8 @@ import { DataService } 			from './data.service';
     ],
     providers: [
 	// TO BE REMOVED--->
-	ConfigService,
-	//--->
-	BackendService,
 	DataService
+	//--->
     ],
     bootstrap: [ AppComponent ]
 })
