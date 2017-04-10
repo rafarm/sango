@@ -2,6 +2,8 @@ import { Injectable } 		from '@angular/core';
 import { Observable } 		from 'rxjs/Observable';
 import { Observer } 		from 'rxjs/Observer';
 
+import 'rxjs/add/operator/map';
+
 import { BackendService } 	from '../core/backend.service';
 import { BreadcrumbSelectorItem } from '../utils/breadcrumb-selector.component';
 import { BreadcrumbSelectorSelect } from '../utils/breadcrumb-selector.component';
@@ -20,7 +22,7 @@ export class AssessmentsService {
         let  call = 'groups/tree/years';
 
         return this.backendService.get(call)
-	    .map(data => {
+	    .map((data: any) => {
                 if (data != null) {
                     let items = data.map((value:any) => {
                         return new BreadcrumbSelectorItem(value._id, value._id, false);
@@ -39,11 +41,11 @@ export class AssessmentsService {
      *
      * Returns the groups' course select to build group selector tree.
      */
-    getGroupsSelectCourse(year: string): Promise<BreadcrumbSelectorSelect> {
+    getGroupsSelectCourse(year: string): Observable<BreadcrumbSelectorSelect> {
         let  call = 'groups/tree/' + year + '/courses';
 
         return this.backendService.get(call)
-            .map(data => {
+            .map((data: any) => {
                 if (data != null) {
                     let parents = data.map((value:any) => {
                         let courses = value.courses.map((value:any) => {
@@ -71,11 +73,11 @@ export class AssessmentsService {
      *
      * Returns the groups' select for 'year' and 'course' to build group selector tree.
      */
-    getGroupsSelectGroup(year: string, course: string): Promise<BreadcrumbSelectorSelect> {
+    getGroupsSelectGroup(year: string, course: string): Observable<BreadcrumbSelectorSelect> {
         let call = 'groups/tree/' + year + '/' + course + '/groups';
 
         return this.backendService.get(call)
-            .map(data => {
+            .map((data: any) => {
                 if (data != null) {
                     let items = data.map((value:any) => {
                         return new BreadcrumbSelectorItem(value.short_name, value._id, false);

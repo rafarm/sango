@@ -4,6 +4,8 @@ import { Observable } 		from 'rxjs/Observable';
 import { Observer } 		from 'rxjs/Observer';
 
 import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 import { ConfigService }	from './config.service';
 
@@ -116,7 +118,7 @@ export class BackendService {
      *
      * General error handling.
      */
-    private handleError (error: Response | any): Observable {
+    private handleError (error: Response | any) {
 	let errMsg: string;
 	if (error instanceof Response) {
 	    const body = error.json() || '';

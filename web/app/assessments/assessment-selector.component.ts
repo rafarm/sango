@@ -2,14 +2,15 @@ import { Component, OnInit } 			from '@angular/core';
 import { Router, ActivatedRoute, Params }	from '@angular/router';
 
 //import { DataService } from './data.service';
-import { Course } from '../model/course';
-import { Group } from '../model/group';
+import { AssessmentsService } 			from './assessments.service';
+import { Course } 				from '../model/course';
+import { Group } 				from '../model/group';
 //import { Assessment } from './model/assessment';
 //import { Student } from './model/student';
 //import { AssessmentStats } from './model/assessment-stats';
 //import { Stats } from './model/stats';
-import { BreadcrumbSelectorSelect } from '../utils/breadcrumb-selector.component';
-import { BreadcrumbSelectorEvent } from '../utils/breadcrumb-selector.component';
+import { BreadcrumbSelectorSelect } 		from '../utils/breadcrumb-selector.component';
+import { BreadcrumbSelectorEvent } 		from '../utils/breadcrumb-selector.component';
 
 @Component({
     moduleId: module.id,
@@ -24,14 +25,17 @@ export class AssessmentSelectorComponent implements OnInit {
   
     checkedButtonId: string;  
 	
-    constructor( /*private dataService: DataService*/
+    constructor(
+	private assessmentsService: AssessmentsService,
 	private route: ActivatedRoute,
 	private router: Router
     ) {}
 
     ngOnInit() {
+	/*
 	let course_id = this.route.snapshot.params['course_id'];
 	console.log('AssessmentSelector - course_id:' + course_id);
+	*/
     }
 
     onSelectorChanged(event: BreadcrumbSelectorEvent) {
