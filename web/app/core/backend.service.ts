@@ -1,11 +1,15 @@
 import { Injectable } 		from '@angular/core';
+import { Http, Response }	from '@angular/http';
 import { Observable } 		from 'rxjs/Observable';
 import { Observer } 		from 'rxjs/Observer';
+
+import 'rxjs/add/observable/throw';
 
 import { ConfigService }	from './config.service';
 
 declare var EventSource: any;
 
+// TODO: Change this class' name, PLEASE!
 export class CallData {
     constructor(
 	public state: number,
@@ -18,7 +22,10 @@ export class CallData {
 export class BackendService {
     private backendUrl: string;
 
-    constructor(private configService: ConfigService) {
+    constructor(
+	private configService: ConfigService,
+	private http: Http
+    ) {
 	this.backendUrl = configService.backendUrl;
     }
 
@@ -84,5 +91,24 @@ export class BackendService {
 
         return request;
     }
+
+    /* handleError
+     *
+     * General error handling.
+     */
+    private handleError (error: Response | any): Observable {
+	let errMsg: string;
+	if (error instanceof Response) {
+	    const body = error.json() || '';
+	    const err = body.error || JSON.stringify(body);
+	    errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+	}
+	else {
+	    errMsg = error.message ? error.message : error.toString();
+	}
+    
+	console.error(errMsg);
+	return Observable.throw(errMsg);
+  }
 }
 

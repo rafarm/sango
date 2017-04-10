@@ -23,8 +23,9 @@ export class BreadcrumbSelectorEvent {
 }
 
 @Component({
+    moduleId: module.id,
     selector: 'breadcrumb-selector',
-    template: './breadcrumb-selector.component.html',
+    templateUrl: './breadcrumb-selector.component.html',
     styleUrls: ['./breadcrumb-selector.component.css']
 })
 export class BreadcrumbSelectorComponent {

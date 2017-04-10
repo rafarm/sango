@@ -3,8 +3,9 @@ import { AfterViewInit, Component } 	from '@angular/core';
 import { IngestService } 		from './ingest.service';
 
 @Component({
-    templateUrl: 'app/ingest/ingest.component.html',
-    styleUrls: ['app/ingest/ingest.component.css'],
+    moduleId: module.id,
+    templateUrl: './ingest.component.html',
+    styleUrls: ['./ingest.component.css'],
     providers: [ IngestService ]
 })
 export class IngestComponent implements AfterViewInit {
