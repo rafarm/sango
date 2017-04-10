@@ -3,11 +3,90 @@ import { Observable } 		from 'rxjs/Observable';
 import { Observer } 		from 'rxjs/Observer';
 
 import { BackendService } 	from '../core/backend.service';
+import { BreadcrumbSelectorItem } from '../utils/breadcrumb-selector.component';
+import { BreadcrumbSelectorSelect } from '../utils/breadcrumb-selector.component';
  
 @Injectable()
 export class AssessmentsService {
 
     constructor(private backendService: BackendService) {};
 
+    /*
+     * getGroupsSelectYear
+     *
+     * Returns the groups' year select to build group selector tree.
+     */
+    getGroupsSelectYear(): Observable<BreadcrumbSelectorSelect> {
+        let  call = 'groups/tree/years';
+
+        return this.backendService.get(call)
+	    .map(data => {
+                if (data != null) {
+                    let items = data.map((value:any) => {
+                        return new BreadcrumbSelectorItem(value._id, value._id, false);
+                    });
+                    items.unshift(new BreadcrumbSelectorItem('Year...', '-1', false));
+
+                    return new BreadcrumbSelectorSelect('year', items);
+                }
+
+                return null;
+            })
+    }
+
+    /*
+     * getGroupSelectCourse
+     *
+     * Returns the groups' course select to build group selector tree.
+     */
+    getGroupsSelectCourse(year: string): Promise<BreadcrumbSelectorSelect> {
+        let  call = 'groups/tree/' + year + '/courses';
+
+        return this.backendService.get(call)
+            .map(data => {
+                if (data != null) {
+                    let parents = data.map((value:any) => {
+                        let courses = value.courses.map((value:any) => {
+                            return new BreadcrumbSelectorItem(value.name, value._id, false);
+                        });
+                        
+                        let value_id = value._id.parent;
+                        if (value_id == null) {
+                            value_id = value._id.stage;
+                        }
+
+                        return new BreadcrumbSelectorItem(value_id, courses, true);
+                    });
+                    parents.unshift(new BreadcrumbSelectorItem('Course...', '-1', false));
+
+                    return new BreadcrumbSelectorSelect('course', parents);
+                }
+
+                return null;
+            })
+    }
+
+    /*
+     * getGroupsSelectGroup
+     *
+     * Returns the groups' select for 'year' and 'course' to build group selector tree.
+     */
+    getGroupsSelectGroup(year: string, course: string): Promise<BreadcrumbSelectorSelect> {
+        let call = 'groups/tree/' + year + '/' + course + '/groups';
+
+        return this.backendService.get(call)
+            .map(data => {
+                if (data != null) {
+                    let items = data.map((value:any) => {
+                        return new BreadcrumbSelectorItem(value.short_name, value._id, false);
+                    });
+                    items.unshift(new BreadcrumbSelectorItem('Group...', '-1', false));
+
+                    return new BreadcrumbSelectorSelect('group', items);
+                }
+
+                return null;
+            })
+    }
 }
 

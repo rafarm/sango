@@ -29,6 +29,16 @@ export class BackendService {
 	this.backendUrl = configService.backendUrl;
     }
 
+    /* get
+     *
+     * Backend get call.
+     */
+    get(call: string): Observable<any> {
+	return this.http.get(this.backendUrl + call)
+	    .map(this.extractData)
+	    .catch(this.handleError);
+    }
+
     /*
      * uploadFile
      *
@@ -90,6 +100,16 @@ export class BackendService {
         });
 
         return request;
+    }
+
+    /*
+     * extractData
+     *
+     * Extracts json embedded data in backend's response.
+     */
+    private extractData(res: Response) {
+	let body = res.json();
+	return body.data || { };
     }
 
     /* handleError
