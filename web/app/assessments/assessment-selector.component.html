@@ -6,7 +6,7 @@
 	<div *ngIf="selectedGroup" class="col-md-4">
 	    <ul class="nav nav-tabs sub-select" role="tablist">
 		<li class="nav-item">
-		    <button [ngClass]="{'active': checkedButtonId == 'btn-marks'}" (click)="onButtonClicked($event)" id="btn-marks" type="button" class="btn btn-link">Grades</button>
+		    <button [ngClass]="{'active': checkedButtonId == 'btn-grades'}" (click)="onButtonClicked($event)" id="btn-grades" type="button" class="btn btn-link">Grades</button>
 		</li>
 		<li class="nav-item">
 		    <button [ngClass]="{'active': checkedButtonId == 'btn-group'}" (click)="onButtonClicked($event)" id="btn-group" type="button" class="btn btn-link">Group</button>
@@ -16,6 +16,11 @@
 		</li>
 	    </ul>
 	</div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="tab-content">
+	<router-outlet></router-outlet>
     </div>
 </div>
 <!--

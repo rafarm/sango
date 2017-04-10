@@ -33,10 +33,8 @@ export class AssessmentSelectorComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-	/*
-	let course_id = this.route.snapshot.params['course_id'];
-	console.log('AssessmentSelector - course_id:' + course_id);
-	*/
+	let group_id = this.route.snapshot.params['group_id'];
+	console.log('AssessmentSelector - group_id:' + group_id);
 	this.assessmentsService.getGroupsSelectYear()
 	    .subscribe(select => this.selects.push(select));
     }
@@ -93,7 +91,7 @@ export class AssessmentSelectorComponent implements OnInit {
 		break;
 	}
 
-	this.checkedButtonId = "btn-marks";
+	this.checkedButtonId = "btn-grades";
 
     }
 
