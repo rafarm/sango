@@ -15,7 +15,8 @@ import { BreadcrumbSelectorEvent } 		from '../utils/breadcrumb-selector.componen
 @Component({
     moduleId: module.id,
     templateUrl: './assessment-selector.component.html',
-    styleUrls: ['./assessment-selector.component.css']
+    styleUrls: ['./assessment-selector.component.css'],
+    providers: [ AssessmentsService ]
 })
 export class AssessmentSelectorComponent implements OnInit {
     selects: BreadcrumbSelectorSelect[] = [];
@@ -36,10 +37,11 @@ export class AssessmentSelectorComponent implements OnInit {
 	let course_id = this.route.snapshot.params['course_id'];
 	console.log('AssessmentSelector - course_id:' + course_id);
 	*/
+	this.assessmentsService.getGroupsSelectYear()
+	    .subscribe(select => this.selects.push(select));
     }
 
     onSelectorChanged(event: BreadcrumbSelectorEvent) {
-	/*
 	let value = event.select_value;
 	switch(event.select_id) {
 	    case 'year':
@@ -55,8 +57,8 @@ export class AssessmentSelectorComponent implements OnInit {
 		}
  		else {
 		    this.selectedYear = value;
-		    this.dataService.getGroupsSelectCourse(this.selectedYear)
-			.then(select => this.selects.push(select));
+		    this.assessmentsService.getGroupsSelectCourse(this.selectedYear)
+			.subscribe(select => this.selects.push(select));
 		}
 		break;
 	    case 'course':
@@ -71,10 +73,10 @@ export class AssessmentSelectorComponent implements OnInit {
 		}
                 else {
 		    //this.selectedCourseId = value
-		    this.dataService.getCourse(value, this.selectedYear)
-			.then(course => this.selectedCourse = course);
-                    this.dataService.getGroupsSelectGroup(this.selectedYear, value)
-                        .then(select => this.selects.push(select));
+		    this.assessmentsService.getCourse(value, this.selectedYear)
+			.subscribe(course => this.selectedCourse = course);
+                    this.assessmentsService.getGroupsSelectGroup(this.selectedYear, value)
+                        .subscribe(select => this.selects.push(select));
                 }
 		break;
 	    case 'group':
@@ -83,14 +85,13 @@ export class AssessmentSelectorComponent implements OnInit {
 		    this.selectedGroup = null;
 		}
 		else {
-		    this.dataService.getGroup(value, this.selectedYear)
-                        .then(group => this.selectedGroup = group);
+		    this.assessmentsService.getGroup(value, this.selectedYear)
+                        .subscribe(group => this.selectedGroup = group);
 		}
 		break;
 	    default:
 		break;
 	}
-	*/
 
 	this.checkedButtonId = "btn-marks";
 

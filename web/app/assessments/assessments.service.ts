@@ -1,13 +1,15 @@
-import { Injectable } 		from '@angular/core';
-import { Observable } 		from 'rxjs/Observable';
-import { Observer } 		from 'rxjs/Observer';
+import { Injectable } 			from '@angular/core';
+import { Observable } 			from 'rxjs/Observable';
+import { Observer } 			from 'rxjs/Observer';
 
 import 'rxjs/add/operator/map';
 
-import { BackendService } 	from '../core/backend.service';
-import { BreadcrumbSelectorItem } from '../utils/breadcrumb-selector.component';
-import { BreadcrumbSelectorSelect } from '../utils/breadcrumb-selector.component';
- 
+import { BackendService } 		from '../core/backend.service';
+import { BreadcrumbSelectorItem } 	from '../utils/breadcrumb-selector.component';
+import { BreadcrumbSelectorSelect } 	from '../utils/breadcrumb-selector.component';
+import { Course } 			from '../model/course';
+import { Group } 			from '../model/group';
+
 @Injectable()
 export class AssessmentsService {
 
@@ -89,6 +91,29 @@ export class AssessmentsService {
 
                 return null;
             })
+    }
+
+    /*
+     * getCourse
+     *
+     * Returns course identified by 'id' with its subjects and
+     * assessments for 'year'.
+     */
+    getCourse(id: string, year: string): Observable<Course> {
+        let  call = 'assessments/bycourse/' + id + '/' + year;
+
+        return this.backendService.get(call);
+    }
+
+    /*
+     * getGroup
+     *
+     * Returns group identified by 'id' with its students for 'year'.
+     */
+    getGroup(id: string, year: string): Observable<Group> {
+        let call = 'students/bygroup/' + id + '/' + year;
+
+        return this.backendService.get(call);
     }
 }
 
