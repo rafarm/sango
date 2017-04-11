@@ -16,7 +16,15 @@ const assessmentsRoutes: Routes = [
                 component: AssessmentSelectorComponent
             },
 	    {
-                path: ':group_id',
+		path: ':year',
+		component: AssessmentSelectorComponent
+	    },
+	    {
+		path: ':year/:course_id',
+		component: AssessmentSelectorComponent
+	    },
+	    {
+                path: ':year/:course_id/:group_id',
                 component: AssessmentSelectorComponent,
 		children: [
 		    {

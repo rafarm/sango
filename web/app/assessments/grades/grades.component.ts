@@ -9,11 +9,10 @@ import { Assessment } from './model/assessment';
 //import { Stats } from './model/stats';
 
 @Component({
-    selector: 'assessments-marks',
-    templateUrl: 'app/assessments-marks.component.html'/*,
-    styleUrls: ['app/assessments-marks.component.css']*/
+    moduleId: module.id,
+    templateUrl: './grades.component.html'
 })
-export class AssessmentsMarksComponent implements OnChanges {
+export class GradesComponent implements OnChanges {
     @Input()
     course: Course;
     @Input()

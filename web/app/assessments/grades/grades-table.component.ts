@@ -10,11 +10,11 @@ import { Grade } from './model/grade';
 import { Grades } from './model/grades';
     
 @Component({
-    selector: 'assessment-table',
-    templateUrl: 'app/assessment-table.component.html',
-    styleUrls: ['app/assessment-table.component.css']
+    moduleId: module.id,
+    templateUrl: './grades-table.component.html',
+    styleUrls: ['./grades-table.component.css']
 })
-export class AssessmentTableComponent implements OnChanges {
+export class GradesTableComponent implements OnChanges {
     @Input()
     assessment: Assessment;
     @Input()

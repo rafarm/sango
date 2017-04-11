@@ -1,10 +1,12 @@
 import { Component, OnInit } 			from '@angular/core';
 import { Router, ActivatedRoute, Params }	from '@angular/router';
 
+import 'rxjs/add/operator/switchMap';
+
 //import { DataService } from './data.service';
 import { AssessmentsService } 			from './assessments.service';
-import { Course } 				from '../model/course';
-import { Group } 				from '../model/group';
+//import { Course } 				from '../model/course';
+//import { Group } 				from '../model/group';
 //import { Assessment } from './model/assessment';
 //import { Student } from './model/student';
 //import { AssessmentStats } from './model/assessment-stats';
@@ -21,8 +23,8 @@ import { BreadcrumbSelectorEvent } 		from '../utils/breadcrumb-selector.componen
 export class AssessmentSelectorComponent implements OnInit {
     selects: BreadcrumbSelectorSelect[] = [];
     selectedYear: string;
-    selectedCourse: Course;
-    selectedGroup: Group;
+    selectedCourseId: string;
+    selectedGroupId: string;
   
     checkedButtonId: string;  
 	
@@ -33,8 +35,18 @@ export class AssessmentSelectorComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-	let group_id = this.route.snapshot.params['group_id'];
-	console.log('AssessmentSelector - group_id:' + group_id);
+	/*let group_id = this.route.snapshot.params['group_id'];
+	console.log('AssessmentSelector - group_id:' + group_id);*/
+	this.route.params
+	    .switchMap((params: Params) => {
+		const year = params['year'];
+		if (year != undefined) {
+		    this.selectedYear = year;
+		}
+		else {
+		    return this.assessmentsService.getGroupsSelectYear();
+		}
+	    });
 	this.assessmentsService.getGroupsSelectYear()
 	    .subscribe(select => this.selects.push(select));
     }
