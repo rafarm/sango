@@ -1,7 +1,9 @@
 import { Component, OnInit } 			from '@angular/core';
 import { Router, ActivatedRoute, Params }	from '@angular/router';
+import { Observable }                   	from 'rxjs/Observable';
 
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/concat';
 
 //import { DataService } from './data.service';
 import { AssessmentsService } 			from './assessments.service';
@@ -46,30 +48,34 @@ export class AssessmentSelectorComponent implements OnInit {
 		let courseObservable = Observable.empty();
 		let groupObservable =  Observable.empty();
 
-		if (year == undefined || this.selectedYear == null) {
+		if (this.selects.length == 0) {
 		    yearObservable = this.assessmentsService.getGroupsSelectYear();
 		}
-		else {
-		    if (year != this.selectedYear) {
-			this.selectedYear = year;
-			courseObservable = this.assessmentsService.getGroupsSelectCourse(year);
-		    }
-		    else {
-		  	if ((course_id != undefined && course_id != this.selectedCourseId) || group_id == undefined) {
-			    this.selectedCourseId = course_id;
-			    groupObservable = this.assessmentsService.getGroupsSelectGroup(year, course_id)
-			} 
-		    }
+		
+		if (year != undefined && year != this.selectedYear) {
+		    this.selectedYear = year;
+		    courseObservable = this.assessmentsService.getGroupsSelectCourse(year);
 		}
-	    }).subscribe(select => this.selects.push(select));
+
+		if (year != undefined && course_id != undefined && course_id != this.selectedCourseId) {
+		    this.selectedCourseId = course_id;
+		    groupObservable = this.assessmentsService.getGroupsSelectGroup(year, course_id);
+		}
+
+		if (year != undefined && course_id != undefined && group_id != undefined && group_id != this.selectedGroupId) {
+		    this.selectedGroupId = group_id;
+		}
+
+		return Observable.concat(yearObservable, courseObservable, groupObservable);
+	    }).subscribe((select: BreadcrumbSelectorSelect) => this.selects.push(select));
     }
 
     onSelectorChanged(event: BreadcrumbSelectorEvent) {
 	let value = event.select_value;
 	switch(event.select_id) {
 	    case 'year':
-		this.selectedGroup = null;
-		this.selectedCourse = null;
+		this.selectedGroupId = null;
+		this.selectedCourseId = null;
                 
 		while(this.selects.length > 1) {
 		    this.selects.pop();
@@ -77,47 +83,58 @@ export class AssessmentSelectorComponent implements OnInit {
 		
 		if (value == -1) {
 		    this.selectedYear = null;
+		    this.router.navigate(['/assessments']);
 		}
  		else {
+		    /*
 		    this.selectedYear = value;
 		    this.assessmentsService.getGroupsSelectCourse(this.selectedYear)
 			.subscribe(select => this.selects.push(select));
+		    */
+		    this.router.navigate(['/assessments', value]);
 		}
 		break;
 	    case 'course':
-		this.selectedGroup = null;
+		this.selectedGroupId = null;
                 
 		while(this.selects.length > 2) {
                     this.selects.pop();
                 }
 		
 		if (value == '-1') {
-		    this.selectedCourse = null;
+		    this.selectedCourseId = null;
+		    this.router.navigate(['/assessments', this.selectedYear]);
 		}
                 else {
 		    //this.selectedCourseId = value
+		    /*
 		    this.assessmentsService.getCourse(value, this.selectedYear)
 			.subscribe(course => this.selectedCourse = course);
                     this.assessmentsService.getGroupsSelectGroup(this.selectedYear, value)
                         .subscribe(select => this.selects.push(select));
+		    */
+		    this.router.navigate(['/assessments', this.selectedYear, value]);
                 }
 		break;
 	    case 'group':
 		//this.selectedGroupId = value == -1 ? null : value;
 		if (value == -1) {
-		    this.selectedGroup = null;
+		    this.selectedGroupId = null;
+		    this.router.navigate(['/assessments', this.selectedYear, this.selectedCourseId]);
 		}
 		else {
+		    /*
 		    this.assessmentsService.getGroup(value, this.selectedYear)
                         .subscribe(group => this.selectedGroup = group);
+		    */
+		    this.router.navigate(['/assessments', this.selectedYear, this.selectedCourseId, value]);
 		}
 		break;
 	    default:
 		break;
 	}
 
-	this.checkedButtonId = "btn-grades";
-
+	//this.checkedButtonId = "btn-grades";
     }
 
     onButtonClicked(event: any) {
