@@ -22,9 +22,9 @@ import { BreadcrumbSelectorEvent } 		from '../utils/breadcrumb-selector.componen
 })
 export class AssessmentSelectorComponent implements OnInit {
     selects: BreadcrumbSelectorSelect[] = [];
-    selectedYear: string;
-    selectedCourseId: string;
-    selectedGroupId: string;
+    selectedYear: string = null;
+    selectedCourseId: string = null;
+    selectedGroupId: string = null;
   
     checkedButtonId: string;  
 	
@@ -40,15 +40,28 @@ export class AssessmentSelectorComponent implements OnInit {
 	this.route.params
 	    .switchMap((params: Params) => {
 		const year = params['year'];
-		if (year != undefined) {
-		    this.selectedYear = year;
+		const course_id = params['course_id'];
+		const group_id = params['group_id'];
+		let yearObservable = Observable.empty();
+		let courseObservable = Observable.empty();
+		let groupObservable =  Observable.empty();
+
+		if (year == undefined || this.selectedYear == null) {
+		    yearObservable = this.assessmentsService.getGroupsSelectYear();
 		}
 		else {
-		    return this.assessmentsService.getGroupsSelectYear();
+		    if (year != this.selectedYear) {
+			this.selectedYear = year;
+			courseObservable = this.assessmentsService.getGroupsSelectCourse(year);
+		    }
+		    else {
+		  	if ((course_id != undefined && course_id != this.selectedCourseId) || group_id == undefined) {
+			    this.selectedCourseId = course_id;
+			    groupObservable = this.assessmentsService.getGroupsSelectGroup(year, course_id)
+			} 
+		    }
 		}
-	    });
-	this.assessmentsService.getGroupsSelectYear()
-	    .subscribe(select => this.selects.push(select));
+	    }).subscribe(select => this.selects.push(select));
     }
 
     onSelectorChanged(event: BreadcrumbSelectorEvent) {
