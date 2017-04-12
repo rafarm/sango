@@ -71,7 +71,12 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 		}
 
 		return Observable.concat(yearObservable, courseObservable, groupObservable);
-	    }).subscribe((select: BreadcrumbSelectorSelect) => this.selects.push(select));
+	    }).subscribe((select: BreadcrumbSelectorSelect) => {
+		    this.selects.push(select);
+		    if (this.route.children.length == 0) {
+			this.router.navigate(['grades'], { relativeTo: this.route });
+		    }
+		});
     }
 
     ngOnDestroy() {
@@ -91,7 +96,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 		
 		if (value == -1) {
 		    this.selectedYear = null;
-		    this.router.navigate(['/assessments']);
+		    this.router.navigate(['../'], { relativeTo: this.route });
 		}
  		else {
 		    /*
@@ -99,7 +104,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 		    this.assessmentsService.getGroupsSelectCourse(this.selectedYear)
 			.subscribe(select => this.selects.push(select));
 		    */
-		    this.router.navigate(['/assessments', value]);
+		    this.router.navigate([value], { relativeTo: this.route });
 		}
 		break;
 	    case 'course':
@@ -111,7 +116,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 		
 		if (value == '-1') {
 		    this.selectedCourseId = null;
-		    this.router.navigate(['/assessments', this.selectedYear]);
+		    this.router.navigate(['../'], { relativeTo: this.route });
 		}
                 else {
 		    //this.selectedCourseId = value
@@ -121,21 +126,21 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
                     this.assessmentsService.getGroupsSelectGroup(this.selectedYear, value)
                         .subscribe(select => this.selects.push(select));
 		    */
-		    this.router.navigate(['/assessments', this.selectedYear, value]);
+		    this.router.navigate([value], { relativeTo: this.route });
                 }
 		break;
 	    case 'group':
 		//this.selectedGroupId = value == -1 ? null : value;
 		if (value == -1) {
 		    this.selectedGroupId = null;
-		    this.router.navigate(['/assessments', this.selectedYear, this.selectedCourseId]);
+		    this.router.navigate(['../'], { relativeTo: this.route });
 		}
 		else {
 		    /*
 		    this.assessmentsService.getGroup(value, this.selectedYear)
                         .subscribe(group => this.selectedGroup = group);
 		    */
-		    this.router.navigate(['/assessments', this.selectedYear, this.selectedCourseId, value]);
+		    this.router.navigate([value], { relativeTo: this.route });
 		}
 		break;
 	    default:
