@@ -1,6 +1,7 @@
-import { Component, OnInit } 			from '@angular/core';
+import { Component, OnInit, OnDestroy } 	from '@angular/core';
 import { Router, ActivatedRoute, Params }	from '@angular/router';
 import { Observable }                   	from 'rxjs/Observable';
+import { Subscription }				from 'rxjs/Subscription';
 
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/concat';
@@ -22,11 +23,14 @@ import { BreadcrumbSelectorEvent } 		from '../utils/breadcrumb-selector.componen
     styleUrls: ['./assessment-selector.component.css'],
     providers: [ AssessmentsService ]
 })
-export class AssessmentSelectorComponent implements OnInit {
+export class AssessmentSelectorComponent implements OnInit, OnDestroy {
     selects: BreadcrumbSelectorSelect[] = [];
+    
     selectedYear: string = null;
     selectedCourseId: string = null;
     selectedGroupId: string = null;
+
+    routerSubscription: Subscription;
   
     checkedButtonId: string;  
 	
@@ -39,7 +43,7 @@ export class AssessmentSelectorComponent implements OnInit {
     ngOnInit() {
 	/*let group_id = this.route.snapshot.params['group_id'];
 	console.log('AssessmentSelector - group_id:' + group_id);*/
-	this.route.params
+	this.routerSubscription = this.route.params
 	    .switchMap((params: Params) => {
 		const year = params['year'];
 		const course_id = params['course_id'];
@@ -68,6 +72,10 @@ export class AssessmentSelectorComponent implements OnInit {
 
 		return Observable.concat(yearObservable, courseObservable, groupObservable);
 	    }).subscribe((select: BreadcrumbSelectorSelect) => this.selects.push(select));
+    }
+
+    ngOnDestroy() {
+	this.routerSubscription.unsubscribe();
     }
 
     onSelectorChanged(event: BreadcrumbSelectorEvent) {
