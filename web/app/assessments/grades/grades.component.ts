@@ -1,69 +1,65 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy }	from '@angular/core';
+import { Router, ActivatedRoute, Params }       from '@angular/router';
+import { Observable }                           from 'rxjs/Observable';
+import { Subscription }                         from 'rxjs/Subscription';
 
-import { DataService } from './data.service';
-import { Course } from './model/course';
-import { Group } from './model/group';
-import { Assessment } from './model/assessment';
+import 'rxjs/add/operator/switchMap';
+
+//import { DataService } from './data.service';
+import { GradesService }			from './grades.service';
+
+import { Course } 				from '../../model/course';
+//import { Group } 				from '../../model/group';
+import { Assessment } 				from '../../model/assessment';
 //import { Student } from './model/student';
 //import { AssessmentStats } from './model/assessment-stats';
 //import { Stats } from './model/stats';
 
 @Component({
     moduleId: module.id,
-    templateUrl: './grades.component.html'
+    templateUrl: './grades.component.html',
+    providers: [ GradesService ]
 })
-export class GradesComponent implements OnChanges {
-    @Input()
+export class GradesComponent implements OnInit, OnDestroy {
+    /*@Input()
     course: Course;
     @Input()
-    group: Group;
+    group: Group;*/
+
+    private routerSubscription: Subscription;
 
     assessments: Assessment[];
-    selectedIndex: number;
-    selectedAssessment: Assessment;
+    selectedIndex: number = 0;
+    //selectedAssessment: Assessment;
     
-    /*
-    private _selectedAssessment: Assessment;
-    get selectedAssessment(): Assessment {
-	return this._selectedAssessment;
-    }
-    set selectedAssessment(assessment: Assessment) {
-	if (assessment.students == null) {
-            console.log("Assessment has no students...");
-        }
-	
-	this._selectedAssessment = assessment;
-    }
-    */
+    constructor(
+	private gradesService: GradesService,
+	private route: ActivatedRoute,
+        private router: Router
+    ) {}
 
-    constructor( private dataService: DataService ) {}
+    ngOnInit() {
+	this.routerSubscription = this.route.params
+            .switchMap((params: Params) => {
+		const year = params['year'];
+                const course_id = params['course_id'];
+		let observable = Observable.empty();
 
-    ngOnChanges() {
-	if (/*this.year != null &&*/ this.course != null && this.group != null) {
-	    /*
-	    this.dataService.getAssessments(this.year, this.courseId)
-		.then(assessments => {
-		    this.assessments = assessments;
-		    if (assessments.length > 0) {
-			this.selectedIndex = 0;
-			this.selectedAssessment = this.assessments[0];
-		    }
-		});
-	    */
-	    this.assessments = this.course.assessments;
-	    this.selectedAssessment = this.assessments[0];
-	    this.selectedIndex = 0;
-	}
-	else {
-	    this.assessments = null;
-	    this.selectedIndex = null;
-	    this.selectedAssessment = null;
-	}
+		if (year != undefined && course_id != undefined) {
+		    observable = this.gradesService.getCourse(course_id, year);
+		}
+
+		return observable;
+	    }).subscribe((course: Course) => this.assessments = course.assessments);
+    }
+
+    ngOnDestroy() {
+	this.routerSubscription.unsubscribe();
     }
 
     onAssChanged(event: any) {
 	let index = event.target.id;
 	this.selectedIndex = index;
-	this.selectedAssessment = this.assessments[index];
+	//this.selectedAssessment = this.assessments[index];
     }
 }

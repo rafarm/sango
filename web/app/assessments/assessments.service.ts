@@ -92,28 +92,5 @@ export class AssessmentsService {
                 return null;
             })
     }
-
-    /*
-     * getCourse
-     *
-     * Returns course identified by 'id' with its subjects and
-     * assessments for 'year'.
-     */
-    getCourse(id: string, year: string): Observable<Course> {
-        let  call = 'assessments/bycourse/' + id + '/' + year;
-
-        return this.backendService.get(call);
-    }
-
-    /*
-     * getGroup
-     *
-     * Returns group identified by 'id' with its students for 'year'.
-     */
-    getGroup(id: string, year: string): Observable<Group> {
-        let call = 'students/bygroup/' + id + '/' + year;
-
-        return this.backendService.get(call);
-    }
 }
 

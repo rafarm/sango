@@ -30,7 +30,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
     selectedCourseId: string = null;
     selectedGroupId: string = null;
 
-    routerSubscription: Subscription;
+    private routerSubscription: Subscription;
   
     checkedButtonId: string;  
 	
@@ -70,13 +70,12 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 		    this.selectedGroupId = group_id;
 		}
 
+		if (this.route.children.length == 0) {
+                    this.router.navigate(['grades'], { relativeTo: this.route });
+                }
+
 		return Observable.concat(yearObservable, courseObservable, groupObservable);
-	    }).subscribe((select: BreadcrumbSelectorSelect) => {
-		    this.selects.push(select);
-		    if (this.route.children.length == 0) {
-			this.router.navigate(['grades'], { relativeTo: this.route });
-		    }
-		});
+	    }).subscribe((select: BreadcrumbSelectorSelect) => this.selects.push(select));
     }
 
     ngOnDestroy() {
