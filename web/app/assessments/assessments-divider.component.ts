@@ -5,7 +5,7 @@ import { Assessment } 		from '../model/assessment';
 
 @Component({
     moduleId: module.id,
-    templateUrl: '.assessments-divider.component.html',
+    templateUrl: './assessments-divider.component.html',
 })
 export class AssessmentsDividerComponent {
     @Input()

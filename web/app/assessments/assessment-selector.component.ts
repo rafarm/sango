@@ -30,7 +30,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
     selectedCourseId: string = null;
     selectedGroupId: string = null;
 
-    private routerSubscription: Subscription;
+    private selectsSubscription: Subscription;
   
     checkedButtonId: string;  
 	
@@ -43,7 +43,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
     ngOnInit() {
 	/*let group_id = this.route.snapshot.params['group_id'];
 	console.log('AssessmentSelector - group_id:' + group_id);*/
-	this.routerSubscription = this.route.params
+	this.selectsSubscription = this.route.params
 	    .switchMap((params: Params) => {
 		const year = params['year'];
 		const course_id = params['course_id'];
@@ -79,7 +79,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-	this.routerSubscription.unsubscribe();
+	this.selectsSubscription.unsubscribe();
     }
 
     onSelectorChanged(event: BreadcrumbSelectorEvent) {

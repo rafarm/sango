@@ -1,59 +1,86 @@
-import { Component, Input, OnChanges, SimpleChange,
-	 Output/*, EventEmitter*/ } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } 	from '@angular/core';
+import { Router, ActivatedRoute, Params }       from '@angular/router';
+import { Observable }                           from 'rxjs/Observable';
+import { Subscription }                         from 'rxjs/Subscription';
 
-import { DataService } from './data.service';
-import { Assessment } from './model/assessment';
-import { Group } from './model/group';
-import { Student } from './model/student';
-import { Subject } from './model/subject';
-import { Grade } from './model/grade';
-import { Grades } from './model/grades';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/concatMap';
+
+//import { DataService } from './data.service';
+import { GradesService } from './grades.service';
+//import { Assessment } from '../../model/assessment';
+import { Group } from '../../model/group';
+import { Student } from '../../model/student';
+import { Subject } from '../../model/subject';
+import { Grade } from '../../model/grade';
+import { Grades } from '../../model/grades';
     
 @Component({
     moduleId: module.id,
     templateUrl: './grades-table.component.html',
-    styleUrls: ['./grades-table.component.css']
+    styleUrls: ['./grades-table.component.css'],
+    providers: [ GradesService ]
 })
-export class GradesTableComponent implements OnChanges {
-    @Input()
-    assessment: Assessment;
-    @Input()
-    group: Group;
+export class GradesTableComponent implements OnInit, OnDestroy {
+    //@Input()
+    assessment_id: string;
+    //@Input()
+    group_id: string;
     //@Input()
     subjects: Subject[];
     //@Input()
     students: Student[];
+    private grades: Grades;
     
-    edited: boolean;
-    saving: boolean;
-    grades: Grades;
-    editingRow: Element;
+    private edited: boolean;
+    private saving: boolean;
+    private editingRow: Element;
+
+    private gradesSubscription: Subscription;
 
     /*
     @Output()
     onSaveAssessment: EventEmitter<boolean> = new EventEmitter<boolean>();
     */
 
-    constructor( private dataService: DataService ) {}
+    constructor(
+	private gradesService: GradesService,
+        private route: ActivatedRoute,
+        private router: Router
+    ) {}
 
-    ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
-	this.edited = false;
-	this.saving = false;
-	this.grades = null;
-    
-	if (this.assessment != null && this.group != null /*this.students != null && this.subjects != null*/) {
-	    this.subjects = this.group.subjects;
-	    this.students = this.group.students;
-	    this.getGrades();
-	}
+    ngOnInit() {
+	this.gradesSubscription = this.route.params
+	    .switchMap((params: Params) => {
+		const year = params['year'];
+		this.group_id = params['group_id'];
+		this.assessment_id = params['assessment_id'];
+
+		this.edited = false;
+		this.saving = false;
+		this.grades = null;
+		
+		if (year != undefined && this.group_id != undefined && this.assessment_id != undefined) {
+		    return this.gradesService.getGroup(this.group_id, year);
+		}
+
+		return Observable.throw(new Error('Invalid parameters'));
+	    })
+	    .concatMap((group: Group) => {
+		this.subjects = group.subjects;
+		this.students = group.students;
+
+		return this.getGrades();
+	    }).subscribe((grades: Grades) => this.grades = grades);	
     }
 
-    getGrades() {
-	// TODO: Get assessment's grades. If no grade is returned generate
-	// empty table.
+    ngOnDestroy() {
+	this.gradesSubscription.unsubscribe();
+    }
 
-	this.dataService.getQualifications(this.assessment._id, this.group._id)
-	    .then(res => {
+    private getGrades(): Observable<Grades> {
+	return this.gradesService.getQualifications(this.assessment_id, this.group_id)
+	    .concatMap(res => {
 		let grades = this.generateGrades();
 		if (res.grades != undefined) {
 		    res.grades.forEach((st: any) => {
@@ -63,15 +90,17 @@ export class GradesTableComponent implements OnChanges {
 			});
 		    });
 		}
-		this.grades = grades;
+		//this.grades = grades;
 		this.edited = false;
 		this.saving = false;
+
+		return Observable.of(grades);
 	    });
     }
 
-    generateGrades(): Grades {
+    private generateGrades(): Grades {
 	let grades = new Grades();
-	grades.assessment_id = this.assessment._id;
+	grades.assessment_id = this.assessment_id;
 	grades.students = {};
 	
 	this.students.forEach(student => {
@@ -97,10 +126,12 @@ export class GradesTableComponent implements OnChanges {
 
     save() {
         this.saving = true;
+	/*
 	this.dataService.updateQualifications(this.grades)
 	    .then(result => {
 		this.getGrades();
 	    });
+	*/
 	//this.onSaveAssessment.emit(true);
     }
 

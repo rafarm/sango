@@ -30,7 +30,7 @@ export class GradesComponent implements OnInit {
 
     assessments: Observable<Assessment[]>;
     //selectedIndex: number = 0;
-    selectedAssessmentId: string;
+    //selectedAssessmentId: string;
     
     constructor(
 	private gradesService: GradesService,
@@ -43,7 +43,7 @@ export class GradesComponent implements OnInit {
             .switchMap((params: Params) => {
 		const year = params['year'];
                 const course_id = params['course_id'];
-		this.selectedAssessmentId = params['assessment_id'];
+		//this.selectedAssessmentId = params['assessment_id'];
 		
 		let observable = Observable.empty();
 		if (year != undefined && course_id != undefined) {

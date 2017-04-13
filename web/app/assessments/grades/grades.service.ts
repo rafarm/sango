@@ -64,10 +64,29 @@ export class GradesService {
      *
      * Returns assessment identified by 'id'.
      */
+    /*
     getAssessment(id: string): Observable<Assessment> {
         let call = 'assessments/' + id;
 
 	return this.backendService.get(call);
+    }
+    */
+
+    /*
+     * getQualifications
+     *
+     * Returns qualifications for assessment id.
+     * Qualifications can be optionally filtered by
+     * group_id.
+     */
+    getQualifications(id: string, group_id?: string): Observable<any> {
+        let call = 'assessments/' + id + '/qualifications';
+
+        if (group_id != undefined) {
+            call = call + '?group_id=' + group_id;
+        }
+
+        return this.backendService.get(call);
     }
 }
 
