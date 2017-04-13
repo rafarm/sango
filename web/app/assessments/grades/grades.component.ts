@@ -1,7 +1,7 @@
-import { Component, Input, OnInit, OnDestroy }	from '@angular/core';
+import { Component, Input, OnInit }		from '@angular/core';
 import { Router, ActivatedRoute, Params }       from '@angular/router';
 import { Observable }                           from 'rxjs/Observable';
-import { Subscription }                         from 'rxjs/Subscription';
+//import { Subscription }                         from 'rxjs/Subscription';
 
 import 'rxjs/add/operator/switchMap';
 
@@ -20,17 +20,17 @@ import { Assessment } 				from '../../model/assessment';
     templateUrl: './grades.component.html',
     providers: [ GradesService ]
 })
-export class GradesComponent implements OnInit, OnDestroy {
+export class GradesComponent implements OnInit {
     /*@Input()
     course: Course;
     @Input()
     group: Group;*/
 
-    private routerSubscription: Subscription;
+    //private routerSubscription: Subscription;
 
-    assessments: Assessment[];
-    selectedIndex: number = 0;
-    //selectedAssessment: Assessment;
+    assessments: Observable<Assessment[]>;
+    //selectedIndex: number = 0;
+    selectedAssessmentId: string;
     
     constructor(
 	private gradesService: GradesService,
@@ -39,27 +39,26 @@ export class GradesComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-	this.routerSubscription = this.route.params
+	this.assessments = this.route.params
             .switchMap((params: Params) => {
 		const year = params['year'];
                 const course_id = params['course_id'];
+		this.selectedAssessmentId = params['assessment_id'];
+		
 		let observable = Observable.empty();
-
 		if (year != undefined && course_id != undefined) {
 		    observable = this.gradesService.getCourse(course_id, year);
 		}
 
 		return observable;
-	    }).subscribe((course: Course) => this.assessments = course.assessments);
+	    })/*.subscribe((course: Course) => this.assessments = course.assessments)*/;
     }
 
-    ngOnDestroy() {
-	this.routerSubscription.unsubscribe();
-    }
-
+    /*
     onAssChanged(event: any) {
 	let index = event.target.id;
 	this.selectedIndex = index;
 	//this.selectedAssessment = this.assessments[index];
     }
+    */
 }

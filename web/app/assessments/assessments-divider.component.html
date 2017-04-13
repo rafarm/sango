@@ -1,0 +1,7 @@
+<div class="hz-divider">
+    <ul class="nav nav-pills hz-divider-content hz-divider-nav">
+        <li *ngFor="let a of assessments | async" class="nav-item">
+            <a routerLink="{{a._id}}" routerLinkActive="active" class="nav-link">{{a.name}}</a>
+        </li>
+    </ul>
+</div>
