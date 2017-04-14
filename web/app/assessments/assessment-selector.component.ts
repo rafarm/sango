@@ -41,8 +41,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-	/*let group_id = this.route.snapshot.params['group_id'];
-	console.log('AssessmentSelector - group_id:' + group_id);*/
+	console.log('AssessmentSelector - parameters: ' + this.route.snapshot.params);
 	this.selectsSubscription = this.route.params
 	    .switchMap((params: Params) => {
 		const year = params['year'];
@@ -69,11 +68,11 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 		if (year != undefined && course_id != undefined && group_id != undefined && group_id != this.selectedGroupId) {
 		    this.selectedGroupId = group_id;
 		}
-
+		/*
 		if (this.route.children.length == 0) {
                     this.router.navigate(['grades'], { relativeTo: this.route });
                 }
-
+		*/
 		return Observable.concat(yearObservable, courseObservable, groupObservable);
 	    }).subscribe((select: BreadcrumbSelectorSelect) => this.selects.push(select));
     }

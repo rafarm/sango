@@ -13,15 +13,18 @@ const assessmentsRoutes: Routes = [
 	children: [
 	    {
                 path: '',
-                component: AssessmentSelectorComponent
+		redirectTo: '-1/-1/-1',
+		pathMatch: 'full'
             },
 	    {
 		path: ':year',
-		component: AssessmentSelectorComponent
+		redirectTo: ':year/-1/-1',
+                pathMatch: 'full'
 	    },
 	    {
 		path: ':year/:course_id',
-		component: AssessmentSelectorComponent
+		redirectTo: ':year/:course_id/-1',
+                pathMatch: 'full'
 	    },
 	    {
                 path: ':year/:course_id/:group_id',
