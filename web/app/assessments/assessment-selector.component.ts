@@ -61,24 +61,31 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 		
 		if (year != this.selectedYear) {
 		    this.selectedYear = year;
-		    courseObservable = this.assessmentsService.getGroupsSelectCourse(year)
-			.map((select: BreadcrumbSelectorSelect) => {
-                            select.selectedValue = course_id;
-                            return select;
-                        });
+		    if (year != '-1') {
+			courseObservable = this.assessmentsService.getGroupsSelectCourse(year)
+			    .map((select: BreadcrumbSelectorSelect) => {
+				select.selectedValue = course_id;
+				return select;
+			    });
+		    }
 		}
 
 		if (course_id != this.selectedCourseId) {
 		    this.selectedCourseId = course_id;
-		    groupObservable = this.assessmentsService.getGroupsSelectGroup(year, course_id)
-			.map((select: BreadcrumbSelectorSelect) => {
-                            select.selectedValue = group_id;
-                            return select;
-                        });
+		    if (course_id != '-1') {
+			groupObservable = this.assessmentsService.getGroupsSelectGroup(year, course_id)
+			    .map((select: BreadcrumbSelectorSelect) => {
+				select.selectedValue = group_id;
+				return select;
+			    });
+		    }
 		}
 
 		if (group_id != this.selectedGroupId) {
 		    this.selectedGroupId = group_id;
+		    if (this.selectedYear != '-1' && this.selectedCourseId != '-1' && this.selectedGroupId != '-1') {
+			this.router.navigate(['grades'], { relativeTo: this.route });
+		    }
 		}
 		/*
 		if (this.route.children.length == 0) {
@@ -100,78 +107,52 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 	let value = event.select_value;
 	switch(event.select_id) {
 	    case 'year':
-		this.selectedYear = value;
 		this.selectedGroupId = '-1';
 		this.selectedCourseId = '-1';
 		
 		while(this.selects.length > 1) {
 		    this.selects.pop();
 		}
-		/*
-		if (value == '-1') {
-		    this.router.navigate([parentRoute], { relativeTo: this.route });
-		}
- 		else {
-		    
-		    //this.selectedYear = value;
-		    //this.assessmentsService.getGroupsSelectCourse(this.selectedYear)
-		    //	.subscribe(select => this.selects.push(select));
-		
-		    this.router.navigate([parentRoute, value], { relativeTo: this.route });
-		}
-		*/
+
+	    	this.router.navigate(
+		    ['../../../', value, -1, -1],
+		    { relativeTo: this.route }
+		);
+
 		break;
 	    case 'course':
-		this.selectedCourseId = value;
 		this.selectedGroupId = '-1';
                 
 		while(this.selects.length > 2) {
                     this.selects.pop();
                 }
-		/*
-		if (value == '-1') {
-		    this.router.navigate([parentRoute, this.selectedYear], { relativeTo: this.route });
-		}
-                else {
-		    //this.selectedCourseId = value
-		    //this.assessmentsService.getCourse(value, this.selectedYear)
-		    //	.subscribe(course => this.selectedCourse = course);
-                    //this.assessmentsService.getGroupsSelectGroup(this.selectedYear, value)
-                    //  .subscribe(select => this.selects.push(select));
-		    
-		    this.router.navigate([parentRoute, value], { relativeTo: this.route });
-                }
-		*/
+
+	    	this.router.navigate(
+		    ['../../../',this.selectedYear, value, -1],
+		    { relativeTo: this.route }
+		);
+
 		break;
 	    case 'group':
-		//this.selectedGroupId = value == -1 ? null : value;
-		this.selectedGroupId = value;
-		/*
-		if (value == -1) {
-		    this.router.navigate([parentRoute], { relativeTo: this.route });
-		}
-		else {
-		    //this.assessmentsService.getGroup(value, this.selectedYear)
-                    //  .subscribe(group => this.selectedGroup = group);
-		    
-		    this.router.navigate(['../', this.selectedYear, this.selectedCourseId, value], { relativeTo: this.route });
-		}
-		*/
+		this.router.navigate(
+                    ['../../../',this.selectedYear, this.selectedCourseId, value],
+                    { relativeTo: this.route }
+                );
+    	
 		break;
 	    default:
 		break;
 	}
 
-	this.router.navigate(
-	    ['../../../', this.selectedYear, this.selectedCourseId,	this.selectedGroupId],
-	    { relativeTo: this.route }
-	);
-	
 	//this.checkedButtonId = "btn-grades";
     }
 
     onButtonClicked(event: any) {
 	this.checkedButtonId = event.target.id;
+    }
+
+    isNavVisible(): boolean {
+	return this.selectedYear != '-1' && this.selectedCourseId != '-1' && this.selectedGroupId != '-1';
     }
 
     /*

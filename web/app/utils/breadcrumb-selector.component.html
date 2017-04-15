@@ -4,7 +4,7 @@
             <template ngFor let-item [ngForOf]="select.items">
                 <template [ngIf]="item.isGroup">
                     <optgroup label="{{item.label}}">
-                        <option *ngFor="let i of item.value" value="{{i.value}}">{{i.label}}</option>
+                        <option *ngFor="let i of item.value" value="{{i.value}}" [selected]="i.value === select.selectedValue">{{i.label}}</option>
                     </optgroup>
                 </template>
                 <template [ngIf]="!item.isGroup">
