@@ -41,12 +41,12 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-	//console.log('AssessmentSelector - parameters: ' + this.route.snapshot.params);
 	this.selectsSubscription = this.route.params
 	    .switchMap((params: Params) => {
 		const year = params['year'];
 		const course_id = params['course_id'];
 		const group_id = params['group_id'];
+		console.log('AssessmentSelector - parameters: (' + year, ', ' + course_id + ', ' + group_id + ')');
 		let yearObservable = Observable.empty();
 		let courseObservable = Observable.empty();
 		let groupObservable =  Observable.empty();
@@ -54,22 +54,30 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 		if (this.selects.length == 0) {
 		    yearObservable = this.assessmentsService.getGroupsSelectYear()
 			.map((select: BreadcrumbSelectorSelect) => {
-			    select.selectedValue = year
+			    select.selectedValue = year;
 			    return select;
 			});
 		}
 		
-		if (year != undefined && year != this.selectedYear) {
+		if (year != this.selectedYear) {
 		    this.selectedYear = year;
-		    courseObservable = this.assessmentsService.getGroupsSelectCourse(year);
+		    courseObservable = this.assessmentsService.getGroupsSelectCourse(year)
+			.map((select: BreadcrumbSelectorSelect) => {
+                            select.selectedValue = course_id;
+                            return select;
+                        });
 		}
 
-		if (year != undefined && course_id != undefined && course_id != this.selectedCourseId) {
+		if (course_id != this.selectedCourseId) {
 		    this.selectedCourseId = course_id;
-		    groupObservable = this.assessmentsService.getGroupsSelectGroup(year, course_id);
+		    groupObservable = this.assessmentsService.getGroupsSelectGroup(year, course_id)
+			.map((select: BreadcrumbSelectorSelect) => {
+                            select.selectedValue = group_id;
+                            return select;
+                        });
 		}
 
-		if (year != undefined && course_id != undefined && group_id != undefined && group_id != this.selectedGroupId) {
+		if (group_id != this.selectedGroupId) {
 		    this.selectedGroupId = group_id;
 		}
 		/*
@@ -155,7 +163,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 	}
 
 	this.router.navigate(
-	    ['../', this.selectedYear, this.selectedCourseId,	this.selectedGroupId],
+	    ['../../../', this.selectedYear, this.selectedCourseId,	this.selectedGroupId],
 	    { relativeTo: this.route }
 	);
 	
