@@ -360,7 +360,7 @@ export class DataService {
 		    });
 		    items.unshift(new BreadcrumbSelectorItem('Year...', '-1', false));
 
-		    return new BreadcrumbSelectorSelect('year', items);
+		    return new BreadcrumbSelectorSelect('year', items, -1);
 		}
 
 		return null;
@@ -396,7 +396,7 @@ export class DataService {
                     });
                     parents.unshift(new BreadcrumbSelectorItem('Course...', '-1', false));
 
-                    return new BreadcrumbSelectorSelect('course', parents);
+                    return new BreadcrumbSelectorSelect('course', parents, -1);
                 }
 
                 return null;
@@ -423,7 +423,7 @@ export class DataService {
                     });
                     items.unshift(new BreadcrumbSelectorItem('Group...', '-1', false));
 
-                    return new BreadcrumbSelectorSelect('group', items);
+                    return new BreadcrumbSelectorSelect('group', items, -1);
                 }
 
                 return null;

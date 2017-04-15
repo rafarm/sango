@@ -11,7 +11,8 @@ export class BreadcrumbSelectorItem {
 export class BreadcrumbSelectorSelect {
     constructor(
 	public id: string,
-	public items: BreadcrumbSelectorItem[]
+	public items: BreadcrumbSelectorItem[],
+	public selectedValue: any
     ){}
 }
 

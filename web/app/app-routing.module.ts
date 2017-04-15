@@ -18,7 +18,7 @@ const appRoutes: Routes = [
 	path: 'assessments', component: AssessmentsComponent
     },*/
     {
-	path: '', redirectTo: '/assessments', pathMatch: 'full'
+	path: '', redirectTo: '/assessments/-1/-1/-1', pathMatch: 'full'
     },
     {
 	path: '**', component: PageNotFoundComponent

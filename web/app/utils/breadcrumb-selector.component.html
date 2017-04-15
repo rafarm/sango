@@ -8,7 +8,7 @@
                     </optgroup>
                 </template>
                 <template [ngIf]="!item.isGroup">
-                    <option value="{{item.value}}">{{item.label}}</option>
+                    <option value="{{item.value}}" [selected]="item.value === select.selectedValue">{{item.label}}</option>
                 </template>
             </template>
         </select>

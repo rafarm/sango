@@ -26,9 +26,9 @@ import { BreadcrumbSelectorEvent } 		from '../utils/breadcrumb-selector.componen
 export class AssessmentSelectorComponent implements OnInit, OnDestroy {
     selects: BreadcrumbSelectorSelect[] = [];
     
-    selectedYear: string = null;
-    selectedCourseId: string = null;
-    selectedGroupId: string = null;
+    selectedYear = '-1';
+    selectedCourseId = '-1';
+    selectedGroupId = '-1';
 
     private selectsSubscription: Subscription;
   
@@ -41,7 +41,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-	console.log('AssessmentSelector - parameters: ' + this.route.snapshot.params);
+	//console.log('AssessmentSelector - parameters: ' + this.route.snapshot.params);
 	this.selectsSubscription = this.route.params
 	    .switchMap((params: Params) => {
 		const year = params['year'];
@@ -52,7 +52,11 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 		let groupObservable =  Observable.empty();
 
 		if (this.selects.length == 0) {
-		    yearObservable = this.assessmentsService.getGroupsSelectYear();
+		    yearObservable = this.assessmentsService.getGroupsSelectYear()
+			.map((select: BreadcrumbSelectorSelect) => {
+			    select.selectedValue = year
+			    return select;
+			});
 		}
 		
 		if (year != undefined && year != this.selectedYear) {
@@ -74,7 +78,10 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
                 }
 		*/
 		return Observable.concat(yearObservable, courseObservable, groupObservable);
-	    }).subscribe((select: BreadcrumbSelectorSelect) => this.selects.push(select));
+	    }).subscribe(
+		    (select: BreadcrumbSelectorSelect) => this.selects.push(select),
+		    error => this.router.navigate(['/notfound'])
+		);
     }
 
     ngOnDestroy() {
@@ -85,66 +92,73 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 	let value = event.select_value;
 	switch(event.select_id) {
 	    case 'year':
-		this.selectedGroupId = null;
-		this.selectedCourseId = null;
-                
+		this.selectedYear = value;
+		this.selectedGroupId = '-1';
+		this.selectedCourseId = '-1';
+		
 		while(this.selects.length > 1) {
 		    this.selects.pop();
 		}
-		
-		if (value == -1) {
-		    this.selectedYear = null;
-		    this.router.navigate(['../'], { relativeTo: this.route });
+		/*
+		if (value == '-1') {
+		    this.router.navigate([parentRoute], { relativeTo: this.route });
 		}
  		else {
-		    /*
-		    this.selectedYear = value;
-		    this.assessmentsService.getGroupsSelectCourse(this.selectedYear)
-			.subscribe(select => this.selects.push(select));
-		    */
-		    this.router.navigate([value], { relativeTo: this.route });
+		    
+		    //this.selectedYear = value;
+		    //this.assessmentsService.getGroupsSelectCourse(this.selectedYear)
+		    //	.subscribe(select => this.selects.push(select));
+		
+		    this.router.navigate([parentRoute, value], { relativeTo: this.route });
 		}
+		*/
 		break;
 	    case 'course':
-		this.selectedGroupId = null;
+		this.selectedCourseId = value;
+		this.selectedGroupId = '-1';
                 
 		while(this.selects.length > 2) {
                     this.selects.pop();
                 }
-		
+		/*
 		if (value == '-1') {
-		    this.selectedCourseId = null;
-		    this.router.navigate(['../'], { relativeTo: this.route });
+		    this.router.navigate([parentRoute, this.selectedYear], { relativeTo: this.route });
 		}
                 else {
 		    //this.selectedCourseId = value
-		    /*
-		    this.assessmentsService.getCourse(value, this.selectedYear)
-			.subscribe(course => this.selectedCourse = course);
-                    this.assessmentsService.getGroupsSelectGroup(this.selectedYear, value)
-                        .subscribe(select => this.selects.push(select));
-		    */
-		    this.router.navigate([value], { relativeTo: this.route });
+		    //this.assessmentsService.getCourse(value, this.selectedYear)
+		    //	.subscribe(course => this.selectedCourse = course);
+                    //this.assessmentsService.getGroupsSelectGroup(this.selectedYear, value)
+                    //  .subscribe(select => this.selects.push(select));
+		    
+		    this.router.navigate([parentRoute, value], { relativeTo: this.route });
                 }
+		*/
 		break;
 	    case 'group':
 		//this.selectedGroupId = value == -1 ? null : value;
+		this.selectedGroupId = value;
+		/*
 		if (value == -1) {
-		    this.selectedGroupId = null;
-		    this.router.navigate(['../'], { relativeTo: this.route });
+		    this.router.navigate([parentRoute], { relativeTo: this.route });
 		}
 		else {
-		    /*
-		    this.assessmentsService.getGroup(value, this.selectedYear)
-                        .subscribe(group => this.selectedGroup = group);
-		    */
-		    this.router.navigate([value], { relativeTo: this.route });
+		    //this.assessmentsService.getGroup(value, this.selectedYear)
+                    //  .subscribe(group => this.selectedGroup = group);
+		    
+		    this.router.navigate(['../', this.selectedYear, this.selectedCourseId, value], { relativeTo: this.route });
 		}
+		*/
 		break;
 	    default:
 		break;
 	}
 
+	this.router.navigate(
+	    ['../', this.selectedYear, this.selectedCourseId,	this.selectedGroupId],
+	    { relativeTo: this.route }
+	);
+	
 	//this.checkedButtonId = "btn-grades";
     }
 
