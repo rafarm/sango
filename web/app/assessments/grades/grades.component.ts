@@ -1,5 +1,5 @@
 import { Component, Input, OnInit }		from '@angular/core';
-import { Router, ActivatedRoute, Params }       from '@angular/router';
+import { Router, ActivatedRoute, Params }    	from '@angular/router';
 import { Observable }                           from 'rxjs/Observable';
 //import { Subscription }                         from 'rxjs/Subscription';
 
@@ -39,7 +39,7 @@ export class GradesComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-	this.assessments = this.route.params
+	this.assessments = this.route.parent.parent.params
             .switchMap((params: Params) => {
 		const year = params['year'];
                 const course_id = params['course_id'];
@@ -51,7 +51,8 @@ export class GradesComponent implements OnInit {
 		}
 
 		return observable;
-	    })/*.subscribe((course: Course) => this.assessments = course.assessments)*/;
+	    })
+	    .map((course: Course) => course.assessments);/*.subscribe((course: Course) => this.assessments = course.assessments)*/;
     }
 
     /*

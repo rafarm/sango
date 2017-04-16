@@ -1,17 +1,18 @@
 import { NgModule } 			from '@angular/core';
+import { FormsModule }                  from '@angular/forms';
 
 import { UtilsModule }			from '../../utils/utils.module';
-import { AssessmentsDividerComponent }	from '../assessments-divider.component';
+import { CoreModule }			from '../../core/core.module';
+
+import { GradesRoutingModule }		from './grades-routing.module';
 
 import { GradesComponent }		from './grades.component';
 import { GradesTableComponent }		from './grades-table.component';
 
-import { GradesRoutingModule }	from './grades-routing.module';
-
 @NgModule({
     imports: [
+	FormsModule,
 	UtilsModule,
-	AssessmentsDividerComponent,
 	GradesRoutingModule
     ],
     declarations: [

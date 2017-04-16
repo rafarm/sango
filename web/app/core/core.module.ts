@@ -6,6 +6,7 @@ import { ConfigService }		from './config.service';
 
 @NgModule({
     imports: [ CommonModule ],
+    exports: [ CommonModule ],
     providers: [ 
 	BackendService,
 	ConfigService

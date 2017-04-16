@@ -46,7 +46,6 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 		const year = params['year'];
 		const course_id = params['course_id'];
 		const group_id = params['group_id'];
-		console.log('AssessmentSelector - parameters: (' + year, ', ' + course_id + ', ' + group_id + ')');
 		let yearObservable = Observable.empty();
 		let courseObservable = Observable.empty();
 		let groupObservable =  Observable.empty();

@@ -4,7 +4,6 @@ import { UtilsModule }			from '../utils/utils.module';
 
 import { AssessmentsComponent }		from './assessments.component';
 import { AssessmentSelectorComponent }	from './assessment-selector.component';
-import { AssessmentsDividerComponent }	from './assessments-divider.component';
 
 import { AssessmentsRoutingModule }	from './assessments-routing.module';
 
@@ -15,8 +14,7 @@ import { AssessmentsRoutingModule }	from './assessments-routing.module';
     ],
     declarations: [
 	AssessmentsComponent,
-	AssessmentSelectorComponent,
-	AssessmentsDividerComponent
+	AssessmentSelectorComponent
     ]
 })
 
