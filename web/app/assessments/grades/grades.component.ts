@@ -52,7 +52,18 @@ export class GradesComponent implements OnInit {
 
 		return observable;
 	    })
-	    .map((course: Course) => course.assessments);/*.subscribe((course: Course) => this.assessments = course.assessments)*/;
+	    .map((course: Course) => {
+		let assessments = course.assessments;
+
+		if (assessments.length > 0 && this.route.children.length == 0) {
+		    this.router.navigate(
+			[assessments[0]._id],
+			{ relativeTo: this.route }
+		    );
+		}
+
+		return assessments;
+	    });
     }
 
     /*

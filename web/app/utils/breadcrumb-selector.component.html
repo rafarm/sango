@@ -1,16 +1,16 @@
 <ul *ngIf="selects" class="breadcrumb">
     <li *ngFor="let select of selects; let l = last" class="breadcrumb-item" [ngClass]="{'active': l}">
         <select id="{{select.id}}" class="custom-select" (change)="selectChangeHandler($event)">
-            <template ngFor let-item [ngForOf]="select.items">
-                <template [ngIf]="item.isGroup">
+            <ng-template ngFor let-item [ngForOf]="select.items">
+                <ng-template [ngIf]="item.isGroup">
                     <optgroup label="{{item.label}}">
                         <option *ngFor="let i of item.value" value="{{i.value}}" [selected]="i.value === select.selectedValue">{{i.label}}</option>
                     </optgroup>
-                </template>
-                <template [ngIf]="!item.isGroup">
+                </ng-template>
+                <ng-template [ngIf]="!item.isGroup">
                     <option value="{{item.value}}" [selected]="item.value === select.selectedValue">{{item.label}}</option>
-                </template>
-            </template>
+                </ng-template>
+            </ng-template>
         </select>
     </li>
 </ul>

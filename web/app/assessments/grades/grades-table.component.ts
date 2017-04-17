@@ -22,6 +22,7 @@ import { Grades } from '../../model/grades';
     providers: [ GradesService ]
 })
 export class GradesTableComponent implements OnInit, OnDestroy {
+    year: string;
     //@Input()
     assessment_id: string;
     //@Input()
@@ -30,7 +31,7 @@ export class GradesTableComponent implements OnInit, OnDestroy {
     subjects: Subject[];
     //@Input()
     students: Student[];
-    private grades: Grades;
+    grades: Grades;
     
     private edited: boolean;
     private saving: boolean;
@@ -50,18 +51,22 @@ export class GradesTableComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
+	this.year = this.route.parent.parent.parent.snapshot.params['year'];
+	this.group_id = this.route.parent.parent.parent.snapshot.params['group_id'];
 	this.gradesSubscription = this.route.params
 	    .switchMap((params: Params) => {
-		const year = params['year'];
-		this.group_id = params['group_id'];
+		//const year = params['year'];
+		//this.group_id = params['group_id'];
 		this.assessment_id = params['assessment_id'];
+
+		//console.log("GradesTable - params: (" + this.year + ", " + this.group_id + ", " + this.assessment_id + ")");
 
 		this.edited = false;
 		this.saving = false;
 		this.grades = null;
 		
-		if (year != undefined && this.group_id != undefined && this.assessment_id != undefined) {
-		    return this.gradesService.getGroup(this.group_id, year);
+		if (this.year != undefined && this.group_id != undefined && this.assessment_id != undefined) {
+		    return this.gradesService.getGroup(this.group_id, this.year);
 		}
 
 		return Observable.throw(new Error('Invalid parameters'));

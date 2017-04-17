@@ -32,7 +32,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 
     private selectsSubscription: Subscription;
   
-    checkedButtonId: string;  
+    //checkedButtonId: string;  
 	
     constructor(
 	private assessmentsService: AssessmentsService,
@@ -82,7 +82,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 
 		if (group_id != this.selectedGroupId) {
 		    this.selectedGroupId = group_id;
-		    if (this.selectedYear != '-1' && this.selectedCourseId != '-1' && this.selectedGroupId != '-1') {
+		    if (this.selectedYear != '-1' && this.selectedCourseId != '-1' && this.selectedGroupId != '-1' && this.route.children.length == 0) {
 			this.router.navigate(['grades'], { relativeTo: this.route });
 		    }
 		}
@@ -94,7 +94,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 		return Observable.concat(yearObservable, courseObservable, groupObservable);
 	    }).subscribe(
 		    (select: BreadcrumbSelectorSelect) => this.selects.push(select),
-		    error => this.router.navigate(['/notfound'])
+		    error => this.router.navigate(['notfound'])
 		);
     }
 
@@ -146,9 +146,11 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 	//this.checkedButtonId = "btn-grades";
     }
 
+    /*
     onButtonClicked(event: any) {
 	this.checkedButtonId = event.target.id;
     }
+    */
 
     isNavVisible(): boolean {
 	return this.selectedYear != '-1' && this.selectedCourseId != '-1' && this.selectedGroupId != '-1';
