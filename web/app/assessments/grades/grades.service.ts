@@ -1,4 +1,5 @@
 import { Injectable } 			from '@angular/core';
+import { RequestOptions, Headers }	from '@angular/http';
 import { Observable } 			from 'rxjs/Observable';
 import { Observer } 			from 'rxjs/Observer';
 
@@ -8,6 +9,7 @@ import { BackendService } 		from '../../core/backend.service';
 import { Course } 			from '../../model/course';
 import { Group } 			from '../../model/group';
 import { Assessment } 			from '../../model/assessment';
+import { Grades } 			from '../../model/grades';
 
 @Injectable()
 export class GradesService {
@@ -87,6 +89,54 @@ export class GradesService {
         }
 
         return this.backendService.get(call);
+    }
+
+    /*
+     * updateQualifications
+     *
+     * Update de grades for the assessment.
+     */
+    updateQualifications(grades: Grades): Observable<any> {
+        let a_id = grades.assessment_id;
+        let st = grades.students;
+
+        // Build assessment's grades array
+        let g:any[] = [];
+        Object.getOwnPropertyNames(st).forEach(st_id => {
+            let qs: any[] = [];
+            let st_g = st[st_id].grades;
+            Object.getOwnPropertyNames(st_g).forEach(sub_id => {
+                let value = st_g[sub_id].value;
+                if (value != null) {
+                    let q = {
+                        subject_id: sub_id,
+                        qualification: value
+                    };
+                    qs.push(q);
+                }
+            });
+
+            if (qs.length > 0) {
+                let s = {
+                    student_id: st_id,
+                    qualifications: qs
+                };
+                g.push(s);
+            }
+        });
+
+        let a_grades = {
+            grades: g
+        };
+
+        //console.log(a_grades);
+
+        let call = 'assessments/' + a_id + '/qualifications';
+        let body = JSON.stringify(a_grades);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.backendService.put(call, body, options);
     }
 }
 

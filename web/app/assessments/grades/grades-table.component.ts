@@ -131,12 +131,10 @@ export class GradesTableComponent implements OnInit, OnDestroy {
 
     save() {
         this.saving = true;
-	/*
-	this.dataService.updateQualifications(this.grades)
-	    .then(result => {
+	this.gradesService.updateQualifications(this.grades)
+	    .subscribe(result => {
 		this.getGrades();
 	    });
-	*/
 	//this.onSaveAssessment.emit(true);
     }
 

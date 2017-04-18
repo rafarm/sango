@@ -1,7 +1,7 @@
-import { Injectable } 		from '@angular/core';
-import { Http, Response }	from '@angular/http';
-import { Observable } 		from 'rxjs/Observable';
-import { Observer } 		from 'rxjs/Observer';
+import { Injectable } 				from '@angular/core';
+import { Http, Response, RequestOptions }	from '@angular/http';
+import { Observable } 				from 'rxjs/Observable';
+import { Observer } 				from 'rxjs/Observer';
 
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
@@ -39,6 +39,16 @@ export class BackendService {
 	return this.http.get(this.backendUrl + call)
 	    .map(this.extractData)
 	    .catch(this.handleError);
+    }
+
+    /* put
+     *
+     * Backend put call.
+     */
+    put(call: string, body: string, options: RequestOptions): Observable<any> {
+        return this.http.put(this.backendUrl + call, body, options)
+            .map(this.extractData)
+            .catch(this.handleError);
     }
 
     /*
