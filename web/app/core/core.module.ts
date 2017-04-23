@@ -3,13 +3,15 @@ import { CommonModule }			from '@angular/common';
 
 import { BackendService }		from './backend.service';
 import { ConfigService }		from './config.service';
+import { DialogService }		from './dialog.service';
 
 @NgModule({
     imports: [ CommonModule ],
     exports: [ CommonModule ],
     providers: [ 
 	BackendService,
-	ConfigService
+	ConfigService,
+	DialogService
     ]
 })
 

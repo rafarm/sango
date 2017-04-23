@@ -4,6 +4,8 @@ import { RouterModule, Routes }		from '@angular/router';
 import { GradesComponent }		from './grades.component';
 import { GradesTableComponent }		from './grades-table.component';
 
+import { CanDeactivateGuard }		from '../../can-deactivate-guard.service';
+
 const gradesRoutes: Routes = [
     {
 	path: '',
@@ -11,7 +13,8 @@ const gradesRoutes: Routes = [
 	children: [
 	    {
                 path: ':assessment_id',
-                component: GradesTableComponent
+                component: GradesTableComponent,
+		canDeactivate: [CanDeactivateGuard]
             }
 	]
     }

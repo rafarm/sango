@@ -7,13 +7,15 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/concatMap';
 
 //import { DataService } from './data.service';
-import { GradesService } from './grades.service';
+import { GradesService } 			from './grades.service';
+import { CanComponentDeactivate }		from '../../can-deactivate-guard.service';
+import { DialogService }			from '../../core/dialog.service';
 //import { Assessment } from '../../model/assessment';
-import { Group } from '../../model/group';
-import { Student } from '../../model/student';
-import { Subject } from '../../model/subject';
-import { Grade } from '../../model/grade';
-import { Grades } from '../../model/grades';
+import { Group } 				from '../../model/group';
+import { Student } 				from '../../model/student';
+import { Subject } 				from '../../model/subject';
+import { Grade } 				from '../../model/grade';
+import { Grades } 				from '../../model/grades';
     
 @Component({
     moduleId: module.id,
@@ -21,7 +23,7 @@ import { Grades } from '../../model/grades';
     styleUrls: ['./grades-table.component.css'],
     providers: [ GradesService ]
 })
-export class GradesTableComponent implements OnInit, OnDestroy {
+export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeactivate {
     year: string;
     //@Input()
     assessment_id: string;
@@ -46,6 +48,7 @@ export class GradesTableComponent implements OnInit, OnDestroy {
 
     constructor(
 	private gradesService: GradesService,
+	private dialogService: DialogService,
         private route: ActivatedRoute,
         private router: Router
     ) {}
@@ -81,6 +84,14 @@ export class GradesTableComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
 	this.gradesSubscription.unsubscribe();
+    }
+
+    canDeactivate(): Promise<boolean> | boolean {
+	if (!this.edited) {
+	    return true;
+	}
+
+	return this.dialogService.confirm('Discard changes?');
     }
 
     private getGrades(): Observable<Grades> {
@@ -132,15 +143,16 @@ export class GradesTableComponent implements OnInit, OnDestroy {
     save() {
         this.saving = true;
 	this.gradesService.updateQualifications(this.grades)
-	    .subscribe(result => {
-		this.getGrades();
-	    });
+	    .concatMap(result => {
+		return this.getGrades();
+	    })
+	    .subscribe((grades: Grades) => this.grades = grades);
 	//this.onSaveAssessment.emit(true);
     }
 
     cancel() {
         this.saving = true;
-	this.getGrades();
+	this.getGrades().subscribe((grades: Grades) => this.grades = grades);
 	//this.onSaveAssessment.emit(false);
     }
 
