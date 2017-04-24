@@ -1,7 +1,12 @@
-import { Component, OnInit, OnDestroy } 	from '@angular/core';
-import { Router, ActivatedRoute, Params }	from '@angular/router';
-import { Observable }                   	from 'rxjs/Observable';
-import { Subscription }				from 'rxjs/Subscription';
+import { Component,
+	 OnInit,
+	 OnDestroy } 		from '@angular/core';
+import { Router,
+	 ActivatedRoute,
+	 Params,
+	 NavigationCancel }	from '@angular/router';
+import { Observable }           from 'rxjs/Observable';
+import { Subscription }		from 'rxjs/Subscription';
 
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/concat';
@@ -25,12 +30,14 @@ import { BreadcrumbSelectorEvent } 		from '../utils/breadcrumb-selector.componen
 })
 export class AssessmentSelectorComponent implements OnInit, OnDestroy {
     selects: BreadcrumbSelectorSelect[] = [];
+    removedSelects: BreadcrumbSelectorSelect[] = [];
     
     selectedYear = '-1';
     selectedCourseId = '-1';
     selectedGroupId = '-1';
 
     private selectsSubscription: Subscription;
+    private routerEventsSubscription: Subscription;
   
     //checkedButtonId: string;  
 	
@@ -38,7 +45,34 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 	private assessmentsService: AssessmentsService,
 	private route: ActivatedRoute,
 	private router: Router
-    ) {}
+    ) {
+	// Restore selects state if navigation is cancelled...
+	this.routerEventsSubscription = this.router.events.subscribe(event => {
+	    if (event instanceof NavigationCancel) {
+		// Restore changed select previous selected item...
+		let changedSelectIndex = this.selects.length - 1;
+		let changedSelect: any = document.getElementById(this.selects[changedSelectIndex].id);
+		switch(changedSelectIndex) {
+		    case 0:
+			changedSelect.value = this.selectedYear;
+			break;
+		    case 1:
+			changedSelect.value = this.selectedCourseId;
+			break;
+		    case 2:
+			changedSelect.value = this.selectedGroupId;
+			break;
+		    default:
+			break;
+		}
+
+		// Restore previously removed selects...
+		while(this.removedSelects.length > 0) {
+		    this.selects.push(this.removedSelects.pop());
+		}
+	    }
+	});
+    }
 
     ngOnInit() {
 	this.selectsSubscription = this.route.params
@@ -100,17 +134,20 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
 	this.selectsSubscription.unsubscribe();
+	this.routerEventsSubscription.unsubscribe();
     }
 
     onSelectorChanged(event: BreadcrumbSelectorEvent) {
+	this.removedSelects = [];
+
 	let value = event.select_value;
 	switch(event.select_id) {
 	    case 'year':
-		this.selectedGroupId = '-1';
-		this.selectedCourseId = '-1';
+		//this.selectedGroupId = '-1';
+		//this.selectedCourseId = '-1';
 		
 		while(this.selects.length > 1) {
-		    this.selects.pop();
+		    this.removedSelects.push(this.selects.pop());
 		}
 
 	    	this.router.navigate(
@@ -120,10 +157,10 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 
 		break;
 	    case 'course':
-		this.selectedGroupId = '-1';
+		//this.selectedGroupId = '-1';
                 
 		while(this.selects.length > 2) {
-                    this.selects.pop();
+                    this.removedSelects.push(this.selects.pop());
                 }
 
 	    	this.router.navigate(
@@ -142,7 +179,6 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 	    default:
 		break;
 	}
-
 	//this.checkedButtonId = "btn-grades";
     }
 
