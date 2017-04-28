@@ -293,10 +293,13 @@ function processEdMeasure(child, name, doc) {
 
 function getEdMeasure(m_id, doc) {
     var measures = doc.childNamed('medidas_educativas');
-    var m = measures.childWithAttribute('codigo', m_id);
 
-    if (m != undefined) {
-    	return m.attr.nombre_val;
+    if (measures != undefined) {
+        var m = measures.childWithAttribute('codigo', m_id);
+
+        if (m != undefined) {
+    	    return m.attr.nombre_val;
+        }
     }
 
     return null;
