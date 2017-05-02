@@ -6,26 +6,15 @@ import { Observer } 			from 'rxjs/Observer';
 import 'rxjs/add/operator/map';
 
 import { BackendService } 		from '../../core/backend.service';
-import { Course } 			from '../../model/course';
+//import { Course } 			from '../../model/course';
 import { Group } 			from '../../model/group';
-import { Assessment } 			from '../../model/assessment';
+//import { Assessment } 			from '../../model/assessment';
 import { Grades } 			from '../../model/grades';
 
 @Injectable()
 export class GradesService {
 
     constructor(private backendService: BackendService) {};
-
-    /*
-     * getCourse
-     *
-     * Returns course identified by 'id' with assessments for 'year'.
-     */
-    getCourse(id: string, year: string): Observable<Course> {
-        let  call = 'assessments/bycourse/' + id + '/' + year;
-
-        return this.backendService.get(call);
-    }
 
     /*
      * getGroup

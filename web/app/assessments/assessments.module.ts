@@ -1,9 +1,10 @@
-import { NgModule } 			from '@angular/core';
+import { NgModule } 				from '@angular/core';
 
-import { UtilsModule }			from '../utils/utils.module';
+import { UtilsModule }				from '../utils/utils.module';
 
-import { AssessmentsComponent }		from './assessments.component';
-import { AssessmentSelectorComponent }	from './assessment-selector.component';
+import { AssessmentsComponent }			from './assessments.component';
+import { AssessmentSelectorComponent }		from './assessment-selector.component';
+import { AssessmentsDividerBaseComponent }	from './assessments-divider-base.component';
 
 import { AssessmentsRoutingModule }	from './assessments-routing.module';
 
@@ -14,7 +15,8 @@ import { AssessmentsRoutingModule }	from './assessments-routing.module';
     ],
     declarations: [
 	AssessmentsComponent,
-	AssessmentSelectorComponent
+	AssessmentSelectorComponent,
+	AssessmentsDividerBaseComponent
     ]
 })
 

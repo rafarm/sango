@@ -92,5 +92,16 @@ export class AssessmentsService {
                 return null;
             })
     }
+
+    /*
+     * getCourse
+     *
+     * Returns course identified by 'id' with assessments for 'year'.
+     */
+    getCourse(id: string, year: string): Observable<Course> {
+        let  call = 'assessments/bycourse/' + id + '/' + year;
+
+        return this.backendService.get(call);
+    }
 }
 

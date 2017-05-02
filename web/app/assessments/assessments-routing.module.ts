@@ -5,6 +5,7 @@ import { AssessmentsComponent }		from './assessments.component';
 import { AssessmentSelectorComponent }	from './assessment-selector.component';
 
 import { GradesModule }			from './grades/grades.module';
+import { GroupModule }			from './group/group.module';
 
 const assessmentsRoutes: Routes = [
     {
@@ -33,6 +34,10 @@ const assessmentsRoutes: Routes = [
 		    {
 			path: 'grades',
 			loadChildren: () => GradesModule
+		    },
+		    {
+			path: 'group',
+			loadChildren: () => GroupModule
 		    }
 		]
             }
