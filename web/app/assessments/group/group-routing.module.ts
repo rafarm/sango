@@ -2,21 +2,20 @@ import { NgModule }			from '@angular/core';
 import { RouterModule, Routes }		from '@angular/router';
 
 import { GroupComponent }		from './group.component';
-//import { GradesTableComponent }		from './grades-table.component';
+import { GroupChartsComponent }		from './group-charts.component';
 
 //import { CanDeactivateGuard }		from '../../can-deactivate-guard.service';
 
 const groupRoutes: Routes = [
     {
 	path: '',
-	component: GroupComponent/*,
+	component: GroupComponent,
 	children: [
 	    {
                 path: ':assessment_id',
-                component: GradesTableComponent,
-		canDeactivate: [CanDeactivateGuard]
+                component: GroupChartsComponent
             }
-	]*/
+	]
     }
 ];
 

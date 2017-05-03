@@ -6,7 +6,7 @@ import { CoreModule }			from '../../core/core.module';
 import { GroupRoutingModule }		from './group-routing.module';
 
 import { GroupComponent }		from './group.component';
-//import { GroupChartsComponent }		from './group-charts.component';
+import { GroupChartsComponent }		from './group-charts.component';
 
 @NgModule({
     imports: [
@@ -14,8 +14,8 @@ import { GroupComponent }		from './group.component';
 	GroupRoutingModule
     ],
     declarations: [
-	GroupComponent/*,
-	GroupChartsComponent*/
+	GroupComponent,
+	GroupChartsComponent
     ]
 })
 

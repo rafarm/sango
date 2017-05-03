@@ -1,16 +1,16 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { GoogleChartDirective } from './directives/google-chart.directive';
+import { GoogleChartDirective } from '../../utils/google-chart.directive';
 
-import { Course } from './model/course';
+import { Course } from '../../model/course';
 //import { Student } from './model/student';
 //import { AssessmentStats } from './model/assessment-stats';
     
 @Component({
-    selector: 'assessment-group',
+    moduleId: module.id,
     //directives: [GoogleChartDirective],
-    templateUrl: 'app/assessment-group.component.html'
+    templateUrl: './group-charts.component.html'
 })
-export class AssessmentGroupComponent /*implements OnChanges*/ {
+export class GroupChartsComponent /*implements OnChanges*/ {
     @Input()
     course: Course;
     @Input()

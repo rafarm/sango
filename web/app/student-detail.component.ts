@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChange } from '@angular/core';
-import { GoogleChartDirective } from './directives/google-chart.directive';
+import { GoogleChartDirective } from './utils/google-chart.directive';
 
 import { Course } from './model/course';
 import { Assessment } from './model/assessment';

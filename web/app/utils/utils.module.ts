@@ -5,6 +5,7 @@ import { RouterModule } 		from '@angular/router';
 import { BreadcrumbSelectorComponent } 	from './breadcrumb-selector.component';
 import {NavDividerComponent }		from './nav-divider.component';
 import { CollapseDirective }		from './collapse.directive';
+import { GoogleChartDirective }		from './google-chart.directive';
 
 @NgModule({
     imports: [
@@ -14,13 +15,15 @@ import { CollapseDirective }		from './collapse.directive';
     declarations: [
 	BreadcrumbSelectorComponent,
 	NavDividerComponent,
-	CollapseDirective
+	CollapseDirective,
+	GoogleChartDirective
     ],
     exports: [
 	CommonModule,
 	BreadcrumbSelectorComponent,
 	NavDividerComponent,
-	CollapseDirective
+	CollapseDirective,
+	GoogleChartDirective
     ]
 })
 
