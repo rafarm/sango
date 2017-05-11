@@ -17,7 +17,12 @@ router.get('/tree/years', (req, res) => {
             $group: {
                 _id: '$year'            
             }
-        }
+        },
+	{
+	    $sort: {
+		_id: -1
+	    }
+	}
     ];
 
     
