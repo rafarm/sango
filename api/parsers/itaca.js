@@ -112,7 +112,7 @@ function parseChildren(item, process, collection, next, doc, res) {
     }
 
     if (operations.length > 0) {
-	mongodb.db.collection(collection).bulkWrite(operations)
+	mongodb.db.collection(collection).bulkWrite(operations, {ordered: false})
 	    .then(resp => {
 		parseDoc(doc, next, res);
 	    })
