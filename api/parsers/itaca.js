@@ -36,9 +36,93 @@ function parser(req, res) {
 
     opObservables.push(schoolData(doc));
     opObservables.push(
-	parseChildren('ensenanzas', processStage, 'stages', 'Processing courses...', doc)
+	parseChildren(
+            'ensenanzas',
+	    processStage,
+	    'stages',
+	    'Processing courses...',
+	    doc)
     );
-
+    opObservables.push(
+        parseChildren(
+            'cursos',
+            processCourse,
+            'courses',
+            'Processing subjects...',
+            doc)
+    );
+    opObservables.push(
+        parseChildren(
+            'contenidos',
+            processSubject,
+            'subjects',
+            'Processing groups...',
+            doc)
+    );
+    opObservables.push(
+        parseChildren(
+            'grupos',
+            processGroup,
+            'groups',
+            'Processing groups...',
+            doc)
+    );
+    opObservables.push(
+        parseChildren(
+            'cursos_grupo',
+            processCourseGroup,
+            'groups',
+            'Processing students...',
+            doc)
+    );
+    opObservables.push(
+        parseChildren(
+            'alumnos',
+            processStudent,
+            'students',
+            'Processing students enrolments...',
+            doc)
+    );
+    opObservables.push(
+        parseChildren(
+            'alumnos',
+            processStudentEnrolment,
+            'students',
+            'Processing special needs...',
+            doc)
+    );
+    opObservables.push(
+        parseChildren(
+            'medidas_neses',
+            processNese,
+            'students',
+            'Processing compensatories...',
+            doc)
+    );
+    opObservables.push(
+        parseChildren(
+            'compensatorias',
+            processComp,
+            'students',
+            'Processing enrolments subjects...',
+            doc)
+    );
+    opObservables.push(
+        parseChildren(
+            'contenidos_alumno',
+            processSubjectStudent,
+            'students',
+            'Processing assessments...',
+            doc)
+    );
+    opObservables.push(
+        parseChildren(
+            'evaluaciones',
+            processAssessment,
+            'assessments',
+            'Finalizing...',
+            doc)
+    );
 
     Rx.Observable.concat(opObservables)
 	.subscribe(
@@ -86,6 +170,7 @@ function parseChildren(childName, process, collection, nextMsg, doc) {
     return Rx.Observable.throw('"' + childName + '" entity not found in data file.');
 }
 
+/*
 // Use recursion to parse data file...
 function parseDoc(doc, childName, res) {
     if (childName != null) {
@@ -167,7 +252,7 @@ function parseChildren(item, process, collection, next, doc, res) {
 	res.sseError('No ' + item.name + ' found in data file');
     }
 }
-
+*/
 function processStage(child, doc) {
     if (child.name == 'ensenanza') {
         var op = {
@@ -270,34 +355,54 @@ function processCourseGroup(child, doc) {
 }
 
 function processStudent(child, doc) {
+    
     if (child.name == 'alumno') {
 	var group = doc.attr.codigo + child.attr.grupo + doc.attr.curso;
         var op = {
             updateOne: {
-                filter: { _id: child.attr.NIA, 'enrolments.group_id': { $ne: group } },
-                update: { $set: {
-                    last_name: child.attr.apellido1 + ' ' + child.attr.apellido2,
-                    first_name: child.attr.nombre,
-                    birth_date: new Date(child.attr.fecha_nac),
-                    gender: child.attr.sexo == 'H' ? 'M' : 'F'
-                }, $addToSet: {
-		    enrolments: {
-			school_id: doc.attr.codigo,
-                        year: doc.attr.curso,
-			stage_id: child.attr.ensenanza,
-			course_id: child.attr.curso,
-			group_id: group,
-			active: child.attr.estado_matricula == 'M',
-			repeats: child.attr.repite != '0'
-		    }
-		} },
+                filter: { _id: child.attr.NIA },
+                update: {
+		    $set: {
+                        last_name: child.attr.apellido1 + ' ' + child.attr.apellido2,
+                        first_name: child.attr.nombre,
+                        birth_date: new Date(child.attr.fecha_nac),
+                        gender: child.attr.sexo == 'H' ? 'M' : 'F'
+                    }
+                },
                 upsert: true
             }
         };
 
         return op;
     }
+    
+    return null;
+}
 
+function processStudentEnrolment(child, doc) {
+    if (child.name == 'alumno') {
+        var group = doc.attr.codigo + child.attr.grupo + doc.attr.curso;
+        var op = {
+            updateOne: {
+                filter: { _id: child.attr.NIA/*, 'enrolments.group_id': { $ne: group }*/ },
+                update: {
+                    $addToSet: {
+                        enrolments: {
+                            school_id: doc.attr.codigo,
+                            year: doc.attr.curso,
+                            stage_id: child.attr.ensenanza,
+                            course_id: child.attr.curso,
+                            group_id: group,
+                            active: child.attr.estado_matricula == 'M',
+                            repeats: child.attr.repite != '0'
+                        }
+                    }
+                }
+            }
+        };
+
+        return op;
+    }
     return null;
 }
 
