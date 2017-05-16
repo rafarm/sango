@@ -123,7 +123,7 @@ function parser(req, res) {
             'Finalizing...',
             doc)
     );
-
+    
     Rx.Observable.concat(opObservables)
 	.subscribe(
 	    msg => res.sseSend(msg),
