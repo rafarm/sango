@@ -104,6 +104,12 @@ router.get('/bygroup/:id/:year', function(req, res) {
       $unwind: '$enrolments'
     },
     {
+      $match: {
+        'enrolments.year': req.params.year,
+        'enrolments.group_id': req.params.id
+      }
+    },
+    {
       $project: {
         first_name: 1,
         last_name: 1,
