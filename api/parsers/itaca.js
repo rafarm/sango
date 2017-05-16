@@ -1,9 +1,11 @@
+var Rx = require('rx');
 var mongodb = require('../mongo_connection');
 var xmldoc = require('xmldoc');
 var fs = require('fs');
 var path = process.env.npm_package_config_upload_path;
 
 function parser(req, res) {
+// Synchronous processing...
     // Open file
     try {
         var buffer = fs.readFileSync(path + '/' + req.params.name);
@@ -29,18 +31,59 @@ function parser(req, res) {
 	return;
     }
     
-    // Insert school data...
-    mongodb.db.collection('schools').updateOne(
-	{_id: doc.attr.codigo },
-	{ $set: { name: doc.attr.denominacion } },
-	{ upsert: true })
-	.then(result => {
-	    // Parse document
-            parseDoc(doc, 'ensenanzas', res);
-	})
-	.catch(error => {
-	    res.sseError(error);	    
-	});
+// Asynchronous processing...
+    var opObservables = [];
+
+    opObservables.push(schoolData(doc));
+    opObservables.push(
+	parseChildren('ensenanzas', processStage, 'stages', 'Processing courses...', doc)
+    );
+
+
+    Rx.Observable.concat(opObservables)
+	.subscribe(
+	    msg => res.sseSend(msg),
+	    err => res.sseError(err),
+	    ()  => res.sseEnd('OK')
+	);
+}
+
+// Insert school data...
+function schoolData(doc) {
+    return Rx.Observable.fromPromise(
+	mongodb.db.collection('schools').updateOne(
+	    {_id: doc.attr.codigo },
+	    { $set: { name: doc.attr.denominacion } },
+	    { upsert: true })
+	).map(res => 'Processing stages...');
+}
+
+// Children parsing...
+function parseChildren(childName, process, collection, nextMsg, doc) {
+    var item = doc.childNamed(childName);
+
+    if (item != undefined) {
+	var operations = [];
+
+	for (var i=0; i<item.children.length; i++) {
+	    var child = item.children[i];
+
+	    var op = process(child, doc);
+	    if (op != null) {
+		operations.push(op);
+	    }
+	}
+
+	if (operations.length > 0) {
+	    return Rx.Observable.fromPromise(
+		mongodb.db.collection(collection).bulkWrite(operations, {ordered: false})
+		).map(res => nextMsg);
+	}
+
+	return Rx.Observable.throw('No ' + item.name + ' found in data file');
+    }
+    
+    return Rx.Observable.throw('"' + childName + '" entity not found in data file.');
 }
 
 // Use recursion to parse data file...
