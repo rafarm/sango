@@ -4,6 +4,7 @@ var mongodb = require('../mongo_connection');
 var studentsCollection = mongodb.db.collection('students');
 var bodyParser = require('body-parser');
 var wrapResult = require('./wrap-result').wrapResult;
+var collation = { locale: process.env.npm_package_config_locale };
 
 /*
  * /students GET
@@ -11,6 +12,7 @@ var wrapResult = require('./wrap-result').wrapResult;
  * Returns all students in query array or all students
  * if there's no query array.
  */
+/*
 router.get('/', function(req, res) {
     var filter = null;
     if (req.query.ids != null) {
@@ -18,7 +20,7 @@ router.get('/', function(req, res) {
     }
     //var order = { last_name: 1, first_name: 1 };
 
-    studentsCollection.find(filter)/*.sort(order)*/.toArray()
+    studentsCollection.find(filter).toArray()
 	.then(function(students) {
 	    res.json(wrapResult(students));
 	})
@@ -27,12 +29,14 @@ router.get('/', function(req, res) {
 	    res.json(err);
 	});
 });
+*/
 
 /*
  * /students/:id GET
  * 
  * Returns the student identified by 'id'.
  */
+/*
 router.get('/:id', function(req, res) {
     studentsCollection.findOne({'_id': req.params.id})
 	.then(function(student) {
@@ -43,12 +47,14 @@ router.get('/:id', function(req, res) {
 	    res.json(err);
 	});
 });
+*/
 
 /*
  * /students POST
  * 
  * Inserts a new student.
  */
+/*
 router.post('/', bodyParser.json(), function(req, res) {
     studentsCollection.insertOne(req.body, null)
 	.then(function(result) {
@@ -61,12 +67,14 @@ router.post('/', bodyParser.json(), function(req, res) {
 	    res.json(err);
 	});
 });
+*/
 
 /*
  * /students/many POST
  * 
  * Inserts an array of new students.
  */
+/*
 router.post('/many', bodyParser.json(), function(req, res) {
     studentsCollection.insertMany(req.body, null)
 	.then(function(result) {
@@ -79,6 +87,7 @@ router.post('/many', bodyParser.json(), function(req, res) {
 	    res.json(err);
 	});
 });
+*/
 
 /*
  * /students/bygroup/:id/:year GET
@@ -270,7 +279,7 @@ router.get('/bygroup/:id/:year', function(req, res) {
     }
   ];
 
-  studentsCollection.aggregate(pipe, function(err, result) {
+  studentsCollection.aggregate(pipe, { collation: collation }, function(err, result) {
     if (err != null) {
       res.status(500);
       res.json(err);

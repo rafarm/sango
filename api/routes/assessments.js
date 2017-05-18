@@ -4,6 +4,7 @@ var mongodb = require('../mongo_connection');
 var assessmentsCollection = mongodb.db.collection('assessments');
 var bodyParser = require('body-parser');
 var wrapResult = require('./wrap-result').wrapResult;
+var collation = { locale: process.env.npm_package_config_locale };
 
 // TODO: Match by school.
 
@@ -12,6 +13,7 @@ var wrapResult = require('./wrap-result').wrapResult;
  * 
  * Returns all assessments name and id.
  */
+/*
 router.get('/', function(req, res) {
     var filter = {};
     if (req.query.year != undefined) {
@@ -33,12 +35,14 @@ router.get('/', function(req, res) {
 	    res.json(err);
 	});
 });
+*/
 
 /*
  * /assessments/:id GET
  * 
  * Returns the assessment identified by 'id'.
  */
+/*
 router.get('/:id', function(req, res) {
     assessmentsCollection.findOne({'_id': req.params.id})
 	.then(function(assessment) {
@@ -49,6 +53,7 @@ router.get('/:id', function(req, res) {
 	    res.json(err);
 	});
 });
+*/
 
 /*
  * /assessments/:id PUT
@@ -56,6 +61,7 @@ router.get('/:id', function(req, res) {
  * Replaces the assessment identified by 'id' by
  * the one received.
  */
+/*
 router.put('/:id', bodyParser.json(), function(req, res) {
     assessmentsCollection.updateOne({ '_id': req.params.id },{ $set: req.body }, null)
 	.then(result => res.json(wrapResult(result)))
@@ -64,6 +70,7 @@ router.put('/:id', bodyParser.json(), function(req, res) {
 	    res.json(err);
 	});
 });
+*/
 
 /*
  * /assessments/:id/qualifications?group_id GET
@@ -122,7 +129,7 @@ router.get('/:id/qualifications', function(req, res) {
 	pipe = pipe.concat(by_group);
     }
 
-    assessmentsCollection.aggregate(pipe, function(err, result) {
+    assessmentsCollection.aggregate(pipe, { collation: collation }, function(err, result) {
         if (err != null) {
             res.status(500);
             res.json(err);
@@ -210,12 +217,12 @@ router.put('/:id/qualifications', bodyParser.json(), function(req, res) {
     }
 });
 
-
 /*
  * /assessments POST
  * 
  * Inserts a new assessment.
  */
+/*
 router.post('/', bodyParser.json(), function(req, res) {
     assessmentsCollection.insertOne(req.body, null)
 	.then(function(result) {
@@ -228,12 +235,14 @@ router.post('/', bodyParser.json(), function(req, res) {
 	    res.json(err);
 	});
 });
+*/
 
 /*
  * /assessments/many POST
  * 
  * Inserts an array of new assessments.
  */
+/*
 router.post('/many', bodyParser.json(), function(req, res) {
     assessmentsCollection.insertMany(req.body, null)
 	.then(function(result) {
@@ -246,6 +255,7 @@ router.post('/many', bodyParser.json(), function(req, res) {
 	    res.json(err);
 	});
 });
+*/
 
 /*
  * /assessments/bycourse/:id/:year GET
@@ -302,31 +312,31 @@ router.get('/bycourse/:id/:year', function(req, res) {
 		}
 	    }
 	},
-	/*{
-	    $lookup: {
-		from: 'subjects',
-		localField: '_id._id',
-		foreignField: 'course_id',
-		as: 'subjects'
-	    }
-	},
-	{
-	    $unwind: '$subjects'
-	},
-	{
-	    $group: {
-		_id: {
-		    _id: '$_id',
-		    assessments: '$assessments'
-		},
-		subjects: {
-		    $push: {
-			_id: '$subjects._id',
-			name: '$subjects.name'
-		    }
-		}
-	    }
-	},*/
+	//{
+	//    $lookup: {
+	//	from: 'subjects',
+	//	localField: '_id._id',
+	//	foreignField: 'course_id',
+	//	as: 'subjects'
+	//    }
+	//},
+	//{
+	//    $unwind: '$subjects'
+	//},
+	//{
+	//    $group: {
+	//	_id: {
+	//	    _id: '$_id',
+	//	    assessments: '$assessments'
+	//	},
+	//	subjects: {
+	//	    $push: {
+	//		_id: '$subjects._id',
+	//		name: '$subjects.name'
+	//	    }
+	//	}
+	//    }
+	//},
 	{
 	    $project: {
 		_id: '$_id._id',
@@ -340,7 +350,7 @@ router.get('/bycourse/:id/:year', function(req, res) {
 	}
     ];
     
-    assessmentsCollection.aggregate(pipe, function(err, result) {
+    assessmentsCollection.aggregate(pipe, { collation: collation }, function(err, result) {
         if (err != null) {
             res.status(500);
             res.json(err);
