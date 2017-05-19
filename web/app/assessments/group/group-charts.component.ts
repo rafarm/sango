@@ -1,16 +1,18 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { GoogleChartDirective } from '../../utils/google-chart.directive';
+import { Component } 				from '@angular/core';
+import { Router, ActivatedRoute, Params }       from '@angular/router';
+import { Observable }                           from 'rxjs/Observable';
+import { Subscription }                         from 'rxjs/Subscription';
 
-import { Course } from '../../model/course';
+//import { Course } from '../../model/course';
 //import { Student } from './model/student';
 //import { AssessmentStats } from './model/assessment-stats';
     
 @Component({
     moduleId: module.id,
-    //directives: [GoogleChartDirective],
     templateUrl: './group-charts.component.html'
 })
 export class GroupChartsComponent /*implements OnChanges*/ {
+    /*
     @Input()
     course: Course;
     @Input()
@@ -23,9 +25,10 @@ export class GroupChartsComponent /*implements OnChanges*/ {
     subjectStats: any;
     @Input()
     levelStats: any;
+    */
 
-    pie_ChartData: any[];
-    pie_ChartOptions: {};
+    //pie_ChartData: any[];
+    //pie_ChartOptions: {};
     histogram_ChartData: any[];
     histogram_ChartOptions: {};
     averages_ChartData: any[];
@@ -34,6 +37,7 @@ export class GroupChartsComponent /*implements OnChanges*/ {
     ratios_ChartOptions: {};
 
     constructor() {
+	/*
 	this.pie_ChartOptions = {
 	    title: 'Assignatures suspeses',
 	    titleTextStyle: {
@@ -48,6 +52,7 @@ export class GroupChartsComponent /*implements OnChanges*/ {
 		width: '90%'
 	    }
 	}
+	*/
 	this.histogram_ChartOptions = {
 	    title: 'Assignatures aprovades',
 	    titleTextStyle: {

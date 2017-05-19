@@ -10,6 +10,7 @@ var wrapResult = require('./wrap-result').wrapResult;
  * 
  * Returns all courses.
  */
+/*
 router.get('/', function(req, res) {
     coursesCollection.find().toArray()
 	.then(function(courses) {
@@ -20,6 +21,7 @@ router.get('/', function(req, res) {
 	    res.json(err);
 	});
 });
+*/
 
 /*
  * /courses/byyear GET
@@ -27,6 +29,7 @@ router.get('/', function(req, res) {
  * Returns the courses identification data organized in a tree
  * structure grouped by year to create courses navigation menu.
  */
+/*
 router.get('/byyear', function(req, res) {
     // TODO: Match by school
     var pipe = [
@@ -76,12 +79,14 @@ router.get('/byyear', function(req, res) {
 	}
     });
 });
+*/
 
 /*
  * /courses/:id GET
  * 
  * Returns the course identified by 'id'.
  */
+/*
 router.get('/:id', function(req, res) {
     var o_id = new ObjectID(req.params.id);
     coursesCollection.findOne({'_id': o_id})
@@ -93,6 +98,7 @@ router.get('/:id', function(req, res) {
 	    res.json(err);
 	});
 });
+*/
 
 /*
  * /courses/:start/:stage/:level/:order/stats/bysubject GET
@@ -101,6 +107,7 @@ router.get('/:id', function(req, res) {
  * from the courses with same 'start' year, 'level' and 'stage'.
  * for corresponding assessment 'order'.
 */
+/*
 router.get('/:start/:stage/:level/:order/stats/bysubject', function(req, res) {
     var start = Number(req.params.start);
     var stage = req.params.stage;
@@ -184,6 +191,7 @@ router.get('/:start/:stage/:level/:order/stats/bysubject', function(req, res) {
         }
     });
 });
+*/
 
 /*
  * /courses/:id/stats/bystudent GET
@@ -191,6 +199,7 @@ router.get('/:start/:stage/:level/:order/stats/bysubject', function(req, res) {
  * Returns averages and failed/passes count by student
  * of the course identified by 'id'.
  */
+/*
 router.get('/:id/stats/bystudent', function(req, res) {
     var o_id = new ObjectID(req.params.id);
     var pipe = [
@@ -279,6 +288,7 @@ router.get('/:id/stats/bystudent', function(req, res) {
         }
     });
 });
+*/
 
 /*
  * /courses/:id/stats/bysubject GET
@@ -286,6 +296,7 @@ router.get('/:id/stats/bystudent', function(req, res) {
  * Returns averages and failed/passes count by subject
  * of the course identified by 'id'.
  */
+/*
 router.get('/:id/stats/bysubject', function(req, res) {
     var o_id = new ObjectID(req.params.id);
     var pipe = [
@@ -378,9 +389,12 @@ router.get('/:id/stats/bysubject', function(req, res) {
         }
     });
 });
+*/
 
+/*
 router.post('/', function(req, res) {
     res.send('TODO: Create a new Course...');
 });
+*/
 
 module.exports = router;
