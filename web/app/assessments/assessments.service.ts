@@ -3,6 +3,7 @@ import { Observable } 			from 'rxjs/Observable';
 import { Observer } 			from 'rxjs/Observer';
 
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
 
 import { BackendService } 		from '../core/backend.service';
 import { BreadcrumbSelectorItem } 	from '../utils/breadcrumb-selector.component';
@@ -12,6 +13,7 @@ import { Group } 			from '../model/group';
 
 @Injectable()
 export class AssessmentsService {
+    private currentCourse: Course = null;
 
     constructor(private backendService: BackendService) {};
 
@@ -99,9 +101,13 @@ export class AssessmentsService {
      * Returns course identified by 'id' with assessments for 'year'.
      */
     getCourse(id: string, year: string): Observable<Course> {
+	if (this.currentCourse != null && this.currentCourse.year === year && this.currentCourse._id === id) {
+            return Observable.of(this.currentCourse);
+	}
+
         let  call = 'assessments/bycourse/' + id + '/' + year;
 
-        return this.backendService.get(call);
+        return this.backendService.get(call).do((course: Course) => this.currentCourse = course);
     }
 }
 

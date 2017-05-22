@@ -151,7 +151,7 @@ export class GroupChartsComponent implements OnInit, OnDestroy {
 	    this.assessment_id = params['assessment_id'];
 
 	    // TODO: Get stats...
-	};
+	});
     }
 
     ngOnDestroy() {
