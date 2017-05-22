@@ -7,6 +7,7 @@ import { GroupRoutingModule }		from './group-routing.module';
 
 import { GroupComponent }		from './group.component';
 import { GroupChartsComponent }		from './group-charts.component';
+import { GroupFailedChartComponent }	from './group-failed-chart.component';
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import { GroupChartsComponent }		from './group-charts.component';
     ],
     declarations: [
 	GroupComponent,
-	GroupChartsComponent
+	GroupChartsComponent,
+	GroupFailedChartComponent
     ]
 })
 

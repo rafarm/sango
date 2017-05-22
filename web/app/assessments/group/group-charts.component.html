@@ -1,11 +1,13 @@
-<div *ngIf="course && assessmentOrder>=0 && students && studentStats && subjectStats && levelStats">
+<!--<div *ngIf="course && assessmentOrder>=0 && students && studentStats && subjectStats && levelStats">-->
+<div>
 	<div class="row-fluid">
-		<div id="pie_chart" chartType="PieChart" [chartData]="pie_ChartData" [chartOptions]="pie_ChartOptions" GoogleChart class="col-sm-6 chart_300"></div>
-		<div id="histogram_chart" chartType="Histogram" [chartData]="histogram_ChartData" [chartOptions]="histogram_ChartOptions" GoogleChart class="col-sm-6 chart_300"></div>
+		<failedChart [studentStats]="studentStats"></failedChart>
+		<!--<div id="pie_chart" chartType="PieChart" [chartData]="pie_ChartData" [chartOptions]="pie_ChartOptions" GoogleChart class="col-sm-6 chart_300"></div>
+		<div id="histogram_chart" chartType="Histogram" [chartData]="histogram_ChartData" [chartOptions]="histogram_ChartOptions" GoogleChart class="col-sm-6 chart_300"></div>-->
 	</div>
 	<div class="row-fuid">
-		<div id="averages_chart" chartType="ComboChart" [chartData]="averages_ChartData" [chartOptions]="averages_ChartOptions" GoogleChart class="chart_300 col-sm-6"></div>
-		<div id="ratios_chart" chartType="ComboChart" [chartData]="ratios_ChartData" [chartOptions]="ratios_ChartOptions" GoogleChart class="chart_300 col-sm-6"></div>
+		<!--<div id="averages_chart" chartType="ComboChart" [chartData]="averages_ChartData" [chartOptions]="averages_ChartOptions" GoogleChart class="chart_300 col-sm-6"></div>
+		<div id="ratios_chart" chartType="ComboChart" [chartData]="ratios_ChartData" [chartOptions]="ratios_ChartOptions" GoogleChart class="chart_300 col-sm-6"></div>-->
 	</div>
 </div>
 

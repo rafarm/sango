@@ -1,7 +1,9 @@
-import { Component } 				from '@angular/core';
+import { Component, OnInit, OnDestroy } 	from '@angular/core';
 import { Router, ActivatedRoute, Params }       from '@angular/router';
 import { Observable }                           from 'rxjs/Observable';
 import { Subscription }                         from 'rxjs/Subscription';
+
+import { AssessmentsService }			from '../assessments.service';
 
 //import { Course } from '../../model/course';
 //import { Student } from './model/student';
@@ -11,7 +13,7 @@ import { Subscription }                         from 'rxjs/Subscription';
     moduleId: module.id,
     templateUrl: './group-charts.component.html'
 })
-export class GroupChartsComponent /*implements OnChanges*/ {
+export class GroupChartsComponent implements OnInit, OnDestroy {
     /*
     @Input()
     course: Course;
@@ -26,17 +28,29 @@ export class GroupChartsComponent /*implements OnChanges*/ {
     @Input()
     levelStats: any;
     */
+    year: string;
+    group_id: string;
+    assessment_id: string;
+    studentStats: any;
 
-    //pie_ChartData: any[];
-    //pie_ChartOptions: {};
+    private statsSubscription: Subscription;
+
+    /*
+    pie_ChartData: any[];
+    pie_ChartOptions: {};
     histogram_ChartData: any[];
     histogram_ChartOptions: {};
     averages_ChartData: any[];
     averages_ChartOptions: {};
     ratios_ChartData: any[];
     ratios_ChartOptions: {};
+    */
 
-    constructor() {
+    constructor(
+	private assessmentsService: AssessmentsService,
+	private route: ActivatedRoute,
+	private router: Router
+    ) {
 	/*
 	this.pie_ChartOptions = {
 	    title: 'Assignatures suspeses',
@@ -52,7 +66,6 @@ export class GroupChartsComponent /*implements OnChanges*/ {
 		width: '90%'
 	    }
 	}
-	*/
 	this.histogram_ChartOptions = {
 	    title: 'Assignatures aprovades',
 	    titleTextStyle: {
@@ -128,7 +141,23 @@ export class GroupChartsComponent /*implements OnChanges*/ {
                 }
             }
         }
+	*/
     }
+
+    ngOnInit() {
+	this.year = this.route.parent.parent.parent.snapshot.params['year'];
+        this.group_id = this.route.parent.parent.parent.snapshot.params['group_id'];
+	this.statsSubscription = this.route.params.subscribe((params: Params) => {
+	    this.assessment_id = params['assessment_id'];
+
+	    // TODO: Get stats...
+	};
+    }
+
+    ngOnDestroy() {
+        this.statsSubscription.unsubscribe();
+    }
+
     /*
     ngOnChanges(changes: SimpleChanges) {
 	// Reset
