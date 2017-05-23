@@ -21,11 +21,13 @@ export class GradesService {
      *
      * Returns group identified by 'id' with its students and subjects for 'year'.
      */
+    /*
     getGroup(id: string, year: string): Observable<Group> {
         let call = 'students/bygroup/' + id + '/' + year;
 
         return this.backendService.get(call);
     }
+    */
 
     /*
      * getAssessments

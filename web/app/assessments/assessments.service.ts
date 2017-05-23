@@ -13,7 +13,8 @@ import { Group } 			from '../model/group';
 
 @Injectable()
 export class AssessmentsService {
-    private currentCourse: Course = null;
+    private cachedCourse: Course = null;
+    private cachedGroup: Group = null;
 
     constructor(private backendService: BackendService) {};
 
@@ -99,15 +100,32 @@ export class AssessmentsService {
      * getCourse
      *
      * Returns course identified by 'id' with assessments for 'year'.
+     * Last result is cached for later use.
      */
     getCourse(id: string, year: string): Observable<Course> {
-	if (this.currentCourse != null && this.currentCourse.year === year && this.currentCourse._id === id) {
-            return Observable.of(this.currentCourse);
+	if (this.cachedCourse != null && this.cachedCourse.year === year && this.cachedCourse._id === id) {
+            return Observable.of(this.cachedCourse);
 	}
 
         let  call = 'assessments/bycourse/' + id + '/' + year;
 
-        return this.backendService.get(call).do((course: Course) => this.currentCourse = course);
+        return this.backendService.get(call).do((course: Course) => this.cachedCourse = course);
+    }
+
+    /*
+     * getGroup
+     *
+     * Returns group identified by 'id' with its students and subjects for 'year'.
+     * Last result is cached for later use.
+     */
+    getGroup(id: string, year: string): Observable<Group> {
+        if (this.cachedGroup != null && this.cachedGroup._id === id && this.cachedGroup.year === year) {
+            return Observable.of(this.cachedGroup);
+        }
+
+        let call = 'students/bygroup/' + id + '/' + year;
+
+        return this.backendService.get(call).do((group: Group) => this.cachedGroup = group);
     }
 }
 
