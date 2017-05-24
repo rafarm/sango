@@ -10,11 +10,13 @@ import { BreadcrumbSelectorItem } 	from '../utils/breadcrumb-selector.component'
 import { BreadcrumbSelectorSelect } 	from '../utils/breadcrumb-selector.component';
 import { Course } 			from '../model/course';
 import { Group } 			from '../model/group';
+import { Grades } 			from '../model/grades';
 
 @Injectable()
 export class AssessmentsService {
     private cachedCourse: Course = null;
     private cachedGroup: Group = null;
+    private cachedGrades = {};
 
     constructor(private backendService: BackendService) {};
 
@@ -107,6 +109,7 @@ export class AssessmentsService {
             return Observable.of(this.cachedCourse);
 	}
 
+	this.cachedGrades = {};
         let  call = 'assessments/bycourse/' + id + '/' + year;
 
         return this.backendService.get(call).do((course: Course) => this.cachedCourse = course);
@@ -115,17 +118,75 @@ export class AssessmentsService {
     /*
      * getGroup
      *
-     * Returns group identified by 'id' with its students and subjects for 'year'.
+     * Returns group identified by 'id' with its students and subjects<!-- for 'year'-->.
      * Last result is cached for later use.
      */
-    getGroup(id: string, year: string): Observable<Group> {
-        if (this.cachedGroup != null && this.cachedGroup._id === id && this.cachedGroup.year === year) {
+    getGroup(id: string/*, year: string*/): Observable<Group> {
+        if (this.cachedGroup != null && this.cachedGroup._id === id/* && this.cachedGroup.year === year*/) {
             return Observable.of(this.cachedGroup);
         }
 
-        let call = 'students/bygroup/' + id + '/' + year;
+        let call = 'students/bygroup/' + id/* + '/' + year*/;
 
         return this.backendService.get(call).do((group: Group) => this.cachedGroup = group);
+    }
+
+    /*
+     * getQualifications
+     *
+     * Returns qualifications for assessment id.
+     * Qualifications can be optionally filtered by
+     * group_id.
+     */
+    getQualifications(assessment_id: string, group_id?: string): Observable<any> {
+        let call = 'assessments/' + assessment_id + '/qualifications';
+
+        if (group_id != undefined) {
+            call = call + '?group_id=' + group_id;
+        }
+
+        return this.backendService.get(call);
+    }
+
+    /*
+     * getGrades
+     */
+    getGrades(assessment_id: string, group_id: string): Observable<Grades> {
+	let grades = this.cachedGrades[assessment_id];
+	
+	if (grades != undefined) {
+	    return Observable.of(grades);
+	}
+
+	this.getGroup(group_id)
+    }
+
+    private generateGrades(assessment_id: string, group_id: string): Observable<Grades> {
+	return this.getGroup(group_id).map((group: Group) => {
+	    let grades = new Grades();
+            grades.assessment_id = assessment_id;
+            grades.students = {};
+
+            group.students.forEach(student => {
+                let marks = {};
+            	group.subjects.forEach(subject => {
+                    marks[subject._id] = new Grade();
+            	});
+
+            	group.student.subjects.forEach(subject => {
+                    let mark = marks[subject.subject_id];
+                    mark.adapted = subject.adapted;
+                    mark.enroled = true;
+            	});
+
+           	let qualifications = {};
+            	    qualifications['grades'] = marks;
+
+                    grades.students[student._id] = qualifications;
+            });
+
+            return grades;
+	});
     }
 }
 

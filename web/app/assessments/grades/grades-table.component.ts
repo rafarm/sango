@@ -94,6 +94,7 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
 	return this.dialogService.confirm('Discard changes?');
     }
 
+    /*
     private getGrades(): Observable<Grades> {
 	return this.gradesService.getQualifications(this.assessment_id, this.group_id)
 	    .concatMap(res => {
@@ -139,6 +140,7 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
 
 	return grades;
     }
+    */
 
     save() {
         this.saving = true;

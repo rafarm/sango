@@ -72,6 +72,7 @@ export class GradesService {
      * Qualifications can be optionally filtered by
      * group_id.
      */
+    /*
     getQualifications(id: string, group_id?: string): Observable<any> {
         let call = 'assessments/' + id + '/qualifications';
 
@@ -81,6 +82,7 @@ export class GradesService {
 
         return this.backendService.get(call);
     }
+    */
 
     /*
      * updateQualifications

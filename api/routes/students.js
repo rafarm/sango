@@ -93,16 +93,17 @@ router.post('/many', bodyParser.json(), function(req, res) {
  * /students/bygroup/:id/:year GET
  * 
  * Returns the ACTIVE students corresponding to group with 'id'
- * for the group's 'year'.
+ * <!--for the group's 'year'-->.
  * Group data are also included.
  */
-router.get('/bygroup/:id/:year', function(req, res) {
+//router.get('/bygroup/:id/:year', function(req, res) {
+router.get('/bygroup/:id', function(req, res) {
   var pipe = [
     {
       $match: {
         enrolments: {
           $elemMatch: {
-            year: req.params.year,
+            //year: req.params.year,
             group_id: req.params.id,
             active: true
           }
@@ -114,7 +115,7 @@ router.get('/bygroup/:id/:year', function(req, res) {
     },
     {
       $match: {
-        'enrolments.year': req.params.year,
+        //'enrolments.year': req.params.year,
         'enrolments.group_id': req.params.id
       }
     },
