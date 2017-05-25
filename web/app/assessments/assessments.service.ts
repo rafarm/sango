@@ -114,7 +114,11 @@ export class AssessmentsService {
 	this.cachedGrades = {};
         let  call = 'assessments/bycourse/' + id + '/' + year;
 
-        return this.backendService.get(call).do((course: Course) => this.cachedCourse = course);
+        return this.backendService.get(call).do((course: Course) => {
+            this.cachedCourse = course;
+	    this.cachedGroup = null;
+	    this.cachedGrades = {};
+        });
     }
 
     /*
@@ -130,7 +134,10 @@ export class AssessmentsService {
 
         let call = 'students/bygroup/' + id/* + '/' + year*/;
 
-        return this.backendService.get(call).do((group: Group) => this.cachedGroup = group);
+        return this.backendService.get(call).do((group: Group) => {
+            this.cachedGroup = group;
+            this.cachedGrades = {};
+        });
     }
 
     /*
@@ -157,6 +164,7 @@ export class AssessmentsService {
      * filtered by group_id.
      * If no qualifications are returned from backend, generates empty
      * grades structure.
+     * Last result is cached for later use.
      */
     getGrades(assessment_id: string, group_id: string): Observable<Grades> {
 	let grades = this.cachedGrades[assessment_id];
@@ -177,6 +185,7 @@ export class AssessmentsService {
                                 });
                             });
                         }
+                        this.cachedGrades[assessment_id] = grades;
                 
                         return Observable.of(grades);
                     });
