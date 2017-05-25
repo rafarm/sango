@@ -365,11 +365,12 @@ router.get('/bycourse/:id/:year', function(req, res) {
 /*
  * /assessments/:id/stats/bystudent GET
  * 
- * Inserts an array of new assessments.
+ * Returns students' stats for assessment.
  */
-/*
 router.get('/:id/stats/bystudent', function(req, res) {
     var pipe = [
+	{$match:{_id:req.params.id}},{$unwind:'$grades'},{$project:{_id:1,student_id:'$grades.student_id',passed:{$filter:{input:'$grades.qualifications',as:'q',cond:{$gte:['$$q.qualification',5]}}},failed:{$filter:{input:'$grades.qualifications',as:'q',cond:{$and:[{$ne:['$$q.qualification',null]},{$lt:['$$q.qualification',5]}]}}},avg:{$avg:'$grades.qualifications.qualification'}}},{$project:{_id:1,student_id:1,passed:{$size:'$passed'},failed:{$size:'$failed'},avg:1}},{$project:{_id:1,student_id:1,passed:1,failed:1,sum:{$add:['$passed','$failed']},avg:1}},{$project:{_id:1,student_id:1,passed:1,failed:1,ratio:{$divide:['$passed','$sum']},avg:1}},{$group:{_id: '$_id',stats:{$push:{student_id:'$student_id',passed:'$passed',failed:'$failed',ratio:'ratio',avg:'$avg'}}}}
+        /*
         { $match:{ _id: req.params.id } },
         { $unwind: '$students' },
         { $project: {
@@ -410,6 +411,7 @@ router.get('/:id/stats/bystudent', function(req, res) {
             failed: { $first: '$_id.failed' },
             avg: { $first: '$avg' }
         }}
+	*/
     ];
     assessmentsCollection.aggregate(pipe, function(err, result) {
 	if (err != null) {
@@ -421,6 +423,5 @@ router.get('/:id/stats/bystudent', function(req, res) {
 	}
     }); 
 });
-*/
 
 module.exports = router;
