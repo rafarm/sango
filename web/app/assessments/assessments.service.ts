@@ -1,4 +1,5 @@
 import { Injectable } 			from '@angular/core';
+import { RequestOptions, Headers }      from '@angular/http';
 import { Observable } 			from 'rxjs/Observable';
 import { Observer } 			from 'rxjs/Observer';
 
@@ -11,6 +12,7 @@ import { BreadcrumbSelectorSelect } 	from '../utils/breadcrumb-selector.componen
 import { Course } 			from '../model/course';
 import { Group } 			from '../model/group';
 import { Grades } 			from '../model/grades';
+import { Grade }                        from '../model/grade';
 
 @Injectable()
 export class AssessmentsService {
@@ -150,6 +152,11 @@ export class AssessmentsService {
 
     /*
      * getGrades
+     *
+     * Returns grades from qualifications for assessment_id, optionally
+     * filtered by group_id.
+     * If no qualifications are returned from backend, generates empty
+     * grades structure.
      */
     getGrades(assessment_id: string, group_id: string): Observable<Grades> {
 	let grades = this.cachedGrades[assessment_id];
@@ -158,7 +165,22 @@ export class AssessmentsService {
 	    return Observable.of(grades);
 	}
 
-	this.getGroup(group_id)
+	return this.getQualifications(assessment_id, group_id)
+            .concatMap(res => {
+                return this.generateGrades(assessment_id, group_id)
+                    .concatMap((grades: Grades) => {
+                        if (res.grades != undefined) {
+                            res.grades.forEach((st: any) => {
+                                st.qualifications.forEach((q: any) => {
+                                    let gs = grades.students[st.student_id].grades;
+                                    gs[q.subject_id].value = q.qualification;
+                                });
+                            });
+                        }
+                
+                        return Observable.of(grades);
+                    });
+            });
     }
 
     private generateGrades(assessment_id: string, group_id: string): Observable<Grades> {
@@ -173,7 +195,7 @@ export class AssessmentsService {
                     marks[subject._id] = new Grade();
             	});
 
-            	group.student.subjects.forEach(subject => {
+            	student.subjects.forEach(subject => {
                     let mark = marks[subject.subject_id];
                     mark.adapted = subject.adapted;
                     mark.enroled = true;
@@ -187,6 +209,52 @@ export class AssessmentsService {
 
             return grades;
 	});
+    }
+
+    /*
+     * updateQualifications
+     *
+     * Update de grades for the assessment.
+     */
+    updateQualifications(grades: Grades): Observable<any> {
+        let a_id = grades.assessment_id;
+        let st = grades.students;
+
+        // Build assessment's grades array
+        let g:any[] = [];
+        Object.getOwnPropertyNames(st).forEach(st_id => {
+            let qs: any[] = [];
+            let st_g = st[st_id].grades;
+            Object.getOwnPropertyNames(st_g).forEach(sub_id => {
+                let value = st_g[sub_id].value;
+                if (value != null) {
+                    let q = {
+                        subject_id: sub_id,
+                        qualification: value
+                    };
+                    qs.push(q);
+                }
+            });
+
+            if (qs.length > 0) {
+                let s = {
+                    student_id: st_id,
+                    qualifications: qs
+                };
+                g.push(s);
+            }
+        });
+
+        let a_grades = {
+            grades: g
+        };
+
+        let call = 'assessments/' + a_id + '/qualifications';
+        let body = JSON.stringify(a_grades);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.backendService.put(call, body, options);
     }
 }
 

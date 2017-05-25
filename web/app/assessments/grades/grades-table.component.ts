@@ -7,7 +7,8 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/concatMap';
 
 //import { DataService } from './data.service';
-import { GradesService } 			from './grades.service';
+//import { GradesService } 			from './grades.service';
+import { AssessmentsService } 			from '../assessments.service';
 import { CanComponentDeactivate }		from '../../can-deactivate-guard.service';
 import { DialogService }			from '../../core/dialog.service';
 //import { Assessment } from '../../model/assessment';
@@ -21,7 +22,8 @@ import { Grades } 				from '../../model/grades';
     moduleId: module.id,
     templateUrl: './grades-table.component.html',
     styleUrls: ['./grades-table.component.css'],
-    providers: [ GradesService ]
+    //providers: [ GradesService ]
+    providers: [ AssessmentsService ]
 })
 export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeactivate {
     year: string;
@@ -33,7 +35,16 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
     subjects: Subject[];
     //@Input()
     students: Student[];
-    grades: Grades;
+    
+    private _grades: Grades;
+    get grades(): Grades {
+        return this._grades;
+    }
+    set grades(newGrades: Grades) {
+        this._grades = newGrades;
+        this.edited = false;
+        this.saving = false;
+    }
     
     private edited: boolean;
     private saving: boolean;
@@ -47,7 +58,8 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
     */
 
     constructor(
-	private gradesService: GradesService,
+	//private gradesService: GradesService,
+	private assessmentsService: AssessmentsService,
 	private dialogService: DialogService,
         private route: ActivatedRoute,
         private router: Router
@@ -69,7 +81,8 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
 		this.grades = null;
 		
 		if (this.year != undefined && this.group_id != undefined && this.assessment_id != undefined) {
-		    return this.gradesService.getGroup(this.group_id, this.year);
+		    //return this.gradesService.getGroup(this.group_id, this.year);
+		    return this.assessmentsService.getGroup(this.group_id);
 		}
 
 		return Observable.throw(new Error('Invalid parameters'));
@@ -78,7 +91,8 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
 		this.subjects = group.subjects;
 		this.students = group.students;
 
-		return this.getGrades();
+		//return this.getGrades();
+		return this.assessmentsService.getGrades(this.assessment_id, this.group_id);
 	    }).subscribe((grades: Grades) => this.grades = grades);	
     }
 
@@ -144,9 +158,13 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
 
     save() {
         this.saving = true;
-	this.gradesService.updateQualifications(this.grades)
+	/*this.gradesService.updateQualifications(this.grades)
 	    .concatMap(result => {
 		return this.getGrades();
+	    })*/
+	this.assessmentsService.updateQualifications(this.grades)
+	    .concatMap(result => {
+		return this.assessmentsService.getGrades(this.assessment_id, this.group_id);
 	    })
 	    .subscribe((grades: Grades) => this.grades = grades);
 	//this.onSaveAssessment.emit(true);
@@ -154,7 +172,8 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
 
     cancel() {
         this.saving = true;
-	this.getGrades().subscribe((grades: Grades) => this.grades = grades);
+	//this.getGrades().subscribe((grades: Grades) => this.grades = grades);
+	this.assessmentsService.getGrades(this.assessment_id, this.group_id).subscribe((grades: Grades) => this.grades = grades);
 	//this.onSaveAssessment.emit(false);
     }
 

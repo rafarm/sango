@@ -89,6 +89,7 @@ export class GradesService {
      *
      * Update de grades for the assessment.
      */
+    /*
     updateQualifications(grades: Grades): Observable<any> {
         let a_id = grades.assessment_id;
         let st = grades.students;
@@ -131,5 +132,6 @@ export class GradesService {
 
         return this.backendService.put(call, body, options);
     }
+    */
 }
 
