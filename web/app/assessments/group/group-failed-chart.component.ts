@@ -38,28 +38,30 @@ export class GroupFailedChartComponent implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         // Reset
-        this.pie_ChartData = [];
-
         this.setPieData();
     }
 
     private setPieData() {
-        let pie_data = this.pie_ChartData;
+        let pie_data = [];
         pie_data.push( ['#Suspeses', '#Alumnes'] );
         pie_data.push( ['Cap', 0] );
         pie_data.push( ['1', 0] );
         pie_data.push( ['2', 0] );
         pie_data.push( ['3', 0] );
         pie_data.push( ['4+', 0] );
-
+	
         for (let i in this.studentStats) {
             let num_failed = this.studentStats[i].failed;
             if (num_failed <= 3) {
-                pie_data[num_failed+1][1]++;
+		let value = +pie_data[num_failed+1][1];
+		pie_data[num_failed+1][1] = ++value;
             }
             else {
-                pie_data[5][1]++;
+		let value = +pie_data[5][1];
+		pie_data[5][1] = ++value;
             }
         }
+	
+        this.pie_ChartData = pie_data;
     }
 }

@@ -149,7 +149,7 @@ export class GroupChartsComponent implements OnInit, OnDestroy {
         this.group_id = this.route.parent.parent.parent.snapshot.params['group_id'];
 	this.statsSubscription = this.route.params.subscribe((params: Params) => {
 	    this.assessment_id = params['assessment_id'];
-
+	    this.assessmentsService.getStudentStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.studentStats = stats);
 	    // TODO: Get stats...
 	});
     }

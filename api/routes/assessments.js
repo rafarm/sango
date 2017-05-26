@@ -365,60 +365,113 @@ router.get('/bycourse/:id/:year', function(req, res) {
 /*
  * /assessments/:id/stats/bystudent GET
  * 
- * Returns students' stats for assessment.
+ * Returns students' stats for assessment with 'id.
+ * Students' data can be filtered by group id.
  */
 router.get('/:id/stats/bystudent', function(req, res) {
     var pipe = [
-	{$match:{_id:req.params.id}},{$unwind:'$grades'},{$project:{_id:1,student_id:'$grades.student_id',passed:{$filter:{input:'$grades.qualifications',as:'q',cond:{$gte:['$$q.qualification',5]}}},failed:{$filter:{input:'$grades.qualifications',as:'q',cond:{$and:[{$ne:['$$q.qualification',null]},{$lt:['$$q.qualification',5]}]}}},avg:{$avg:'$grades.qualifications.qualification'}}},{$project:{_id:1,student_id:1,passed:{$size:'$passed'},failed:{$size:'$failed'},avg:1}},{$project:{_id:1,student_id:1,passed:1,failed:1,sum:{$add:['$passed','$failed']},avg:1}},{$project:{_id:1,student_id:1,passed:1,failed:1,ratio:{$divide:['$passed','$sum']},avg:1}},{$group:{_id: '$_id',stats:{$push:{student_id:'$student_id',passed:'$passed',failed:'$failed',ratio:'ratio',avg:'$avg'}}}}
-        /*
-        { $match:{ _id: req.params.id } },
-        { $unwind: '$students' },
-        { $project: {
-            student_id: '$students.student_id',
-            passed: {
-                $filter: {
-                    input: '$students.qualifications',
-                    as: 'q',
-                    cond: { $gte: [ '$$q.qualification', 5 ] }
+	{
+            $match: {
+                _id: req.params.id
+            }
+        },
+        {
+            $unwind: '$grades'
+        },
+        {
+            $project: {
+                _id: 1,
+                student_id: '$grades.student_id',
+                passed: {
+                    $filter: {
+                        input: '$grades.qualifications',
+                        as: 'q',
+                        cond: {
+                            $gte: [ '$$q.qualification', 5 ]
+                        }
+                    }
+                },
+                failed: {
+                    $filter: {
+                        input: '$grades.qualifications',
+                        as: 'q',
+                        cond: {
+                            $and: [
+                                {
+                                    $ne: [ '$$q.qualification', null ]
+                                },
+                                {
+                                    $lt: [ '$$q.qualification', 5 ]
+                                }
+                            ]
+                        }
+                    }
+                },
+                avg: {
+                    $avg: '$grades.qualifications.qualification'
                 }
-            },
-            failed: {
-                $filter: {
-                    input: '$students.qualifications',
-                    as: 'q',
-                    cond: { $and:[
-                        { $ne: [ '$$q.qualification', null ] },
-                        { $lt: [ '$$q.qualification', 5 ] }
-                    ] }
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                student_id: 1,
+                passed: {
+                    $size: '$passed'
+                },
+                failed: {
+                    $size: '$failed'
+                },
+                avg: 1
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                student_id: 1,
+                passed: 1,
+                failed: 1,
+                sum: {
+                    $add: [ '$passed', '$failed' ]
+                },
+                avg: 1
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                student_id: 1,
+                passed: 1,
+                failed: 1,
+                ratio: {
+                    $divide: [ '$passed', '$sum' ]
+                },
+                avg: 1
+            }
+        },
+        {
+            $group: {
+                _id: '$_id',
+                stats: {
+                    $push: {
+                        student_id: '$student_id',
+                        passed: '$passed',
+                        failed: '$failed',
+                        ratio: '$ratio',
+                        avg: '$avg'
+                    }
                 }
-            },
-            qualifications: '$students.qualifications'
-        }},
-        { $project: {
-            student_id: 1,
-            passed: { $size: '$passed' },
-            failed: { $size: '$failed' },
-            qualifications: 1
-        }},
-        { $unwind: '$qualifications' },
-        { $group: {
-            _id: { student_id: '$student_id', passed: '$passed', failed: '$failed' },
-            avg: { $avg: '$qualifications.qualification' }
-        }},
-        { $group: {
-            _id: '$_id.student_id',
-            passed: { $first: '$_id.passed' },
-            failed: { $first: '$_id.failed' },
-            avg: { $first: '$avg' }
-        }}
-	*/
+            }
+        }
     ];
+
     assessmentsCollection.aggregate(pipe, function(err, result) {
 	if (err != null) {
 	    res.status(500);
 	    res.json(err);
 	}
 	else {
+            result = result.length > 0 ? result[0] : result;
 	    res.json(wrapResult(result));
 	}
     }); 

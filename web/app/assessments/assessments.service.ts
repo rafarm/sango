@@ -19,6 +19,7 @@ export class AssessmentsService {
     private cachedCourse: Course = null;
     private cachedGroup: Group = null;
     private cachedGrades = {};
+    private cachedStudentStats = {};
 
     constructor(private backendService: BackendService) {};
 
@@ -100,6 +101,13 @@ export class AssessmentsService {
             })
     }
 
+    private clearCache() {
+	this.cachedCourse = null;
+	this.cachedGroup = null;
+        this.cachedGrades = {};
+	this.cachedStudentStats = {};
+    }
+
     /*
      * getCourse
      *
@@ -111,13 +119,11 @@ export class AssessmentsService {
             return Observable.of(this.cachedCourse);
 	}
 
-	this.cachedGrades = {};
+	this.clearCache();
         let  call = 'assessments/bycourse/' + id + '/' + year;
 
         return this.backendService.get(call).do((course: Course) => {
             this.cachedCourse = course;
-	    this.cachedGroup = null;
-	    this.cachedGrades = {};
         });
     }
 
@@ -132,11 +138,11 @@ export class AssessmentsService {
             return Observable.of(this.cachedGroup);
         }
 
+	this.clearCache();
         let call = 'students/bygroup/' + id/* + '/' + year*/;
 
         return this.backendService.get(call).do((group: Group) => {
             this.cachedGroup = group;
-            this.cachedGrades = {};
         });
     }
 
@@ -264,6 +270,38 @@ export class AssessmentsService {
         let options = new RequestOptions({ headers: headers });
 
         return this.backendService.put(call, body, options);
+    }
+
+    /*
+     * getStudentStats
+     *
+     * Returns students stats for the assessment_id.
+     * Optionally filtered by group_id.
+     */
+    getStudentStats(assessment_id: string, group_id?: string): Observable<any> {
+        let stats = this.cachedStudentStats[assessment_id];
+
+        if (stats != undefined) {
+            return Observable.of(stats);
+        }
+
+        let call = 'assessments/' + assessment_id + '/stats/bystudent';
+
+        if (group_id != undefined) {
+            call = call + '?group_id=' + group_id;
+        }
+
+        return this.backendService.get(call)
+	    .concatMap((res: any) => {
+                let _stats = {};
+                res.stats.forEach((std: any) => {
+		    _stats[std.student_id] = std;
+		});
+
+		this.cachedStudentStats[assessment_id] = _stats;
+
+		return Observable.of(_stats);
+            });
     }
 }
 
