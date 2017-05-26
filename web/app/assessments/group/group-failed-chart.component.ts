@@ -39,6 +39,7 @@ export class GroupFailedChartComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         // Reset
         this.setPieData();
+	//console.log(this.studentStats);
     }
 
     private setPieData() {
