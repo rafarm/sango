@@ -21,9 +21,7 @@ import { Grades } 				from '../../model/grades';
 @Component({
     moduleId: module.id,
     templateUrl: './grades-table.component.html',
-    styleUrls: ['./grades-table.component.css'],
-    //providers: [ GradesService ]
-    providers: [ AssessmentsService ]
+    styleUrls: ['./grades-table.component.css']
 })
 export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeactivate {
     year: string;

@@ -11,8 +11,7 @@ import { Assessment } 				from '../model/assessment';
 
 @Component({
     moduleId: module.id,
-    template: ``,
-    providers: [ AssessmentsService ]
+    template: ``
 })
 export class AssessmentsDividerBaseComponent implements OnInit {
     assessments: Observable<Assessment[]>;

@@ -232,6 +232,7 @@ export class AssessmentsService {
      * Update de grades for the assessment.
      */
     updateQualifications(grades: Grades): Observable<any> {
+	this.clearCache();
         let a_id = grades.assessment_id;
         let st = grades.students;
 

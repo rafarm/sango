@@ -25,8 +25,7 @@ import { BreadcrumbSelectorEvent } 		from '../utils/breadcrumb-selector.componen
 @Component({
     moduleId: module.id,
     templateUrl: './assessment-selector.component.html',
-    styleUrls: ['./assessment-selector.component.css'],
-    providers: [ AssessmentsService ]
+    styleUrls: ['./assessment-selector.component.css']
 })
 export class AssessmentSelectorComponent implements OnInit, OnDestroy {
     selects: BreadcrumbSelectorSelect[] = [];
