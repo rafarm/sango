@@ -1,4 +1,10 @@
-import { Directive, ElementRef, Input, OnChanges, SimpleChange, HostListener } from '@angular/core';
+import { Directive,
+	 ElementRef,
+	 Input,
+	 OnChanges,
+	 SimpleChange,
+	 HostListener,
+	 NgZone } from '@angular/core';
 
 declare var google:any;
 declare var googleChartsLoaded:any;
@@ -12,7 +18,7 @@ export class GoogleChartDirective implements OnChanges {
 	@Input() chartOptions: Object;
 	@Input() chartData: Object;
   
-	constructor(private element: ElementRef) {
+	constructor(private element: ElementRef, private zone: NgZone) {
 		this._element = this.element.nativeElement;
 	}
   
@@ -31,7 +37,8 @@ export class GoogleChartDirective implements OnChanges {
 		let chartOptions = this.chartOptions;
 		let element = this._element;
 
-		google.charts.setOnLoadCallback(function () {
+		this.zone.runOutsideAngular(() => {
+		    google.charts.setOnLoadCallback(() => {
 			let wrapper = new google.visualization.ChartWrapper({
 				chartType: chartType,
 				dataTable: chartData,
@@ -39,6 +46,7 @@ export class GoogleChartDirective implements OnChanges {
 				containerId: element.id
 			});
 			wrapper.draw();
+		    });
 		});
 	}
 

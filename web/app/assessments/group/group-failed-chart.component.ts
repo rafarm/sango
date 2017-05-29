@@ -34,12 +34,13 @@ export class GroupFailedChartComponent implements OnChanges {
                 width: '90%'
             }
         }
+	console.log("Constructor...");
     }
 
     ngOnChanges(changes: SimpleChanges) {
         // Reset
         this.setPieData();
-	//console.log(this.studentStats);
+	console.log("OnChanges...");
     }
 
     private setPieData() {
