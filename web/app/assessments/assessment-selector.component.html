@@ -16,13 +16,15 @@
 		</li>-->
 		<li class="nav-item">
                     <!--<button routerLink="grades" routerLinkActive="active" type="button" class="btn btn-link">Grades</button>-->
-                    <button (click)="onNavigate('grades')" [class.active]="isNavActive()" type="button" class="btn btn-link">Grades</button>
+                    <button (click)="onNavigate('grades')" [class.active]="isNavActive('grades')" type="button" class="btn btn-link">Grades</button>
                 </li>
                 <li class="nav-item">
-                    <button routerLink="group" routerLinkActive="active" type="button" class="btn btn-link">Group</button>
+                    <!--<button routerLink="group" routerLinkActive="active" type="button" class="btn btn-link">Group</button>-->
+                    <button (click)="onNavigate('group')" [class.active]="isNavActive('group')" type="button" class="btn btn-link">Group</button>
                 </li>
                 <li class="nav-item">
-                    <button routerLink="students" routerLinkActive="active" type="button" class="btn btn-link">Students</button>
+                    <!--<button routerLink="students" routerLinkActive="active" type="button" class="btn btn-link">Students</button>-->
+                    <button (click)="onNavigate('students')" [class.active]="isNavActive('students')" type="button" class="btn btn-link">Students</button>
                 </li>
 	    </ul>
 	</div>

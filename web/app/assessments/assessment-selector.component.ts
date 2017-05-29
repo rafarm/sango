@@ -184,6 +184,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
     onNavigate(child: string) {
 	let route = [child];
 
+	// Awful code. I know...
 	if (this.route.children.length > 0 && 
 	    this.route.children[0].children.length > 0 &&
             this.route.children[0].children[0].children.length > 0) {
@@ -194,8 +195,15 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 	//console.log(this.route.children[0].children[0].children[0].snapshot.params);
     }
 
-    isNavActive(): boolean {
-	return this.router.isActive(this.route.snapshot.url, false);
+    isNavActive(navItem: string): boolean {
+	let url = this.route.snapshot.url.join('/') + '/' + navItem;
+	let parent = this.route.snapshot.parent;
+	while(parent != null) {
+	    url = parent.url.join('/') + '/' + url;
+	    parent = parent.parent;
+	}
+	
+	return this.router.isActive(url, false);
     }
 
     /*
