@@ -27,17 +27,17 @@ export class GoogleChartDirective implements OnChanges {
 	}
 
 	drawChart() {
-		if(!googleChartsLoaded) {
-			googleChartsLoaded = true;
-			google.charts.load('current', {'packages':['corechart']});
-		}
-
 		let chartType = this.chartType;
 		let chartData = this.chartData;
 		let chartOptions = this.chartOptions;
 		let element = this._element;
 
 		this.zone.runOutsideAngular(() => {
+		    if(!googleChartsLoaded) {
+			googleChartsLoaded = true;
+			google.charts.load('current', {'packages':['corechart']});
+		    }
+		    
 		    google.charts.setOnLoadCallback(() => {
 			let wrapper = new google.visualization.ChartWrapper({
 				chartType: chartType,
