@@ -37,6 +37,7 @@ export class AssessmentsDividerBaseComponent implements OnInit {
 		return observable;
 	    })
 	    .map((course: Course) => {
+		/*
 		let assessments = course.assessments;
 
 		if (assessments.length > 0 && this.route.children.length == 0) {
@@ -45,8 +46,8 @@ export class AssessmentsDividerBaseComponent implements OnInit {
 			{ relativeTo: this.route }
 		    );
 		}
-
-		return assessments;
+		*/
+		return course.assessments;
 	    });
     }
 }

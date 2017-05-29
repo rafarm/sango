@@ -181,6 +181,23 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 	//this.checkedButtonId = "btn-grades";
     }
 
+    onNavigate(child: string) {
+	let route = [child];
+
+	if (this.route.children.length > 0 && 
+	    this.route.children[0].children.length > 0 &&
+            this.route.children[0].children[0].children.length > 0) {
+	    route.push(this.route.children[0].children[0].children[0].snapshot.params['assessment_id']);
+        }
+
+	this.router.navigate(route, {relativeTo: this.route});
+	//console.log(this.route.children[0].children[0].children[0].snapshot.params);
+    }
+
+    isNavActive(): boolean {
+	return this.router.isActive(this.route.snapshot.url, false);
+    }
+
     /*
     onButtonClicked(event: any) {
 	this.checkedButtonId = event.target.id;

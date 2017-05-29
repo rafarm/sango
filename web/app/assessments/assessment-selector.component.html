@@ -15,7 +15,8 @@
 		    <button [ngClass]="{'active': checkedButtonId == 'btn-students'}" (click)="onButtonClicked($event)" id="btn-students" type="button" class="btn btn-link">Students</button>
 		</li>-->
 		<li class="nav-item">
-                    <button routerLink="grades" routerLinkActive="active" type="button" class="btn btn-link">Grades</button>
+                    <!--<button routerLink="grades" routerLinkActive="active" type="button" class="btn btn-link">Grades</button>-->
+                    <button (click)="onNavigate('grades')" [class.active]="isNavActive()" type="button" class="btn btn-link">Grades</button>
                 </li>
                 <li class="nav-item">
                     <button routerLink="group" routerLinkActive="active" type="button" class="btn btn-link">Group</button>
