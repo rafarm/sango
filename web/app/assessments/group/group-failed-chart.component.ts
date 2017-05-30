@@ -9,7 +9,7 @@ import { Component,
     moduleId: module.id,
     selector: 'failedChart',
     template: `
-	<div id="pie_chart" chartType="PieChart" [chartData]="pie_ChartData" [chartOptions]="pie_ChartOptions" GoogleChart class="col-sm-6 chart_300"></div>
+	<div id="pie_chart" chartType="PieChart" [chartData]="pie_ChartData" [chartOptions]="pie_ChartOptions" GoogleChart class="chart_300"></div>
     `
 })
 export class GroupFailedChartComponent implements OnChanges {

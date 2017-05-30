@@ -5,6 +5,7 @@ import { Subscription }                         from 'rxjs/Subscription';
 
 import { AssessmentsService }			from '../assessments.service';
 
+import { Group }                        	from '../../model/group';
 //import { Course } from '../../model/course';
 //import { Student } from './model/student';
 //import { AssessmentStats } from './model/assessment-stats';
@@ -32,6 +33,7 @@ export class GroupChartsComponent implements OnInit, OnDestroy {
     group_id: string;
     assessment_id: string;
     studentStats: any;
+    students: any;
 
     private statsSubscription: Subscription;
 
@@ -149,7 +151,18 @@ export class GroupChartsComponent implements OnInit, OnDestroy {
         this.group_id = this.route.parent.parent.parent.snapshot.params['group_id'];
 	this.statsSubscription = this.route.params.subscribe((params: Params) => {
 	    this.assessment_id = params['assessment_id'];
+
+	    // Get students...
+	    this.assessmentsService.getGroup(this.group_id)
+		.subscribe((group: Group) => {
+		    let s = {};
+        	    group.students.forEach(st => s[st._id] = st);
+        	    this.students = s;
+		});
+
+	    // Get students' stats...
 	    this.assessmentsService.getStudentStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.studentStats = stats);
+	    
 	    // TODO: Get stats...
 	});
     }

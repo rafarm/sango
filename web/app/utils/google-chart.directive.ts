@@ -17,37 +17,40 @@ export class GoogleChartDirective implements OnChanges {
 	@Input() chartType:string;
 	@Input() chartOptions: Object;
 	@Input() chartData: Object;
+
+	private _wrapper: any = null;
   
 	constructor(private element: ElementRef, private zone: NgZone) {
-		this._element = this.element.nativeElement;
+	    this._element = this.element.nativeElement;
 	}
   
 	ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
-		this.drawChart();
+	    this.drawChart();
 	}
 
 	drawChart() {
-		let chartType = this.chartType;
-		let chartData = this.chartData;
-		let chartOptions = this.chartOptions;
-		let element = this._element;
-
-		this.zone.runOutsideAngular(() => {
-		    if(!googleChartsLoaded) {
-			googleChartsLoaded = true;
-			google.charts.load('current', {'packages':['corechart']});
-		    }
+	    let chartType = this.chartType;
+	    let chartData = this.chartData;
+	    let chartOptions = this.chartOptions;
+	    let element = this._element;
+	    let wrapper = this._wrapper;
+		
+	    this.zone.runOutsideAngular(() => {
+		if(!googleChartsLoaded) {
+		    googleChartsLoaded = true;
+		    google.charts.load('current', {'packages':['corechart']});
+		}
 		    
-		    google.charts.setOnLoadCallback(() => {
-			let wrapper = new google.visualization.ChartWrapper({
-				chartType: chartType,
-				dataTable: chartData,
-				options: chartOptions || {},
-				containerId: element.id
-			});
-			wrapper.draw();
+	        google.charts.setOnLoadCallback(() => {
+		    wrapper = new google.visualization.ChartWrapper({
+			chartType: chartType,
+			dataTable: chartData,
+			options: chartOptions || {},
+			containerId: element.id
 		    });
+		    wrapper.draw();
 		});
+	    });
 	}
 
 	@HostListener('window:resize', ['$event'])
