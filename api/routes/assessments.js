@@ -375,12 +375,40 @@ router.get('/:id/stats/bystudent', function(req, res) {
                 _id: req.params.id
             }
         },
+	{
+	    $project: {
+		grades: 1
+	    }
+	},
         {
             $unwind: '$grades'
-        },
-        {
+        }
+    ];
+
+    if (req.query.group_id != null) {
+        var by_group = [
+	    {
+		$lookup: {
+		    from: 'students',
+		    localField: 'grades.student_id',
+		    foreignField: '_id',
+		    as: 'student_data'
+		}
+	    },
+	    {
+		$match: {
+		    'student_data.enrolments.group_id': req.query.group_id
+		}
+	    }
+	];
+
+	pipe = pipe.concat(by_group);
+    }
+
+    var proj = [
+	{
             $project: {
-                _id: 1,
+                //_id: 1,
                 student_id: '$grades.student_id',
                 passed: {
                     $filter: {
@@ -464,6 +492,8 @@ router.get('/:id/stats/bystudent', function(req, res) {
             }
         }
     ];
+
+    pipe = pipe.concat(proj);
 
     assessmentsCollection.aggregate(pipe, function(err, result) {
 	if (err != null) {

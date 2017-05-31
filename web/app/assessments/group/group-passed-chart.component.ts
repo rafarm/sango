@@ -25,7 +25,7 @@ export class GroupPassedChartComponent implements OnChanges {
 
     constructor() {
 	this.histogram_ChartOptions = {
-            title: 'Assignatures aprovades',
+            title: 'Passed Subjects',
             titleTextStyle: {
                 fontSize: 18
             },
@@ -58,7 +58,7 @@ export class GroupPassedChartComponent implements OnChanges {
 	let hist_data: any[] = [];
 	
 	if (this.students != undefined && this.studentStats != undefined) {
-            hist_data.push( ['Alumne', 'Aprovades'] );
+            hist_data.push( ['Student', 'Passed'] );
 
 	    this.students.forEach((st: Student) => {
 		let stats: Stats = this.studentStats[st._id];

@@ -21,7 +21,7 @@ export class GroupFailedChartComponent implements OnChanges {
 
     constructor() {
         this.pie_ChartOptions = {
-            title: 'Assignatures suspeses',
+            title: 'Failed Subjects',
             titleTextStyle: {
                 fontSize: 18
             },
@@ -43,8 +43,8 @@ export class GroupFailedChartComponent implements OnChanges {
 
     private setPieData() {
         let pie_data = [];
-        pie_data.push( ['#Suspeses', '#Alumnes'] );
-        pie_data.push( ['Cap', 0] );
+        pie_data.push( ['#Failed', '#Students'] );
+        pie_data.push( ['None', 0] );
         pie_data.push( ['1', 0] );
         pie_data.push( ['2', 0] );
         pie_data.push( ['3', 0] );
