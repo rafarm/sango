@@ -1,11 +1,11 @@
 import { Directive,
 	 ElementRef,
 	 Input,
+	 OnInit,
 	 OnChanges,
 	 OnDestroy,
 	 SimpleChange,
-	 HostListener,
-	 NgZone } from '@angular/core';
+	 HostListener } from '@angular/core';
 
 declare var google:any;
 declare var googleChartsLoaded:any;
@@ -13,16 +13,22 @@ declare var googleChartsLoaded:any;
 @Directive({
   selector: '[GoogleChart]'
 })
-export class GoogleChartDirective implements OnChanges, OnDestroy {
-	_element:any;
-	@Input() chartType:string;
+export class GoogleChartDirective implements OnInit, OnChanges, OnDestroy {
+	@Input() chartType: string;
 	@Input() chartOptions: Object;
 	@Input() chartData: Object;
 
+	private _element: any;
 	private _wrapper: any = null;
   
-	constructor(private element: ElementRef, private zone: NgZone) {
+	constructor(private element: ElementRef) {
 	    this._element = this.element.nativeElement;
+	}
+
+	ngOnInit() {
+	    if(!googleChartsLoaded) {
+		google.charts.load('current', {packages:['corechart'], callback: this.loadCharts.bind(this) });
+	    }
 	}
   
 	ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
@@ -30,37 +36,28 @@ export class GoogleChartDirective implements OnChanges, OnDestroy {
 	}
 
 	ngOnDestroy() {
-	    this._wrapper.getChart().clearChart();
+	    if (this._wrapper != null && this._wrapper.getChart() != undefined) {
+	    	this._wrapper.getChart().clearChart();
+	    }
 	}
 
-	drawChart() {
-	    /*
-	    let chartType = this.chartType;
-	    let chartData = this.chartData;
-	    let chartOptions = this.chartOptions;
-	    let element = this._element;
-	    let wrapper = this._wrapper;
-	    */	
-	    this.zone.runOutsideAngular(() => {
-		if (!googleChartsLoaded) {
-		    googleChartsLoaded = true;
-		    google.charts.load('current', {'packages':['corechart']});
-		}
-		   
-	        google.charts.setOnLoadCallback(this.draw.bind(this));
-	    });
+	private loadCharts() {
+	    googleChartsLoaded = true;
+	    this.drawChart();
 	}
 
-	private draw() {
-	    if (this._wrapper == null) {
-                this._wrapper = new google.visualization.ChartWrapper();
+	private drawChart() {
+	    if (googleChartsLoaded) {
+	    	if (this._wrapper == null) {
+                    this._wrapper = new google.visualization.ChartWrapper();
+                }
+
+                this._wrapper.setChartType(this.chartType);
+	        this._wrapper.setDataTable(this.chartData);
+	        this._wrapper.setOptions(this.chartOptions);
+	        this._wrapper.setContainerId(this._element.id);
+                this._wrapper.draw();
             }
-
-            this._wrapper.setChartType(this.chartType);
-	    this._wrapper.setDataTable(this.chartData);
-	    this._wrapper.setOptions(this.chartOptions);
-	    this._wrapper.setContainerId(this._element.id);
-            this._wrapper.draw();
 	}
 
 	@HostListener('window:resize', ['$event'])
