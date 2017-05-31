@@ -36,9 +36,7 @@ export class GoogleChartDirective implements OnInit, OnChanges, OnDestroy {
 	}
 
 	ngOnDestroy() {
-	    if (this._wrapper != null && this._wrapper.getChart() != undefined) {
-	    	this._wrapper.getChart().clearChart();
-	    }
+	    this.clearChart();
 	}
 
 	private loadCharts() {
@@ -52,6 +50,8 @@ export class GoogleChartDirective implements OnInit, OnChanges, OnDestroy {
                     this._wrapper = new google.visualization.ChartWrapper();
                 }
 
+		this.clearChart();
+
                 this._wrapper.setChartType(this.chartType);
 	        this._wrapper.setDataTable(this.chartData);
 	        this._wrapper.setOptions(this.chartOptions);
@@ -60,9 +60,15 @@ export class GoogleChartDirective implements OnInit, OnChanges, OnDestroy {
             }
 	}
 
+        private clearChart() {
+		if (this._wrapper != null && this._wrapper.getChart() != undefined) {
+                this._wrapper.getChart().clearChart();
+            }
+	}
+
 	@HostListener('window:resize', ['$event'])
 	onResize(event: any) {
-  		this.drawChart();
+  	    this.drawChart();
 	}
 }
 
