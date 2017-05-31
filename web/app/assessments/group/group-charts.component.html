@@ -1,9 +1,9 @@
 <!--<div *ngIf="course && assessmentOrder>=0 && students && studentStats && subjectStats && levelStats">-->
 <div class="row">
-	<div class="col">
+	<div class="col-sm">
 		<failedChart [studentStats]="studentStats"></failedChart>
 	</div>
-	<div class="col">
+	<div class="col-sm">
 		<passedChart [students]="students" [studentStats]="studentStats"></passedChart>
 	</div>
 </div>
