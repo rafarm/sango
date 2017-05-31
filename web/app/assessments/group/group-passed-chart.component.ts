@@ -4,6 +4,8 @@ import { Component,
 	 SimpleChanges }    	from '@angular/core';
 
 //import { GoogleChartDirective }	from '../../utils/google-chart.directive';
+import { Student }		from '../../model/student';
+import { Stats }		from '../../model/stats';
 
 @Component({
     moduleId: module.id,
@@ -53,16 +55,17 @@ export class GroupPassedChartComponent implements OnChanges {
     }
 
     private setHistogramData() {
-	let hist_data = [];
+	let hist_data: any[] = [];
 	
 	if (this.students != undefined && this.studentStats != undefined) {
             hist_data.push( ['Alumne', 'Aprovades'] );
-        
-            for (let i in this.studentStats) {
-                let student = this.students[i];
-                hist_data.push( [student.last_name + ', ' + student.first_name,
-                            this.studentStats[i].passed] );
-            }
+
+	    this.students.forEach((st: Student) => {
+		let stats: Stats = this.studentStats[st._id];
+		if (stats != undefined) {
+		    hist_data.push( [st.last_name + ', ' + st.first_name, stats.passed] );
+		}
+	    });
 	}
 
 	this.histogram_ChartData = hist_data;
