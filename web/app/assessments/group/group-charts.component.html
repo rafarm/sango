@@ -1,13 +1,16 @@
 <!--<div *ngIf="course && assessmentOrder>=0 && students && studentStats && subjectStats && levelStats">-->
 <div class="row">
-	<div class="col-sm">
+	<div class="col-md">
 		<failedChart [studentStats]="studentStats"></failedChart>
 	</div>
-	<div class="col-sm">
+	<div class="col-md">
 		<passedChart [students]="students" [studentStats]="studentStats"></passedChart>
 	</div>
 </div>
 <div class="row">
+	<div class="col-md">
+		<averagesChart [subjectStats]="subjectStats" [levelStats]="levelStats"></averagesChart>
+	</div>
 		<!--<div id="averages_chart" chartType="ComboChart" [chartData]="averages_ChartData" [chartOptions]="averages_ChartOptions" GoogleChart class="chart_300 col-sm-6"></div>
 		<div id="ratios_chart" chartType="ComboChart" [chartData]="ratios_ChartData" [chartOptions]="ratios_ChartOptions" GoogleChart class="chart_300 col-sm-6"></div>-->
 </div>

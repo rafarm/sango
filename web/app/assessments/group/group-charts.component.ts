@@ -32,8 +32,10 @@ export class GroupChartsComponent implements OnInit, OnDestroy {
     year: string;
     group_id: string;
     assessment_id: string;
-    studentStats: any;
     students: any;
+    studentStats: any;
+    subjectStats: any;
+    levelStats: any;
 
     private statsSubscription: Subscription;
 
@@ -159,7 +161,11 @@ export class GroupChartsComponent implements OnInit, OnDestroy {
 	    // Get students' stats...
 	    this.assessmentsService.getStudentStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.studentStats = stats);
 	    
-	    // TODO: Get stats...
+	    // Get subjects' stats...
+	    this.assessmentsService.getSubjectStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.subjectStats = stats);
+	    
+	    // Get subjects' level stats...
+	    this.assessmentsService.getSubjectStats(this.assessment_id).subscribe((stats: any) => this.levelStats = stats);
 	});
     }
 

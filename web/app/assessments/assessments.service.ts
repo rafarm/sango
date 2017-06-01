@@ -20,6 +20,8 @@ export class AssessmentsService {
     private cachedGroup: Group = null;
     private cachedGrades = {};
     private cachedStudentStats = {};
+    private cachedSubjectStats = {};
+    private cachedLevelSubjectStats = {};
 
     constructor(private backendService: BackendService) {};
 
@@ -304,6 +306,45 @@ export class AssessmentsService {
 		}
 		
 		return Observable.of(_stats);
+            });
+    }
+
+    /*
+     * getSubjectStats
+     *
+     * Returns subjects stats for the assessment_id.
+     * Optionally filtered by group_id.
+     */
+    getSubjectStats(assessment_id: string, group_id?: string): Observable<any> {
+	let cache: any;
+        let call = 'assessments/' + assessment_id + '/stats/bysubject';
+
+        if (group_id == undefined) {
+	    cache = this.cachedLevelSubjectStats;
+        }
+	else {
+	    cache = this.cachedSubjectStats;
+	    call = call + '?group_id=' + group_id;
+	}
+	
+	let stats = cache[assessment_id];
+
+        if (stats != undefined) {
+            return Observable.of(stats);
+        }
+
+        return this.backendService.get(call)
+            .concatMap((res: any) => {
+                let _stats = {};
+                if (res.stats != undefined) {
+                    res.stats.forEach((std: any) => {
+                        _stats[std.student_id] = std;
+                    });
+
+                    cache[assessment_id] = _stats;
+                }
+
+                return Observable.of(_stats);
             });
     }
 }

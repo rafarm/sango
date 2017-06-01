@@ -14,10 +14,10 @@ import { Component,
     `
 })
 export class GroupAveragesChartComponent implements OnChanges {
-    //@Input()
-    //students: any;
-    //@Input()
-    //studentStats: any;
+    @Input()
+    subjectStats: any;
+    @Input()
+    levelStats: any;
 
     chartData: any[];
     chartOptions: {};
@@ -57,6 +57,6 @@ export class GroupAveragesChartComponent implements OnChanges {
     }
 
     private setData() {
-    
+       //TODO...
     }
 }
