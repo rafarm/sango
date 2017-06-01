@@ -9,8 +9,9 @@
 </div>
 <div class="row">
 	<div class="col-md">
-		<averagesChart [subjectStats]="subjectStats" [levelStats]="levelStats"></averagesChart>
+		<averagesChart [subjects]="subjects" [subjectStats]="subjectStats" [levelStats]="levelStats"></averagesChart>
 	</div>
-		<!--<div id="averages_chart" chartType="ComboChart" [chartData]="averages_ChartData" [chartOptions]="averages_ChartOptions" GoogleChart class="chart_300 col-sm-6"></div>
-		<div id="ratios_chart" chartType="ComboChart" [chartData]="ratios_ChartData" [chartOptions]="ratios_ChartOptions" GoogleChart class="chart_300 col-sm-6"></div>-->
+	<div class="col-md">
+		<ratiosChart [subjects]="subjects" [subjectStats]="subjectStats" [levelStats]="levelStats"></ratiosChart>
+	</div>
 </div>

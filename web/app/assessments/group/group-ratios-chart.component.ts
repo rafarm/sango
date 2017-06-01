@@ -9,12 +9,12 @@ import { Stats }		from '../../model/stats';
 
 @Component({
     moduleId: module.id,
-    selector: 'averagesChart',
+    selector: 'ratiosChart',
     template: `
-	<div id="averages_chart" chartType="ComboChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="chart_300"></div>
+	<div id="ratios_chart" chartType="ComboChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="chart_300"></div>
     `
 })
-export class GroupAveragesChartComponent implements OnChanges {
+export class GroupRatiosChartComponent implements OnChanges {
     @Input()
     subjects: any;
     @Input()
@@ -27,7 +27,7 @@ export class GroupAveragesChartComponent implements OnChanges {
 
     constructor() {
 	this.chartOptions = {
-            title: 'Averages by Subject',
+            title: 'Ratios by Subject',
             titleTextStyle: {
                 fontSize: 18
             },
@@ -42,7 +42,7 @@ export class GroupAveragesChartComponent implements OnChanges {
                 gridlines: {
                     count: 3
                 },
-                maxValue: 10,
+                maxValue: 1,
                 minValue: 0
             },
             seriesType: 'bars',
@@ -65,7 +65,7 @@ export class GroupAveragesChartComponent implements OnChanges {
 	if (this.subjects != undefined && this.subjectStats != undefined && this.levelStats != undefined) {
 
 	    // Headers...
-	    data.push( ['Subject', 'Level Average', 'Group Average'] );
+	    data.push( ['Subject', 'Level Ratio', 'Group Ratio'] );
 
 	    // Values...
 	    this.subjects.forEach((su: Subject) => {
@@ -73,12 +73,12 @@ export class GroupAveragesChartComponent implements OnChanges {
 
 		let l_stats: Stats = this.levelStats[su._id];
 		if (l_stats != undefined) {
-                    values.push( l_stats.avg );
+                    values.push( l_stats.ratio );
                 }
 
 		let s_stats: Stats = this.subjectStats[su._id];
 		if (s_stats != undefined) {
-                    values.push( s_stats.avg );
+                    values.push( s_stats.ratio );
                 }
 
 		if (values.length == 2) {

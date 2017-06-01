@@ -108,6 +108,8 @@ export class AssessmentsService {
 	this.cachedGroup = null;
         this.cachedGrades = {};
 	this.cachedStudentStats = {};
+	this.cachedSubjectStats = {};
+	this.cachedLevelSubjectStats = {};
     }
 
     /*
@@ -337,8 +339,8 @@ export class AssessmentsService {
             .concatMap((res: any) => {
                 let _stats = {};
                 if (res.stats != undefined) {
-                    res.stats.forEach((std: any) => {
-                        _stats[std.student_id] = std;
+                    res.stats.forEach((sb: any) => {
+                        _stats[sb.subject_id] = sb;
                     });
 
                     cache[assessment_id] = _stats;

@@ -10,6 +10,7 @@ import { GroupChartsComponent }		from './group-charts.component';
 import { GroupFailedChartComponent }	from './group-failed-chart.component';
 import { GroupPassedChartComponent }	from './group-passed-chart.component';
 import { GroupAveragesChartComponent }	from './group-averages-chart.component';
+import { GroupRatiosChartComponent }	from './group-ratios-chart.component';
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import { GroupAveragesChartComponent }	from './group-averages-chart.component';
 	GroupChartsComponent,
 	GroupFailedChartComponent,
 	GroupPassedChartComponent,
-	GroupAveragesChartComponent
+	GroupAveragesChartComponent,
+	GroupRatiosChartComponent
     ]
 })
 
