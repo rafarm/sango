@@ -9,18 +9,18 @@ import { Component,
     moduleId: module.id,
     selector: 'failedChart',
     template: `
-	<div id="pie_chart" chartType="PieChart" [chartData]="pie_ChartData" [chartOptions]="pie_ChartOptions" GoogleChart class="chart_300"></div>
+	<div id="pie_chart" chartType="PieChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="chart_300"></div>
     `
 })
 export class GroupFailedChartComponent implements OnChanges {
     @Input()
     studentStats: any;
 
-    pie_ChartData: any[];
-    pie_ChartOptions: {};
+    chartData: any[];
+    chartOptions: {};
 
     constructor() {
-        this.pie_ChartOptions = {
+        this.chartOptions = {
             title: 'Failed Subjects',
             titleTextStyle: {
                 fontSize: 18
@@ -38,30 +38,30 @@ export class GroupFailedChartComponent implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         // Reset
-        this.setPieData();
+        this.setData();
     }
 
-    private setPieData() {
-        let pie_data = [];
-        pie_data.push( ['#Failed', '#Students'] );
-        pie_data.push( ['None', 0] );
-        pie_data.push( ['1', 0] );
-        pie_data.push( ['2', 0] );
-        pie_data.push( ['3', 0] );
-        pie_data.push( ['4+', 0] );
+    private setData() {
+        let data = [];
+        data.push( ['#Failed', '#Students'] );
+        data.push( ['None', 0] );
+        data.push( ['1', 0] );
+        data.push( ['2', 0] );
+        data.push( ['3', 0] );
+        data.push( ['4+', 0] );
 	
         for (let i in this.studentStats) {
             let num_failed = this.studentStats[i].failed;
             if (num_failed <= 3) {
-		let value = +pie_data[num_failed+1][1];
-		pie_data[num_failed+1][1] = ++value;
+		let value = +data[num_failed+1][1];
+		data[num_failed+1][1] = ++value;
             }
             else {
-		let value = +pie_data[5][1];
-		pie_data[5][1] = ++value;
+		let value = +data[5][1];
+		data[5][1] = ++value;
             }
         }
 	
-        this.pie_ChartData = pie_data;
+        this.chartData = data;
     }
 }
