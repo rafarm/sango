@@ -86,7 +86,6 @@ export class GroupRatiosChartComponent implements OnChanges {
 		    data.push(values);
 		}
 	    });
-	    console.log(data);
 	
             this.chartData = data;
         }

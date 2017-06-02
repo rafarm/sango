@@ -29,7 +29,8 @@ import { BreadcrumbSelectorEvent } 		from '../utils/breadcrumb-selector.componen
 })
 export class AssessmentSelectorComponent implements OnInit, OnDestroy {
     selects: BreadcrumbSelectorSelect[] = [];
-    removedSelects: BreadcrumbSelectorSelect[] = [];
+    //removedSelects: BreadcrumbSelectorSelect[] = [];
+    changedSelectId: string = null;
     
     selectedYear = '-1';
     selectedCourseId = '-1';
@@ -49,26 +50,30 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 	this.routerEventsSubscription = this.router.events.subscribe(event => {
 	    if (event instanceof NavigationCancel) {
 		// Restore changed select previous selected item...
-		let changedSelectIndex = this.selects.length - 1;
-		let changedSelect: any = document.getElementById(this.selects[changedSelectIndex].id);
-		switch(changedSelectIndex) {
-		    case 0:
+		//let changedSelectIndex = this.selects.length - 1;
+		let changedSelect: any = document.getElementById(this.changedSelectId);
+		switch(this.changedSelectId) {
+		    case 'year':
 			changedSelect.value = this.selectedYear;
 			break;
-		    case 1:
+		    case 'course':
 			changedSelect.value = this.selectedCourseId;
 			break;
-		    case 2:
+		    case 'group':
 			changedSelect.value = this.selectedGroupId;
 			break;
 		    default:
 			break;
 		}
 
+		this.changedSelectId = null;
+
+		/*
 		// Restore previously removed selects...
 		while(this.removedSelects.length > 0) {
 		    this.selects.push(this.removedSelects.pop());
 		}
+		*/
 	    }
 	});
     }
@@ -83,6 +88,11 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 		let courseObservable = Observable.empty();
 		let groupObservable =  Observable.empty();
 
+		// Reset navigation...
+		if (year == '-1' && course_id == '-1' && group_id == '-1') {
+		    this.selects = [];
+		}
+
 		if (this.selects.length == 0) {
 		    yearObservable = this.assessmentsService.getGroupsSelectYear()
 			.map((select: BreadcrumbSelectorSelect) => {
@@ -93,6 +103,12 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 		
 		if (year != this.selectedYear) {
 		    this.selectedYear = year;
+
+		    while(this.selects.length > 1) {
+                        //this.removedSelects.push(this.selects.pop());
+                        this.selects.pop();
+                    }
+
 		    if (year != '-1') {
 			courseObservable = this.assessmentsService.getGroupsSelectCourse(year)
 			    .map((select: BreadcrumbSelectorSelect) => {
@@ -104,6 +120,12 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 
 		if (course_id != this.selectedCourseId) {
 		    this.selectedCourseId = course_id;
+
+		    while(this.selects.length > 2) {
+                        //this.removedSelects.push(this.selects.pop());
+                        this.selects.pop();
+                    }
+
 		    if (course_id != '-1') {
 			groupObservable = this.assessmentsService.getGroupsSelectGroup(year, course_id)
 			    .map((select: BreadcrumbSelectorSelect) => {
@@ -137,18 +159,19 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
     }
 
     onSelectorChanged(event: BreadcrumbSelectorEvent) {
-	this.removedSelects = [];
+	//this.removedSelects = [];
 
+	this.changedSelectId = event.select_id;
 	let value = event.select_value;
 	switch(event.select_id) {
 	    case 'year':
 		//this.selectedGroupId = '-1';
 		//this.selectedCourseId = '-1';
-		
+		/*	
 		while(this.selects.length > 1) {
 		    this.removedSelects.push(this.selects.pop());
 		}
-
+		*/
 	    	this.router.navigate(
 		    ['../../../', value, -1, -1],
 		    { relativeTo: this.route }
@@ -157,11 +180,11 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 		break;
 	    case 'course':
 		//this.selectedGroupId = '-1';
-                
+		/*                
 		while(this.selects.length > 2) {
                     this.removedSelects.push(this.selects.pop());
                 }
-
+		*/
 	    	this.router.navigate(
 		    ['../../../',this.selectedYear, value, -1],
 		    { relativeTo: this.route }
