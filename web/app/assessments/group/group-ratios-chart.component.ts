@@ -11,7 +11,7 @@ import { Stats }		from '../../model/stats';
     moduleId: module.id,
     selector: 'ratiosChart',
     template: `
-	<div id="ratios_chart" chartType="ComboChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="chart_300"></div>
+	<div *ngIf="subjects && subjectStats && levelStats" id="ratios_chart" chartType="ComboChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="chart_300"></div>
     `
 })
 export class GroupRatiosChartComponent implements OnChanges {

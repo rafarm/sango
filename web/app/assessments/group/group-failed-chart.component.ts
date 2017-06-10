@@ -9,7 +9,7 @@ import { Component,
     moduleId: module.id,
     selector: 'failedChart',
     template: `
-	<div id="pie_chart" chartType="PieChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="chart_300"></div>
+	<div *ngIf="studentStats" id="pie_chart" chartType="PieChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="chart_300"></div>
     `
 })
 export class GroupFailedChartComponent implements OnChanges {

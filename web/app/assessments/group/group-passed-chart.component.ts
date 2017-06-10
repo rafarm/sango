@@ -11,7 +11,7 @@ import { Stats }		from '../../model/stats';
     moduleId: module.id,
     selector: 'passedChart',
     template: `
-	<div id="histogram_chart" chartType="Histogram" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="chart_300"></div>
+	<div *ngIf="students && studentStats" id="histogram_chart" chartType="Histogram" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="chart_300"></div>
     `
 })
 export class GroupPassedChartComponent implements OnChanges {
@@ -67,7 +67,7 @@ export class GroupPassedChartComponent implements OnChanges {
 		}
 	    });
 	}
-
+	console.log(data);
 	this.chartData = data;
     }
 }
