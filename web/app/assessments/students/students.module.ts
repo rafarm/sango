@@ -6,7 +6,7 @@ import { UtilsModule }			from '../../utils/utils.module';
 import { StudentsRoutingModule }	from './students-routing.module';
 
 import { StudentsComponent }		from './students.component';
-//import { GroupChartsComponent }		from './group-charts.component';
+import { StudentsListComponent }	from './students-list.component';
 
 @NgModule({
     imports: [
@@ -14,8 +14,8 @@ import { StudentsComponent }		from './students.component';
 	StudentsRoutingModule
     ],
     declarations: [
-	StudentsComponent
-	//GroupChartsComponent,
+	StudentsComponent,
+	StudentsListComponent
     ]
 })
 

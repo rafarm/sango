@@ -21,8 +21,8 @@ export class StudentsListComponent implements OnInit, OnDestroy {
     students: any;
     subjects: any;
     studentStats: any;
-    subjectStats: any;
-    levelStats: any;
+    //subjectStats: any;
+    //levelStats: any;
 
     private statsSubscription: Subscription;
 
@@ -50,15 +50,31 @@ export class StudentsListComponent implements OnInit, OnDestroy {
 	    this.assessmentsService.getStudentStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.studentStats = stats);
 	    
 	    // Get subjects' stats...
-	    this.assessmentsService.getSubjectStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.subjectStats = stats);
+	    //this.assessmentsService.getSubjectStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.subjectStats = stats);
 	    
 	    // Get subjects' level stats...
-	    this.assessmentsService.getSubjectStats(this.assessment_id).subscribe((stats: any) => this.levelStats = stats);
+	    //this.assessmentsService.getSubjectStats(this.assessment_id).subscribe((stats: any) => this.levelStats = stats);
 	});
     }
 
     ngOnDestroy() {
         this.statsSubscription.unsubscribe();
+    }
+
+    private hasFailed(student_id: string): boolean {
+	return this.studentStats[student_id].failed > 0;
+    }
+
+    private badgeClasses(student_id: string): any {
+	let classes = {'badge': true,
+		       'badge-pill': true};
+    
+	let failed = this.studentStats[student_id].failed;
+
+	classes['badge-warning'] = failed > 0 && failed <= 2;
+	classes['badge-danger'] = failed > 2;
+
+	return classes;
     }
 }
 
