@@ -27,7 +27,7 @@ export class GoogleChartDirective implements OnInit, OnChanges, OnDestroy {
 
 	ngOnInit() {
 	    if(!googleChartsLoaded) {
-		google.charts.load('current', {packages:['corechart'], callback: this.loadCharts.bind(this) });
+		google.charts.load('45', {packages:['corechart'], callback: this.loadCharts.bind(this) });
 	    }
 	}
   

@@ -67,7 +67,7 @@ export class GroupPassedChartComponent implements OnChanges {
 		}
 	    });
 	}
-	console.log(data);
+	
 	this.chartData = data;
     }
 }

@@ -7,9 +7,9 @@
 	    <!--<li *ngFor="let st of students; let i=index" [class.selected]="student.student_id === selectedStudentId" (click)="onSelect(student.student_id, i)" class="row">
 		<span *ngIf="isWarning(student.student_id)" class="badge warning col-md-1">!</span>
 		<span *ngIf="isDanger(student.student_id)" class="badge danger col-md-1">!</span>
-		<span [class]="isWarning(student.student_id) || isDanger(student.student_id) ? 'col-md-10' : 'offset-md-1 col-md-10'">{{students[student.student_id].last_name + ', ' + students[student.student_id].first_name}}</span>
-		<span *ngIf="student.repeater" class="badge repeat col-md-1">R</span>-->
+		<span [class]="isWarning(student.student_id) || isDanger(student.student_id) ? 'col-md-10' : 'offset-md-1 col-md-10'">{{students[student.student_id].last_name + ', ' + students[student.student_id].first_name}}</span>-->
 		<span>{{st.last_name + ', ' + st.first_name}}</span>
+		<span *ngIf="st.repeats" class="badge badge-pill badge-info">R</span>
 		<span *ngIf="hasFailed(st._id)" [ngClass]="badgeClasses(st._id)">{{studentStats[st._id].failed}}</span>
 	    </li>
 	</ul>

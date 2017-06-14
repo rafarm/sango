@@ -241,7 +241,7 @@ router.get('/bygroup/:id', function(req, res) {
             last_name: '$students.last_name',
             birthdate: '$students.birthdate',
             gender: '$students.gender',
-            repeats: '$students.repeat',
+            repeats: '$students.repeats',
             ed_measures: '$students.ed_measures',
             subjects: '$students.subjects'
           }
