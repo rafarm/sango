@@ -1,11 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy }         from '@angular/core';
+import { Router, ActivatedRoute, Params }       from '@angular/router';
+import { Observable }                           from 'rxjs/Observable';
+import { Subscription }                         from 'rxjs/Subscription';
 
-//import { Course } from './model/course';
-//import { Assessment } from './model/assessment';
-import { Student } from '../../model/student';
+import { AssessmentsService }                   from '../assessments.service';
+
+import { Group }                                from '../../model/group';
+import { Student } 				from '../../model/student';
 
 @Component({
-    templateUrl: 'app/student-detail.component.html',
+    moduleId: module.id,
+    templateUrl: './student-detail.component.html',
 })
 export class StudentDetailComponent {
     /*course: Course;
@@ -13,11 +18,20 @@ export class StudentDetailComponent {
     assessmentOrder: number;
     prevAssessment: Assessment;
     studentIndex: number;*/
+    year: string;
+    group_id: string;
+    student_id: string;
     student: Student;
-    studentStats: any;
-    subjectStats: any;
+    //studentStats: any;
+    //subjectStats: any;
 
-    constructor() {
+    private statsSubscription: Subscription;
+
+    constructor(
+	private assessmentsService: AssessmentsService,
+        private route: ActivatedRoute,
+        private router: Router
+    ) {
 	/*
 	this.failed_ChartOptions = {
 	    title: 'Assignatures suspeses',
@@ -85,6 +99,35 @@ export class StudentDetailComponent {
 	}
 	*/
     }
+
+    ngOnInit() {
+        this.year = this.route.parent.parent.parent.parent.snapshot.params['year'];
+        this.group_id = this.route.parent.parent.parent.parent.snapshot.params['group_id'];
+        this.statsSubscription = this.route.params.subscribe((params: Params) => {
+            this.student_id = params['student_id'];
+
+            // Get student and subjects...
+            this.assessmentsService.getGroup(this.group_id)
+                .subscribe((group: Group) => {
+                    this.student = group.students[this.student_id];
+                    //this.subjects = group.subjects;
+                });
+	    
+            // Get students' stats...
+            //this.assessmentsService.getStudentStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.studentStats = stats);
+            
+            // Get subjects' stats...
+            //this.assessmentsService.getSubjectStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.subjectStats = stats);
+            
+            // Get subjects' level stats...
+            //this.assessmentsService.getSubjectStats(this.assessment_id).subscribe((stats: any) => this.levelStats = stats);
+        });
+    }
+
+    ngOnDestroy() {
+        this.statsSubscription.unsubscribe();
+    }
+
     /*
     ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
 	// Reset 			

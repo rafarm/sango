@@ -8,7 +8,7 @@
 		<span *ngIf="isWarning(student.student_id)" class="badge warning col-md-1">!</span>
 		<span *ngIf="isDanger(student.student_id)" class="badge danger col-md-1">!</span>
 		<span [class]="isWarning(student.student_id) || isDanger(student.student_id) ? 'col-md-10' : 'offset-md-1 col-md-10'">{{students[student.student_id].last_name + ', ' + students[student.student_id].first_name}}</span>-->
-		<div class="col-10"><span>{{st.last_name + ', ' + st.first_name}}</span></div>
+		<div class="col-10"><span routerLink="{{st._id}}" routerLinkActive="active">{{st.last_name + ', ' + st.first_name}}</span></div>
 		<div class="col-1"><span *ngIf="st.repeats" class="badge badge-pill badge-info">R</span></div>
 		<div class="col-1"><span *ngIf="hasFailed(st._id)" [ngClass]="badgeClasses(st._id)">{{studentStats[st._id].failed}}</span></div>
 	    </li>
