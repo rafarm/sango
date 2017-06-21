@@ -109,7 +109,16 @@ export class StudentDetailComponent {
             // Get student and subjects...
             this.assessmentsService.getGroup(this.group_id)
                 .subscribe((group: Group) => {
-                    this.student = group.students[this.student_id];
+		    group.students.some((st: Student) => {
+			if (st._id == this.student_id) {
+			    this.student = st;
+			    return true;
+			}
+
+			return false;
+		    });
+		    console.log('Student detail: '+group.students);
+    
                     //this.subjects = group.subjects;
                 });
 	    
