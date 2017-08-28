@@ -8,6 +8,7 @@ import { StudentsRoutingModule }	from './students-routing.module';
 import { StudentsComponent }		from './students.component';
 import { StudentsListComponent }	from './students-list.component';
 import { StudentDetailComponent }	from './student-detail.component';
+import { StudentGradesChartComponent }	from './student-grades-chart.component';
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import { StudentDetailComponent }	from './student-detail.component';
     declarations: [
 	StudentsComponent,
 	StudentsListComponent,
-	StudentDetailComponent
+	StudentDetailComponent,
+	StudentGradesChartComponent
     ]
 })
 

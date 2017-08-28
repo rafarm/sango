@@ -7,6 +7,7 @@ import { AssessmentsService }                   from '../assessments.service';
 
 import { Group }                                from '../../model/group';
 import { Student } 				from '../../model/student';
+import { Grades }                               from '../../model/grades';
 
 @Component({
     moduleId: module.id,
@@ -20,10 +21,12 @@ export class StudentDetailComponent {
     studentIndex: number;*/
     year: string;
     group_id: string;
+    assessment_id: string;
     student_id: string;
     student: Student;
-    //studentStats: any;
-    //subjectStats: any;
+    studentStats: any;
+    subjectStats: any;
+    studentGrades: any;
 
     private statsSubscription: Subscription;
 
@@ -103,6 +106,7 @@ export class StudentDetailComponent {
     ngOnInit() {
         this.year = this.route.parent.parent.parent.parent.snapshot.params['year'];
         this.group_id = this.route.parent.parent.parent.parent.snapshot.params['group_id'];
+        this.assessment_id = this.route.parent.snapshot.params['assessment_id'];
         this.statsSubscription = this.route.params.subscribe((params: Params) => {
             this.student_id = params['student_id'];
 
@@ -117,19 +121,16 @@ export class StudentDetailComponent {
 
 			return false;
 		    });
-		    console.log('Student detail: '+group.students);
-    
-                    //this.subjects = group.subjects;
                 });
 	    
             // Get students' stats...
-            //this.assessmentsService.getStudentStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.studentStats = stats);
+            this.assessmentsService.getStudentStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.studentStats = stats);
             
             // Get subjects' stats...
-            //this.assessmentsService.getSubjectStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.subjectStats = stats);
+            this.assessmentsService.getSubjectStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.subjectStats = stats);
             
-            // Get subjects' level stats...
-            //this.assessmentsService.getSubjectStats(this.assessment_id).subscribe((stats: any) => this.levelStats = stats);
+            // Get grades...
+            this.assessmentsService.getGrades(this.assessment_id, this.group_id).subscribe((grades: Grades) => this.studentGrades = grades.students[this.student_id].grades);
         });
     }
 

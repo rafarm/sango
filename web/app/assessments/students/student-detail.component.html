@@ -1,9 +1,16 @@
-<div *ngIf="student" class="row">
-    <div class="col">
+<div *ngIf="student" class="container-fluid">
+    <!--<div class="col">
 	<img src="images/student.png">
+    </div>-->
+    <div class="row">
+	<div class="col">
+	    <h2>{{student.last_name + ', ' + student.first_name | uppercase}}</h2>
+	</div>
     </div>
-    <div class="col">
-	<h2>{{student.last_name + ', ' + student.first_name | uppercase}}</h2>
+    <div class="row">
+	<div class="col">
+	    <gradesChart [grades]="studentGrades" [subjects]="student.subjects" [subjectStats]="subjectStats"></gradesChart>
+	</div>
     </div>
     <!--
     <div id="failed_chart" chartType="ColumnChart" [chartData]="failed_ChartData" [chartOptions]="failed_ChartOptions" GoogleChart class="col-sm-5 chart_200"></div>
