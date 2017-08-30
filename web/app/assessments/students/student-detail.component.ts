@@ -5,7 +5,9 @@ import { Subscription }                         from 'rxjs/Subscription';
 
 import { AssessmentsService }                   from '../assessments.service';
 
+import { Course }                               from '../../model/course';
 import { Group }                                from '../../model/group';
+import { Assessment }                           from '../../model/assessment';
 import { Student } 				from '../../model/student';
 import { Grades }                               from '../../model/grades';
 
@@ -20,6 +22,7 @@ export class StudentDetailComponent {
     prevAssessment: Assessment;
     studentIndex: number;*/
     year: string;
+    course_id: string;
     group_id: string;
     assessment_id: string;
     student_id: string;
@@ -27,6 +30,7 @@ export class StudentDetailComponent {
     studentStats: any;
     subjectStats: any;
     studentGrades: any;
+    studentPrevGrades: any;
 
     private statsSubscription: Subscription;
 
@@ -105,6 +109,7 @@ export class StudentDetailComponent {
 
     ngOnInit() {
         this.year = this.route.parent.parent.parent.parent.snapshot.params['year'];
+        this.course_id = this.route.parent.parent.parent.parent.snapshot.params['course_id'];
         this.group_id = this.route.parent.parent.parent.parent.snapshot.params['group_id'];
         this.assessment_id = this.route.parent.snapshot.params['assessment_id'];
         this.statsSubscription = this.route.params.subscribe((params: Params) => {
@@ -128,9 +133,24 @@ export class StudentDetailComponent {
             
             // Get subjects' stats...
             this.assessmentsService.getSubjectStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.subjectStats = stats);
+
+	    // Get grades...
+	    this.assessmentsService.getGrades(this.assessment_id, this.group_id).subscribe((grades: Grades) => this.studentGrades = grades.students[this.student_id].grades);
             
-            // Get grades...
-            this.assessmentsService.getGrades(this.assessment_id, this.group_id).subscribe((grades: Grades) => this.studentGrades = grades.students[this.student_id].grades);
+            // Get previuos grades...
+	    this.assessmentsService.getCourse(this.course_id, this.year)
+		.switchMap((course: Course) => {
+		    let ids = course.assessments.map((ass: Assessment) => ass._id);
+		    let index = ids.indexOf(this.assessment_id);
+
+		    let observable = Observable.empty();
+		    if (index > 0) {
+			observable = this.assessmentsService.getGrades(ids[index-1], this.group_id);
+		    }
+
+		    return observable;
+		})
+		.subscribe((grades: Grades) => this.studentPrevGrades = grades.students[this.student_id].grades);
         });
     }
 

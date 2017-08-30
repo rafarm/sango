@@ -12,6 +12,11 @@
 	    <gradesChart [grades]="studentGrades" [subjects]="student.subjects" [subjectStats]="subjectStats"></gradesChart>
 	</div>
     </div>
+    <div class="row">
+	<div class="col">
+	    <deltasChart [grades]="studentGrades" [prev_grades]="studentPrevGrades" [subjects]="student.subjects"></deltasChart>
+	</div>
+    </div>
     <!--
     <div id="failed_chart" chartType="ColumnChart" [chartData]="failed_ChartData" [chartOptions]="failed_ChartOptions" GoogleChart class="col-sm-5 chart_200"></div>
 </div>
