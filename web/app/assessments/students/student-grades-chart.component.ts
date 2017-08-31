@@ -26,7 +26,7 @@ export class StudentGradesChartComponent implements OnChanges {
 
     constructor() {
 	this.chartOptions = {
-            title: "Student's Grades",
+            title: "Grades",
             titleTextStyle: {
                 fontSize: 18
             },

@@ -45,10 +45,10 @@ export class GroupRatiosChartComponent implements OnChanges {
                 maxValue: 1,
                 minValue: 0
             },
-            seriesType: 'bars',
+            seriesType: 'line',
             series: {
                 0: {
-                    type: 'line'
+                    type: 'bars'
                 }
             }
         }
@@ -65,20 +65,20 @@ export class GroupRatiosChartComponent implements OnChanges {
 	if (this.subjects != undefined && this.subjectStats != undefined && this.levelStats != undefined) {
 
 	    // Headers...
-	    data.push( ['Subject', 'Level Ratio', 'Group Ratio'] );
+	    data.push( ['Subject', 'Group Ratio', 'Level Ratio'] );
 
 	    // Values...
 	    this.subjects.forEach((su: Subject) => {
 		let values: any[] = [];
 
-		let l_stats: Stats = this.levelStats[su._id];
-		if (l_stats != undefined) {
-                    values.push( l_stats.ratio );
-                }
-
 		let s_stats: Stats = this.subjectStats[su._id];
 		if (s_stats != undefined) {
                     values.push( s_stats.ratio );
+                }
+
+		let l_stats: Stats = this.levelStats[su._id];
+                if (l_stats != undefined) {
+                    values.push( l_stats.ratio );
                 }
 
 		if (values.length == 2) {

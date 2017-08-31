@@ -45,10 +45,10 @@ export class GroupAveragesChartComponent implements OnChanges {
                 maxValue: 10,
                 minValue: 0
             },
-            seriesType: 'bars',
+            seriesType: 'line',
             series: {
                 0: {
-                    type: 'line'
+                    type: 'bars'
                 }
             }
         }
@@ -65,20 +65,20 @@ export class GroupAveragesChartComponent implements OnChanges {
 	if (this.subjects != undefined && this.subjectStats != undefined && this.levelStats != undefined) {
 
 	    // Headers...
-	    data.push( ['Subject', 'Level Average', 'Group Average'] );
+	    data.push( ['Subject', 'Group Average', 'Level Average'] );
 
 	    // Values...
 	    this.subjects.forEach((su: Subject) => {
 		let values: any[] = [];
 
-		let l_stats: Stats = this.levelStats[su._id];
-		if (l_stats != undefined) {
-                    values.push( l_stats.avg );
-                }
-
 		let s_stats: Stats = this.subjectStats[su._id];
 		if (s_stats != undefined) {
                     values.push( s_stats.avg );
+                }
+
+		let l_stats: Stats = this.levelStats[su._id];
+                if (l_stats != undefined) {
+                    values.push( l_stats.avg );
                 }
 
 		if (values.length == 2) {
