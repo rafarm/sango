@@ -299,10 +299,15 @@ export class AssessmentsService {
         return this.backendService.get(call)
 	    .concatMap((res: any) => {
 		let _stats = {};
+		_stats['_id'] = assessment_id;
+
+		let _s = {};
 		if (res.stats != undefined) {
                     res.stats.forEach((std: any) => {
-		        _stats[std.student_id] = std;
+		        _s[std.student_id] = std;
 		    });
+
+		    _stats['stats'] = _s;
 
 		    this.cachedStudentStats[assessment_id] = _stats;
 		}
@@ -338,11 +343,15 @@ export class AssessmentsService {
         return this.backendService.get(call)
             .concatMap((res: any) => {
                 let _stats = {};
+		_stats['_id'] = assessment_id;
+
+		let _s = {};
                 if (res.stats != undefined) {
                     res.stats.forEach((sb: any) => {
-                        _stats[sb.subject_id] = sb;
+                        _s[sb.subject_id] = sb;
                     });
-
+		    
+		    _stats['stats'] = _s;
                     cache[assessment_id] = _stats;
                 }
 

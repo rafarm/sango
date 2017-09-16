@@ -10,6 +10,7 @@ import { StudentsListComponent }	from './students-list.component';
 import { StudentDetailComponent }	from './student-detail.component';
 import { StudentGradesChartComponent }	from './student-grades-chart.component';
 import { StudentDeltasChartComponent }	from './student-deltas-chart.component';
+import { StudentFailedChartComponent }	from './student-failed-chart.component';
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import { StudentDeltasChartComponent }	from './student-deltas-chart.component';
 	StudentsListComponent,
 	StudentDetailComponent,
 	StudentGradesChartComponent,
-	StudentDeltasChartComponent
+	StudentDeltasChartComponent,
+	StudentFailedChartComponent
     ]
 })
 

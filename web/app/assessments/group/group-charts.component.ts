@@ -163,13 +163,13 @@ export class GroupChartsComponent implements OnInit, OnDestroy {
 		});
 
 	    // Get students' stats...
-	    this.assessmentsService.getStudentStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.studentStats = stats);
+	    this.assessmentsService.getStudentStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.studentStats = stats.stats);
 	    
 	    // Get subjects' stats...
-	    this.assessmentsService.getSubjectStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.subjectStats = stats);
+	    this.assessmentsService.getSubjectStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.subjectStats = stats.stats);
 	    
 	    // Get subjects' level stats...
-	    this.assessmentsService.getSubjectStats(this.assessment_id).subscribe((stats: any) => this.levelStats = stats);
+	    this.assessmentsService.getSubjectStats(this.assessment_id).subscribe((stats: any) => this.levelStats = stats.stats);
 	});
     }
 

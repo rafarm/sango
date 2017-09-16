@@ -3,6 +3,10 @@ import { Router, ActivatedRoute, Params }       from '@angular/router';
 import { Observable }                           from 'rxjs/Observable';
 import { Subscription }                         from 'rxjs/Subscription';
 
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/merge';
+import 'rxjs/add/operator/toArray';
+
 import { AssessmentsService }                   from '../assessments.service';
 
 import { Course }                               from '../../model/course';
@@ -31,6 +35,7 @@ export class StudentDetailComponent {
     subjectStats: any;
     studentGrades: any;
     studentPrevGrades: any;
+    assessmentNames: string[];
 
     private statsSubscription: Subscription;
 
@@ -129,10 +134,33 @@ export class StudentDetailComponent {
                 });
 	    
             // Get students' stats...
-            this.assessmentsService.getStudentStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.studentStats = stats);
-            
+            //this.assessmentsService.getStudentStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.studentStats = stats);
+            this.assessmentsService.getCourse(this.course_id, this.year)
+                .switchMap((course: Course) => {
+		    let ids = course.assessments.map((ass: Assessment) => ass._id);
+		    this.assessmentNames = course.assessments.map((ass: Assessment) => ass.name);
+                    let index = ids.indexOf(this.assessment_id);
+
+		    let obs = this.assessmentsService.getStudentStats(ids[0], this.group_id);
+		    for (let i = 1; i <= index; i++) {
+			obs = obs.merge(this.assessmentsService.getStudentStats(ids[i], this.group_id));
+		    }
+
+		    return obs;
+		})
+		.toArray().subscribe((stats) => {
+		    stats.sort((a,b) => a._id.localeCompare(b._id));
+		    this.studentStats = [];
+		    stats.forEach((_st: any, i: number) => {
+			let _s = {};
+			_s['_id'] = this.assessmentNames[i];
+			_s['stats'] = _st.stats[this.student_id];
+			this.studentStats.push(_s);
+		    });
+		});
+
             // Get subjects' stats...
-            this.assessmentsService.getSubjectStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.subjectStats = stats);
+            this.assessmentsService.getSubjectStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.subjectStats = stats.stats);
 
 	    // Get grades...
 	    this.assessmentsService.getGrades(this.assessment_id, this.group_id).subscribe((grades: Grades) => this.studentGrades = grades.students[this.student_id].grades);

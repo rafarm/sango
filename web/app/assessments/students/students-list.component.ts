@@ -47,7 +47,7 @@ export class StudentsListComponent implements OnInit, OnDestroy {
 		});
 
 	    // Get students' stats...
-	    this.assessmentsService.getStudentStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.studentStats = stats);
+	    this.assessmentsService.getStudentStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.studentStats = stats.stats);
 	    
 	    // Get subjects' stats...
 	    //this.assessmentsService.getSubjectStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.subjectStats = stats);
