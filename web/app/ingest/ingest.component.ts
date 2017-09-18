@@ -117,7 +117,7 @@ export class IngestComponent implements AfterViewInit {
         let show = this.state == this.IngestState.UPLOAD || this.state == this.IngestState.PROCESS;
 
         let classes = {
-            'show'                 : show
+            'show': show
         };
 
         return classes;
