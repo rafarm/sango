@@ -39,11 +39,7 @@ export class IngestComponent implements AfterViewInit {
     }
 
     upload() {
-	this.progress_value = 0;
-	this.progress_msg = '0%';
 	this.state = this.IngestState.UPLOAD;
-
-	this.show_progress();
 
 	this.ingestService.ingestFile(this.fileToUpload)
 	    .subscribe(
@@ -51,6 +47,12 @@ export class IngestComponent implements AfterViewInit {
 		(error: string) => this.process_error(error),
 		() => this.process_finished()
 	    );
+    }
+
+    reset_progress() {
+	this.progress_value = 0;
+	this.progress_msg = '0%';
+	this.show_progress();
     }
 
     process_progress(value: string) {
@@ -74,7 +76,7 @@ export class IngestComponent implements AfterViewInit {
 	this.alert_msg = error;
 
 	this.state = this.IngestState.ERROR;
-	
+	this.reset_progress();
     }
 
    process_finished() {
@@ -82,6 +84,7 @@ export class IngestComponent implements AfterViewInit {
         this.alert_msg = "File processed without errors.";
 
         this.state = this.IngestState.SUCCESS;
+	this.reset_progress();
     }
 
     show_progress() {
