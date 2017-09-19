@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 export class ConfigService {
 
     // Change this value...
-    private _backendUrl = 'http://localhost:3000/api/';
+    private _backendUrl = 'http://172.21.32.5:3000/api/';
     get backendUrl(): string {
 	return this._backendUrl;
     }
