@@ -5,25 +5,13 @@
 	</div>
 	<div *ngIf="isNavVisible()" class="col-md-4">
 	    <ul class="nav nav-tabs sub-select" role="tablist">
-		<!--<li class="nav-item">
-		    <button [ngClass]="{'active': checkedButtonId == 'btn-grades'}" (click)="onButtonClicked($event)" id="btn-grades" type="button" class="btn btn-link">Grades</button>
-		</li>
 		<li class="nav-item">
-		    <button [ngClass]="{'active': checkedButtonId == 'btn-group'}" (click)="onButtonClicked($event)" id="btn-group" type="button" class="btn btn-link">Group</button>
-		</li>
-		<li class="nav-item">
-		    <button [ngClass]="{'active': checkedButtonId == 'btn-students'}" (click)="onButtonClicked($event)" id="btn-students" type="button" class="btn btn-link">Students</button>
-		</li>-->
-		<li class="nav-item">
-                    <!--<button routerLink="grades" routerLinkActive="active" type="button" class="btn btn-link">Grades</button>-->
                     <button (click)="onNavigate('grades')" [class.active]="isNavActive('grades')" type="button" class="btn btn-link">Grades</button>
                 </li>
                 <li class="nav-item">
-                    <!--<button routerLink="group" routerLinkActive="active" type="button" class="btn btn-link">Group</button>-->
                     <button (click)="onNavigate('group')" [class.active]="isNavActive('group')" type="button" class="btn btn-link">Group</button>
                 </li>
                 <li class="nav-item">
-                    <!--<button routerLink="students" routerLinkActive="active" type="button" class="btn btn-link">Students</button>-->
                     <button (click)="onNavigate('students')" [class.active]="isNavActive('students')" type="button" class="btn btn-link">Students</button>
                 </li>
 	    </ul>
@@ -35,51 +23,3 @@
 	<router-outlet></router-outlet>
     </div>
 </div>
-<!--
-<div *ngIf="selectedGroup" class="container-fluid">
-    <div class="tab-content">
-	<div [ngClass]="{'active': checkedButtonId == 'btn-marks'}" class="tab-pane" id="pane-marks" role="tabpanel">
-	    <assessments-marks [course]="selectedCourse" [group]="selectedGroup"></assessments-marks>
-	</div>
-	<div [ngClass]="{'active': checkedButtonId == 'btn-group'}" class="tab-pane" id="pane-groups" role="tabpanel">groups</div>
-	<div [ngClass]="{'active': checkedButtonId == 'btn-students'}" class="tab-pane" id="pane-students" role="tabpanel">students</div>
-    </div>
-</div>
--->
-    <!--
-    <div class="container-fluid" *ngIf="assessmentId">
-	<ngb-tabset activeId="marks">
-	    <ngb-tab title="Alumnes" id="students">
-                <template ngbTabContent>
-                    <assessment-list [course]="course"
-				     [assessment]="assessment"
-				     [assessmentOrder]="assessmentOrder"
-				     [prevAssessment]="prevAssessment"
-				     [students]="students"
-				     [studentStats]="studentStats"
-				     [subjectStats]="subjectStats">
-		    </assessment-list>
-                </template>
-            </ngb-tab>
-	    <ngb-tab title="Grup" id="group">
-                <template ngbTabContent>
-                    <assessment-group [course]="course"
-				      [assessmentOrder]="assessmentOrder"
-				      [students]="students"
-				      [studentStats]="studentStats[assessmentId].stats"
-				      [subjectStats]="subjectStats"
-				      [levelStats]="levelStats">
-		    </assessment-group>
-                </template>
-            </ngb-tab>
-	    <ngb-tab title="Notes" id="marks">
-		<template ngbTabContent>
-		    <assessment-table (onSaveAssessment)="onSaveAssessment($event)"
-				      [assessment]="assessment"
-				      [students]="students">
-		    </assessment-table>
-		</template>
-	    </ngb-tab>
-	</ngb-tabset>
-    </div>
-    -->

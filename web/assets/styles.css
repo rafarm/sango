@@ -1,8 +1,3 @@
-/*
-body {
-	padding-top: 94px;
-}
-*/
 .bg-primary {
     background-color: #4e8cec !important;
 }
@@ -41,7 +36,6 @@ body {
     display: inline-block;
     padding-left: 1em;
     padding-right: 1em;
-    /*color: white;*/
     vertical-align: middle;
     background-color: white;
 }
@@ -58,14 +52,6 @@ body {
     color: gray;
     cursor: default;
 }
-
-/*
-.hz-divider-nav > li > a {
-    padding-top: 4px;
-    padding-bottom: 4px;
-    font-size: 100%;
-}
-*/
 
 /*
  * Charts styles
@@ -85,23 +71,3 @@ body {
 .chart_500 {
 	height: 500px;
 }
-
-/*
- * Subtop navigation bar
- */
-/*
-.fixed-top-sub .nav {
-    margin-top: -40px;
-}
-
-.fixed-top-sub .nav-tabs {
-        margin-left: -15px;
-        margin-right: -15px;
-        padding-left: 15px;
-        padding-right: 15px;
-}
-
-.fixed-top-sub .nav-item {
-    float: right;
-}
-*/

@@ -27,7 +27,6 @@ export class AssessmentsDividerBaseComponent implements OnInit {
             .switchMap((params: Params) => {
 		const year = params['year'];
                 const course_id = params['course_id'];
-		//this.selectedAssessmentId = params['assessment_id'];
 		
 		let observable = Observable.empty();
 		if (year != undefined && course_id != undefined) {
@@ -37,16 +36,6 @@ export class AssessmentsDividerBaseComponent implements OnInit {
 		return observable;
 	    })
 	    .map((course: Course) => {
-		/*
-		let assessments = course.assessments;
-
-		if (assessments.length > 0 && this.route.children.length == 0) {
-		    this.router.navigate(
-			[assessments[0]._id],
-			{ relativeTo: this.route }
-		    );
-		}
-		*/
 		return course.assessments;
 	    });
     }

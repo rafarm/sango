@@ -3,11 +3,16 @@
     margin-bottom: 0;
     background-color: transparent;
     border-radius: 0;
+    display: flex;
+    flex-wrap: nowrap;
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
+    /*
     color: #fff;
     content: ">";
+    */
+    display: none;
 }
 
 .breadcrumb .custom-select {

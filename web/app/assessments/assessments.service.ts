@@ -134,11 +134,11 @@ export class AssessmentsService {
     /*
      * getGroup
      *
-     * Returns group identified by 'id' with its students and subjects<!-- for 'year'-->.
+     * Returns group identified by 'id' with its students and subjects.
      * Last result is cached for later use.
      */
-    getGroup(id: string/*, year: string*/): Observable<Group> {
-        if (this.cachedGroup != null && this.cachedGroup._id === id/* && this.cachedGroup.year === year*/) {
+    getGroup(id: string): Observable<Group> {
+        if (this.cachedGroup != null && this.cachedGroup._id === id) {
             return Observable.of(this.cachedGroup);
         }
 

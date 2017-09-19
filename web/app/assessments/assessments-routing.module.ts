@@ -46,11 +46,6 @@ const assessmentsRoutes: Routes = [
 		    }
 		]
             }
-	    /*{
-		path: ':course_id',
-		redirectTo: ':course_id/grades',
-		pathMatch: 'prefix'
-	    }*/
 	]
     }
 ];

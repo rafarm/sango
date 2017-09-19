@@ -12,10 +12,6 @@ import { AssessmentsModule }		from './assessments/assessments.module';
 
 import { PageNotFoundComponent }	from './not-found.component';
 
-// TO BE REMOVED--->
-//import { DataService } 			from './data.service';
-//--->
-
 @NgModule({
     imports: [
 	BrowserModule,
@@ -30,11 +26,6 @@ import { PageNotFoundComponent }	from './not-found.component';
     declarations: [ 
 	AppComponent,
 	PageNotFoundComponent,
-    ],
-    providers: [
-	// TO BE REMOVED--->
-	//DataService
-	//--->
     ],
     bootstrap: [ AppComponent ]
 })
