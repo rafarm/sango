@@ -3,7 +3,6 @@ import { Component,
 	 OnChanges,
 	 SimpleChanges }    	from '@angular/core';
 
-//import { GoogleChartDirective }	from '../../utils/google-chart.directive';
 import { Subject }		from '../../model/subject';
 import { Stats }		from '../../model/stats';
 

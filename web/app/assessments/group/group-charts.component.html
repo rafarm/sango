@@ -1,17 +1,20 @@
-<!--<div *ngIf="course && assessmentOrder>=0 && students && studentStats && subjectStats && levelStats">-->
-<div class="row">
-	<div class="col-md">
+<div class="row bg-white">
+    <div id="sizable-height" class="col scrollable-y">
+	<div class="row">
+	    <div class="col-md">
 		<failedChart [studentStats]="studentStats"></failedChart>
-	</div>
-	<div class="col-md">
+	    </div>
+	    <div class="col-md">
 		<passedChart [students]="students" [studentStats]="studentStats"></passedChart>
+	    </div>
 	</div>
-</div>
-<div class="row">
-	<div class="col-md">
+	<div class="row">
+	    <div class="col-md">
 		<averagesChart [subjects]="subjects" [subjectStats]="subjectStats" [levelStats]="levelStats"></averagesChart>
-	</div>
-	<div class="col-md">
+	    </div>
+	    <div class="col-md">
 		<ratiosChart [subjects]="subjects" [subjectStats]="subjectStats" [levelStats]="levelStats"></ratiosChart>
+	    </div>
 	</div>
+    </div>
 </div>

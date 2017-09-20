@@ -3,8 +3,6 @@ import { Component,
 	 OnChanges,
 	 SimpleChanges }    	from '@angular/core';
 
-//import { GoogleChartDirective }	from '../../utils/google-chart.directive';
-
 @Component({
     moduleId: module.id,
     selector: 'failedChart',

@@ -4,7 +4,6 @@ import { RouterModule, Routes }		from '@angular/router';
 import { GroupComponent }		from './group.component';
 import { GroupChartsComponent }		from './group-charts.component';
 
-//import { CanDeactivateGuard }		from '../../can-deactivate-guard.service';
 
 const groupRoutes: Routes = [
     {

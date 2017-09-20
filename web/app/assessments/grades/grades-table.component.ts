@@ -1,8 +1,4 @@
-import { Component,
-	 OnInit,
-	 OnDestroy,
-	 HostListener,
-	 AfterViewChecked }			from '@angular/core';
+import { Component, OnInit, OnDestroy}		from '@angular/core';
 import { Router, ActivatedRoute, Params }       from '@angular/router';
 import { Observable }                    	from 'rxjs/Observable';
 import { Subscription }                      	from 'rxjs/Subscription';
@@ -11,6 +7,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/concatMap';
 
 import { AssessmentsService } 			from '../assessments.service';
+import { AssessmentsSizableHeightComponent } 	from '../assessments-sizable-height.component';
 import { CanComponentDeactivate }		from '../../can-deactivate-guard.service';
 import { DialogService }			from '../../core/dialog.service';
 import { Group } 				from '../../model/group';
@@ -24,10 +21,10 @@ import { Grades } 				from '../../model/grades';
     templateUrl: './grades-table.component.html',
     styleUrls: ['./grades-table.component.css']
 })
-export class GradesTableComponent implements OnInit,
+export class GradesTableComponent extends AssessmentsSizableHeightComponent 
+				  implements OnInit,
 					     OnDestroy,
-					     CanComponentDeactivate,
-					     AfterViewChecked {
+					     CanComponentDeactivate {
     year: string;
     assessment_id: string;
     group_id: string;
@@ -55,7 +52,9 @@ export class GradesTableComponent implements OnInit,
 	private dialogService: DialogService,
         private route: ActivatedRoute,
         private router: Router
-    ) {}
+    ) {
+	super(38);
+    }
 
     ngOnInit() {
 	this.year = this.route.parent.parent.parent.snapshot.params['year'];
@@ -84,10 +83,6 @@ export class GradesTableComponent implements OnInit,
 
     ngOnDestroy() {
 	this.gradesSubscription.unsubscribe();
-    }
-
-    ngAfterViewChecked() {
-	this.resizeTableBody();
     }
 
     canDeactivate(): Promise<boolean> | boolean {
@@ -151,20 +146,6 @@ export class GradesTableComponent implements OnInit,
 	classes['bg-adapted'] = grade.adapted;
 
 	return classes;
-    }
-
-    @HostListener('window:resize', ['$event'])
-    onResize(event: any) {
-	this.resizeTableBody();
-    }
-
-    private resizeTableBody() {
-	let newHeight = Math.max(200, document.defaultView.innerHeight - 300);
-	let tb = document.getElementById('grades-table-body');
-
-	if (tb != undefined) {
-	    tb.style.height= newHeight+'px';
-	}
     }
 }
 
