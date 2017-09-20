@@ -1,7 +1,7 @@
 <!--<div *ngIf="assessment && group && grades" class="container-fluid">-->
 <div *ngIf="grades">
-    <div class="row justify-content-center bg-white">
-	<div class="col-11">
+    <div class="row bg-white first-row">
+	<div class="col">
 	    <table class="table table-sm table-hover table-responsive table-bordered">
 		<thead class="thead-default">
 		    <tr>
@@ -22,11 +22,11 @@
 	    </table>
 	</div>
     </div>
-    <div class="row justify-content-center bg-white">
-	<div class="col-6">
+    <div class="row bg-white">
+	<div class="col">
 	    <small class="bg-adapted"><em>&emsp;With adaptation</em></small>
 	</div>
-	<div class="col-5">
+	<div class="col">
 	    <div class="float-right">
 		<button type="button" class="btn btn-default" (click)="cancel()" [disabled]="saving || !edited">Cancel</button>
 		<button type="button" class="btn" (click)="save()" [disabled]="saving || !edited">Save</button>
