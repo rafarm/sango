@@ -23,7 +23,7 @@
 }
 
 .btn-link.active {
-    background: url("data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 4'><path fill='%23dddddd' d='M1 3L0 4h2z'/></svg>") no-repeat center 1px;
+    background: url("data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 4'><path fill='%23e9ecef' d='M1 3L0 4h2z'/></svg>") no-repeat center 1px;
 }
 
 .sub-select {

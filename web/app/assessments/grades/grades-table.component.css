@@ -1,4 +1,17 @@
 /*
+ * Main content
+ */
+/*
+.main {
+	padding: 20px;
+}
+*/
+
+.first-row {
+    padding-top: 1em;
+}
+
+/*
  * Qualifications table
  */
 .table-sm tr {
