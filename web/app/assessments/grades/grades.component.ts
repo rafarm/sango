@@ -4,7 +4,6 @@ import {AssessmentsDividerBaseComponent }	from '../assessments-divider-base.comp
 
 @Component({
     moduleId: module.id,
-    //templateUrl: './grades.component.html',
     template: `
 	<nav-divider [items]="assessments"></nav-divider>
 	<router-outlet></router-outlet>

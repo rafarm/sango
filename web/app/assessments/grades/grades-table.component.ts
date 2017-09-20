@@ -1,17 +1,18 @@
-import { Component, OnInit, OnDestroy } 	from '@angular/core';
+import { Component,
+	 OnInit,
+	 OnDestroy,
+	 HostListener,
+	 AfterViewChecked }			from '@angular/core';
 import { Router, ActivatedRoute, Params }       from '@angular/router';
-import { Observable }                           from 'rxjs/Observable';
-import { Subscription }                         from 'rxjs/Subscription';
+import { Observable }                    	from 'rxjs/Observable';
+import { Subscription }                      	from 'rxjs/Subscription';
 
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/concatMap';
 
-//import { DataService } from './data.service';
-//import { GradesService } 			from './grades.service';
 import { AssessmentsService } 			from '../assessments.service';
 import { CanComponentDeactivate }		from '../../can-deactivate-guard.service';
 import { DialogService }			from '../../core/dialog.service';
-//import { Assessment } from '../../model/assessment';
 import { Group } 				from '../../model/group';
 import { Student } 				from '../../model/student';
 import { Subject } 				from '../../model/subject';
@@ -23,15 +24,14 @@ import { Grades } 				from '../../model/grades';
     templateUrl: './grades-table.component.html',
     styleUrls: ['./grades-table.component.css']
 })
-export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeactivate {
+export class GradesTableComponent implements OnInit,
+					     OnDestroy,
+					     CanComponentDeactivate,
+					     AfterViewChecked {
     year: string;
-    //@Input()
     assessment_id: string;
-    //@Input()
     group_id: string;
-    //@Input()
     subjects: Subject[];
-    //@Input()
     students: Student[];
     
     private _grades: Grades;
@@ -50,13 +50,7 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
 
     private gradesSubscription: Subscription;
 
-    /*
-    @Output()
-    onSaveAssessment: EventEmitter<boolean> = new EventEmitter<boolean>();
-    */
-
     constructor(
-	//private gradesService: GradesService,
 	private assessmentsService: AssessmentsService,
 	private dialogService: DialogService,
         private route: ActivatedRoute,
@@ -68,18 +62,13 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
 	this.group_id = this.route.parent.parent.parent.snapshot.params['group_id'];
 	this.gradesSubscription = this.route.params
 	    .switchMap((params: Params) => {
-		//const year = params['year'];
-		//this.group_id = params['group_id'];
 		this.assessment_id = params['assessment_id'];
-
-		//console.log("GradesTable - params: (" + this.year + ", " + this.group_id + ", " + this.assessment_id + ")");
 
 		this.edited = false;
 		this.saving = false;
 		this.grades = null;
 		
 		if (this.year != undefined && this.group_id != undefined && this.assessment_id != undefined) {
-		    //return this.gradesService.getGroup(this.group_id, this.year);
 		    return this.assessmentsService.getGroup(this.group_id);
 		}
 
@@ -89,13 +78,16 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
 		this.subjects = group.subjects;
 		this.students = group.students;
 
-		//return this.getGrades();
 		return this.assessmentsService.getGrades(this.assessment_id, this.group_id);
 	    }).subscribe((grades: Grades) => this.grades = grades);	
     }
 
     ngOnDestroy() {
 	this.gradesSubscription.unsubscribe();
+    }
+
+    ngAfterViewChecked() {
+	this.resizeTableBody();
     }
 
     canDeactivate(): Promise<boolean> | boolean {
@@ -106,73 +98,18 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
 	return this.dialogService.confirm('Discard changes?');
     }
 
-    /*
-    private getGrades(): Observable<Grades> {
-	return this.gradesService.getQualifications(this.assessment_id, this.group_id)
-	    .concatMap(res => {
-		let grades = this.generateGrades();
-		if (res.grades != undefined) {
-		    res.grades.forEach((st: any) => {
-			st.qualifications.forEach((q: any) => {
-			    let gs = grades.students[st.student_id].grades;
-			    gs[q.subject_id].value = q.qualification;
-			});
-		    });
-		}
-		//this.grades = grades;
-		this.edited = false;
-		this.saving = false;
-
-		return Observable.of(grades);
-	    });
-    }
-
-    private generateGrades(): Grades {
-	let grades = new Grades();
-	grades.assessment_id = this.assessment_id;
-	grades.students = {};
-	
-	this.students.forEach(student => {
-	    let marks = {};
-	    this.subjects.forEach(subject => {
-		marks[subject._id] = new Grade();
-	    });
-	    
-	    student.subjects.forEach(subject => {
-		let mark = marks[subject.subject_id];
-		mark.adapted = subject.adapted;
-		mark.enroled = true;
-	    });
-
-	    let qualifications = {};
-	    qualifications['grades'] = marks;
-
-	    grades.students[student._id] = qualifications;
-	});
-
-	return grades;
-    }
-    */
-
     save() {
         this.saving = true;
-	/*this.gradesService.updateQualifications(this.grades)
-	    .concatMap(result => {
-		return this.getGrades();
-	    })*/
 	this.assessmentsService.updateQualifications(this.grades)
 	    .concatMap(result => {
 		return this.assessmentsService.getGrades(this.assessment_id, this.group_id);
 	    })
 	    .subscribe((grades: Grades) => this.grades = grades);
-	//this.onSaveAssessment.emit(true);
     }
 
     cancel() {
         this.saving = true;
-	//this.getGrades().subscribe((grades: Grades) => this.grades = grades);
 	this.assessmentsService.getGrades(this.assessment_id, this.group_id).subscribe((grades: Grades) => this.grades = grades);
-	//this.onSaveAssessment.emit(false);
     }
 
     trackByIndex(index: number, obj: any): any {
@@ -215,23 +152,19 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
 
 	return classes;
     }
-    /*
-    isGradeDanger(grade: Grade): boolean {
-	return (grade.enroled && grade.value != null && grade.value  < 5);	
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event: any) {
+	this.resizeTableBody();
     }
 
-    isGradeMissing(grade: Grade): boolean {
-	return grade.value == null;
-    }
-    */
-    /*
-    cellBackgroundColor(grade: Grade): String {
-    	if (grade.enroled == false) {
-	    return 'WhiteSmoke';
+    private resizeTableBody() {
+	let newHeight = Math.max(200, document.defaultView.innerHeight - 300);
+	let tb = document.getElementById('grades-table-body');
+
+	if (tb != undefined) {
+	    tb.style.height= newHeight+'px';
 	}
-		
-	return grade.grade < 5 ? 'Tomato': 'transparent';
     }
-    */
 }
 

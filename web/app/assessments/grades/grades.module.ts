@@ -2,7 +2,6 @@ import { NgModule } 			from '@angular/core';
 import { FormsModule }                  from '@angular/forms';
 
 import { UtilsModule }			from '../../utils/utils.module';
-//import { CoreModule }			from '../../core/core.module';
 
 import { GradesRoutingModule }		from './grades-routing.module';
 
