@@ -17,7 +17,6 @@
     overflow: hidden;
 }
 
-/*
 thead {
     display: block;
 }
@@ -28,7 +27,6 @@ tbody {
     overflow-y: auto;
     overflow-x: hidden;
 }
-*/
 
 .not-enroled {
     background: repeating-linear-gradient( 45deg, #fff, #fff 2px, #eee 2px, #eee 4px);
