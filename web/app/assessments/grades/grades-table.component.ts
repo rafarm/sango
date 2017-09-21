@@ -7,7 +7,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/concatMap';
 
 import { AssessmentsService } 			from '../assessments.service';
-import { AssessmentsSizableHeightComponent } 	from '../assessments-sizable-height.component';
+import { ResizableHeightComponent } 		from '../../utils/resizable-height.component';
 import { CanComponentDeactivate }		from '../../can-deactivate-guard.service';
 import { DialogService }			from '../../core/dialog.service';
 import { Group } 				from '../../model/group';
@@ -21,7 +21,7 @@ import { Grades } 				from '../../model/grades';
     templateUrl: './grades-table.component.html',
     styleUrls: ['./grades-table.component.css']
 })
-export class GradesTableComponent extends AssessmentsSizableHeightComponent 
+export class GradesTableComponent extends ResizableHeightComponent 
 				  implements OnInit,
 					     OnDestroy,
 					     CanComponentDeactivate {
@@ -53,7 +53,7 @@ export class GradesTableComponent extends AssessmentsSizableHeightComponent
         private route: ActivatedRoute,
         private router: Router
     ) {
-	super(38);
+	super();
     }
 
     ngOnInit() {

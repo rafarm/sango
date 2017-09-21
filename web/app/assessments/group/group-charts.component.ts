@@ -4,7 +4,7 @@ import { Observable }                           from 'rxjs/Observable';
 import { Subscription }                         from 'rxjs/Subscription';
 
 import { AssessmentsService }			from '../assessments.service';
-import { AssessmentsSizableHeightComponent }	from '../assessments-sizable-height.component';
+import { ResizableHeightComponent }		from '../../utils/resizable-height.component';
 
 import { Group }                        	from '../../model/group';
     
@@ -13,7 +13,7 @@ import { Group }                        	from '../../model/group';
     templateUrl: './group-charts.component.html',
     styleUrls: ['./group-charts.component.css']
 })
-export class GroupChartsComponent extends AssessmentsSizableHeightComponent
+export class GroupChartsComponent extends ResizableHeightComponent
 				  implements OnInit, OnDestroy {
     year: string;
     group_id: string;
