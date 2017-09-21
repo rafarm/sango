@@ -4,6 +4,7 @@ import { RouterModule } 		from '@angular/router';
 
 import { BreadcrumbSelectorComponent } 	from './breadcrumb-selector.component';
 import { NavDividerComponent }		from './nav-divider.component';
+import { SizableHeightComponent }	from './sizable-height.component';
 import { CollapseDirective }		from './collapse.directive';
 import { GoogleChartDirective }		from './google-chart.directive';
 
@@ -15,12 +16,14 @@ import { GoogleChartDirective }		from './google-chart.directive';
     declarations: [
 	BreadcrumbSelectorComponent,
 	NavDividerComponent,
+	SizableHeightComponent,
 	CollapseDirective,
 	GoogleChartDirective
     ],
     exports: [
 	CommonModule,
 	BreadcrumbSelectorComponent,
+	SizableHeightComponent,
 	NavDividerComponent,
 	CollapseDirective,
 	GoogleChartDirective

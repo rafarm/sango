@@ -6,12 +6,7 @@ import { Component,
     moduleId: module.id,
     template: ``
 })
-export class AssessmentsSizableHeightComponent implements AfterViewChecked {
-    private offset: number;
-
-    constructor(_offset: number = 0) {
-	this.offset = _offset;
-    }
+export class SizableHeightComponent implements AfterViewChecked {
 
     ngAfterViewChecked() {
         this.resizeSizableElement();
@@ -23,12 +18,16 @@ export class AssessmentsSizableHeightComponent implements AfterViewChecked {
     }
 
     private resizeSizableElement() {
-        let newHeight = Math.max(200, document.defaultView.innerHeight - (200 + this.offset));
-        let tb = document.getElementById('sizable-height');
+	let measurable = document.getElementsByClassName('measurable');
+	let sizable = document.getElementById('sizable');
 
-        if (tb != undefined) {
-            tb.style.height= newHeight+'px';
+	if (sizable != undefined) {
+	    let newHeight = 0;
+	    for (var i=0; i<measurable.length; i++) {
+		newHeight += measurable[i].style.height;
+	    }
+
+	    sizable.style.height = Math.max(200, newHeight) + 'px';
         }
     }
-
 }

@@ -62,7 +62,7 @@
     cursor: default;
 }
 
-.fixed-bottom p {
+footer {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
 }
