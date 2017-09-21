@@ -20,14 +20,16 @@ export class ResizableHeightComponent implements AfterViewChecked {
     private resizeElement() {
 	let measurables = document.getElementsByClassName('measurable');
 	let resizable = document.getElementById('resizable');
-
+	
 	if (resizable != undefined) {
-	    let newHeight = 0;
+	    let mHeight: number = 0;
 	    for (var i=0; i<measurables.length; i++) {
-		newHeight += measurables.item(i)['style'].height;
+		let el = <HTMLElement>measurables.item(i);
+		mHeight += el.offsetHeight*1;
 	    }
+	    let newHeight = window.innerHeight - mHeight;
 
-	    resizable.style.height = Math.max(200, newHeight) + 'px';
+	    resizable.style.height = Math.max(400, newHeight) + 'px';
         }
     }
 }
