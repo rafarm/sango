@@ -3,7 +3,6 @@ import { Component,
 	 OnChanges,
 	 SimpleChanges }    	from '@angular/core';
 
-//import { Subject }		from '../../model/subject';
 import { Stats }		from '../../model/stats';
 
 @Component({

@@ -6,9 +6,6 @@ import { Subscription }                         from 'rxjs/Subscription';
 import { AssessmentsService }			from '../assessments.service';
 
 import { Group }                        	from '../../model/group';
-//import { Course } from '../../model/course';
-//import { Student } from './model/student';
-//import { AssessmentStats } from './model/assessment-stats';
     
 @Component({
     moduleId: module.id,
@@ -21,8 +18,6 @@ export class StudentsListComponent implements OnInit, OnDestroy {
     students: any;
     subjects: any;
     studentStats: any;
-    //subjectStats: any;
-    //levelStats: any;
 
     private statsSubscription: Subscription;
 
@@ -48,12 +43,6 @@ export class StudentsListComponent implements OnInit, OnDestroy {
 
 	    // Get students' stats...
 	    this.assessmentsService.getStudentStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.studentStats = stats.stats);
-	    
-	    // Get subjects' stats...
-	    //this.assessmentsService.getSubjectStats(this.assessment_id, this.group_id).subscribe((stats: any) => this.subjectStats = stats);
-	    
-	    // Get subjects' level stats...
-	    //this.assessmentsService.getSubjectStats(this.assessment_id).subscribe((stats: any) => this.levelStats = stats);
 	});
     }
 

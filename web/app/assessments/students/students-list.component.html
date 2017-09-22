@@ -1,13 +1,7 @@
 <div class="row">
-    <!--<div class="col-sm-5 col-md-5 col-lg-4 sidebar">
-	<ul class="nav nav-sidebar students">-->
     <div class="col-4">
-	<ul>
+	<ul class="resizable scroll-y">
 	    <li *ngFor="let st of students" class="row">
-	    <!--<li *ngFor="let st of students; let i=index" [class.selected]="student.student_id === selectedStudentId" (click)="onSelect(student.student_id, i)" class="row">
-		<span *ngIf="isWarning(student.student_id)" class="badge warning col-md-1">!</span>
-		<span *ngIf="isDanger(student.student_id)" class="badge danger col-md-1">!</span>
-		<span [class]="isWarning(student.student_id) || isDanger(student.student_id) ? 'col-md-10' : 'offset-md-1 col-md-10'">{{students[student.student_id].last_name + ', ' + students[student.student_id].first_name}}</span>-->
 		<div class="col-10"><span routerLink="{{st._id}}" routerLinkActive="active">{{st.last_name + ', ' + st.first_name}}</span></div>
 		<div class="col-1"><span *ngIf="st.repeats" class="badge badge-pill badge-info">R</span></div>
 		<div *ngIf="studentStats" class="col-1"><span *ngIf="hasFailed(st._id)" [ngClass]="badgeClasses(st._id)">{{studentStats[st._id].failed}}</span></div>
@@ -17,18 +11,5 @@
     <div class="col-8">
         <router-outlet></router-outlet>
     </div>
-    <!--
-    <div *ngIf="selectedStudentId" class="col-sm-7 offset-sm-5 col-md-7 offset-md-5 col-lg-8 offset-lg-4 main">
-	<student-detail [course]="course"
-			[assessment]="assessment"
-			[assessmentOrder]="assessmentOrder"
-			[prevAssessment]="prevAssessment"
-			[studentIndex]="selectedStudentIndex"
-			[student]="students[selectedStudentId]" 
-			[studentStats]="studentStats" 
-			[subjectStats]="subjectStats"> 
-	</student-detail>
-    </div>
-    -->
 </div>
 
