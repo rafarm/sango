@@ -4,17 +4,14 @@ import { Observable }                           from 'rxjs/Observable';
 import { Subscription }                         from 'rxjs/Subscription';
 
 import { AssessmentsService }			from '../assessments.service';
-import { ResizableHeightComponent }		from '../../utils/resizable-height.component';
 
 import { Group }                        	from '../../model/group';
     
 @Component({
     moduleId: module.id,
-    templateUrl: './group-charts.component.html',
-    styleUrls: ['./group-charts.component.css']
+    templateUrl: './group-charts.component.html'
 })
-export class GroupChartsComponent extends ResizableHeightComponent
-				  implements OnInit, OnDestroy {
+export class GroupChartsComponent implements OnInit, OnDestroy {
     year: string;
     group_id: string;
     assessment_id: string;
@@ -30,9 +27,7 @@ export class GroupChartsComponent extends ResizableHeightComponent
 	private assessmentsService: AssessmentsService,
 	private route: ActivatedRoute,
 	private router: Router
-    ) {
-	super();
-    }
+    ) {}
 
     ngOnInit() {
 	this.year = this.route.parent.parent.parent.snapshot.params['year'];

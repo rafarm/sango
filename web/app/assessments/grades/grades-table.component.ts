@@ -7,7 +7,6 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/concatMap';
 
 import { AssessmentsService } 			from '../assessments.service';
-import { ResizableHeightComponent } 		from '../../utils/resizable-height.component';
 import { CanComponentDeactivate }		from '../../can-deactivate-guard.service';
 import { DialogService }			from '../../core/dialog.service';
 import { Group } 				from '../../model/group';
@@ -21,10 +20,7 @@ import { Grades } 				from '../../model/grades';
     templateUrl: './grades-table.component.html',
     styleUrls: ['./grades-table.component.css']
 })
-export class GradesTableComponent extends ResizableHeightComponent 
-				  implements OnInit,
-					     OnDestroy,
-					     CanComponentDeactivate {
+export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeactivate {
     year: string;
     assessment_id: string;
     group_id: string;
@@ -52,9 +48,7 @@ export class GradesTableComponent extends ResizableHeightComponent
 	private dialogService: DialogService,
         private route: ActivatedRoute,
         private router: Router
-    ) {
-	super();
-    }
+    ) {}
 
     ngOnInit() {
 	this.year = this.route.parent.parent.parent.snapshot.params['year'];

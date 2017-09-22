@@ -1,9 +1,5 @@
-.first-row {
+.measurable {
     padding-top: 1em;
-}
-
-.last-row {
-    padding-bottom: 1em;
 }
 
 /*
@@ -31,9 +27,11 @@ thead {
 
 tbody {
     display: inline-block;
-    /*height: 500px;*/
-    overflow-y: auto;
     overflow-x: hidden;
+}
+
+table {
+    margin-bottom: 0px;
 }
 
 .not-enroled {

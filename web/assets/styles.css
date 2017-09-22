@@ -72,6 +72,18 @@ footer {
     margin-bottom: 0.5em;
 }
 
+.first-row {
+    padding-top: 1em;
+}
+
+.last-row {
+    padding-bottom: 1em;
+}
+
+.scroll-y {
+    overflow-y: auto;
+}
+
 /*
  * Charts styles
  */

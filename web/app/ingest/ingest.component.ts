@@ -1,7 +1,6 @@
 import { AfterViewInit, Component } 	from '@angular/core';
 
 import { IngestService } 		from './ingest.service';
-import { ResizableHeightComponent }	from '../utils/resizable-height.component';
 
 @Component({
     moduleId: module.id,
@@ -9,7 +8,7 @@ import { ResizableHeightComponent }	from '../utils/resizable-height.component';
     styleUrls: ['./ingest.component.css'],
     providers: [ IngestService ]
 })
-export class IngestComponent extends ResizableHeightComponent implements AfterViewInit {
+export class IngestComponent implements AfterViewInit {
     IngestState = {
 	NONE    : 'none',
 	SELECT  : 'select',
@@ -27,9 +26,7 @@ export class IngestComponent extends ResizableHeightComponent implements AfterVi
     private alert_title: string;
     private alert_msg: string;
 
-    constructor(private ingestService: IngestService) {
-	super();
-    }
+    constructor(private ingestService: IngestService) {}
 
     ngAfterViewInit() {
 	this.progress_bar = document.querySelector(".progress-bar");
