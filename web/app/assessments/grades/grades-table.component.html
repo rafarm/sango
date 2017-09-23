@@ -2,13 +2,13 @@
     <div class="row bg-white">
 	<div class="col">
 	    <table class="table table-sm table-hover table-responsive table-bordered">
-		<thead class="thead-default measurable">
+		<thead class="thead-default">
 		    <tr>
 			<th><div class="student">Student</div></th>
 			<th *ngFor="let s of subjects"><div class="subject">{{s._id.slice(0,4)}}</div></th>
 		    </tr>
 		</thead>
-		<tbody class='scroll-y resizable'>
+		<tbody class='scroll-y stretchable'>
 		    <tr *ngFor="let st of students">
 			<td><div class="student">{{st.last_name + ', ' + st.first_name}}</div></td>
 			<td *ngFor="let sub of subjects" [ngClass]="cellClasses(grades.students[st._id].grades[sub._id])">
@@ -21,7 +21,7 @@
 	    </table>
 	</div>
     </div>
-    <div class="row bg-white last-row measurable">
+    <div class="row bg-white last-row">
 	<div class="col">
 	    <small class="bg-adapted"><em>&emsp;With adaptation</em></small>
 	</div>

@@ -1,13 +1,16 @@
-import { Component } 			from '@angular/core';
+import { Component,
+	 ElementRef,
+	 AfterContentChecked,
+	 HostListener }		from '@angular/core';
 
-import {ResizableHeightComponent }	from './utils/resizable-height.component';
+import {StretchableComponent }	from './utils/stretchable.component';
 
 @Component({
     moduleId: module.id,
     selector: 'aa-app',
     templateUrl: './app.component.html'
 })
-export class AppComponent extends ResizableHeightComponent {
+export class AppComponent extends StretchableComponent {
     constructor() {
 	super();
     }

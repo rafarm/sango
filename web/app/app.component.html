@@ -1,25 +1,27 @@
-<nav class="navbar navbar-expand-sm navbar-light fixed-top bg-light measurable">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topToggleableNavbar" aria-controls="topToggleableNavbar" aria-expanded="false" aria-label="Toggle top navigation bar">
-	<span class="navbar-toggler-icon"></span>
-    </button>
-    <span class="navbar-brand">
-        <img src="/assets/sango_logo.svg" width="30" height="30" class="d-inline-block align-top" alt="Sango">
+<div id="content">
+    <nav class="navbar navbar-expand-sm navbar-light bg-light fixed-top">
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topToggleableNavbar" aria-controls="topToggleableNavbar" aria-expanded="false" aria-label="Toggle top navigation bar">
+	    <span class="navbar-toggler-icon"></span>
+	</button>
+	<span class="navbar-brand">
+	    <img src="/assets/sango_logo.svg" width="30" height="30" class="d-inline-block align-top" alt="Sango">
         Sango
-    </span>
-    <div sgCollapse class="collapse navbar-collapse" id="topToggleableNavbar">
-	<nav class="navbar-nav">
-	    <!--<a class="nav-item nav-link" routerLink="dashboard" routerLinkActive="active">Dashboard</a>-->
-	    <a class="nav-item nav-link" routerLink="assessments" routerLinkActive="active">Assessments</a>
-	    <!--<a class="nav-item nav-link" routerLink="viewer" routerLinkActive="active">Viewer</a>-->
-	    <a class="nav-item nav-link" routerLink="ingest" routerLinkActive="active">Ingest</a>
-	</nav>
-    </div>
-</nav>
-<router-outlet></router-outlet>
-<div class="container-fluid bg-light fixed-bottom measurable">
-    <div class="row">
-	<div class="col">
+	</span>
+	<div sgCollapse class="collapse navbar-collapse" id="topToggleableNavbar">
+	    <nav class="navbar-nav">
+		<!--<a class="nav-item nav-link" routerLink="dashboard" routerLinkActive="active">Dashboard</a>-->
+		<a class="nav-item nav-link" routerLink="assessments" routerLinkActive="active">Assessments</a>
+		<!--<a class="nav-item nav-link" routerLink="viewer" routerLinkActive="active">Viewer</a>-->
+		<a class="nav-item nav-link" routerLink="ingest" routerLinkActive="active">Ingest</a>
+	    </nav>
+	</div>
+    </nav>
+    <router-outlet></router-outlet>
+    <div class="container-fluid bg-light fixed-bottom">
+	<div class="row">
+	    <div class="col">
 		<footer class="text-center"><small class="text-muted">2017 Developed by Rafa Rubio</small></footer>
+	    </div>
 	</div>
     </div>
 </div>
