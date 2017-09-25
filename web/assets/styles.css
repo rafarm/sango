@@ -85,7 +85,7 @@ footer {
     padding-bottom: 1em;
 }
 
-.scroll-y {
+.stretchable {
     overflow-y: auto;
 }
 

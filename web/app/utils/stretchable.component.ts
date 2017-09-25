@@ -20,13 +20,22 @@ export class StretchableComponent implements AfterContentChecked {
         this.stretchElements();
     }
 
-    stretchElements() {
-        let wHeight = window.innerHeight;
-        let cHeight = document.getElementById('content').offsetHeight;
+    private stretchElements() {
+	let debug = {}
+        let wH = window.innerHeight;
+        let cH = document.getElementById('content').offsetHeight;
+	debug['window'] = wH;
+	debug['content'] = cH;
 
         for (var i=0; i<this.stretchables.length; i++) {
                 let el = <HTMLElement>this.stretchables.item(i);
-                el.style.height = (el.offsetHeight + (wHeight - cHeight)) + 'px';
+		debug['element'] = el.offsetHeight
+		let top = el.getBoundingClientRect().top;
+		//let newH = el.offsetHeight + wH - cH;
+		let newH = wH - top;
+		debug['newHeight'] = newH;
+                el.style.height = newH + 'px';
+		console.log(debug);
         }
     }
 }
