@@ -1,24 +1,26 @@
-<div *ngIf="student && studentStats" class="container-fluid">
-    <!--<div class="col">
-	<img src="images/student.png">
-    </div>-->
-    <div class="row">
-	<div class="col">
-	    <h2>{{student.last_name + ', ' + student.first_name | uppercase}}</h2>
-	    <h5>Average: {{studentStats[studentStats.length - 1].stats.avg | number}}</h5>
-	</div>
-	<div class="col">
-	    <failedChart [stats]="studentStats"></failedChart>
-	</div>
-    </div>
-    <div class="row">
-	<div class="col">
-	    <gradesChart [grades]="studentGrades" [subjects]="student.subjects" [subjectStats]="subjectStats"></gradesChart>
-	</div>
-    </div>
-    <div class="row">
-	<div class="col">
-	    <deltasChart [grades]="studentGrades" [prev_grades]="studentPrevGrades" [subjects]="student.subjects"></deltasChart>
-	</div>
+<div class="bg-white">
+    <div *ngIf="student && studentStats" class="container-fluid">
+        <!--<div class="col">
+	    <img src="images/student.png">
+        </div>-->
+        <div class="row">
+	    <div class="col">
+	        <h2>{{student.last_name + ', ' + student.first_name | uppercase}}</h2>
+	        <h5>Average: {{studentStats[studentStats.length - 1].stats.avg | number}}</h5>
+	    </div>
+	    <div class="col">
+	        <failedChart [stats]="studentStats"></failedChart>
+	    </div>
+        </div>
+        <div class="row">
+	    <div class="col">
+	        <gradesChart [grades]="studentGrades" [subjects]="student.subjects" [subjectStats]="subjectStats"></gradesChart>
+	    </div>
+        </div>
+        <div class="row">
+	    <div class="col">
+	        <deltasChart [grades]="studentGrades" [prev_grades]="studentPrevGrades" [subjects]="student.subjects"></deltasChart>
+	    </div>
+        </div>
     </div>
 </div>

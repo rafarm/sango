@@ -31,8 +31,9 @@ export class StretchableComponent implements AfterContentChecked {
                 let el = <HTMLElement>this.stretchables.item(i);
 		debug['element'] = el.offsetHeight
 		let top = el.getBoundingClientRect().top;
-		//let newH = el.offsetHeight + wH - cH;
-		let newH = wH - top;
+		debug['top'] = top;
+		let newH = el.offsetHeight + wH - cH;
+		//let newH = wH - top;
 		debug['newHeight'] = newH;
                 el.style.height = newH + 'px';
 		console.log(debug);
