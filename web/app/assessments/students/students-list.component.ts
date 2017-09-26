@@ -9,7 +9,8 @@ import { Group }                        	from '../../model/group';
     
 @Component({
     moduleId: module.id,
-    templateUrl: './students-list.component.html'
+    templateUrl: './students-list.component.html',
+    styleUrls: ['./students-list.component.css']
 })
 export class StudentsListComponent implements OnInit, OnDestroy {
     year: string;

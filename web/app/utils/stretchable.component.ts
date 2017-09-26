@@ -17,26 +17,37 @@ export class StretchableComponent implements AfterContentChecked {
 
 @HostListener('window:resize', ['$event'])
     onResize(event: any) {
-        this.stretchElements();
+        this.stretchElements(true);
     }
 
-    private stretchElements() {
-	let debug = {}
+    private stretchElements(resizing: boolean = false) {
+	let cElement = document.getElementById('content');
         let wH = window.innerHeight;
-        let cH = document.getElementById('content').offsetHeight;
+	let origCH = cElement.offsetHeight;
+	if (wH == origCH) {
+	    return;
+	}
+	
+	let debug = {}
 	debug['window'] = wH;
-	debug['content'] = cH;
 
+	// For every stretchable element compute its new height
         for (var i=0; i<this.stretchables.length; i++) {
+		let cH = cElement.offsetHeight;
+		if (cH > origCH && resizing) {
+		    cH = origCH;
+		}
                 let el = <HTMLElement>this.stretchables.item(i);
-		debug['element'] = el.offsetHeight
+		let element = {};
+		element['content'] = cH;
+		element['offset'] = el.offsetHeight
 		let top = el.getBoundingClientRect().top;
-		debug['top'] = top;
+		element['top'] = top;
 		let newH = el.offsetHeight + wH - cH;
-		//let newH = wH - top;
-		debug['newHeight'] = newH;
+		element['newHeight'] = newH;
                 el.style.height = newH + 'px';
-		console.log(debug);
+		debug['element'+i] = element;
         }
+	console.log(debug);
     }
 }
