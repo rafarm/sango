@@ -8,10 +8,14 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ConfigService {
 
-    // Change this value...
+    // Change these values...
     private _backendUrl = 'http://localhost:3000/api/';
     get backendUrl(): string {
 	return this._backendUrl;
     }
 
+    private _schoolName = 'IES Gilabert de Centelles';
+    get schoolName(): string {
+	return this._schoolName;
+    }
 }

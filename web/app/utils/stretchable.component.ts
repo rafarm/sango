@@ -48,6 +48,6 @@ export class StretchableComponent implements AfterContentChecked {
                 el.style.height = newH + 'px';
 		debug['element'+i] = element;
         }
-	console.log(debug);
+	//console.log(debug);
     }
 }

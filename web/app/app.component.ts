@@ -3,7 +3,8 @@ import { Component,
 	 AfterContentChecked,
 	 HostListener }		from '@angular/core';
 
-import {StretchableComponent }	from './utils/stretchable.component';
+import { StretchableComponent }	from './utils/stretchable.component';
+import { ConfigService }        from './core/config.service';
 
 @Component({
     moduleId: module.id,
@@ -11,8 +12,11 @@ import {StretchableComponent }	from './utils/stretchable.component';
     templateUrl: './app.component.html'
 })
 export class AppComponent extends StretchableComponent {
-    constructor() {
+    private schoolName: string;
+
+    constructor(private configService: ConfigService) {
 	super();
+	this.schoolName = configService.schoolName;
     }
 }
 

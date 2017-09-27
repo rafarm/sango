@@ -14,8 +14,8 @@
 	        <tr *ngFor="let st of students" routerLink="{{st._id}}" routerLinkActive="active">
 	    	<!--<td><span routerLink="{{st._id}}" routerLinkActive="active">{{st.last_name + ', ' + st.first_name}}</span></td>-->
 	    	<td>{{st.last_name + ', ' + st.first_name}}</td>
-	    	<td><span *ngIf="st.repeats" class="badge badge-pill badge-info">R</span></td>
-	    	<td *ngIf="studentStats"><span *ngIf="hasFailed(st._id)" [ngClass]="badgeClasses(st._id)">{{studentStats[st._id].failed}}</span></td>
+	    	<td class='badge-col'><span *ngIf="st.repeats" class="badge badge-pill badge-info">R</span></td>
+	    	<td *ngIf="studentStats" class='badge-col'><span *ngIf="hasFailed(st._id)" [ngClass]="badgeClasses(st._id)">{{studentStats[st._id].failed}}</span></td>
 	        </tr>
 	    </tbody>
 	</table>

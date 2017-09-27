@@ -11,12 +11,18 @@ tr:hover {
 
 .active {
     color: gray;
-    background-color: lightgray;
+    background-color: #e9ecef;
+}
+
+.badge-col {
+    text-align: right;
+    font-size: medium;
 }
 
 .sidebar {
     padding-left: 0px;
     padding-right: 0px;
-    width: 340px;
+    width: 360px;
     flex: none;
+    box-shadow: 3px 0px 10px 0px rgba(0, 0, 0, 0.2);
 }
