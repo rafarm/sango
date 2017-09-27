@@ -1,5 +1,5 @@
 <div class="row bg-white">
-    <div class="col-4 stretchable bg-secondary">
+    <div class="col-4 sidebar stretchable bg-secondary">
 	<!--
 	<ul class="stretchable scroll-y">
 	    <li *ngFor="let st of students" class="row">
@@ -9,10 +9,11 @@
 	    </li>
 	</ul>
 	-->
-	<table class="table table-sm">
+	<table class="table">
 	    <tbody>
-	        <tr *ngFor="let st of students">
-	    	<td><span routerLink="{{st._id}}" routerLinkActive="active">{{st.last_name + ', ' + st.first_name}}</span></td>
+	        <tr *ngFor="let st of students" routerLink="{{st._id}}" routerLinkActive="active">
+	    	<!--<td><span routerLink="{{st._id}}" routerLinkActive="active">{{st.last_name + ', ' + st.first_name}}</span></td>-->
+	    	<td>{{st.last_name + ', ' + st.first_name}}</td>
 	    	<td><span *ngIf="st.repeats" class="badge badge-pill badge-info">R</span></td>
 	    	<td *ngIf="studentStats"><span *ngIf="hasFailed(st._id)" [ngClass]="badgeClasses(st._id)">{{studentStats[st._id].failed}}</span></td>
 	        </tr>
