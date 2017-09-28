@@ -19,6 +19,10 @@ tr:hover {
     font-size: medium;
 }
 
+.name-col {
+    white-space: nowrap;
+}
+
 .sidebar {
     padding-left: 0px;
     padding-right: 0px;
