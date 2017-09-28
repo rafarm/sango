@@ -2,6 +2,7 @@
     color: white;
     margin-bottom: 0px;
     font-size: small;
+    padding-right: 1em;
 }
 
 tr:hover {
@@ -21,6 +22,9 @@ tr:hover {
 
 .name-col {
     white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 220px;
 }
 
 .sidebar {
@@ -29,4 +33,15 @@ tr:hover {
     width: 360px;
     flex: none;
     box-shadow: 3px 0px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+	width: 300px;
+	font-size: smaller;
+    }
+
+    .name-col {
+        width: 180px;
+    }
 }
