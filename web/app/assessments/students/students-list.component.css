@@ -47,6 +47,6 @@ tr:hover {
 
 @media (max-width: 768px) {
     .sidebar {
-        position: fixed;
+        position: absolute;
     }
 }
