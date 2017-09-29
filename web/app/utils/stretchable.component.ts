@@ -17,9 +17,26 @@ export class StretchableComponent implements AfterContentChecked {
 
 @HostListener('window:resize', ['$event'])
     onResize(event: any) {
-        this.stretchElements(true);
+        this.stretchElements(/*true*/);
     }
 
+    private stretchElements() {
+	let contentElem = document.getElementById('content');
+	let windowHeight = window.innerHeight;
+        let contentHeight = contentElem.offsetHeight;
+        if (windowHeight == contentHeight) {
+            return;
+        }
+
+	for (var i=0; i<this.stretchables.length; i++) {
+	    let element = <HTMLElement>this.stretchables.item(i);
+	    element.style.height = windowHeight + 'px';
+	    let newHeight = 2 * windowHeight - contentElem.offsetHeight;
+	    element.style.height = newHeight + 'px';
+	}
+    }
+
+    /*
     private stretchElements(resizing: boolean = false) {
 	let cElement = document.getElementById('content');
         let wH = window.innerHeight;
@@ -50,4 +67,5 @@ export class StretchableComponent implements AfterContentChecked {
         }
 	//console.log(debug);
     }
+    */
 }
