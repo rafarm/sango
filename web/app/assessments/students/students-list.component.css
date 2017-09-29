@@ -2,7 +2,6 @@
     color: white;
     margin-bottom: 0px;
     font-size: small;
-    padding-right: 1em;
 }
 
 tr:hover {
@@ -35,7 +34,7 @@ tr:hover {
     box-shadow: 3px 0px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
     .sidebar {
 	width: 300px;
 	font-size: smaller;
@@ -43,5 +42,11 @@ tr:hover {
 
     .name-col {
         width: 180px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
     }
 }
