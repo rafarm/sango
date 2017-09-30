@@ -23,7 +23,7 @@ tr:hover {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    width: 220px;
+    width: 218px;
 }
 
 .sidebar {
@@ -41,7 +41,7 @@ tr:hover {
     }
 
     .name-col {
-        width: 180px;
+        width: 178px;
     }
 }
 
