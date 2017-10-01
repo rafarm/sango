@@ -66,6 +66,13 @@ body {
     margin-right: -15px;
 }
 
+@media (max-width: 768px) {
+    .hz-divider {
+	flex-wrap: nowrap;
+	justify-content: left;
+    }
+}
+
 /*
 .hz-divider::before {
     position: absolute;

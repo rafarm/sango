@@ -16,4 +16,8 @@ export class NavItem {
 export class NavDividerComponent {
     @Input()
     items: Observable<NavItem[]>;
+    @Input()
+    togglerId: string;
+    @Input()
+    toggleLabel: string;
 }

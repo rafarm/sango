@@ -1,4 +1,7 @@
-<div class="hz-divider middle">
+<div class="hz-divider navbar navbar-expand-md navbar-light middle">
+    <button *ngIf="togglerId" class="navbar-toggler" type="button" data-toggle="collapse" [attr.data-target]="'#'+togglerId" [attr.aria-controls]="togglerId" aria-expanded="false" [attr.aria-label]="toggleLabel">
+        <span class="navbar-toggler-icon"></span>
+    </button>
     <ul class="nav nav-pills hz-divider-content hz-divider-nav">
         <li *ngFor="let i of items | async" class="nav-item">
             <a routerLink="{{i._id}}" routerLinkActive="active" class="nav-link">{{i.name}}</a>
