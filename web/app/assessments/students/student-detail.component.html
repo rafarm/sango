@@ -5,8 +5,12 @@
         </div>-->
         <div class="row">
 	    <div class="col">
-	        <h2>{{student.last_name + ', ' + student.first_name | uppercase}}</h2>
-	        <h5>Average: {{studentStats[studentStats.length - 1].stats.avg | number}}</h5>
+		<div class="card">
+                    <div class="card-body">
+	                <h3 class="card-title">{{student.last_name + ', ' + student.first_name | uppercase}}</h3>
+	                <h5 class="card-subtitle text-muted">Average: {{studentStats[studentStats.length - 1].stats.avg | number}}</h5>
+                    </div>
+                </div>
 	    </div>
 	    <div class="col">
 	        <failedChart [stats]="studentStats"></failedChart>
