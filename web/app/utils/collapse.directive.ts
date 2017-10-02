@@ -1,4 +1,4 @@
-import { Directive, ElementRef } from '@angular/core';
+import { Directive, Input, ElementRef } from '@angular/core';
 
 const ClassName = {
     SHOW       : 'show',
@@ -7,10 +7,17 @@ const ClassName = {
     COLLAPSED  : 'collapsed'
 }
 
+const Orientation = {
+    VERTICAL	: 'vertical',
+    HORIZONTAL 	: 'horizontal'
+}
+
 @Directive({
     selector: '[sgCollapse]'
 })
 export class CollapseDirective {
+    @Input()
+    orientation: string = Orientation.VERTICAL;
     trigger: any = null;
     target: any = null;
     isTransitioning: boolean = false;
@@ -18,7 +25,7 @@ export class CollapseDirective {
     constructor( el: ElementRef ) {
 	this.target = el.nativeElement;
 	this.trigger = document.querySelector('[data-target="#' + this.target.id + '"]');
-
+	console.log(this.target.id);
 	let isOpen = this.target.classList.contains(ClassName.SHOW);
 	this.target.setAttribute('aria-expanded', isOpen);
 
@@ -56,15 +63,18 @@ export class CollapseDirective {
         if (this.isTransitioning) {
 	    return;
 	}
+	console.log('Show...');
 
 	let classList = this.target.classList;
 
 	classList.remove(ClassName.COLLAPSE);
 	classList.add(ClassName.COLLAPSING);
 
-	let dimension = 'height';
+	let isVertical = this.orientation == Orientation.VERTICAL;
+	let dimension = isVertical ? 'height' : 'left';
+	let dimInitValue = isVertical ? 0 : -this.target.offsetWidth;
 
-	this.target.style[dimension] = 0;
+	this.target.style[dimension] = dimInitValue + 'px';
 	this.target.setAttribute('aria-expanded', true);
 
 	if (this.trigger) {
@@ -79,7 +89,7 @@ export class CollapseDirective {
 	    classList.add(ClassName.COLLAPSE);
 	    classList.add(ClassName.SHOW);
 
-	    this.target.style[dimension] = '';
+	    this.target.style[dimension] = isVertical ? '' : 0 + 'px';
 	    this.target.removeEventListener("transitionend", complete, true);
 	    this.isTransitioning = false;
 	}
@@ -99,11 +109,14 @@ export class CollapseDirective {
 	
 	let classList = this.target.classList;
 
-	let dimension = 'height';
-	let offsetDimension = 'offsetHeight';
+	let isVertical = this.orientation == Orientation.VERTICAL;
 
-	this.target.style[dimension] = this.target[offsetDimension] + 'px';
-	this.target.offsetHeight;
+        let dimension = isVertical ? 'height' : 'left';
+	//let offsetDimension = 'offsetHeight';
+	let dimInitValue = isVertical ? this.target.offsetHeight : this.target.getBoundingClientRect().left;
+
+	this.target.style[dimension] = dimInitValue + 'px';
+	isVertical ? this.target.offsetHeight : this.target.getBoundingClientRect();
 
 	classList.add(ClassName.COLLAPSING);
         classList.remove(ClassName.COLLAPSE);
@@ -116,7 +129,7 @@ export class CollapseDirective {
             this.trigger.setAttribute('aria-expanded', false);
 	}
 
-	this.target.style[dimension] = this.target[offsetDimension] + 'px';
+	//this.target.style[dimension] = this.target[this.offsetDimension] + 'px';
 
 	this.isTransitioning = true;
         
@@ -131,7 +144,7 @@ export class CollapseDirective {
 
 	this.target.addEventListener("transitionend", complete, true);
         
-	this.target.style[dimension] = '';
+	this.target.style[dimension] = isVertical ? '' : -this.target.offsetWidth + 'px';
     }
 }
 
