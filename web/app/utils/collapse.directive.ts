@@ -25,7 +25,7 @@ export class CollapseDirective {
     constructor( el: ElementRef ) {
 	this.target = el.nativeElement;
 	this.trigger = document.querySelector('[data-target="#' + this.target.id + '"]');
-	console.log(this.target.id);
+	
 	let isOpen = this.target.classList.contains(ClassName.SHOW);
 	this.target.setAttribute('aria-expanded', isOpen);
 
@@ -63,7 +63,6 @@ export class CollapseDirective {
         if (this.isTransitioning) {
 	    return;
 	}
-	console.log('Show...');
 
 	let classList = this.target.classList;
 
