@@ -1,24 +1,16 @@
 <div class="row bg-white">
-    <div sgCollapse orientation="horizontal" class="sidebar low stretchable bg-secondary" id="toggleableSidebar">
-	<!--
-	<ul class="stretchable scroll-y">
-	    <li *ngFor="let st of students" class="row">
-		<div class="col-10"><span routerLink="{{st._id}}" routerLinkActive="active">{{st.last_name + ', ' + st.first_name}}</span></div>
-		<div class="col-1"><span *ngIf="st.repeats" class="badge badge-pill badge-info">R</span></div>
-		<div *ngIf="studentStats" class="col-1"><span *ngIf="hasFailed(st._id)" [ngClass]="badgeClasses(st._id)">{{studentStats[st._id].failed}}</span></div>
-	    </li>
-	</ul>
-	-->
-	<table class="table">
-	    <tbody>
-	        <tr *ngFor="let st of students" routerLink="{{st._id}}" routerLinkActive="active">
-	    	<!--<td><span routerLink="{{st._id}}" routerLinkActive="active">{{st.last_name + ', ' + st.first_name}}</span></td>-->
-	    	<td><div class="name-col">{{st.last_name + ', ' + st.first_name}}</div></td>
-	    	<td class="badge-col"><span *ngIf="st.repeats" class="badge badge-pill badge-info">R</span></td>
-	    	<td *ngIf="studentStats" class="badge-col"><span *ngIf="hasFailed(st._id)" [ngClass]="badgeClasses(st._id)">{{studentStats[st._id].failed}}</span></td>
-	        </tr>
-	    </tbody>
-	</table>
+    <div class="navbar-expand-md">
+    	<div sgCollapse orientation="horizontal" class="sidebar low stretchable bg-secondary navbar-collapse" id="toggleableSidebar">
+	    <table class="table">
+	        <tbody>
+	            <tr *ngFor="let st of students" routerLink="{{st._id}}" routerLinkActive="active">
+	    	        <td><div class="name-col">{{st.last_name + ', ' + st.first_name}}</div></td>
+	    	        <td class="badge-col"><span *ngIf="st.repeats" class="badge badge-pill badge-info">R</span></td>
+	    	        <td *ngIf="studentStats" class="badge-col"><span *ngIf="hasFailed(st._id)" [ngClass]="badgeClasses(st._id)">{{studentStats[st._id].failed}}</span></td>
+	            </tr>
+	        </tbody>
+	    </table>
+        </div>
     </div>
     <div class="col stretchable">
         <router-outlet></router-outlet>
