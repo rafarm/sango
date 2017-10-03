@@ -5,7 +5,7 @@ import { AssessmentsDividerBaseComponent } 	from '../assessments-divider-base.co
 @Component({
     moduleId: module.id,
     template: `
-	<nav-divider [items]="assessments"></nav-divider>
+	<nav-divider [hasSidebar]="true" [items]="assessments"></nav-divider>
 	<router-outlet></router-outlet>
     `
 })

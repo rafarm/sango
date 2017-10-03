@@ -109,6 +109,10 @@ body {
     cursor: default;
 }
 
+.navbar-toggler-hidden {
+    display: none;
+}
+
 footer {
     margin-top: 0.5em;
     margin-bottom: 0.5em;

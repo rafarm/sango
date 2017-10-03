@@ -15,5 +15,16 @@ export class NavItem {
 })
 export class NavDividerComponent {
     @Input()
+    hasSidebar: boolean = false;
+    @Input()
     items: Observable<NavItem[]>;
+
+    getClasses(): any {
+        let classes = {};
+
+        classes['navbar-toggler'] = true;
+        classes['navbar-toggler-hidden'] = !this.hasSidebar;
+
+        return classes;
+    }
 }

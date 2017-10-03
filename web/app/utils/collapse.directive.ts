@@ -50,12 +50,13 @@ export class CollapseDirective {
 	    }
 
 	    this.trigger.setAttribute('aria-expanded', isOpen);
-	
+	    /*
 	    this.target.addEventListener('click', () => {
 		if (this.target.classList.contains(ClassName.SHOW)) {
                     this.hide();
                 }
 	    });
+	    */
 	}
     }
 
@@ -63,7 +64,7 @@ export class CollapseDirective {
         if (this.isTransitioning) {
 	    return;
 	}
-
+	
 	let classList = this.target.classList;
 
 	classList.remove(ClassName.COLLAPSE);
@@ -88,17 +89,23 @@ export class CollapseDirective {
 	    classList.add(ClassName.COLLAPSE);
 	    classList.add(ClassName.SHOW);
 
-	    this.target.style[dimension] = isVertical ? '' : 0 + 'px';
+	    //this.target.style[dimension] = isVertical ? '' : 0 + 'px';
+	    this.target.style[dimension] = '';
 	    this.target.removeEventListener("transitionend", complete, true);
 	    this.isTransitioning = false;
 	}
 
 	this.target.addEventListener("transitionend", complete, true);
-
-	let capitalizedDimension = dimension[0].toUpperCase() + dimension.slice(1);
-	let scrollSize = 'scroll' + capitalizedDimension;
 	
-	this.target.style[dimension] = this.target[scrollSize] + 'px';
+	if (isVertical) {
+	    let capitalizedDimension = dimension[0].toUpperCase() + dimension.slice(1);
+	    let scrollSize = 'scroll' + capitalizedDimension;
+	
+	    this.target.style[dimension] = this.target[scrollSize] + 'px';
+	}
+	else {
+	    this.target.style[dimension] = 0 + 'px';
+	}
     }
 
     hide() {
@@ -115,7 +122,7 @@ export class CollapseDirective {
 	let dimInitValue = isVertical ? this.target.offsetHeight : this.target.getBoundingClientRect().left;
 
 	this.target.style[dimension] = dimInitValue + 'px';
-	isVertical ? this.target.offsetHeight : this.target.getBoundingClientRect();
+	isVertical ? this.target.offsetHeight : this.target.getBoundingClientRect().left;
 
 	classList.add(ClassName.COLLAPSING);
         classList.remove(ClassName.COLLAPSE);
@@ -143,7 +150,8 @@ export class CollapseDirective {
 
 	this.target.addEventListener("transitionend", complete, true);
         
-	this.target.style[dimension] = isVertical ? '' : -this.target.offsetWidth + 'px';
+	//this.target.style[dimension] = isVertical ? '' : -this.target.offsetWidth + 'px';
+	this.target.style[dimension] = '';
     }
 }
 
