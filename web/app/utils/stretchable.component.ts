@@ -6,9 +6,11 @@ import { Component, HostListener, AfterContentChecked } from '@angular/core';
 })
 export class StretchableComponent implements AfterContentChecked {
     private stretchables: HTMLCollection;
+    private collapsibles: HTMLCollection;
 
     constructor() {
 	this.stretchables = document.getElementsByClassName('stretchable');
+	this.collapsibles = document.getElementsByClassName('collapse show');
     }
     
     ngAfterContentChecked() {
@@ -17,7 +19,8 @@ export class StretchableComponent implements AfterContentChecked {
 
 @HostListener('window:resize', ['$event'])
     onResize(event: any) {
-        this.stretchElements(/*true*/);
+        this.stretchElements();
+	this.collapseElements();
     }
 
     private stretchElements() {
@@ -42,6 +45,13 @@ export class StretchableComponent implements AfterContentChecked {
 	    	newHeight = 2 * windowHeight - contentElem.offsetHeight;
 	    }
 	    element.style.height = newHeight + 'px';
+	}
+    }
+
+    private collapseElements() {
+	for (var i=0; i<this.collapsibles.length; i++) {
+            let element = <HTMLElement>this.stretchables.item(i);
+	    element.classList.remove('show');
 	}
     }
 }

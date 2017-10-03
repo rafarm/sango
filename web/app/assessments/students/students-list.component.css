@@ -48,21 +48,20 @@ tr:hover {
 @media (max-width: 767px) {
     .sidebar {
         position: absolute;
-	/*left: -300px;*/
     }
 }
 
 .collapsing {
-    /*overflow: unset;*/
     transition: left 0.35s ease;
 }
 
 .collapse {
     display: unset;
     left: -300px;
-    &.show {
-	left: 0px;
-    }
+}
+
+.collapse.show {
+    left: 0px;
 }
 
 .navbar-collapse {

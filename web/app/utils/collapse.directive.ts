@@ -72,7 +72,7 @@ export class CollapseDirective {
 	let isVertical = this.orientation == Orientation.VERTICAL;
 	let dimension = isVertical ? 'height' : 'left';
 	let dimInitValue = isVertical ? 0 : -this.target.offsetWidth;
-
+	
 	this.target.style[dimension] = dimInitValue + 'px';
 	this.target.setAttribute('aria-expanded', true);
 
@@ -95,15 +95,10 @@ export class CollapseDirective {
 
 	this.target.addEventListener("transitionend", complete, true);
 	
-	if (isVertical) {
-	    let capitalizedDimension = dimension[0].toUpperCase() + dimension.slice(1);
-	    let scrollSize = 'scroll' + capitalizedDimension;
+	let capitalizedDimension = dimension[0].toUpperCase() + dimension.slice(1);
+	let scrollSize = 'scroll' + capitalizedDimension;
 	
-	    this.target.style[dimension] = this.target[scrollSize] + 'px';
-	}
-	else {
-	    this.target.style[dimension] = 0 + 'px';
-	}
+	this.target.style[dimension] = this.target[scrollSize] + 'px';
     }
 
     hide() {
@@ -112,15 +107,13 @@ export class CollapseDirective {
         }
 	
 	let classList = this.target.classList;
-
 	let isVertical = this.orientation == Orientation.VERTICAL;
 
         let dimension = isVertical ? 'height' : 'left';
-	//let offsetDimension = 'offsetHeight';
-	let dimInitValue = isVertical ? this.target.offsetHeight : this.target.getBoundingClientRect().left;
-
+	let dimInitValue = isVertical ? this.target.offsetHeight : this.target.offsetLeft;
+	
 	this.target.style[dimension] = dimInitValue + 'px';
-	isVertical ? this.target.offsetHeight : this.target.getBoundingClientRect().left;
+	isVertical ? this.target.offsetHeight : this.target.offsetLeft;
 
 	classList.add(ClassName.COLLAPSING);
         classList.remove(ClassName.COLLAPSE);
@@ -132,8 +125,6 @@ export class CollapseDirective {
 	    this.trigger.classList.add(ClassName.COLLAPSED);
             this.trigger.setAttribute('aria-expanded', false);
 	}
-
-	//this.target.style[dimension] = this.target[this.offsetDimension] + 'px';
 
 	this.isTransitioning = true;
         
@@ -148,8 +139,7 @@ export class CollapseDirective {
 
 	this.target.addEventListener("transitionend", complete, true);
         
-	//this.target.style[dimension] = isVertical ? '' : -this.target.offsetWidth + 'px';
-	this.target.style[dimension] = '';
+	this.target.style[dimension] = isVertical ? '' : -this.target.offsetWidth + 'px';
     }
 }
 
