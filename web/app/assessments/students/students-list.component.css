@@ -57,6 +57,14 @@ tr:hover {
     transition: left 0.35s ease;
 }
 
+.collapse {
+    display: unset;
+    left: -300px;
+    &.show {
+	left: 0px;
+    }
+}
+
 .navbar-collapse {
     align-items: unset;
 }
