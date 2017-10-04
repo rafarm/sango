@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy }         from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef }         from '@angular/core';
 import { Router, ActivatedRoute, Params }       from '@angular/router';
 import { Observable }                           from 'rxjs/Observable';
 import { Subscription }                         from 'rxjs/Subscription';
@@ -36,6 +36,7 @@ export class StudentDetailComponent {
     private statsSubscription: Subscription;
 
     constructor(
+	private el: ElementRef,
 	private assessmentsService: AssessmentsService,
         private route: ActivatedRoute,
         private router: Router
@@ -55,6 +56,7 @@ export class StudentDetailComponent {
 		    group.students.some((st: Student) => {
 			if (st._id == this.student_id) {
 			    this.student = st;
+			    this.el.nativeElement.parentElement.scrollTop = 0;
 			    return true;
 			}
 
