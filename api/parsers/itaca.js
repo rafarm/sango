@@ -359,6 +359,7 @@ function processStudent(child, doc) {
     
     if (child.name == 'alumno') {
 	var group = doc.attr.codigo + child.attr.grupo + doc.attr.curso;
+	var birthDate = child.attr.fecha_nac != null ? new Date(child.attr.fecha_nac) : null;
         var op = {
             updateOne: {
                 filter: { _id: child.attr.NIA },
@@ -366,7 +367,7 @@ function processStudent(child, doc) {
 		    $set: {
                         last_name: child.attr.apellido1 + ' ' + child.attr.apellido2,
                         first_name: child.attr.nombre,
-                        birth_date: new Date(child.attr.fecha_nac),
+                        birth_date: birthDate,
                         gender: child.attr.sexo == 'H' ? 'M' : 'F'
                     }
                 },

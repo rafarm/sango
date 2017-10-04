@@ -1,0 +1,12 @@
+.student-card {
+    flex: 0 0 240px;
+}
+
+.card-title {
+    margin-top: 0.75rem;
+    margin-bottom: 0px;
+}
+
+.table {
+    margin-bottom: unset;
+}

@@ -1,17 +1,27 @@
 <div class="bg-white">
-    <div *ngIf="student && studentStats" class="container-fluid">
-        <!--<div class="col">
-	    <img src="images/student.png">
-        </div>-->
+    <div *ngIf="student && studentStats">
         <div class="row first-row">
-	    <div class="col">
+	    <div class="col student-card">
 		<div class="card">
-		    <img class="card-img" src="assets/student.png">
-		    <div class="card-img-overlay">
-		    <h3 class="card-header">{{student.last_name + ', ' + student.first_name | uppercase}}</h3>
+		    <div class="card-header">
+			<img class="card-img" src="assets/student.png">
+			<h5 class="card-title">{{student.last_name + ', ' + student.first_name | uppercase}}</h5>
+		    </div>
                     <div class="card-body">
-	                <h5 class="card-subtitle text-muted">Average: {{studentStats[studentStats.length - 1].stats.avg | number}}</h5>
-                    </div>
+			<table class="table table-sm">
+			    <tbody>
+				<tr>
+				    <th><h6 class="text-muted text-right">Age:</h6></th>
+				    <td><h6 class="text-right">{{ageInYears()}}</h6></td>
+				</tr>
+				<tr>
+				    <th><h6 class="text-muted text-right">Average:</h6></th>
+				    <td><h6 class="text-right">{{studentStats[studentStats.length - 1].stats.avg | number:'1.2-2'}}</h6></td>
+				</tr>
+			    </tbody>
+	                <!--<h6 class="text-muted">Age: {{studentAge}}</h6>-->
+	                <!--<h6 class="text-muted">Average: {{studentStats[studentStats.length - 1].stats.avg | number:'1.2-2'}}</h6>-->
+			</table>
 		    </div>
                 </div>
 	    </div>

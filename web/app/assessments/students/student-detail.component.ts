@@ -18,6 +18,7 @@ import { Grades }                               from '../../model/grades';
 @Component({
     moduleId: module.id,
     templateUrl: './student-detail.component.html',
+    styleUrls: ['./student-detail.component.css']
 })
 export class StudentDetailComponent {
     year: string;
@@ -111,5 +112,19 @@ export class StudentDetailComponent {
 
     ngOnDestroy() {
         this.statsSubscription.unsubscribe();
+    }
+
+    private ageInYears(): string {
+	let ageInYears = '??';
+	let stBirthdate = this.student.birthdate;
+	
+	if (stBirthdate != null) {
+	    let birthTime = (new Date(stBirthdate)).getTime();
+	    if (birthTime != 0) {
+		ageInYears = ((new Date(Date.now() - birthTime)).getFullYear() - 1970).toString();
+	    }
+	}
+
+	return ageInYears;
     }
 }
