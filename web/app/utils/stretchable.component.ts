@@ -50,7 +50,7 @@ export class StretchableComponent implements AfterContentChecked {
 
     private collapseElements() {
 	for (var i=0; i<this.collapsibles.length; i++) {
-            let element = <HTMLElement>this.stretchables.item(i);
+            let element = <HTMLElement>this.collapsibles.item(i);
 	    element.classList.remove('show');
 	}
     }
