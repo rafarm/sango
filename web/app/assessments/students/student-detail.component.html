@@ -4,10 +4,13 @@
 	    <div class="col student-card">
 		<div class="card">
 		    <div class="card-header">
-			<img class="card-img" src="{{'assets/pics/' + student._id + '.jpg'}}" onerror="this.onerror=null;this.src='assets/student.png'">
 			<h5 class="card-title">{{student.last_name + ', ' + student.first_name | uppercase}}</h5>
 		    </div>
                     <div class="card-body">
+			<div class="col">
+			<img class="card-img" src="{{'assets/pics/' + student._id + '.jpg'}}" onerror="this.onerror=null;this.src='assets/student.png'">
+			</div>
+			<div class="col">
 			<table class="table table-sm">
 			    <tbody>
 				<tr>
@@ -20,6 +23,7 @@
 				</tr>
 			    </tbody>
 			</table>
+			</div>
 		    </div>
                 </div>
 	    </div>

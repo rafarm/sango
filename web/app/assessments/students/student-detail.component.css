@@ -1,5 +1,22 @@
+.first-row {
+    flex-wrap: nowrap;
+}
+
 .student-card {
     flex: 0 0 240px;
+}
+
+/*.student-card .card {
+    flex-direction: row;
+}*/
+
+.student-card .card-body {
+    display: flex;
+    padding: 15px 0px;
+}
+
+.student-card .card-body img {
+    width: 100px;
 }
 
 .card-title {

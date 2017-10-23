@@ -9,7 +9,7 @@ import { Stats }		from '../../model/stats';
     moduleId: module.id,
     selector: 'failedChart',
     template: `
-	<div *ngIf="stats" id="failed_chart" chartType="ColumnChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="chart_400"></div>
+	<div *ngIf="stats" id="failed_chart" chartType="ColumnChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart style="height: 260px;"></div>
     `
 })
 export class StudentFailedChartComponent implements OnChanges {
