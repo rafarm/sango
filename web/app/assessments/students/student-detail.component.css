@@ -1,7 +1,3 @@
-.first-row {
-    flex-wrap: nowrap;
-}
-
 .student-card {
     flex: 0 0 240px;
 }
