@@ -14,8 +14,8 @@
     width: 100px;
 }
 
-.card-title {
-    margin-top: 0.75rem;
+.student-card .card-title {
+    margin-top: 0px;
     margin-bottom: 0px;
 }
 
