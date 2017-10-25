@@ -7,8 +7,7 @@
 }*/
 
 .student-card .card-body {
-    display: flex;
-    padding: 15px 0px;
+    padding: 0px;
 }
 
 .student-card .card-body img {
@@ -22,4 +21,12 @@
 
 .table {
     margin-bottom: unset;
+}
+
+.table th {
+    vertical-align: middle;
+}
+
+.table td {
+    vertical-align: middle;
 }

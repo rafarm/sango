@@ -7,13 +7,12 @@
 			<h5 class="card-title">{{student.last_name + ', ' + student.first_name | uppercase}}</h5>
 		    </div>
                     <div class="card-body">
-			<div class="col">
-			<img class="card-img" src="{{'assets/pics/' + student._id + '.jpg'}}" onerror="this.onerror=null;this.src='assets/student.png'">
-			</div>
-			<div class="col">
 			<table class="table table-sm">
 			    <tbody>
 				<tr>
+				    <td rowspan="2">
+					<img class="card-img" src="{{'assets/pics/' + student._id + '.jpg'}}" onerror="this.onerror=null;this.src='assets/student.png'">
+				    </td>
 				    <th><h6 class="text-muted text-right">Age:</h6></th>
 				    <td><h6 class="text-right">{{ageInYears()}}</h6></td>
 				</tr>
@@ -23,7 +22,6 @@
 				</tr>
 			    </tbody>
 			</table>
-			</div>
 		    </div>
                 </div>
 	    </div>
