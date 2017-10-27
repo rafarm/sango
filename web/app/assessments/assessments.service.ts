@@ -176,8 +176,8 @@ export class AssessmentsService {
      * grades structure.
      * Last result is cached for later use.
      */
-    getGrades(assessment_id: string, group_id: string): Observable<Grades> {
-	let grades = this.cachedGrades[assessment_id];
+    getGrades(assessment_id: string, group_id: string, forceUpdate: boolean = false): Observable<Grades> {
+	let grades = forceUpdate ? undefined : this.cachedGrades[assessment_id];
 	
 	if (grades != undefined) {
 	    return Observable.of(grades);

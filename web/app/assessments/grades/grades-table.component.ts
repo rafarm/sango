@@ -57,9 +57,7 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
 	    .switchMap((params: Params) => {
 		this.assessment_id = params['assessment_id'];
 
-		this.edited = false;
-		this.saving = false;
-		this.grades = null;
+		//this.grades = null;
 		
 		if (this.year != undefined && this.group_id != undefined && this.assessment_id != undefined) {
 		    return this.assessmentsService.getGroup(this.group_id);
@@ -91,14 +89,14 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
         this.saving = true;
 	this.assessmentsService.updateQualifications(this.grades)
 	    .concatMap(result => {
-		return this.assessmentsService.getGrades(this.assessment_id, this.group_id);
+		return this.assessmentsService.getGrades(this.assessment_id, this.group_id, true);
 	    })
 	    .subscribe((grades: Grades) => this.grades = grades);
     }
 
     cancel() {
         this.saving = true;
-	this.assessmentsService.getGrades(this.assessment_id, this.group_id).subscribe((grades: Grades) => this.grades = grades);
+	this.assessmentsService.getGrades(this.assessment_id, this.group_id, true).subscribe((grades: Grades) => this.grades = grades);
     }
 
     trackByIndex(index: number, obj: any): any {
