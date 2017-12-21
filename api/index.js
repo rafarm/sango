@@ -27,6 +27,7 @@ mongodb.connect
         app.use('/node_modules', express.static('node_modules'));
         app.use('/assets', express.static('web/assets'));
         app.use('/app', express.static('web/app'));
+        app.use('/login', express.static('web/login'));
 	app.use('*', express.static('web'));
     })
     .catch(function (err) {

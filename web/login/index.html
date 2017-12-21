@@ -1,0 +1,38 @@
+<html>
+    <head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Sango - Academic data analisys platform</title>
+	<meta name="description" content="Application to analize and visualize academic data">
+	<meta name="author" content="Rafa Rubio">
+	<!-- Bootstrap core CSS -->
+	<link href="../node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" href="../assets/styles.css">
+	<link rel="icon" type="image/png" href="../assets/favicon.png">
+    </head>
+    <!-- 3. Display the application -->
+    <body>
+	    <div style="height: 100%; display: flex; align-items: center; justify-content: center">
+		<div class="media">
+		    <img src="../assets/sango_logo_anim.gif" width="80px" height="80px" alt="Sango" class="d-flex mr-3">
+		    <div class="media-body">
+			<h1 class="mt-0">Sango</h1>
+			Loading...
+		    </div>
+		</div>
+		<form action="/login" method="post">
+    			<div>
+        			<label>Username:</label>
+        			<input type="text" name="username"/>
+    			</div>
+    			<div>
+        			<label>Password:</label>
+        			<input type="password" name="password"/>
+    			</div>
+    			<div>
+        			<input type="submit" value="Log In"/>
+    			</div>
+		</form>
+	    </div>
+    </body>
+</html>
