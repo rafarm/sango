@@ -2,16 +2,87 @@ var express = require('express');
 var app = express();
 var mongodb = require('./mongo_connection');
 
+var ldap = require('ldapjs');
+var passport = require('passport');
+var LdapStrategy= require('passport-ldapauth').Strategy;
+var session = require('express-session');
+var MongoStore = require('connect-mongodb-session')(session);
+var bodyParser = require('body-parser');
+
 // Starting server...
 var server = app.listen(process.env.npm_package_config_port, function () {
     console.log('Sango started.');
     console.log('Listening on port '+process.env.npm_package_config_port+'.');
 });
 
+// Session...
+app.use(session({
+    secret: 'SangoRocks!!(but change this, please)',
+    cookie: {
+	maxAge: parseInt(process.env.npm_package_config_cookie_max_age)
+    },
+    store: new MongoStore({
+        uri: process.env.npm_package_config_db_url,
+        collection: 'sessions'
+    }),
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Configure passport...
+var ldapOps = {
+    server: {
+	url: process.env.npm_package_config_ldap_url,
+	bindDN: process.env.npm_package_config_ldap_bindDN,
+	bindCredentials: process.env.npm_package_config_ldap_bindCredentials,
+	searchBase: process.env.npm_package_config_ldap_searchBase,
+	searchFilter: process.env.npm_package_config_ldap_searchFilter
+    },
+    handleErrorsAsFailures: false
+};
+var ldapClient = ldap.createClient({ url: ldapOps.server.url });
+
+passport.use(new LdapStrategy(ldapOps));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Session management...
+passport.serializeUser((user, done) => {
+    done(null, user.uid);
+});
+passport.deserializeUser((id, done) => {
+    ldapClient.bind(ldapOps.server.bindDN, ldapOps.server.bindCredentials, (err) => {
+        if (err) return done(err);
+
+        var ops = {
+            scope: 'sub',
+            filter: '(uid='+id+')',
+            attributes: ['cn']
+        };
+	ldapClient.search(ldapOps.server.searchBase, ops, (err, resp) => {
+	    resp.on('searchEntry', (entry) => {
+		return done(null, entry.object);
+            });
+            resp.on('error', (err) => {
+		return done(err);
+            });
+        });
+    });
+});
+
 // Connecting to database...
 mongodb.connect
     .then(function () {
-	// Loading routes...
+	// Catch unauthorized api calls...
+	app.use('/api', (req, res, next) => {
+	    if ( !req.isAuthenticated || !req.isAuthenticated() ) {
+	    	return res.status(401).end();
+	    }
+	    next();
+	});
+    
+	// Loading API routes...
         var groups = require('./routes/groups');
         app.use('/api/groups', groups);
         var courses = require('./routes/courses');
@@ -23,12 +94,38 @@ mongodb.connect
         var ingest = require('./routes/ingest');
         app.use('/api/ingest', ingest);
 
-	// Client app...
+	// Resources...
         app.use('/node_modules', express.static('node_modules'));
         app.use('/assets', express.static('web/assets'));
-        app.use('/app', express.static('web/app'));
+
+	// Login...
+	app.post('/login',
+	    passport.authenticate('ldapauth',
+		{ 
+		    successReturnToOrRedirect: '/',
+		    failureRedirect: '/login'
+		}
+	    )
+	);
         app.use('/login', express.static('web/login'));
-	app.use('*', express.static('web'));
+	
+	// Client app..
+        app.use('/app', express.static('web/app'));
+	
+	// Catch unauthorized web access...
+	app.use('*', (req, res, next) => {
+            //console.log('Web access!! ' + req.originalUrl);
+	    if ( !req.isAuthenticated || !req.isAuthenticated() ) {
+		if ( req.session ) {
+		    req.session.returnTo = req.originalUrl || req.url;
+		}
+
+		//console.log('Not authorized!! Redirecting...');
+		return res.redirect('/login');
+	    }
+            //console.log('Processing next!! ' + req.originalUrl);
+            next();
+        }, express.static('web'));
     })
     .catch(function (err) {
         // Close server on database connection error.
