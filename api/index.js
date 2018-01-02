@@ -7,7 +7,12 @@ var passport = require('passport');
 var LdapStrategy= require('passport-ldapauth').Strategy;
 var session = require('express-session');
 var MongoStore = require('connect-mongodb-session')(session);
+var flash = require('connect-flash');
 var bodyParser = require('body-parser');
+
+// Set template engine...
+app.set('views', 'web');
+app.set('view engine', 'ejs');
 
 // Starting server...
 var server = app.listen(process.env.npm_package_config_port, function () {
@@ -29,6 +34,7 @@ app.use(session({
     saveUninitialized: false
 }));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(flash());
 
 // Configure passport...
 var ldapOps = {
@@ -58,14 +64,15 @@ passport.deserializeUser((id, done) => {
         var ops = {
             scope: 'sub',
             filter: '(uid='+id+')',
-            attributes: ['cn']
+            attributes: ['cn'],
+	    sizeLimit: 1
         };
 	ldapClient.search(ldapOps.server.searchBase, ops, (err, resp) => {
 	    resp.on('searchEntry', (entry) => {
-		return done(null, entry.object);
+		done(null, entry.object);
             });
             resp.on('error', (err) => {
-		return done(err);
+		done(err);
             });
         });
     });
@@ -103,27 +110,30 @@ mongodb.connect
 	    passport.authenticate('ldapauth',
 		{ 
 		    successReturnToOrRedirect: '/',
-		    failureRedirect: '/login'
+		    failureRedirect: '/login',
+		    failureFlash: true
 		}
 	    )
 	);
-        app.use('/login', express.static('web/login'));
+	app.get('/login', (req, res) => {
+	    if ( req.isAuthenticated && req.isAuthenticated() ) {
+                return res.redirect('/');
+            }
+	    res.render('login/index', { error: req.flash('error')[0] });
+	});
 	
 	// Client app..
         app.use('/app', express.static('web/app'));
 	
 	// Catch unauthorized web access...
 	app.use('*', (req, res, next) => {
-            //console.log('Web access!! ' + req.originalUrl);
 	    if ( !req.isAuthenticated || !req.isAuthenticated() ) {
 		if ( req.session ) {
 		    req.session.returnTo = req.originalUrl || req.url;
 		}
 
-		//console.log('Not authorized!! Redirecting...');
 		return res.redirect('/login');
 	    }
-            //console.log('Processing next!! ' + req.originalUrl);
             next();
         }, express.static('web'));
     })

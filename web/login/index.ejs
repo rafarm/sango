@@ -1,0 +1,44 @@
+<html>
+    <head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Sango - Academic data analisys platform</title>
+	<meta name="description" content="Application to analize and visualize academic data">
+	<meta name="author" content="Rafa Rubio">
+	<!-- Bootstrap core CSS -->
+	<link href="../node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" href="../assets/styles.css">
+	<link rel="icon" type="image/png" href="../assets/favicon.png">
+    </head>
+    <!-- 3. Display the application -->
+    <body>
+	<div style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center">
+	    <div class="card">
+		<div class="card-header">
+		    <div class="media text-center">
+			<img src="../assets/sango_logo.svg" width="50px" height="50px" alt="Sango">
+			<div class="media-body">
+			    <h1>Sango</h1>
+			</div>
+		    </div>
+		</div>
+		<div class="card-body text-right">
+		    <% if (error) { %>
+		    <div class="alert alert-danger" role="alert">
+			<strong><%= error %></strong>
+		    </div>
+		    <% } %>
+		    <form action="/login" method="post">
+    			<div class="form-group">
+        		    <input type="text" class="form-control" name="username" placeholder="Enter your user name">
+    			</div>
+    			<div class="form-group">
+        		    <input type="password" class="form-control" name="password" placeholder="Enter your password">
+    			</div>
+        		<button type="submit" class="btn btn-primary">Log In</button>
+		    </form>
+		</div>
+	    </div>
+	</div>
+    </body>
+</html>
