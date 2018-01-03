@@ -1,4 +1,6 @@
 var express = require('express');
+var https = require('https');
+var fs = require('fs');
 var app = express();
 var mongodb = require('./mongo_connection');
 
@@ -14,8 +16,15 @@ var bodyParser = require('body-parser');
 app.set('views', 'web');
 app.set('view engine', 'ejs');
 
+// Set SSL certs...
+var ssl_options = {
+    key: fs.readFileSync(process.env.npm_package_config_key),
+    cert: fs.readFileSync(process.env.npm_package_config_cert)
+};
+
 // Starting server...
-var server = app.listen(process.env.npm_package_config_port, function () {
+//var server = app.listen(process.env.npm_package_config_port, function () {
+var server = https.createServer(ssl_options, app).listen(process.env.npm_package_config_port, function () {
     console.log('Sango started.');
     console.log('Listening on port '+process.env.npm_package_config_port+'.');
 });
@@ -121,6 +130,12 @@ mongodb.connect
             }
 	    res.render('login/index', { error: req.flash('error')[0] });
 	});
+
+	// Logout...
+	app.use('/logout', (req, res) => {
+	    req.logout();
+	    res.redirect('/login');
+	});
 	
 	// Client app..
         app.use('/app', express.static('web/app'));
@@ -134,8 +149,8 @@ mongodb.connect
 
 		return res.redirect('/login');
 	    }
-            next();
-        }, express.static('web'));
+            res.render('index', { user: req.user });
+        });
     })
     .catch(function (err) {
         // Close server on database connection error.

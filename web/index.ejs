@@ -21,6 +21,7 @@
 	<!-- 2. Configure SystemJS -->
 	<script src="assets/systemjs.config.js"></script>
 	<script>
+	    var _user = '<%= user.cn %>';
 	    var googleChartsLoaded = false;
 	    System.import('app').catch(function(err){ console.error(err); });
 	</script>

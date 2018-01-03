@@ -11,7 +11,9 @@
     "tsc:w": "tsc -w"
   },
   "config": {
-    "port": "3000",
+    "port": "443",
+    "key": "/etc/ssl/private/ssl-cert-snakeoil.key",
+    "cert": "/etc/ssl/certs/ssl-cert-snakeoil.pem",
     "db_url": "mongodb://localhost:27017/sango",
     "parser": "itaca",
     "upload_path": "/tmp/sango-uploads",
