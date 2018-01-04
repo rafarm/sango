@@ -42,6 +42,13 @@ body {
     box-shadow: 0px -3px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
+@media (min-width: 576px) {
+    .welcome {
+	flex-grow: 1;
+	text-align: right;
+    }
+}
+
 .nav-pills .nav-link.active {
     background-color: #4e8cec;
 }
