@@ -125,6 +125,14 @@ footer {
     margin-bottom: 0.5em;
 }
 
+@media (max-width: 575px) {
+    footer {
+        font-size: small;
+	margin-top: 0.77em;
+	margin-bottom: 0.77em;
+    }
+}
+
 .first-row {
     padding-top: 1em;
 }
