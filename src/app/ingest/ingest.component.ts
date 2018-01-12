@@ -3,7 +3,6 @@ import { AfterViewInit, Component } 	from '@angular/core';
 import { IngestService } 		from './ingest.service';
 
 @Component({
-    moduleId: module.id,
     templateUrl: './ingest.component.html',
     styleUrls: ['./ingest.component.css'],
     providers: [ IngestService ]

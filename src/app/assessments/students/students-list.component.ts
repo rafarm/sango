@@ -8,7 +8,6 @@ import { AssessmentsService }			from '../assessments.service';
 import { Group }                        	from '../../model/group';
     
 @Component({
-    moduleId: module.id,
     templateUrl: './students-list.component.html',
     styleUrls: ['./students-list.component.css']
 })

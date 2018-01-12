@@ -16,7 +16,6 @@ import { Grade } 				from '../../model/grade';
 import { Grades } 				from '../../model/grades';
     
 @Component({
-    moduleId: module.id,
     templateUrl: './grades-table.component.html',
     styleUrls: ['./grades-table.component.css']
 })

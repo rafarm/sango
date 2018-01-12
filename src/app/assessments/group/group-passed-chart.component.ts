@@ -7,7 +7,6 @@ import { Student }		from '../../model/student';
 import { Stats }		from '../../model/stats';
 
 @Component({
-    moduleId: module.id,
     selector: 'passedChart',
     template: `
 	<div *ngIf="students && studentStats" id="histogram_chart" chartType="Histogram" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="chart_300"></div>

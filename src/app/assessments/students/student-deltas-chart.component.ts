@@ -7,7 +7,6 @@ import { Subject }		from '../../model/subject';
 import { Stats }		from '../../model/stats';
 
 @Component({
-    moduleId: module.id,
     selector: 'deltasChart',
     template: `
 	<div *ngIf="grades && prev_grades && subjects" id="deltas_chart" chartType="ColumnChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="chart_300"></div>

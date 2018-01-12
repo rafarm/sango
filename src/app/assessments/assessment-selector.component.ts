@@ -16,7 +16,6 @@ import { BreadcrumbSelectorSelect } 		from '../utils/breadcrumb-selector.compone
 import { BreadcrumbSelectorEvent } 		from '../utils/breadcrumb-selector.component';
 
 @Component({
-    moduleId: module.id,
     templateUrl: './assessment-selector.component.html',
     styleUrls: ['./assessment-selector.component.css']
 })

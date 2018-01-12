@@ -10,7 +10,6 @@ import { Course } 				from '../model/course';
 import { Assessment } 				from '../model/assessment';
 
 @Component({
-    moduleId: module.id,
     template: ``
 })
 export class AssessmentsDividerBaseComponent implements OnInit {

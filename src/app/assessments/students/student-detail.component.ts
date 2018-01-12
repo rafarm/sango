@@ -16,7 +16,6 @@ import { Student } 				from '../../model/student';
 import { Grades }                               from '../../model/grades';
 
 @Component({
-    moduleId: module.id,
     templateUrl: './student-detail.component.html',
     styleUrls: ['./student-detail.component.css']
 })

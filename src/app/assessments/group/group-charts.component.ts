@@ -8,7 +8,6 @@ import { AssessmentsService }			from '../assessments.service';
 import { Group }                        	from '../../model/group';
     
 @Component({
-    moduleId: module.id,
     templateUrl: './group-charts.component.html'
 })
 export class GroupChartsComponent implements OnInit, OnDestroy {

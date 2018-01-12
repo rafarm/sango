@@ -1,7 +1,6 @@
 import { Component, HostListener, AfterContentChecked } from '@angular/core';
 
 @Component({
-    moduleId: module.id,
     template: ``
 })
 export class StretchableComponent implements AfterContentChecked {

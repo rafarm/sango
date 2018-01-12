@@ -7,7 +7,6 @@ import { Subject }		from '../../model/subject';
 import { Stats }		from '../../model/stats';
 
 @Component({
-    moduleId: module.id,
     selector: 'gradesChart',
     template: `
 	<div *ngIf="grades && subjects && subjectStats" id="grades_chart" chartType="ComboChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="chart_300"></div>

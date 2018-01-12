@@ -9,7 +9,6 @@ export class NavItem {
 }
 
 @Component({
-    moduleId: module.id,
     selector: 'nav-divider', 
     templateUrl: './nav-divider.component.html'
 })

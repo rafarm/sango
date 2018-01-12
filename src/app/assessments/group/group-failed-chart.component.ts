@@ -4,7 +4,6 @@ import { Component,
 	 SimpleChanges }    	from '@angular/core';
 
 @Component({
-    moduleId: module.id,
     selector: 'failedChart',
     template: `
 	<div *ngIf="studentStats" id="pie_chart" chartType="PieChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="chart_300"></div>
