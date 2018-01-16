@@ -22,6 +22,10 @@ var ssl_options = {
     cert: fs.readFileSync(process.env.npm_package_config_cert)
 };
 
+// Sessions&users collections...
+const db_sessions_collection = 'sessions';
+const db_users_collection = 'users';
+
 // Starting server...
 //var server = app.listen(process.env.npm_package_config_port, function () {
 var server = https.createServer(ssl_options, app).listen(process.env.npm_package_config_port, function () {
@@ -37,7 +41,7 @@ app.use(session({
     },
     store: new MongoStore({
         uri: process.env.npm_package_config_db_url,
-        collection: 'sessions'
+        collection: db_sessions_collection
     }),
     resave: false,
     saveUninitialized: false
@@ -67,67 +71,93 @@ passport.serializeUser((user, done) => {
     done(null, user.uid);
 });
 passport.deserializeUser((id, done) => {
-    ldapClient.bind(ldapOps.server.bindDN, ldapOps.server.bindCredentials, (err) => {
-        if (err) return done(err);
-
-        var ops = {
-            scope: 'sub',
-            filter: '(uid='+id+')',
-            attributes: ['cn'],
-	    sizeLimit: 1
-        };
-	ldapClient.search(ldapOps.server.searchBase, ops, (err, resp) => {
-	    resp.on('searchEntry', (entry) => {
-		done(null, entry.object);
-            });
-            resp.on('error', (err) => {
-		done(err);
-            });
-        });
-    });
+    mongodb.db.collection(db_users_collection)
+	.find({uid:id})
+	.limit(1)
+	.next((err, user) => {
+	    if (err) return done(err);
+	    return done(null, user);
+	});
 });
 
 // Connecting to database...
 mongodb.connect
-    .then(function () {
+    .then(() => {
+	console.log('Connected to database.');
+	
 	// Catch unauthorized api calls...
 	app.use('/api', (req, res, next) => {
 	    if ( !req.isAuthenticated || !req.isAuthenticated() ) {
-	    	return res.status(401).end();
+		return res.status(401).end();
 	    }
 	    next();
 	});
     
 	// Loading API routes...
-        var groups = require('./routes/groups');
-        app.use('/api/groups', groups);
-        var courses = require('./routes/courses');
-        app.use('/api/courses', courses);
-        var students = require('./routes/students');
-        app.use('/api/students', students);
-        var assessments = require('./routes/assessments');
-        app.use('/api/assessments', assessments);
-        var ingest = require('./routes/ingest');
-        app.use('/api/ingest', ingest);
+	var groups = require('./routes/groups');
+	app.use('/api/groups', groups);
+	var courses = require('./routes/courses');
+	app.use('/api/courses', courses);
+	var students = require('./routes/students');
+	app.use('/api/students', students);
+	var assessments = require('./routes/assessments');
+	app.use('/api/assessments', assessments);
+	var ingest = require('./routes/ingest');
+	app.use('/api/ingest', ingest);
 
 	// Resources...
-        app.use('/node_modules', express.static('node_modules'));
-        app.use('/assets', express.static('web/assets'));
+	app.use('/node_modules', express.static('node_modules'));
+	app.use('/assets', express.static('web/assets'));
 
 	// Login...
-	app.post('/login',
-	    passport.authenticate('ldapauth',
-		{ 
+	app.post('/login', (req, res, next) => {
+	    passport.authenticate('ldapauth', (err, user, info) => {
+		/*{ 
 		    successReturnToOrRedirect: '/',
 		    failureRedirect: '/login',
 		    failureFlash: true
+		}*/
+		if (err) {
+		    return next(err)
+		};
+		if (!user) {
+		    req.flash('error', info.message);
+		    return res.redirect('/login');
 		}
-	    )
-	);
+		req.login(user, (err) => {
+		    if (err) {
+			return next(err);
+		    }
+
+		    //Save user into database.
+		    const db_user = {
+			uid: user.uid,
+			dn: user.dn,
+			cn: user.cn,
+			uidNumber: user.uidNumber,
+			gidNumber: user.gidNumber
+		    }
+		    mongodb.db.collection(db_users_collection).updateOne(
+			{ uid: user.uid },
+			{ $set: db_user },
+			{ upsert: true },
+			(err, result) => {
+			    if (err) {
+				return next(err);
+			    }
+			    if (req.session && req.session.returnTo) {
+				return res.redirect(req.session.returnTo);
+			    }
+			    return res.redirect('/');
+			}
+		    );
+		});
+	    })(req, res, next);
+	});
 	app.get('/login', (req, res) => {
 	    if ( req.isAuthenticated && req.isAuthenticated() ) {
-                return res.redirect('/');
-            }
+		return res.redirect('/');
+	    }
 	    res.render('login/index', { error: req.flash('error')[0] });
 	});
 
@@ -138,7 +168,7 @@ mongodb.connect
 	});
 	
 	// Client app..
-        app.use('/app', express.static('web/app'));
+	app.use('/app', express.static('web/app'));
 	
 	// Catch unauthorized web access...
 	app.use('*', (req, res, next) => {
@@ -149,15 +179,15 @@ mongodb.connect
 
 		return res.redirect('/login');
 	    }
-            res.render('index', { user: req.user });
-        });
+	    res.render('index', { user: req.user });
+	});
     })
-    .catch(function (err) {
-        // Close server on database connection error.
-	console.error('Error connecting to database.');
+    .catch((err) => {
+	// Close server on database connection error.
+        console.error('Error connecting to database.');
         console.error(err);
-	console.info('Stopping server...');
-	server.close();
+        console.info('Stopping server...');
+        server.close();
     });
 
 /*

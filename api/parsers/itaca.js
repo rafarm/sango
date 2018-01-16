@@ -1,4 +1,4 @@
-var Rx = require('rx');
+var Rx = require('rxjs/Rx');
 var mongodb = require('../mongo_connection');
 var xmldoc = require('xmldoc');
 var fs = require('fs');

@@ -20,11 +20,9 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css",
-	"node_modules/bootstrap/dist/css/bootstrap.min.css"
+        "styles.css"
       ],
       "scripts": [
-	"https://www.gstatic.com/charts/loader.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

@@ -8,8 +8,9 @@
 	<meta name="author" content="Rafa Rubio">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="icon" type="image/png" href="assets/favicon.png">
+	<script src="https://www.gstatic.com/charts/loader.js"></script>
 	<script>
-	    var _user = '<%= user.cn %>';
+	    var _user = <%= "<\%= user.cn %\>" %>;
 	    var googleChartsLoaded = false;
 	    System.import('app').catch(function(err){ console.error(err); });
 	</script>
