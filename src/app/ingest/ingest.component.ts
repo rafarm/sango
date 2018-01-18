@@ -17,13 +17,13 @@ export class IngestComponent implements AfterViewInit {
 	ERROR   : 'error'
     }
 
-    private state: string;
-    private fileToUpload: File;
-    private progress_value: number;
-    private progress_msg: string;
-    private progress_bar: any = null;
-    private alert_title: string;
-    private alert_msg: string;
+    state: string;
+    fileToUpload: File;
+    progress_value: number;
+    progress_msg: string;
+    progress_bar: any = null;
+    alert_title: string;
+    alert_msg: string;
 
     constructor(private ingestService: IngestService) {}
 

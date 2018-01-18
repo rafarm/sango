@@ -239,7 +239,7 @@ export class AssessmentsService {
 	this.clearCache();
         let a_id = grades.assessment_id;
         let st = grades.students;
-
+	
         // Build assessment's grades array
         let g:any[] = [];
         Object.getOwnPropertyNames(st).forEach(st_id => {

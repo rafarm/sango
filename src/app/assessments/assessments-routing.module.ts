@@ -8,6 +8,18 @@ import { GradesModule }			from './grades/grades.module';
 import { GroupModule }			from './group/group.module';
 import { StudentsModule }		from './students/students.module';
 
+export function gradesModule() {
+	return GradesModule;
+}
+
+export function groupModule() {
+	return GroupModule;
+}
+
+export function studentsModule() {
+	return StudentsModule;
+}
+
 const assessmentsRoutes: Routes = [
     {
 	path: 'assessments',
@@ -34,15 +46,15 @@ const assessmentsRoutes: Routes = [
 		children: [
 		    {
 			path: 'grades',
-			loadChildren: () => GradesModule
+			loadChildren: gradesModule
 		    },
 		    {
 			path: 'group',
-			loadChildren: () => GroupModule
+			loadChildren: groupModule
 		    },
 		    {
 			path: 'students',
-			loadChildren: () => StudentsModule
+			loadChildren: studentsModule
 		    }
 		]
             }

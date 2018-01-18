@@ -13,8 +13,8 @@ declare var _user:string;
     templateUrl: './app.component.html'
 })
 export class AppComponent extends StretchableComponent {
-    private schoolName: string;
-    private user: string;
+    schoolName: string;
+    user: string;
 
     constructor(private configService: ConfigService) {
 	super();
