@@ -103,10 +103,6 @@ mongodb.connect
 	var ingest = require('./routes/ingest');
 	app.use('/api/ingest', ingest);
 
-	// Resources...
-	//app.use('/node_modules', express.static('node_modules'));
-	//app.use('/assets', express.static('web/assets'));
-
 	// Login...
 	app.post('/login', (req, res, next) => {
 	    passport.authenticate('ldapauth', (err, user, info) => {
@@ -160,8 +156,7 @@ mongodb.connect
 	    res.redirect('/login');
 	});
 	
-	// Client app..
-	//app.use('/app', express.static('web/app'));
+	// Resources...
 	app.use(express.static('web'));
 	
 	// Catch unauthorized web access...
