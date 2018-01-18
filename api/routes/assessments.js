@@ -3,74 +3,12 @@ var router = express.Router();
 var mongodb = require('../mongo_connection');
 var assessmentsCollection = mongodb.db.collection('assessments');
 var bodyParser = require('body-parser');
-var wrapResult = require('./wrap-result').wrapResult;
+var performAggregation = require('./utils').performAggregation;
+var wrapResult = require('./utils').wrapResult;
+var resError = require('./utils').resError;
 var collation = { locale: process.env.npm_package_config_locale };
 
 // TODO: Match by school.
-
-/*
- * /assessments GET
- * 
- * Returns all assessments name and id.
- */
-/*
-router.get('/', function(req, res) {
-    var filter = {};
-    if (req.query.year != undefined) {
-	filter.year = req.query.year;
-    }
-    if (req.query.course_id != undefined) {
-	filter.course_id = req.query.course_id;
-    }
-
-    assessmentsCollection.find(filter)
-	.project({name: 1, order: 1})
-	.sort({order: 1})
-	.toArray()
-	.then(function(assessments) {
-	    res.json(wrapResult(assessments));
-	})
-	.catch(function(err) {
-	    res.status(500);
-	    res.json(err);
-	});
-});
-*/
-
-/*
- * /assessments/:id GET
- * 
- * Returns the assessment identified by 'id'.
- */
-/*
-router.get('/:id', function(req, res) {
-    assessmentsCollection.findOne({'_id': req.params.id})
-	.then(function(assessment) {
-	    res.json(wrapResult(assessment));
-	})
-	.catch(function(err) {
-	    res.status(500);
-	    res.json(err);
-	});
-});
-*/
-
-/*
- * /assessments/:id PUT
- *
- * Replaces the assessment identified by 'id' by
- * the one received.
- */
-/*
-router.put('/:id', bodyParser.json(), function(req, res) {
-    assessmentsCollection.updateOne({ '_id': req.params.id },{ $set: req.body }, null)
-	.then(result => res.json(wrapResult(result)))
-	.catch(function(err) {
-	    res.status(500);
-	    res.json(err);
-	});
-});
-*/
 
 /*
  * /assessments/:id/qualifications?group_id GET
@@ -129,16 +67,7 @@ router.get('/:id/qualifications', function(req, res) {
 	pipe = pipe.concat(by_group);
     }
 
-    assessmentsCollection.aggregate(pipe, { collation: collation }, function(err, result) {
-        if (err != null) {
-            res.status(500);
-            res.json(err);
-        }
-        else {
-	    result = result.length > 0 ? result[0] : result;
-            res.json(wrapResult(result));
-        }
-    });
+    return performAggregation(res, assessmentsCollection, pipe, true);
 });
 
 /*
@@ -166,12 +95,11 @@ router.put('/:id/qualifications', bodyParser.json(), function(req, res) {
 			updateStudent(++index, wr);
                     })
 		    .catch(err => {
-			res.status(500);
-			res.json(err);
+			resError(err);
 		    });
 	    }
 	    else {
-		res.json(wrapResult(wr));
+		wrapResult(res, wr);
             }
         };
 
@@ -195,12 +123,11 @@ router.put('/:id/qualifications', bodyParser.json(), function(req, res) {
 			}
 		    })
 		    .catch(err => {
-			res.status(500);
-			res.json(err);
+			resError(err);
 		    });
 	    }
 	    else {
-                res.json(wrapResult(wr));
+                wrapResult(res, wr);
             }
 	};
 
@@ -212,50 +139,9 @@ router.put('/:id/qualifications', bodyParser.json(), function(req, res) {
 	updateStudent(0, wr);
     }
     else {
-	res.status(500);
-	res.send('No grades received.');
+	resError('No grades received.');
     }
 });
-
-/*
- * /assessments POST
- * 
- * Inserts a new assessment.
- */
-/*
-router.post('/', bodyParser.json(), function(req, res) {
-    assessmentsCollection.insertOne(req.body, null)
-	.then(function(result) {
-	    console.info('assessment POST: ' + result);
-	    res.json(wrapResult(result));
-	})
-	.catch(function(err) {
-	    console.error('assessment POST: ' + err);
-	    res.status(500);
-	    res.json(err);
-	});
-});
-*/
-
-/*
- * /assessments/many POST
- * 
- * Inserts an array of new assessments.
- */
-/*
-router.post('/many', bodyParser.json(), function(req, res) {
-    assessmentsCollection.insertMany(req.body, null)
-	.then(function(result) {
-	    console.info('assessments/many POST: ' + result);
-	    res.json(wrapResult(result));
-	})
-	.catch(function(err) {
-	    console.error('assessments/many POST: ' + err);
-	    res.status(500);
-	    res.json(err);
-	});
-});
-*/
 
 /*
  * /assessments/bycourse/:id/:year GET
@@ -350,16 +236,7 @@ router.get('/bycourse/:id/:year', function(req, res) {
 	}
     ];
     
-    assessmentsCollection.aggregate(pipe, { collation: collation }, function(err, result) {
-        if (err != null) {
-            res.status(500);
-            res.json(err);
-        }
-        else {
-            result = result.length > 0 ? result[0] : result;
-            res.json(wrapResult(result));
-        }
-    });
+    return performAggregation(res, assessmentsCollection, pipe, true);
 });
 
 /*
@@ -491,16 +368,7 @@ router.get('/:id/stats/bystudent', function(req, res) {
 
     pipe = pipe.concat(proj);
 
-    assessmentsCollection.aggregate(pipe, function(err, result) {
-	if (err != null) {
-	    res.status(500);
-	    res.json(err);
-	}
-	else {
-            result = result.length > 0 ? result[0] : result;
-	    res.json(wrapResult(result));
-	}
-    }); 
+    return performAggregation(res, assessmentsCollection, pipe, true);
 });
 
 /*
@@ -663,16 +531,7 @@ router.get('/:id/stats/bysubject', function(req, res) {
 
     pipe = pipe.concat(proj);
 
-    assessmentsCollection.aggregate(pipe, function(err, result) {
-        if (err != null) {
-            res.status(500);
-            res.json(err);
-        }
-        else {
-            result = result.length > 0 ? result[0] : result;
-            res.json(wrapResult(result));
-        }
-    });
+    return performAggregation(res, assessmentsCollection, pipe, true);
 });
 
 module.exports = router;

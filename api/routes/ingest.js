@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
-//var storage = multer.memoryStorage();
 var path = process.env.npm_package_config_upload_path;
 var storage = multer.diskStorage({
     destination: path

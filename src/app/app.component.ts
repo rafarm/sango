@@ -9,6 +9,7 @@ import { ConfigService }        from './core/config.service';
 declare var _user:string;
 
 @Component({
+    selector: 'aa-app',
     templateUrl: './app.component.html'
 })
 export class AppComponent extends StretchableComponent {

@@ -4,7 +4,6 @@ var fs = require('fs');
 var app = express();
 var mongodb = require('./mongo_connection');
 
-var ldap = require('ldapjs');
 var passport = require('passport');
 var LdapStrategy= require('passport-ldapauth').Strategy;
 var session = require('express-session');
@@ -60,7 +59,6 @@ var ldapOps = {
     },
     handleErrorsAsFailures: false
 };
-var ldapClient = ldap.createClient({ url: ldapOps.server.url });
 
 passport.use(new LdapStrategy(ldapOps));
 app.use(passport.initialize());
@@ -96,8 +94,8 @@ mongodb.connect
 	// Loading API routes...
 	var groups = require('./routes/groups');
 	app.use('/api/groups', groups);
-	var courses = require('./routes/courses');
-	app.use('/api/courses', courses);
+	//var courses = require('./routes/courses');
+	//app.use('/api/courses', courses);
 	var students = require('./routes/students');
 	app.use('/api/students', students);
 	var assessments = require('./routes/assessments');
@@ -106,17 +104,12 @@ mongodb.connect
 	app.use('/api/ingest', ingest);
 
 	// Resources...
-	app.use('/node_modules', express.static('node_modules'));
-	app.use('/assets', express.static('web/assets'));
+	//app.use('/node_modules', express.static('node_modules'));
+	//app.use('/assets', express.static('web/assets'));
 
 	// Login...
 	app.post('/login', (req, res, next) => {
 	    passport.authenticate('ldapauth', (err, user, info) => {
-		/*{ 
-		    successReturnToOrRedirect: '/',
-		    failureRedirect: '/login',
-		    failureFlash: true
-		}*/
 		if (err) {
 		    return next(err)
 		};
@@ -168,7 +161,8 @@ mongodb.connect
 	});
 	
 	// Client app..
-	app.use('/app', express.static('web/app'));
+	//app.use('/app', express.static('web/app'));
+	app.use(express.static('web'));
 	
 	// Catch unauthorized web access...
 	app.use('*', (req, res, next) => {

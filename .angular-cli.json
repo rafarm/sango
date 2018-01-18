@@ -9,7 +9,6 @@
       "outDir": "web",
       "assets": [
         "assets",
-        "favicon.png",
 	"login"
       ],
       "index": "index.ejs",

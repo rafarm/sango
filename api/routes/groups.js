@@ -3,7 +3,7 @@ var router = express.Router();
 var mongodb = require('../mongo_connection');
 var groupsCollection = mongodb.db.collection('groups');
 var bodyParser = require('body-parser');
-var wrapResult = require('./wrap-result').wrapResult;
+var performAggregation = require('./utils').performAggregation;
 
 /*
  * /groups/tree/years GET
@@ -25,16 +25,7 @@ router.get('/tree/years', (req, res) => {
 	}
     ];
 
-    
-    groupsCollection.aggregate(pipe, (err, result) => {
-        if (err != null) {
-            res.status(500);
-            res.json(err);
-        }
-        else {
-            res.json(wrapResult(result));
-        }
-    }); 
+    return performAggregation(res, groupsCollection, pipe);
 });
 
 /*
@@ -142,15 +133,7 @@ var pipe = [
 	}
     ];
 
-    groupsCollection.aggregate(pipe, (err, result) => {
-        if (err != null) {
-            res.status(500);
-            res.json(err);
-        }
-        else {
-            res.json(wrapResult(result));
-        }
-    });
+    return performAggregation(res, groupsCollection, pipe);
 });
 
 /*
@@ -179,16 +162,7 @@ router.get('/tree/:year/:course/groups', (req, res) => {
 	}
     ];
 
-
-    groupsCollection.aggregate(pipe, (err, result) => {
-        if (err != null) {
-            res.status(500);
-            res.json(err);
-        }
-        else {
-            res.json(wrapResult(result));
-        }
-    });
+    return performAggregation(res, groupsCollection, pipe);
 });
 
 module.exports = router;

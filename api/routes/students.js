@@ -3,7 +3,7 @@ var router = express.Router();
 var mongodb = require('../mongo_connection');
 var studentsCollection = mongodb.db.collection('students');
 var bodyParser = require('body-parser');
-var wrapResult = require('./wrap-result').wrapResult;
+var performAggregation = require('./utils').performAggregation;
 var collation = { locale: process.env.npm_package_config_locale };
 
 /*
@@ -280,16 +280,7 @@ router.get('/bygroup/:id', function(req, res) {
     }
   ];
 
-  studentsCollection.aggregate(pipe, { collation: collation }, function(err, result) {
-    if (err != null) {
-      res.status(500);
-      res.json(err);
-    }
-    else {
-      result = result.length > 0 ? result[0] : result;
-      res.json(wrapResult(result));
-    }
-  });
+  return performAggregation(res, studentsCollection, pipe, true, { collation: collation });
 });
 
 module.exports = router;
