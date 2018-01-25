@@ -3,85 +3,18 @@ var https = require('https');
 var fs = require('fs');
 var app = express();
 var mongodb = require('./mongo_connection');
+var sangoAuthenticate = require('./sango_authenticate')(app, mongodb);
 
-var passport = require('passport');
-var LdapStrategy= require('passport-ldapauth').Strategy;
-var session = require('express-session');
-var MongoStore = require('connect-mongodb-session')(session);
-var flash = require('connect-flash');
-var bodyParser = require('body-parser');
-
-// Set template engine...
-app.set('views', 'web');
-app.set('view engine', 'ejs');
-
-// Set SSL certs...
-var ssl_options = {
-    key: fs.readFileSync(process.env.npm_package_config_key),
-    cert: fs.readFileSync(process.env.npm_package_config_cert)
-};
-
-// Sessions&users collections...
-const db_sessions_collection = 'sessions';
-const db_users_collection = 'users';
-
-// Starting server...
-//var server = app.listen(process.env.npm_package_config_port, function () {
-var server = https.createServer(ssl_options, app).listen(process.env.npm_package_config_port, function () {
-    console.log('Sango started.');
-    console.log('Listening on port '+process.env.npm_package_config_port+'.');
-});
-
-// Session...
-app.use(session({
-    secret: 'SangoRocks!!(but change this, please)',
-    cookie: {
-	maxAge: parseInt(process.env.npm_package_config_cookie_max_age)
-    },
-    store: new MongoStore({
-        uri: process.env.npm_package_config_db_url,
-        collection: db_sessions_collection
-    }),
-    resave: false,
-    saveUninitialized: false
-}));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(flash());
-
-// Configure passport...
-var ldapOps = {
-    server: {
-	url: process.env.npm_package_config_ldap_url,
-	bindDN: process.env.npm_package_config_ldap_bindDN,
-	bindCredentials: process.env.npm_package_config_ldap_bindCredentials,
-	searchBase: process.env.npm_package_config_ldap_searchBase,
-	searchFilter: process.env.npm_package_config_ldap_searchFilter
-    },
-    handleErrorsAsFailures: false
-};
-
-passport.use(new LdapStrategy(ldapOps));
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Session management...
-passport.serializeUser((user, done) => {
-    done(null, user.uid);
-});
-passport.deserializeUser((id, done) => {
-    mongodb.db.collection(db_users_collection)
-	.find({uid:id})
-	.limit(1)
-	.next((err, user) => {
-	    if (err) return done(err);
-	    return done(null, user);
-	});
-});
+var server = null;
 
 // Connecting to database...
 mongodb.connect
     .then(() => {
 	console.log('Connected to database.');
+
+	// Set template engine...
+        app.set('views', 'web');
+        app.set('view engine', 'ejs');
 	
 	// Catch unauthorized api calls...
 	app.use('/api', (req, res, next) => {
@@ -104,45 +37,7 @@ mongodb.connect
 	app.use('/api/ingest', ingest);
 
 	// Login...
-	app.post('/login', (req, res, next) => {
-	    passport.authenticate('ldapauth', (err, user, info) => {
-		if (err) {
-		    return next(err)
-		};
-		if (!user) {
-		    req.flash('error', info.message);
-		    return res.redirect('/login');
-		}
-		req.login(user, (err) => {
-		    if (err) {
-			return next(err);
-		    }
-
-		    //Save user into database.
-		    const db_user = {
-			uid: user.uid,
-			dn: user.dn,
-			cn: user.cn,
-			uidNumber: user.uidNumber,
-			gidNumber: user.gidNumber
-		    }
-		    mongodb.db.collection(db_users_collection).updateOne(
-			{ uid: user.uid },
-			{ $set: db_user },
-			{ upsert: true },
-			(err, result) => {
-			    if (err) {
-				return next(err);
-			    }
-			    if (req.session && req.session.returnTo) {
-				return res.redirect(req.session.returnTo);
-			    }
-			    return res.redirect('/');
-			}
-		    );
-		});
-	    })(req, res, next);
-	});
+	app.post('/login', sangoAuthenticate);
 	app.get('/login', (req, res) => {
 	    if ( req.isAuthenticated && req.isAuthenticated() ) {
 		return res.redirect('/');
@@ -170,13 +65,23 @@ mongodb.connect
 	    }
 	    res.render('index', { user: req.user });
 	});
+
+	// Set SSL certs...
+	var ssl_options = {
+	    key: fs.readFileSync(process.env.npm_package_config_key),
+	    cert: fs.readFileSync(process.env.npm_package_config_cert)
+	};
+
+	// Starting server...
+	//server = app.listen(process.env.npm_package_config_port, () => {
+	server = https.createServer(ssl_options, app).listen(process.env.npm_package_config_port, () => {
+	    console.log('Sango started.');
+	    console.log('Listening on port '+process.env.npm_package_config_port+'.');
+	});
     })
     .catch((err) => {
-	// Close server on database connection error.
         console.error('Error connecting to database.');
         console.error(err);
-        console.info('Stopping server...');
-        server.close();
     });
 
 /*
@@ -184,10 +89,10 @@ mongodb.connect
  * server execution.
  */
 function closeDBConnectionAndExit() {
-    console.info('Closing database connection...');
-    mongodb.db.close();
     console.info('Stopping server...');
     server.close();
+    console.info('Closing database connection...');
+    mongodb.client.close();
     process.exit();
 }
 
