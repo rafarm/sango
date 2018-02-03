@@ -15,136 +15,177 @@ function parser(req, res) {
         res.sseError(err.message);
 	return;
     }
-    res.sseSend('Processing file...');
+    res.sseSend('Processant el fitxer...');
     
     // Parse XML data
     try {
         var doc = new xmldoc.XmlDocument(buffer);
     }
     catch(err) {
-        res.sseError('Invalid XML file.');
+        res.sseError('Fitxer XML invàlid.');
 	return;
     }
 
     // Init file processing
     if (doc.name != 'centro') {
-        res.sseError('Invalid file format.');
+        res.sseError('Format de fitxer invàlid.');
 	return;
     }
     
 // Asynchronous processing...
-    var opObservables = [];
+    var opObservables = schoolData(doc);
 
-    opObservables.push(schoolData(doc));
-    opObservables.push(
+    opObservables = opObservables.concat(
 	parseChildren(
             'ensenanzas',
 	    processStage,
 	    'stages',
-	    'Processing courses...',
+	    'Processant Etapes...',
 	    doc)
     );
-    opObservables.push(
+    opObservables = opObservables.concat(
         parseChildren(
             'cursos',
             processCourse,
             'courses',
-            'Processing subjects...',
+            'Processant Cursos...',
             doc)
     );
-    opObservables.push(
+    opObservables = opObservables.concat(
         parseChildren(
             'contenidos',
             processSubject,
             'subjects',
-            'Processing groups...',
+            'Processant Continguts...',
             doc)
     );
-    opObservables.push(
+    opObservables = opObservables.concat(
         parseChildren(
             'grupos',
             processGroup,
             'groups',
-            'Processing groups...',
+            'Processant Grups...',
             doc)
     );
-    opObservables.push(
+    opObservables = opObservables.concat(
         parseChildren(
             'cursos_grupo',
             processCourseGroup,
             'groups',
-            'Processing students...',
+            'Processant Curs Grup...',
             doc)
     );
-    opObservables.push(
+    opObservables = opObservables.concat(
         parseChildren(
             'alumnos',
             processStudent,
             'students',
-            'Processing students enrolments...',
+            'Processant Alumnes...',
             doc)
     );
-    opObservables.push(
+    opObservables = opObservables.concat(
         parseChildren(
             'alumnos',
             processStudentEnrolment,
             'students',
-            'Processing special needs...',
+            'Processant Matrícules Alumnes...',
             doc)
     );
-    opObservables.push(
+    opObservables = opObservables.concat(
         parseChildren(
             'medidas_neses',
             processNese,
             'students',
-            'Processing compensatories...',
+            'Processant NE...',
             doc)
     );
-    opObservables.push(
+    opObservables = opObservables.concat(
         parseChildren(
             'compensatorias',
             processComp,
             'students',
-            'Processing enrolments subjects...',
+            'Processant Compensatòries...',
             doc)
     );
-    opObservables.push(
+    opObservables = opObservables.concat(
         parseChildren(
             'contenidos_alumno',
             processSubjectStudent,
             'students',
-            'Processing assessments...',
+            'Processant Assignatures Alumnes...',
             doc)
     );
-    opObservables.push(
+    opObservables = opObservables.concat(
         parseChildren(
             'evaluaciones',
             processAssessment,
             'assessments',
-            'Finalizing...',
+            'Processant Avaluacions',
             doc)
     );
     
-    Rx.Observable.concat(opObservables)
-	.subscribe(
-	    msg => res.sseSend(msg),
-	    err => res.sseError(err),
-	    ()  => res.sseEnd('OK')
-	);
+    opObservables.subscribe(
+	msg => res.sseSend(msg),
+	err => res.sseError(err),
+	()  => res.sseEnd('OK')
+    );
 }
 
 // Insert school data...
 function schoolData(doc) {
+    return Rx.Observable.create(observer => {
+	observer.next('Processant centre...');
+	
+	mongodb.db.collection('schools').updateOne(
+            {_id: doc.attr.codigo },
+            { $set: { name: doc.attr.denominacion } },
+            { upsert: true })
+	    .then(() => observer.complete())
+	    .catch(err => observer.error(err));
+    });
+    /*
     return Rx.Observable.fromPromise(
 	mongodb.db.collection('schools').updateOne(
 	    {_id: doc.attr.codigo },
 	    { $set: { name: doc.attr.denominacion } },
 	    { upsert: true })
 	).map(res => 'Processing stages...');
+    */
 }
 
 // Children parsing...
-function parseChildren(childName, process, collection, nextMsg, doc) {
+function parseChildren(childName, process, collection, msg, doc) {
+    return Rx.Observable.create(observer => {
+	observer.next(msg);
+
+	var item = doc.childNamed(childName);
+
+	if (item != undefined) {
+	    var operations = [];
+
+	    for (var i=0; i<item.children.length; i++) {
+		var child = item.children[i];
+
+		var op = process(child, doc);
+		if (op != null) {
+		    operations.push(op);
+		}
+	    }
+
+	    if (operations.length > 0) {
+		mongodb.db.collection(collection).bulkWrite(operations, {ordered: false})
+		    .then(() => observer.complete())
+		    .catch(err => observer.error(err));
+	    }
+	    else {
+		observer.error("No s'ha trobat " + item.name + " en el fitxer de dades.");
+	    }
+	}
+	else {
+	observer.error("L'entitat '" + childName + "' no s'ha trobat en el fitxer de dades.");
+	}
+    });
+    /*
     var item = doc.childNamed(childName);
 
     if (item != undefined) {
@@ -169,6 +210,7 @@ function parseChildren(childName, process, collection, nextMsg, doc) {
     }
     
     return Rx.Observable.throw('"' + childName + '" entity not found in data file.');
+    */
 }
 
 /*

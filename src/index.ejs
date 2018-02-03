@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
     <head>
 	<meta charset="utf-8">
@@ -8,23 +9,24 @@
 	<meta name="author" content="Rafa Rubio">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="icon" type="image/png" href="assets/sango_logo.svg">
-	<script src="https://www.gstatic.com/charts/loader.js"></script>
-	<script>
-	    var _user = '<%= "<\%= user.cn %\>" %>';
-	    var googleChartsLoaded = false;
-	</script>
     </head>
     <body>
-	<aa-app>
+	<sango-app class="mat-typography mat-app-background">
 	    <div style="height: 100%; display: flex; align-items: center; justify-content: center">
-		<div class="media">
-		    <img src="assets/sango_logo_anim.gif" width="80px" height="80px" alt="Sango" class="d-flex mr-3">
-		    <div class="media-body">
-			<h1 class="mt-0">Sango</h1>
+		<div>
+		    <!--<img src="assets/sango_logo_anim.gif" width="80px" height="80px" alt="Sango">-->
+		    <img src="assets/sango_logo.svg" width="80px" height="80px" alt="Sango">
+		    <div>
+			<h1>Sango</h1>
 			Loading...
 		    </div>
 		</div>
 	    </div>
-	</aa-app>
+	</sango-app>
+        <script>
+            var _user = '<%= "<\%= user.cn %\>" %>';
+            var googleChartsLoaded = false;
+        </script>
+	<script src="https://www.gstatic.com/charts/loader.js"></script>
     </body>
 </html>

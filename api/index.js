@@ -3,7 +3,7 @@ var https = require('https');
 var fs = require('fs');
 var app = express();
 var mongodb = require('./mongo_connection');
-var sangoAuthenticate = require('./sango_authenticate')(app, mongodb);
+var sangoAuthenticate = require('./authenticate')(app, mongodb);
 
 var server = null;
 

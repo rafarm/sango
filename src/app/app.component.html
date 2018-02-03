@@ -1,30 +1,7 @@
-<div id="content">
-    <nav class="navbar navbar-expand-sm navbar-light bg-light fixed-top">
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topToggleableNavbar" aria-controls="topToggleableNavbar" aria-expanded="false" aria-label="Toggle top navigation bar">
-	    <span class="navbar-toggler-icon"></span>
-	</button>
-	<span class="navbar-brand">
-	    <img src="/assets/sango_logo.svg" width="30" height="30" class="d-inline-block align-top" alt="Sango">
-        Sango
-	</span>
-	<div sgCollapse class="collapse navbar-collapse" id="topToggleableNavbar">
-	    <nav class="navbar-nav">
-		<!--<a class="nav-item nav-link" routerLink="dashboard" routerLinkActive="active">Dashboard</a>-->
-		<a class="nav-item nav-link" routerLink="assessments" routerLinkActive="active">Assessments</a>
-		<!--<a class="nav-item nav-link" routerLink="viewer" routerLinkActive="active">Viewer</a>-->
-		<a class="nav-item nav-link" routerLink="ingest" routerLinkActive="active">Ingest</a>
-	    </nav>
-	    <div class="welcome">
-		Welcome, {{user}}! (<a href="logout">Logout</a>)
-	    </div>
-	</div>
-    </nav>
-    <router-outlet></router-outlet>
-    <div class="container-fluid bg-light fixed-bottom">
-	<div class="row">
-	    <div class="col">
-		<footer class="text-center"><small class="text-muted">{{schoolName + ' / 2016-2018 Developed by Rafa Rubio'}}</small></footer>
-	    </div>
-	</div>
-    </div>
+<sango-navbar class="mat-elevation-z6"></sango-navbar>
+<router-outlet></router-outlet>
+<div class="mat-elevation-z6 sg-fixed-bottom">
+    <footer class="sg-text-center">
+	<small>{{schoolName + ' / 2016-2018 Developed by Rafa Rubio'}}</small>
+    </footer>
 </div>

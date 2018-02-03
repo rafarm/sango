@@ -1,14 +1,45 @@
-@import '~bootstrap/dist/css/bootstrap.min.css';
-/*
-body {
-    padding-top: 56px;
-    padding-bottom: 35px;
-}
-*/
+/*@import '~bootstrap/dist/css/bootstrap.min.css';*/
+/*@import "~@angular/material/prebuilt-themes/indigo-pink.css";*/
+@import "~material-design-icons/iconfont/material-icons.css";
 
-#content {
-    padding-top: 56px;
-    padding-bottom: 35px;
+sango-app {
+    position: absolute;
+    top: 56px;
+    bottom: 35px;
+    left: 0px;
+    right: 0px;
+}
+
+@media (max-width: 720px) {
+    sango-app {
+	top: 92px;
+    }
+}
+
+sango-navbar {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+.sg-fixed-bottom {
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+
+.sg-text-center {
+    text-align: center;
+}
+
+.sg-hightest {
+    z-index: 1000;
+}
+
+.sg-fill-space {
+    flex: 1 1 auto;
 }
 
 .bg-primary {
@@ -33,14 +64,6 @@ body {
 
 .hightest {
     z-index: 1000;
-}
-
-.fixed-top {
-    box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.2);
-}
-
-.fixed-bottom {
-    box-shadow: 0px -3px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
 @media (min-width: 576px) {

@@ -1,0 +1,10 @@
+@import '~@angular/material/theming';
+
+// always include only once per project
+@include mat-core();
+
+// import our custom theme
+@import 'sango-theme.scss';
+
+// use our theme with angular-material-theme mixin
+@include angular-material-theme($sango-theme);

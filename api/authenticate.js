@@ -1,4 +1,4 @@
-var sangoSession = require('./sango_session');
+var sangoSession = require('./session');
 var passport = require('passport');
 var LdapStrategy= require('passport-ldapauth').Strategy;
 var flash = require('connect-flash');

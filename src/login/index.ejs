@@ -6,38 +6,47 @@
 	<meta name="description" content="Application to analize and visualize academic data">
 	<meta name="author" content="Rafa Rubio">
 	<link rel="icon" type="image/png" href="../assets/sango_logo.svg">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     </head>
     <body>
-	<div style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center">
+	<div style="height: 100%; display: flex; align-items: center; justify-content: center">
 	    <div class="card">
-		<div class="card-header">
-		    <div class="media text-center">
-			<img src="../assets/sango_logo.svg" width="50px" height="50px" alt="Sango">
-			<div class="media-body">
-			    <h1>Sango</h1>
+		<div class="card-content">
+		    <div class="row">
+			<div class="col s5">
+			    <img src="../assets/sango_logo.svg" width="80px" alt="Sango">
+			</div>
+			<div class="col s7">
+			    <h3>Sango</h3>
 			</div>
 		    </div>
-		</div>
-		<div class="card-body">
 		    <% if (error) { %>
-		    <div class="alert alert-danger" role="alert">
-			<strong><%= error %></strong>
+		    <div class="card red darken-1" role="alert">
+			<div class="card-content">
+			    <strong class="white-text"><%= error %></strong>
+			</div>
 		    </div>
 		    <% } %>
 		    <form action="/login" method="post" class="text-right">
-    			<div class="form-group">
-        		    <input type="text" class="form-control" name="username" placeholder="Username">
-    			</div>
-    			<div class="form-group">
-        		    <input type="password" class="form-control" name="password" placeholder="Password">
-    			</div>
-        		<button type="submit" class="btn btn-primary">Log In</button>
+			<div class="row">
+			    <div class="input-field col s12">
+				<input type="text" id="username" name="username">
+				<label for="username">Usuari</label>
+			    </div>
+			</div>
+			<div class="row">
+			    <div class="input-field col s12">
+				<input type="password" id="password" name="password">
+				<label for="password">Contrassenya</label>
+			    </div>
+			</div>
+        		<button type="submit" class="btn waves-effect">Entra</button>
 		    </form>
 		</div>
 	    </div>
 	</div>
-	<script type="text/javascript" src="inline.bundle.js"></script>
-	<script type="text/javascript" src="polyfills.bundle.js"></script>
-	<script type="text/javascript" src="styles.bundle.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     </body>
 </html>

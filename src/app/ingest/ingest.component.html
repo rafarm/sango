@@ -1,22 +1,22 @@
-<div class="ingest-panel">
-    <div class="card text-center">
-	<h4 class="card-header">Ingest</h4>
-        <div class="card-body">
-	    <h6 class="card-subtitle text-muted">Upload a file containing academic data from your organization.</h6>
-	</div>
-	<div class="card-body">
-	    <input type="file" (change)="fileChangeEvent($event)" [disabled]="state==IngestState.UPLOAD || state==IngestState.PROCESS">
-	    <button type="button" class="btn btn-primary" (click)="upload()" [disabled]="fileToUpload==null" [disabled]="upload_disabled()">Upload</button>
-	</div>
-	<div class="card-body" style="text-align: start;">
-            <div [ngClass]="alert_classes()" class="alert alert-danger fade" role="alert">
-                <strong>{{alert_title}}</strong> {{alert_msg}}
-            </div>
-        </div>
-	<div class="card-footer"> 
-	    <div [ngClass]="progress_classes()" class="progress fade">
-		<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{{progress_msg}}</div>
-	    </div>
-	</div>
-    </div>
+<div class="sg-ingest-panel sg-text-center">
+    <mat-card>
+	<mat-card-title>Importació</mat-card-title>
+	<mat-card-subtitle>Pugeu un arxiu amb dades acadèmiques</mat-card-subtitle>
+	<mat-card-content class="input-file">
+	    <input type="file" #inputFile (change)="fileChangeEvent($event)" hidden />
+	    <button mat-raised-button color="primary" (click)="inputFile.click()" [disabled]="state==IngestState.UPLOAD || state==IngestState.PROCESS">Selecciona</button>
+	    <span *ngIf="fileToUpload" [ngClass]="filename_field_classes()" class="sg-filename-field">{{fileToUpload.name}}</span>
+	    <span *ngIf="!fileToUpload" class="sg-filename-field sg-no-filename">Trieu un fitxer</span>
+	    <button mat-icon-button (click)="upload()" [disabled]="fileToUpload==null || upload_disabled()" color="primary">
+		<mat-icon aria-label="Navega">file_upload</mat-icon>
+	    </button>
+	</mat-card-content>
+	<mat-card-content [ngClass]="progress_classes()" class="sg-progress-bar sg-fade">
+	    <div>{{progress_msg}}</div>
+	    <mat-progress-bar [mode]="progress_bar_mode" [value]="progress_value"></mat-progress-bar>
+	</mat-card-content>
+        <mat-card [ngClass]="alert_classes()" class="sg-fade sg-alert sg-alert-danger" role="alert">
+            <strong>{{alert_title}}</strong> {{alert_msg}}
+        </mat-card>
+    </mat-card>
 </div>

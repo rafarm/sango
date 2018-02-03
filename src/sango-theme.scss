@@ -1,0 +1,10 @@
+$sango-theme-primary: mat-palette($mat-blue);
+$sango-theme-accent: mat-palette($mat-green);
+$sango-theme-warn: mat-palette($mat-red);
+
+// create theme (use mat-dark-theme for themes with dark backgrounds)
+$sango-theme: mat-light-theme(
+    $sango-theme-primary,
+    $sango-theme-accent,
+    $sango-theme-warn
+);

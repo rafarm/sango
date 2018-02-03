@@ -1,8 +1,0 @@
-.ingest-panel {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 340px;
-    height: calc(100vh - 91px);
-}
-

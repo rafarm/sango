@@ -1,0 +1,72 @@
+@import '~@angular/material/theming';
+@import 'src/sango-theme.scss';
+
+.input-file {
+    display: flex;
+}
+
+.sg-ingest-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 340px;
+    height: calc(100vh - 91px);
+}
+
+.sg-filename-field {
+    width: 180px;
+    border-bottom: 2px solid;
+    line-height: 38px;
+    color: mat-color($sango-theme-primary);
+    text-align: start;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-left: 8px;
+}
+
+@media (max-width: 720px) {
+    .sg-filename-field {
+	width: 120px;
+    }
+}
+
+
+$foreground: map-get($sango-theme, foreground);
+$background: map-get($sango-theme, background);
+
+.sg-filename-field.sg-disabled {
+    color: mat-color($foreground, disabled-text);
+    border-bottom-color: mat-color($background, disabled-button);
+}
+
+.sg-no-filename {
+    color: mat-color($foreground, disabled-text);
+    border-bottom-color: mat-color($sango-theme-primary);
+    font-style: italic;
+}
+
+.sg-fade {
+    opacity: 0;
+    transition: opacity 0.3s $ease-in-out-curve-function;
+}
+
+.sg-fade.sg-show {
+    opacity: 1;
+}
+
+.sg-alert {
+    color: white;
+    padding: 10px;
+}
+
+.sg-alert-danger {
+    background-color: mat-color($sango-theme-warn);
+}
+
+.sg-alert-success {
+    background-color: mat-color($sango-theme-accent);
+}
+
+.sg-progress-bar {
+    color: mat-color($sango-theme-primary);
+}
