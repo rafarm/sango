@@ -20,7 +20,7 @@ import { ComposedSelectorSelect,
     styleUrls: ['./assessment-selector.component.css']
 })
 export class AssessmentSelectorComponent implements OnInit, OnDestroy {
-    selects: ComposedSelectorSelect[] = [];
+    selects: ComposedSelectorSelect[];
     changedSelectId: string = null;
     
     selectedYear = '-1';
@@ -60,57 +60,56 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+	this.selects = [];
+	[0, 1, 2].forEach(index => this.selects.push(this.emptySelect(index)));
+	
 	this.selectsSubscription = this.route.params
-	    .switchMap((params: Params) => {
+	    .subscribe((params: Params) => {
 		const year = params['year'];
 		const course_id = params['course_id'];
 		const group_id = params['group_id'];
-		let yearObservable = Observable.empty();
-		let courseObservable = Observable.empty();
-		let groupObservable =  Observable.empty();
-
+		
 		// Reset navigation...
 		if (year == '-1' && course_id == '-1' && group_id == '-1') {
-		    this.selects = [];
+		    [0, 1, 2].forEach(index => this.selects[index] = this.emptySelect(index));
 		}
-
-		if (this.selects.length == 0) {
-		    yearObservable = this.assessmentsService.getGroupsSelectYear()
-			.map((select: ComposedSelectorSelect) => {
+		
+		if (this.selects[0].items.length == 0) {
+		    this.assessmentsService.getGroupsSelectYear()
+			.subscribe((select: ComposedSelectorSelect) => {
+			    this.selects[0] = select;
 			    select.selectedValue = year;
-			    return select;
 			});
 		}
 		
 		if (year != this.selectedYear) {
 		    this.selectedYear = year;
-
-		    while(this.selects.length > 1) {
-                        this.selects.pop();
-                    }
+		    this.selects[2] = this.emptySelect(2);
 
 		    if (year != '-1') {
-			courseObservable = this.assessmentsService.getGroupsSelectCourse(year)
-			    .map((select: ComposedSelectorSelect) => {
+			this.assessmentsService.getGroupsSelectCourse(year)
+			    .subscribe((select: ComposedSelectorSelect) => {
+				this.selects[1] = select
 				select.selectedValue = course_id;
-				return select;
 			    });
+		    }
+		    else {
+			this.selects[1] = this.emptySelect(1);
 		    }
 		}
 
 		if (course_id != this.selectedCourseId) {
 		    this.selectedCourseId = course_id;
 
-		    while(this.selects.length > 2) {
-                        this.selects.pop();
-                    }
-
 		    if (course_id != '-1') {
-			groupObservable = this.assessmentsService.getGroupsSelectGroup(year, course_id)
-			    .map((select: ComposedSelectorSelect) => {
+			this.assessmentsService.getGroupsSelectGroup(year, course_id)
+			    .subscribe((select: ComposedSelectorSelect) => {
+				this.selects[2] = select;
 				select.selectedValue = group_id;
-				return select;
 			    });
+		    }
+		    else {
+			this.selects[2] = this.emptySelect(2);
 		    }
 		}
 
@@ -120,11 +119,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 			this.router.navigate(['grades'], { relativeTo: this.route });
 		    }
 		}
-		return Observable.concat(yearObservable, courseObservable, groupObservable);
-	    }).subscribe(
-		    (select: ComposedSelectorSelect) => this.selects.push(select),
-		    error => this.router.navigate(['notfound'])
-		);
+	    });
     }
 
     ngOnDestroy() {
@@ -188,6 +183,26 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 
     isNavVisible(): boolean {
 	return this.selectedYear != '-1' && this.selectedCourseId != '-1' && this.selectedGroupId != '-1';
+    }
+
+    private emptySelect(index: number): ComposedSelectorSelect {
+	var select: ComposedSelectorSelect = null;
+
+	switch(index) {
+	    case 0:
+		select = new ComposedSelectorSelect('year', 'Any...', [], false, -1);
+		break;
+	    case 1:
+                select = new ComposedSelectorSelect('course', 'Curs...', [], false, -1);
+                break;
+	    case 2:
+                select = new ComposedSelectorSelect('group', 'Grup...', [], false, -1);
+                break;
+	    default:
+		break
+	}
+
+	return select;
     }
 }
 

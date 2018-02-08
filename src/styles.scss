@@ -16,6 +16,11 @@ mat-toolbar .mat-select-value {
 mat-toolbar .mat-select-arrow {
     color: inherit !important;
 }
+
 mat-toolbar .mat-select-placeholder {
     color: inherit !important;
+}
+
+mat-toolbar .mat-select-disabled {
+    color: lightgrey !important;
 }
