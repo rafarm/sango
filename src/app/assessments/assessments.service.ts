@@ -7,8 +7,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 
 import { BackendService } 		from '../core/backend.service';
-import { BreadcrumbSelectorItem } 	from '../utils/breadcrumb-selector.component';
-import { BreadcrumbSelectorSelect } 	from '../utils/breadcrumb-selector.component';
+import { ComposedSelectorItem,
+         ComposedSelectorSelect } 	from '../utils/composed-selector.component';
 import { Course } 			from '../model/course';
 import { Group } 			from '../model/group';
 import { Grades } 			from '../model/grades';
@@ -30,18 +30,17 @@ export class AssessmentsService {
      *
      * Returns the groups' year select to build group selector tree.
      */
-    getGroupsSelectYear(): Observable<BreadcrumbSelectorSelect> {
+    getGroupsSelectYear(): Observable<ComposedSelectorSelect> {
         let  call = 'groups/tree/years';
 
         return this.backendService.get(call)
 	    .map((data: any) => {
                 if (data != null) {
                     let items = data.map((value:any) => {
-                        return new BreadcrumbSelectorItem(value._id, value._id, false);
+                        return new ComposedSelectorItem(value._id, value._id);
                     });
-                    items.unshift(new BreadcrumbSelectorItem('Year...', '-1', false));
 
-                    return new BreadcrumbSelectorSelect('year', items, -1);
+                    return new ComposedSelectorSelect('year', 'Any...', items, false, -1);
                 }
 
                 return null;
@@ -53,7 +52,7 @@ export class AssessmentsService {
      *
      * Returns the groups' course select to build group selector tree.
      */
-    getGroupsSelectCourse(year: string): Observable<BreadcrumbSelectorSelect> {
+    getGroupsSelectCourse(year: string): Observable<ComposedSelectorSelect> {
         let  call = 'groups/tree/' + year + '/courses';
 
         return this.backendService.get(call)
@@ -61,7 +60,7 @@ export class AssessmentsService {
                 if (data != null) {
                     let parents = data.map((value:any) => {
                         let courses = value.courses.map((value:any) => {
-                            return new BreadcrumbSelectorItem(value.name, value._id, false);
+                            return new ComposedSelectorItem(value.name, value._id);
                         });
                         
                         let value_id = value._id.parent;
@@ -69,11 +68,10 @@ export class AssessmentsService {
                             value_id = value._id.stage;
                         }
 
-                        return new BreadcrumbSelectorItem(value_id, courses, true);
+                        return new ComposedSelectorItem(value_id, courses);
                     });
-                    parents.unshift(new BreadcrumbSelectorItem('Course...', '-1', false));
 
-                    return new BreadcrumbSelectorSelect('course', parents, -1);
+                    return new ComposedSelectorSelect('course', 'Curs...', parents, true, -1);
                 }
 
                 return null;
@@ -85,18 +83,17 @@ export class AssessmentsService {
      *
      * Returns the groups' select for 'year' and 'course' to build group selector tree.
      */
-    getGroupsSelectGroup(year: string, course: string): Observable<BreadcrumbSelectorSelect> {
+    getGroupsSelectGroup(year: string, course: string): Observable<ComposedSelectorSelect> {
         let call = 'groups/tree/' + year + '/' + course + '/groups';
 
         return this.backendService.get(call)
             .map((data: any) => {
                 if (data != null) {
                     let items = data.map((value:any) => {
-                        return new BreadcrumbSelectorItem(value.short_name, value._id, false);
+                        return new ComposedSelectorItem(value.short_name, value._id);
                     });
-                    items.unshift(new BreadcrumbSelectorItem('Group...', '-1', false));
 
-                    return new BreadcrumbSelectorSelect('group', items, -1);
+                    return new ComposedSelectorSelect('group', 'Grup...', items, false, -1);
                 }
 
                 return null;

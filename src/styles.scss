@@ -8,3 +8,14 @@
 
 // use our theme with angular-material-theme mixin
 @include angular-material-theme($sango-theme);
+
+mat-toolbar .mat-select-value {
+    color: inherit !important;
+}
+
+mat-toolbar .mat-select-arrow {
+    color: inherit !important;
+}
+mat-toolbar .mat-select-placeholder {
+    color: inherit !important;
+}

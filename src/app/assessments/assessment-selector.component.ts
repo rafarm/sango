@@ -12,15 +12,15 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/concat';
 
 import { AssessmentsService } 			from './assessments.service';
-import { BreadcrumbSelectorSelect } 		from '../utils/breadcrumb-selector.component';
-import { BreadcrumbSelectorEvent } 		from '../utils/breadcrumb-selector.component';
+import { ComposedSelectorSelect,
+         ComposedSelectorEvent } 		from '../utils/composed-selector.component';
 
 @Component({
     templateUrl: './assessment-selector.component.html',
     styleUrls: ['./assessment-selector.component.css']
 })
 export class AssessmentSelectorComponent implements OnInit, OnDestroy {
-    selects: BreadcrumbSelectorSelect[] = [];
+    selects: ComposedSelectorSelect[] = [];
     changedSelectId: string = null;
     
     selectedYear = '-1';
@@ -76,7 +76,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 
 		if (this.selects.length == 0) {
 		    yearObservable = this.assessmentsService.getGroupsSelectYear()
-			.map((select: BreadcrumbSelectorSelect) => {
+			.map((select: ComposedSelectorSelect) => {
 			    select.selectedValue = year;
 			    return select;
 			});
@@ -91,7 +91,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 
 		    if (year != '-1') {
 			courseObservable = this.assessmentsService.getGroupsSelectCourse(year)
-			    .map((select: BreadcrumbSelectorSelect) => {
+			    .map((select: ComposedSelectorSelect) => {
 				select.selectedValue = course_id;
 				return select;
 			    });
@@ -107,7 +107,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 
 		    if (course_id != '-1') {
 			groupObservable = this.assessmentsService.getGroupsSelectGroup(year, course_id)
-			    .map((select: BreadcrumbSelectorSelect) => {
+			    .map((select: ComposedSelectorSelect) => {
 				select.selectedValue = group_id;
 				return select;
 			    });
@@ -122,7 +122,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 		}
 		return Observable.concat(yearObservable, courseObservable, groupObservable);
 	    }).subscribe(
-		    (select: BreadcrumbSelectorSelect) => this.selects.push(select),
+		    (select: ComposedSelectorSelect) => this.selects.push(select),
 		    error => this.router.navigate(['notfound'])
 		);
     }
@@ -132,7 +132,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 	this.routerEventsSubscription.unsubscribe();
     }
 
-    onSelectorChanged(event: BreadcrumbSelectorEvent) {
+    onSelectorChanged(event: ComposedSelectorEvent) {
 	this.changedSelectId = event.select_id;
 	let value = event.select_value;
 	switch(event.select_id) {

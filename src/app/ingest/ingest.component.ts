@@ -1,6 +1,6 @@
-import { AfterViewInit, Component } 	from '@angular/core';
+import { AfterViewInit, Component, ChangeDetectorRef } 	from '@angular/core';
 
-import { IngestService } 		from './ingest.service';
+import { IngestService } from './ingest.service';
 
 @Component({
     templateUrl: './ingest.component.html',
@@ -26,12 +26,11 @@ export class IngestComponent implements AfterViewInit {
     fileToUpload: File;
     progress_value: number;
     progress_msg: string;
-    //progress_bar: any = null;
     progress_bar_mode: string;
     alert_title: string;
     alert_msg: string;
 
-    constructor(private ingestService: IngestService) {}
+    constructor(private cdRef: ChangeDetectorRef, private ingestService: IngestService) {}
 
     ngAfterViewInit() {
 	//this.progress_bar = document.querySelector(".progress-bar");
@@ -66,7 +65,6 @@ export class IngestComponent implements AfterViewInit {
     reset_progress() {
 	this.progress_value = 0;
 	this.progress_msg = null;
-	//this.show_progress();
     }
 
     process_progress(value: string) {
@@ -76,13 +74,14 @@ export class IngestComponent implements AfterViewInit {
 	    this.progress_msg = value;
 
 	    this.state = this.IngestState.PROCESS;
-	    this.progress_bar_mode = this.ProgressBarMode.INDETERMINATE;
 	}
 	else {
 	    this.progress_value = Math.floor(parsed_value);
 	    this.progress_msg = this.progress_value + '%';
-	    this.progress_bar_mode = this.ProgressBarMode.DETERMINATE;
 	}
+
+	this.progress_bar_mode = this.state == this.IngestState.PROCESS ? this.ProgressBarMode.INDETERMINATE : this.ProgressBarMode.DETERMINATE
+	this.cdRef.detectChanges();
     }
 
     process_error(error: string) {
@@ -98,24 +97,7 @@ export class IngestComponent implements AfterViewInit {
 
         this.state = this.IngestState.SUCCESS;
     }
-
-    /*
-    show_progress() {
-        this.progress_bar.style.width = this.progress_value + '%';
-        this.progress_bar.innerHTML = this.progress_msg;
-        this.progress_bar.setAttribute('aria-valuenow', this.progress_value);
-
-	if (this.state == this.IngestState.PROCESS) {
-            this.progress_bar.classList.add('progress-bar-striped');
-            this.progress_bar.classList.add('progress-bar-animated');
-	}
-	else {
-            this.progress_bar.classList.remove('progress-bar-striped');
-            this.progress_bar.classList.remove('progress-bar-animated');
-	}
-    }
-    */
-
+    
     alert_classes() {
 	let show = this.state == this.IngestState.ERROR || this.state == this.IngestState.SUCCESS;
 	let danger = this.state == this.IngestState.ERROR;

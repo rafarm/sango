@@ -21,6 +21,7 @@ sango-navbar {
     top: 0px;
     left: 0px;
     right: 0px;
+    background: white;
 }
 
 .sg-fixed-bottom {
@@ -28,6 +29,7 @@ sango-navbar {
     left: 0px;
     right: 0px;
     bottom: 0px;
+    background: white;
 }
 
 .sg-text-center {

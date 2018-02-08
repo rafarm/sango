@@ -1,0 +1,12 @@
+<div *ngIf="selects" class="sg-composed-selector">
+    <span *ngFor="let select of selects">
+	<mat-select *ngIf="select.grouped" id="{{select.id}}" (selectionChange)="selectChangeHandler($event)" [(value)]="select.selectedValue" placeholder="{{select.placeholder}}">
+	    <mat-optgroup *ngFor="let item of select.items" [label]="item.label">
+		<mat-option *ngFor="let i of item.value" [value]="i.value">{{i.label}}</mat-option>
+	    </mat-optgroup>
+	</mat-select>
+	<mat-select *ngIf="!select.grouped" id="{{select.id}}" (selectionChange)="selectChangeHandler($event)" [(value)]="select.selectedValue" placeholder="{{select.placeholder}}">
+	    <mat-option *ngFor="let item of select.items" [value]="item.value">{{item.label}}</mat-option>
+	</mat-select>
+    </span>
+</div>
