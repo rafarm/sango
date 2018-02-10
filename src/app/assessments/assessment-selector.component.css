@@ -1,38 +1,12 @@
-.btn-link {
-    color: white;
-    -webkit-transition: none;
-    -o-transition: none;
-    transition: none;
+.sg-assessment-nav {
+    display: flex;
 }
 
-.btn-link:hover {
-    text-decoration: none;
-    color: darkgray;
+composed-selector {
+    flex: 1;
 }
 
-.btn-link.active:hover {
-    color: white;
-}
-
-.nav-tabs {
-    border: none;
-}
-
-.nav-tabs .nav-item {
-    margin: 0;
-}
-
-.btn:not([disabled]):not(.disabled).active
-.btn-link.active {
-    background: url("data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 4'><path fill='%23e9ecef' d='M1 3L0 4h2z'/></svg>") no-repeat center 1px;
-}
-
-.sub-select {
-    flex-wrap: nowrap;
-}
-
-@media (min-width: 768px) {
-    .sub-select {
-	float: right;
-    }
+.sg-assessment-section {
+    display: flex;
+    flex: 1;
 }

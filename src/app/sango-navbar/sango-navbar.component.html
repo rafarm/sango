@@ -4,15 +4,17 @@
 	<span>Sango</span>
     </div>
     <span class="sg-fill-space"></span>
-    <a mat-button color="primary" class="sg-growing-font sg-navbar-hide-small" routerLink="/assessments" routerLinkActive="active">Avaluacions</a>
-    <a mat-button color="primary" class="sg-growing-font sg-navbar-hide-small" routerLink="/ingest" routerLinkActive="active">Importació</a>
+    <div class="sg-hide-small">
+	<a mat-button color="primary" class="sg-growing-font" routerLink="/assessments" routerLinkActive="active">Avaluacions</a>
+	<a mat-button color="primary" class="sg-growing-font" routerLink="/ingest" routerLinkActive="active">Importació</a>
+    </div>
     <span class="sg-fill-space"></span>
     <span>{{user}}</span>
     <a href="logout" mat-icon-button color="primary">
 	<mat-icon>power_settings_new</mat-icon>
     </a>
 </nav>
-<nav class="sg-navbar-show-small">
+<nav class="sg-show-small">
     <span class="sg-fill-space"></span>
     <a mat-button color="primary" class="sg-growing-font" routerLink="/assessments" routerLinkActive="active">Avaluacions</a>
     <a mat-button color="primary" class="sg-growing-font" routerLink="/ingest" routerLinkActive="active">Importacions</a>

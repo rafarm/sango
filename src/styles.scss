@@ -22,5 +22,65 @@ mat-toolbar .mat-select-placeholder {
 }
 
 mat-toolbar .mat-select-disabled {
-    color: lightgrey !important;
+    color: rgba(255, 255, 255, 0.65) !important;
+}
+
+sango-app {
+    position: absolute;
+    top: 56px;
+    bottom: 35px;
+    left: 0px;
+    right: 0px;
+}
+
+@media (max-width: 720px) {
+    sango-app {
+        top: 92px;
+    }
+}
+
+sango-navbar {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    background: white;
+}
+
+.sg-fixed-bottom {
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background: white;
+}
+
+.sg-text-center {
+    text-align: center;
+}
+
+.sg-fill-space {
+    flex: 1 1 auto !important;
+}
+
+.active {
+    font-size: large;
+}
+
+.sg-show-small {
+    display: none !important;
+}
+
+@media (max-width: 720px) {
+    .sg-hide-small {
+        display: none !important;
+    }
+
+    .sg-show-small {
+        display: flex !important;
+    }
+}
+
+.sg-growing-font {
+    transition: font-size .2s cubic-bezier(.35,0,.25,1) !important;
 }

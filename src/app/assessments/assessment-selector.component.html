@@ -1,21 +1,23 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" class="mat-elevation-z3">
     <mat-toolbar-row>
-	<composed-selector [selects]="selects" (composedSelectorChanged)="onSelectorChanged($event)"></composed-selector>
+	<nav class="sg-assessment-nav">
+	    <composed-selector [selects]="selects" (composedSelectorChanged)="onSelectorChanged($event)"></composed-selector>
+	    <div class="sg-assessment-section sg-hide-small">
+		<span class="sg-fill-space"></span>
+		<div *ngIf="isNavVisible()">
+		    <a mat-button class="sg-growing-font" routerLink="grades" routerLinkActive="active">Qualificacions</a>
+		    <a mat-button class="sg-growing-font" routerLink="group" routerLinkActive="active">Grup</a>
+		    <a mat-button class="sg-growing-font" routerLink="students" routerLinkActive="active">Alumnes</a>
+		</div>
+	    </div>
+	</nav>
     </mat-toolbar-row>
-    <!--<div class="row align-items-end">
-	<div *ngIf="isNavVisible()" class="col-md-4 hight">
-	    <ul class="nav nav-tabs sub-select" role="tablist">
-		<li class="nav-item">
-                    <button (click)="onNavigate('grades')" [class.active]="isNavActive('grades')" type="button" class="btn btn-link">Grades</button>
-                </li>
-                <li class="nav-item">
-                    <button (click)="onNavigate('group')" [class.active]="isNavActive('group')" type="button" class="btn btn-link">Group</button>
-                </li>
-                <li class="nav-item">
-                    <button (click)="onNavigate('students')" [class.active]="isNavActive('students')" type="button" class="btn btn-link">Students</button>
-                </li>
-	    </ul>
-	</div>
-    </div>-->
+    <mat-toolbar-row *ngIf="isNavVisible()" class="sg-show-small">
+	<span class="sg-fill-space"></span>
+	<a mat-button class="sg-growing-font" routerLink="grades" routerLinkActive="active">Qualificacions</a>
+	<a mat-button class="sg-growing-font" routerLink="group" routerLinkActive="active">Grup</a>
+	<a mat-button class="sg-growing-font" routerLink="students" routerLinkActive="active">Alumnes</a>
+	<span class="sg-fill-space"></span>
+    </mat-toolbar-row>
 </mat-toolbar>
 <!--<router-outlet></router-outlet>-->

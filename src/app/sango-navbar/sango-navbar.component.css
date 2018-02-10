@@ -14,24 +14,3 @@
     display: flex;
 }
 
-.active {
-    font-size: larger;
-}
-
-.sg-navbar-show-small {
-    display: none;
-}
-
-@media (max-width: 720px) {
-    .sg-navbar-hide-small {
-	display: none;
-    }
-
-    .sg-navbar-show-small {
-	display: flex;
-    }
-}
-
-.sg-growing-font {
-    transition: font-size .2s cubic-bezier(.35,0,.25,1)
-}
