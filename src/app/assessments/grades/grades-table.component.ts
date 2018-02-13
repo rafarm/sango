@@ -17,7 +17,7 @@ import { Grades } 				from '../../model/grades';
     
 @Component({
     templateUrl: './grades-table.component.html',
-    styleUrls: ['./grades-table.component.css']
+    styleUrls: ['./grades-table.component.scss']
 })
 export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeactivate {
     year: string;
@@ -131,10 +131,10 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
     cellClasses(grade: Grade): any {
 	let classes = {};
 
-	classes['table-danger'] = grade.enroled && grade.value != null && grade.value  < 5;
-	classes['table-warning'] = grade.value == null;
-	classes['not-enroled'] = !grade.enroled;
-	classes['bg-adapted'] = grade.adapted;
+	classes['sg-failed'] = grade.enroled && grade.value != null && grade.value  < 5;
+	classes['sg-missing'] = grade.value == null;
+	classes['sg-not-enroled'] = !grade.enroled;
+	classes['sg-adapted'] = grade.adapted;
 
 	return classes;
     }

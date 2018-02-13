@@ -1,0 +1,112 @@
+@import '~@angular/material/theming';
+@import 'src/sango-theme.scss';
+
+#sg-center-table {
+    display: flex;
+}
+
+$foreground: map-get($sango-theme, foreground);
+$background: map-get($sango-theme, background);
+$failed: map-get($mat-red, A100);
+$failed-hover: map-get($mat-red, A200);
+$missing: map-get($mat-amber, A100);
+$missing-hover: map-get($mat-amber, A200);
+$passed-hover: map-get($mat-grey, 400);
+
+table.sg-table {
+    display: block;
+    overflow-x: auto;
+    border-collapse: collapse;
+
+    thead {
+	display: block;
+
+	th {
+	    border-bottom: 2px solid mat-color($foreground, divider);
+	    border-left: 1px solid mat-color($foreground, divider);
+	    border-right: 1px solid mat-color($foreground, divider);
+	    background: mat-color($foreground, divider);
+	}
+
+	th:first-child {
+	    border-right: 2px solid mat-color($foreground, divider);
+	}
+    }
+
+    tbody {
+	display: inline-block;
+
+	tr:hover, tr:focus-within {
+	    background-color: mat-color($background, hover);
+	}
+ 
+	th {
+	    border-left: 1px solid mat-color($foreground, divider);
+	    border-right: 2px solid mat-color($foreground, divider);
+	    border-bottom: 1px solid mat-color($foreground, divider);
+	    text-align: start;
+	}
+
+	td {
+	    border-left: 1px solid mat-color($foreground, divider);
+	    border-right: 1px solid mat-color($foreground, divider);
+	    border-bottom: 1px solid mat-color($foreground, divider);
+
+	    input {
+		text-align: right;
+		width: 2rem;
+		background-color: transparent;
+		outline: none;
+		border: 0px;
+	    }
+	}
+
+	td:hover, td:focus-within {
+	    background-color: $passed-hover;
+	}
+	    
+	td.sg-failed {
+	    background-color: $failed;
+	}
+
+	td.sg-failed:hover, td.sg-failed:focus-within {
+	    background-color: $failed-hover;
+	}
+
+	td.sg-missing {
+	    background-color: $missing;
+	}
+
+	td.sg-missing:hover, td.sg-missing:focus-within {
+	    background-color: $missing-hover;
+	}
+    
+	td.sg-not-enroled {
+	    background: repeating-linear-gradient( 45deg, #fff, #fff 2px, #eee 2px, #ccc 4px);
+	}
+    }
+
+    tr {
+	font-size: 0.7rem;
+	white-space: nowrap;
+    }
+
+    .sg-subject {
+	text-align: center;
+	width: 40px;
+	overflow: hidden;
+    }
+
+    .sg-student {
+	width: 230px;
+	padding: 0px 6px;
+	overflow: hidden;
+    }
+}
+
+.sg-adapted {
+    background-image: url("data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'><path fill='%23777' d='M0 0h1L0 1z'/></svg>");
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: 8px 10px;   
+}

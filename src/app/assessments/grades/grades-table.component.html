@@ -1,36 +1,30 @@
 <div *ngIf="grades">
-    <div class="row bg-white">
-	<div class="col">
-	    <table class="table table-sm table-hover table-responsive table-bordered">
-		<thead class="thead-default">
-		    <tr>
-			<th><div class="student">Student</div></th>
-			<th *ngFor="let s of subjects"><div class="subject">{{s._id.slice(0,4)}}</div></th>
-		    </tr>
-		</thead>
-		<tbody class='stretchable'>
-		    <tr *ngFor="let st of students">
-			<td><div class="student">{{st.last_name + ', ' + st.first_name}}</div></td>
-			<td *ngFor="let sub of subjects" [ngClass]="cellClasses(grades.students[st._id].grades[sub._id])">
-			    <div class="subject">
-				<input *ngIf="grades.students[st._id].grades[sub._id].enroled" #input type="text" maxlength="2" [ngModel]="grades.students[st._id].grades[sub._id].value" (ngModelChange)="grades.students[st._id].grades[sub._id].value=processInput(grades.students[st._id].grades[sub._id].value, $event, input)" (focus)="onInputFocus($event)" [disabled]="saving">
-			    </div>
-			</td>
-		    </tr>
-		</tbody>
-	    </table>
-	</div>
+    <div id="sg-center-table">
+	<span class="sg-fill-space"></span>
+	<table class="sg-table">
+	    <thead>
+		<tr>
+		    <th><div class="sg-student">Student</div></th>
+		    <th *ngFor="let s of subjects"><div class="sg-subject">{{s._id.slice(0,4)}}</div></th>
+		</tr>
+	    </thead>
+	    <tbody class='stretchable'>
+		<tr *ngFor="let st of students">
+		    <th><div class="sg-student">{{st.last_name + ', ' + st.first_name}}</div></th>
+		    <td *ngFor="let sub of subjects" [ngClass]="cellClasses(grades.students[st._id].grades[sub._id])">
+			<div class="sg-subject">
+			    <input *ngIf="grades.students[st._id].grades[sub._id].enroled" #input type="text" maxlength="2" [ngModel]="grades.students[st._id].grades[sub._id].value" (ngModelChange)="grades.students[st._id].grades[sub._id].value=processInput(grades.students[st._id].grades[sub._id].value, $event, input)" (focus)="onInputFocus($event)" [disabled]="saving">
+			</div>
+		    </td>
+		</tr>
+	    </tbody>
+	</table>
+	<span class="sg-fill-space"></span>
     </div>
-    <div class="row bg-white last-row">
-	<div class="col">
-	    <small class="bg-adapted"><em>&emsp;With adaptation</em></small>
-	</div>
-	<div class="col">
-	    <div class="float-right">
-		<button type="button" class="btn btn-default" (click)="cancel()" [disabled]="saving || !edited">Cancel</button>
-		<button type="button" class="btn" (click)="save()" [disabled]="saving || !edited">Save</button>
-	    </div>
-	</div>
+    <div>
+	<small class="sg-adapted"><em>&emsp;With adaptation</em></small>
+	<button type="button" class="btn btn-default" (click)="cancel()" [disabled]="saving || !edited">Cancel</button>
+	<button type="button" class="btn" (click)="save()" [disabled]="saving || !edited">Save</button>
     </div>
 </div>
 

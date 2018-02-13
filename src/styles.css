@@ -2,27 +2,23 @@
 /*@import "~@angular/material/prebuilt-themes/indigo-pink.css";*/
 @import "~material-design-icons/iconfont/material-icons.css";
 
-.bg-primary {
-    background-color: #4e8cec !important;
-}
-
-.lowest {
+.sg-lowest {
     z-index: 0;
 }
 
-.low {
+.sg-low {
     z-index: 250;
 }
 
-.middle {
+.sg-middle {
     z-index: 500;
 }
 
-.hight {
+.sg-hight {
     z-index: 750;
 }
 
-.hightest {
+.sg-hightest {
     z-index: 1000;
 }
 
@@ -102,19 +98,6 @@
 
 .navbar-toggler-hidden {
     display: none;
-}
-
-footer {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-}
-
-@media (max-width: 575px) {
-    footer {
-        font-size: small;
-	margin-top: 0.77em;
-	margin-bottom: 0.77em;
-    }
 }
 
 .first-row {

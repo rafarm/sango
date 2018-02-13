@@ -33,12 +33,6 @@ sango-app {
     right: 0px;
 }
 
-@media (max-width: 720px) {
-    sango-app {
-        top: 92px;
-    }
-}
-
 sango-navbar {
     position: fixed;
     top: 0px;
@@ -52,7 +46,11 @@ sango-navbar {
     left: 0px;
     right: 0px;
     bottom: 0px;
+    height: 35px;
     background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .sg-text-center {
@@ -71,7 +69,15 @@ sango-navbar {
     display: none !important;
 }
 
+nav-divider .mat-tab-link {
+        min-width: 72px;
+}
+
 @media (max-width: 720px) {
+    sango-app {
+        top: 92px;
+    }
+
     .sg-hide-small {
         display: none !important;
     }
@@ -83,4 +89,8 @@ sango-navbar {
 
 .sg-growing-font {
     transition: font-size .2s cubic-bezier(.35,0,.25,1) !important;
+}
+
+nav-divider .mat-tab-links {
+    display: flex;
 }

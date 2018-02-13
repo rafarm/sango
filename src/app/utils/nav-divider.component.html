@@ -1,10 +1,5 @@
-<div class="hz-divider navbar navbar-expand-md navbar-light middle">
-    <button [ngClass]="getClasses()" type="button" data-toggle="collapse" data-target="#toggleableSidebar" aria-controls="toggleableSidebar" aria-expanded="false" aria-label="Toggle side navigation bar">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <ul class="nav nav-pills hz-divider-content hz-divider-nav">
-        <li *ngFor="let i of items | async" class="nav-item">
-            <a routerLink="{{i._id}}" routerLinkActive="active" class="nav-link">{{i.name}}</a>
-        </li>
-    </ul>
-</div>
+<nav mat-tab-nav-bar>
+    <span class="sg-fill-space"></span>
+    <a mat-tab-link *ngFor="let i of items | async" [routerLink]="i._id" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">{{i.name}}</a>
+    <span class="sg-fill-space"></span>
+</nav>

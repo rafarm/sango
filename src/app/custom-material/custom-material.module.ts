@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatIconModule,
     MatCardModule,
     MatProgressBarModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTabsModule
   ],
   exports: [
     MatToolbarModule,
@@ -24,7 +26,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatIconModule,
     MatCardModule,
     MatProgressBarModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTabsModule
   ]
 })
 export class CustomMaterialModule { }
