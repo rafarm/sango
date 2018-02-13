@@ -1,7 +1,7 @@
 @import '~@angular/material/theming';
 @import 'src/sango-theme.scss';
 
-#sg-center-table {
+#sg-grades-table {
     display: flex;
 }
 
@@ -109,4 +109,9 @@ table.sg-table {
     background-position: 0 0;
     background-repeat: no-repeat;
     background-size: 8px 10px;   
+}
+
+#sg-actions {
+    padding: 10px;
+    display: flex;
 }

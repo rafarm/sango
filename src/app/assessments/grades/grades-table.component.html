@@ -1,5 +1,5 @@
 <div *ngIf="grades">
-    <div id="sg-center-table">
+    <div id="sg-grades-table">
 	<span class="sg-fill-space"></span>
 	<table class="sg-table">
 	    <thead>
@@ -21,10 +21,13 @@
 	</table>
 	<span class="sg-fill-space"></span>
     </div>
-    <div>
-	<small class="sg-adapted"><em>&emsp;With adaptation</em></small>
-	<button type="button" class="btn btn-default" (click)="cancel()" [disabled]="saving || !edited">Cancel</button>
-	<button type="button" class="btn" (click)="save()" [disabled]="saving || !edited">Save</button>
+    <div id="sg-actions" class="mat-elevation-z3">
+	<small class="sg-adapted"><em>&emsp;Amb adaptació curricular</em></small>
+	<span class="sg-fill-space"></span>
+	<div>
+	    <button mat-button (click)="cancel()" [disabled]="saving || !edited">Descarta</button>
+	    <button mat-raised-button color="primary" (click)="save()" [disabled]="saving || !edited">Desa</button>
+	</div>
     </div>
 </div>
 

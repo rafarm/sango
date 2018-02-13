@@ -39,16 +39,19 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 	this.routerEventsSubscription = this.router.events.subscribe(event => {
 	    if (event instanceof NavigationCancel) {
 		// Restore changed select previous selected item...
-		let changedSelect: any = document.getElementById(this.changedSelectId);
+		//let changedSelect: any = document.getElementById(this.changedSelectId);
 		switch(this.changedSelectId) {
 		    case 'year':
-			changedSelect.value = this.selectedYear;
+			//changedSelect.value = this.selectedYear;
+			this.selects[0] = this.cloneSelect(this.selects[0], this.selectedYear);
 			break;
 		    case 'course':
-			changedSelect.value = this.selectedCourseId;
+			//changedSelect.value = this.selectedCourseId;
+			this.selects[1] = this.cloneSelect(this.selects[1], this.selectedCourseId);
 			break;
 		    case 'group':
-			changedSelect.value = this.selectedGroupId;
+			//changedSelect.value = this.selectedGroupId;
+			this.selects[2] = this.cloneSelect(this.selects[2], this.selectedGroupId);
 			break;
 		    default:
 			break;
@@ -203,6 +206,26 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 	}
 
 	return select;
+    }
+
+    /*
+     * This method is used to restore previous selected
+     * value when navigation is cancelled.
+     */
+    private cloneSelect(select: ComposedSelectorSelect,
+			newSelectedValue: any): ComposedSelectorSelect {
+	if (select) {
+	    return new ComposedSelectorSelect(
+		select.id,
+		select.placeholder,
+		select.items,
+		select.grouped,
+		newSelectedValue
+	    );
+	}
+
+	return null;
+
     }
 }
 
