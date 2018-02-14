@@ -3,7 +3,6 @@ import { CommonModule }			from '@angular/common';
 
 import { BackendService }		from './backend.service';
 import { ConfigService }		from './config.service';
-import { DialogService }		from './dialog.service';
 
 @NgModule({
     imports: [ CommonModule ],
@@ -11,7 +10,6 @@ import { DialogService }		from './dialog.service';
     providers: [ 
 	BackendService,
 	ConfigService,
-	DialogService
     ]
 })
 

@@ -7,6 +7,7 @@ import { CustomMaterialModule }         from '../custom-material/custom-material
 import { ComposedSelectorComponent } 	from './composed-selector.component';
 import { NavDividerComponent }		from './nav-divider.component';
 import { StretchableComponent }		from './stretchable.component';
+import { ConfirmDialogComponent }	from './confirm-dialog.component';
 import { GoogleChartDirective }		from './google-chart.directive';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { GoogleChartDirective }		from './google-chart.directive';
 	ComposedSelectorComponent,
 	NavDividerComponent,
 	StretchableComponent,
+	ConfirmDialogComponent,
 	GoogleChartDirective
     ],
     exports: [
@@ -26,7 +28,11 @@ import { GoogleChartDirective }		from './google-chart.directive';
 	ComposedSelectorComponent,
 	NavDividerComponent,
 	StretchableComponent,
+	ConfirmDialogComponent,
 	GoogleChartDirective
+    ],
+    entryComponents: [
+	ConfirmDialogComponent
     ]
 })
 

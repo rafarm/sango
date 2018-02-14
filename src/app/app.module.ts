@@ -4,7 +4,6 @@ import { FormsModule }   		from '@angular/forms';
 import { HttpModule } 	 		from '@angular/http';
 import { BrowserAnimationsModule } 	from '@angular/platform-browser/animations';
 
-import { AppComponent }  		from './app.component';
 import { AppRoutingModule } 		from './app-routing.module';
 import { CoreModule }			from './core/core.module';
 import { UtilsModule }			from './utils/utils.module';
@@ -12,6 +11,7 @@ import { IngestModule }			from './ingest/ingest.module';
 import { AssessmentsModule }		from './assessments/assessments.module';
 import { CustomMaterialModule }		from './custom-material/custom-material.module';
 
+import { AppComponent }  		from './app.component';
 import { PageNotFoundComponent }	from './not-found.component';
 import { SangoNavbarComponent } 	from './sango-navbar/sango-navbar.component';
 
@@ -31,7 +31,7 @@ import { SangoNavbarComponent } 	from './sango-navbar/sango-navbar.component';
     declarations: [ 
 	AppComponent,
 	PageNotFoundComponent,
-	SangoNavbarComponent,
+	SangoNavbarComponent
     ],
     bootstrap: [ AppComponent ]
 })

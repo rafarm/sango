@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatCardModule,
     MatProgressBarModule,
     MatSelectModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDialogModule
   ],
   exports: [
     MatToolbarModule,
@@ -27,7 +29,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatCardModule,
     MatProgressBarModule,
     MatSelectModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDialogModule
   ]
 })
 export class CustomMaterialModule { }

@@ -1,7 +1,7 @@
 <mat-toolbar color="primary" class="mat-elevation-z3">
     <mat-toolbar-row>
 	<nav class="sg-assessment-nav">
-	    <composed-selector [selects]="selects" (composedSelectorChanged)="onSelectorChanged($event)"></composed-selector>
+	    <composed-selector [selects]="selects" [(value)]="currentSelection" (composedSelectorChanged)="onSelectorChanged($event)"></composed-selector>
 	    <div class="sg-assessment-section sg-hide-small">
 		<span class="sg-fill-space"></span>
 		<div *ngIf="isNavVisible()">

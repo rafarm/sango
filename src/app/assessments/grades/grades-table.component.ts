@@ -2,19 +2,21 @@ import { Component, OnInit, OnDestroy}		from '@angular/core';
 import { Router, ActivatedRoute, Params }       from '@angular/router';
 import { Observable }                    	from 'rxjs/Observable';
 import { Subscription }                      	from 'rxjs/Subscription';
+import { MatDialog }				from '@angular/material/dialog';
 
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/concatMap';
 
 import { AssessmentsService } 			from '../assessments.service';
 import { CanComponentDeactivate }		from '../../can-deactivate-guard.service';
-import { DialogService }			from '../../core/dialog.service';
+import { ConfirmDialogComponent }		from '../../utils/confirm-dialog.component';
 import { Group } 				from '../../model/group';
 import { Student } 				from '../../model/student';
 import { Subject } 				from '../../model/subject';
 import { Grade } 				from '../../model/grade';
 import { Grades } 				from '../../model/grades';
     
+
 @Component({
     templateUrl: './grades-table.component.html',
     styleUrls: ['./grades-table.component.scss']
@@ -43,8 +45,8 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
     private gradesSubscription: Subscription;
 
     constructor(
+	public dialog: MatDialog,
 	private assessmentsService: AssessmentsService,
-	private dialogService: DialogService,
         private route: ActivatedRoute,
         private router: Router
     ) {}
@@ -76,12 +78,23 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
 	this.gradesSubscription.unsubscribe();
     }
 
-    canDeactivate(): Promise<boolean> | boolean {
+    canDeactivate(): Observable<boolean> | boolean {
 	if (!this.edited) {
 	    return true;
 	}
 
-	return this.dialogService.confirm('Discard changes?');
+	let dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            closeOnNavigation: true,
+            data: {
+                title: 'Descartar canvis',
+                content: 'Si continueu es perdran els canvis.',
+                cancel: 'Cancel·la',
+                action: 'Continua'
+            },
+            disableClose: true
+        });
+
+        return dialogRef.afterClosed();
     }
 
     save() {
@@ -94,8 +107,23 @@ export class GradesTableComponent implements OnInit, OnDestroy, CanComponentDeac
     }
 
     cancel() {
-        this.saving = true;
-	this.assessmentsService.getGrades(this.assessment_id, this.group_id, true).subscribe((grades: Grades) => this.grades = grades);
+	let dialogRef = this.dialog.open(ConfirmDialogComponent, {
+	    closeOnNavigation: true,
+	    data: {
+		title: 'Descartar canvis',
+		content: 'Voleu descartar els canvis?',
+		cancel: 'Cancel·la',
+		action: 'Descarta'
+	    },
+	    disableClose: true
+	});
+	    
+	dialogRef.afterClosed().subscribe(resp => {
+	    if (resp) {
+		this.saving = true;
+		this.assessmentsService.getGrades(this.assessment_id, this.group_id, true).subscribe((grades: Grades) => this.grades = grades);
+	    }
+	});
     }
 
     trackByIndex(index: number, obj: any): any {

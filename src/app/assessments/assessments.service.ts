@@ -40,7 +40,7 @@ export class AssessmentsService {
                         return new ComposedSelectorItem(value._id, value._id);
                     });
 
-                    return new ComposedSelectorSelect('year', 'Any...', items, false, -1);
+                    return new ComposedSelectorSelect('year', 'Any...', items, false);
                 }
 
                 return null;
@@ -71,7 +71,7 @@ export class AssessmentsService {
                         return new ComposedSelectorItem(value_id, courses);
                     });
 
-                    return new ComposedSelectorSelect('course', 'Curs...', parents, true, -1);
+                    return new ComposedSelectorSelect('course', 'Curs...', parents, true);
                 }
 
                 return null;
@@ -93,7 +93,7 @@ export class AssessmentsService {
                         return new ComposedSelectorItem(value.short_name, value._id);
                     });
 
-                    return new ComposedSelectorSelect('group', 'Grup...', items, false, -1);
+                    return new ComposedSelectorSelect('group', 'Grup...', items, false);
                 }
 
                 return null;

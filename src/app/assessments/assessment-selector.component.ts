@@ -21,11 +21,11 @@ import { ComposedSelectorSelect,
 })
 export class AssessmentSelectorComponent implements OnInit, OnDestroy {
     selects: ComposedSelectorSelect[];
-    changedSelectId: string = null;
     
     selectedYear = '-1';
     selectedCourseId = '-1';
     selectedGroupId = '-1';
+    currentSelection: any[];
 
     private selectsSubscription: Subscription;
     private routerEventsSubscription: Subscription;
@@ -38,26 +38,12 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 	// Restore selects state if navigation is cancelled...
 	this.routerEventsSubscription = this.router.events.subscribe(event => {
 	    if (event instanceof NavigationCancel) {
-		// Restore changed select previous selected item...
-		//let changedSelect: any = document.getElementById(this.changedSelectId);
-		switch(this.changedSelectId) {
-		    case 'year':
-			//changedSelect.value = this.selectedYear;
-			this.selects[0] = this.cloneSelect(this.selects[0], this.selectedYear);
-			break;
-		    case 'course':
-			//changedSelect.value = this.selectedCourseId;
-			this.selects[1] = this.cloneSelect(this.selects[1], this.selectedCourseId);
-			break;
-		    case 'group':
-			//changedSelect.value = this.selectedGroupId;
-			this.selects[2] = this.cloneSelect(this.selects[2], this.selectedGroupId);
-			break;
-		    default:
-			break;
-		}
-
-		this.changedSelectId = null;
+		// Force change detection...
+		setTimeout(() => {
+		    this.currentSelection = [this.selectedYear,
+					     this.selectedCourseId,
+					     this.selectedGroupId];
+		}, 0);
 	    }
 	});
     }
@@ -65,6 +51,8 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
     ngOnInit() {
 	this.selects = [];
 	[0, 1, 2].forEach(index => this.selects.push(this.emptySelect(index)));
+	this.currentSelection = [];
+	[0, 1, 2].forEach(index => this.currentSelection.push(''));
 	
 	this.selectsSubscription = this.route.params
 	    .subscribe((params: Params) => {
@@ -75,13 +63,14 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 		// Reset navigation...
 		if (year == '-1' && course_id == '-1' && group_id == '-1') {
 		    [0, 1, 2].forEach(index => this.selects[index] = this.emptySelect(index));
+		    [0, 1, 2].forEach(index => this.currentSelection[index] = '');
 		}
 		
 		if (this.selects[0].items.length == 0) {
 		    this.assessmentsService.getGroupsSelectYear()
 			.subscribe((select: ComposedSelectorSelect) => {
 			    this.selects[0] = select;
-			    select.selectedValue = year;
+			    this.currentSelection[0] = year;
 			});
 		}
 		
@@ -93,7 +82,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 			this.assessmentsService.getGroupsSelectCourse(year)
 			    .subscribe((select: ComposedSelectorSelect) => {
 				this.selects[1] = select
-				select.selectedValue = course_id;
+				this.currentSelection[1] = course_id;
 			    });
 		    }
 		    else {
@@ -108,7 +97,7 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 			this.assessmentsService.getGroupsSelectGroup(year, course_id)
 			    .subscribe((select: ComposedSelectorSelect) => {
 				this.selects[2] = select;
-				select.selectedValue = group_id;
+				this.currentSelection[2] = group_id;
 			    });
 		    }
 		    else {
@@ -131,7 +120,6 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
     }
 
     onSelectorChanged(event: ComposedSelectorEvent) {
-	this.changedSelectId = event.select_id;
 	let value = event.select_value;
 	switch(event.select_id) {
 	    case 'year':
@@ -193,39 +181,19 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 
 	switch(index) {
 	    case 0:
-		select = new ComposedSelectorSelect('year', 'Any...', [], false, -1);
+		select = new ComposedSelectorSelect('year', 'Any...', [], false);
 		break;
 	    case 1:
-                select = new ComposedSelectorSelect('course', 'Curs...', [], false, -1);
+                select = new ComposedSelectorSelect('course', 'Curs...', [], false);
                 break;
 	    case 2:
-                select = new ComposedSelectorSelect('group', 'Grup...', [], false, -1);
+                select = new ComposedSelectorSelect('group', 'Grup...', [], false);
                 break;
 	    default:
 		break
 	}
 
 	return select;
-    }
-
-    /*
-     * This method is used to restore previous selected
-     * value when navigation is cancelled.
-     */
-    private cloneSelect(select: ComposedSelectorSelect,
-			newSelectedValue: any): ComposedSelectorSelect {
-	if (select) {
-	    return new ComposedSelectorSelect(
-		select.id,
-		select.placeholder,
-		select.items,
-		select.grouped,
-		newSelectedValue
-	    );
-	}
-
-	return null;
-
     }
 }
 
