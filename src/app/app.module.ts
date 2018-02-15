@@ -13,6 +13,7 @@ import { CustomMaterialModule }		from './custom-material/custom-material.module'
 
 import { AppComponent }  		from './app.component';
 import { PageNotFoundComponent }	from './not-found.component';
+import { LogoutComponent }		from './logout.component';
 import { SangoNavbarComponent } 	from './sango-navbar/sango-navbar.component';
 
 @NgModule({
@@ -31,6 +32,7 @@ import { SangoNavbarComponent } 	from './sango-navbar/sango-navbar.component';
     declarations: [ 
 	AppComponent,
 	PageNotFoundComponent,
+	LogoutComponent,
 	SangoNavbarComponent
     ],
     bootstrap: [ AppComponent ]

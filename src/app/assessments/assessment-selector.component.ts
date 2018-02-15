@@ -38,12 +38,9 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 	// Restore selects state if navigation is cancelled...
 	this.routerEventsSubscription = this.router.events.subscribe(event => {
 	    if (event instanceof NavigationCancel) {
-		// Force change detection...
-		setTimeout(() => {
-		    this.currentSelection = [this.selectedYear,
-					     this.selectedCourseId,
-					     this.selectedGroupId];
-		}, 0);
+		this.currentSelection = [this.selectedYear,
+		    		     this.selectedCourseId,
+		    		     this.selectedGroupId];
 	    }
 	});
     }
