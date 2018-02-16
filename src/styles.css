@@ -22,6 +22,25 @@
     z-index: 1000;
 }
 
+/*
+ * Charts styles
+ */
+.sg-chart-h200 {
+        height: 200px;
+}
+
+.sg-chart-h300 {
+        height: 300px;
+}
+
+.sg-chart-h400 {
+        height: 400px;
+}
+
+.sg-chart-h500 {
+        height: 500px;
+}
+
 @media (min-width: 576px) {
     .welcome {
 	flex-grow: 1;

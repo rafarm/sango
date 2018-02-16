@@ -9,7 +9,7 @@ import { Stats }		from '../../model/stats';
 @Component({
     selector: 'averagesChart',
     template: `
-	<div *ngIf="subjects && subjectStats && levelStats" id="averages_chart" chartType="ComboChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="chart_300"></div>
+	<div *ngIf="subjects && subjectStats && levelStats" id="averages_chart" chartType="ComboChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="sg-chart-h300"></div>
     `
 })
 export class GroupAveragesChartComponent implements OnChanges {

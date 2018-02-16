@@ -1,6 +1,7 @@
 import { NgModule } 			from '@angular/core';
 
 import { UtilsModule }			from '../../utils/utils.module';
+import { CustomMaterialModule }         from '../../custom-material/custom-material.module';
 
 import { GroupRoutingModule }		from './group-routing.module';
 
@@ -14,6 +15,7 @@ import { GroupRatiosChartComponent }	from './group-ratios-chart.component';
 @NgModule({
     imports: [
 	UtilsModule,
+	CustomMaterialModule,
 	GroupRoutingModule
     ],
     declarations: [

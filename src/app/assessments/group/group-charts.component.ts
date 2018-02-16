@@ -2,13 +2,16 @@ import { Component, OnInit, OnDestroy } 	from '@angular/core';
 import { Router, ActivatedRoute, Params }       from '@angular/router';
 import { Observable }                           from 'rxjs/Observable';
 import { Subscription }                         from 'rxjs/Subscription';
+import { BreakpointObserver,
+         Breakpoints }				from '@angular/cdk/layout';
 
 import { AssessmentsService }			from '../assessments.service';
 
 import { Group }                        	from '../../model/group';
     
 @Component({
-    templateUrl: './group-charts.component.html'
+    templateUrl: './group-charts.component.html',
+    styleUrls: ['./group-charts.component.css']
 })
 export class GroupChartsComponent implements OnInit, OnDestroy {
     year: string;
@@ -20,13 +23,21 @@ export class GroupChartsComponent implements OnInit, OnDestroy {
     subjectStats: any;
     levelStats: any;
 
+    cols: number;
+
     private statsSubscription: Subscription;
 
     constructor(
 	private assessmentsService: AssessmentsService,
 	private route: ActivatedRoute,
-	private router: Router
-    ) {}
+	private router: Router,
+	breakpointObserver: BreakpointObserver
+    ) {
+	breakpointObserver.observe('(max-width: 720px)')
+	    .subscribe(result => {
+		this.cols = result.matches ? 1 : 2;
+	    });
+    }
 
     ngOnInit() {
 	this.year = this.route.parent.parent.parent.snapshot.params['year'];

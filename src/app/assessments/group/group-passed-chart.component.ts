@@ -9,7 +9,7 @@ import { Stats }		from '../../model/stats';
 @Component({
     selector: 'passedChart',
     template: `
-	<div *ngIf="students && studentStats" id="histogram_chart" chartType="Histogram" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="chart_300"></div>
+	<div *ngIf="students && studentStats" id="histogram_chart" chartType="Histogram" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="sg-chart-h300"></div>
     `
 })
 export class GroupPassedChartComponent implements OnChanges {

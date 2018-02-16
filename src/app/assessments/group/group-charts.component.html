@@ -1,20 +1,16 @@
-<div class="row bg-white">
-    <div class="col stretchable">
-	<div class="row">
-	    <div class="col-md">
-		<failedChart [studentStats]="studentStats"></failedChart>
-	    </div>
-	    <div class="col-md">
-		<passedChart [students]="students" [studentStats]="studentStats"></passedChart>
-	    </div>
-	</div>
-	<div class="row">
-	    <div class="col-md">
-		<averagesChart [subjects]="subjects" [subjectStats]="subjectStats" [levelStats]="levelStats"></averagesChart>
-	    </div>
-	    <div class="col-md">
-		<ratiosChart [subjects]="subjects" [subjectStats]="subjectStats" [levelStats]="levelStats"></ratiosChart>
-	    </div>
-	</div>
-    </div>
+<div class="stretchable">
+    <mat-grid-list [cols]="cols" rowHeight="300px" gutterSize="10px">
+	<mat-grid-tile>
+	    <failedChart [studentStats]="studentStats" class="sg-flex-chart"></failedChart>
+	</mat-grid-tile>
+	<mat-grid-tile>
+	    <passedChart [students]="students" [studentStats]="studentStats" class="sg-flex-chart"></passedChart>
+	</mat-grid-tile>
+	<mat-grid-tile>
+	    <averagesChart [subjects]="subjects" [subjectStats]="subjectStats" [levelStats]="levelStats" class="sg-flex-chart"></averagesChart>
+	</mat-grid-tile>
+	<mat-grid-tile>
+	    <ratiosChart [subjects]="subjects" [subjectStats]="subjectStats" [levelStats]="levelStats" class="sg-flex-chart"></ratiosChart>
+	</mat-grid-tile>
+    </mat-grid-list>
 </div>

@@ -4,7 +4,6 @@ import { Directive,
 	 OnInit,
 	 OnChanges,
 	 OnDestroy,
-	 SimpleChange,
 	 HostListener } from '@angular/core';
 
 declare var google:any;
@@ -31,7 +30,7 @@ export class GoogleChartDirective implements OnInit, OnChanges, OnDestroy {
 	    }
 	}
   
-	ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
+	ngOnChanges() {
 	    this.drawChart();
 	}
 
@@ -51,6 +50,10 @@ export class GoogleChartDirective implements OnInit, OnChanges, OnDestroy {
                 }
 
 		this.clearChart();
+
+		// Add inherited background...
+		var ops = this.chartOptions || {};
+		ops['backgroundColor'] = 'transparent'; 
 
                 this._wrapper.setChartType(this.chartType);
 	        this._wrapper.setDataTable(this.chartData);
