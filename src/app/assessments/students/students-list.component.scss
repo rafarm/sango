@@ -1,0 +1,34 @@
+@import '~@angular/material/theming';
+
+$bg-light-grey: map-get($mat-grey, 200);
+$fg-light-grey: map-get($mat-grey, 100);
+$active-grey: map-get($mat-grey, 300);
+
+.sg-students-list {
+    .mat-drawer {
+	background-color: $bg-light-grey;
+	width: 360px;
+
+	.active {
+	    background-color: $active-grey;
+	}
+    }
+
+    .sg-student-name {
+	padding-right: 8px;
+    }
+
+    .sg-badge {
+	color: $fg-light-grey;
+    }
+
+    @media (max-width: 720px) {
+	.mat-drawer {
+	    width: 320px;
+	}
+
+	.mat-list-item {
+	    font-size: 14px;
+	}
+    }
+}

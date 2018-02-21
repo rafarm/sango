@@ -85,6 +85,10 @@ nav-divider .mat-tab-link {
     .sg-show-small {
         display: flex !important;
     }
+
+    nav-divider .mat-tab-link {
+        min-width: 52px;
+    }
 }
 
 .sg-growing-font {
@@ -93,4 +97,23 @@ nav-divider .mat-tab-link {
 
 nav-divider .mat-tab-links {
     display: flex;
+}
+
+.sg-badge {
+    border-radius: 24px;
+    padding: 2px 8px;
+    min-width: 20px;
+    text-align: center;
+}
+
+.sg-badge-repeats {
+    background-color: mat-color($sango-theme-primary);
+}
+
+.sg-badge-warning {
+    background-color: mat-color($sango-theme-accent, 700);
+}
+
+.sg-badge-danger {
+    background-color: mat-color($sango-theme-warn);
 }

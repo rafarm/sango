@@ -10,6 +10,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -25,6 +28,9 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatTabsModule,
     MatDialogModule,
     MatGridListModule,
+    MatSidenavModule,
+    MatListModule,
+    MatChipsModule,
     LayoutModule
   ],
   exports: [
@@ -38,6 +44,9 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatTabsModule,
     MatDialogModule,
     MatGridListModule,
+    MatSidenavModule,
+    MatListModule,
+    MatChipsModule,
     LayoutModule
   ]
 })

@@ -1,19 +1,15 @@
-<div class="row bg-white">
-    <div class="navbar-expand-md">
-    	<div sgCollapse orientation="horizontal" class="sidebar low stretchable bg-secondary navbar-collapse collapse" id="toggleableSidebar">
-	    <table class="table">
-	        <tbody>
-	            <tr *ngFor="let st of students" routerLink="{{st._id}}" routerLinkActive="active">
-	    	        <td><div class="name-col">{{st.last_name + ', ' + st.first_name}}</div></td>
-	    	        <td class="badge-col"><span *ngIf="st.repeats" class="badge badge-pill badge-info">R</span></td>
-	    	        <td *ngIf="studentStats" class="badge-col"><span *ngIf="hasFailed(st._id)" [ngClass]="badgeClasses(st._id)">{{studentStats[st._id].failed}}</span></td>
-	            </tr>
-	        </tbody>
-	    </table>
-        </div>
-    </div>
-    <div class="col stretchable">
-        <router-outlet></router-outlet>
-    </div>
-</div>
-
+<mat-drawer-container class="sg-students-list stretchable">
+    <mat-drawer [(opened)]="drawerOpened" [mode]="drawerMode">
+	<mat-nav-list (click)="onListClick($event)">
+	    <a mat-list-item *ngFor="let st of students" routerLink="{{st._id}}" routerLinkActive="active">
+		<span class="sg-student-name">{{st.last_name + ', ' + st.first_name}}</span>
+		<span class="sg-fill-space"></span>
+		<span *ngIf="st.repeats" class="sg-badge sg-badge-repeats">R</span>
+		<span *ngIf="studentStats && hasFailed(st._id)" class="sg-badge" [ngClass]="failedBadgeClasses(st._id)">{{studentStats[st._id].failed}}</span>
+	    </a>
+	</mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content>
+	<router-outlet></router-outlet>
+    </mat-drawer-content>
+</mat-drawer-container>

@@ -2,14 +2,23 @@ import { Component, OnInit, OnDestroy } 	from '@angular/core';
 import { Router, ActivatedRoute, Params }       from '@angular/router';
 import { Observable }                           from 'rxjs/Observable';
 import { Subscription }                         from 'rxjs/Subscription';
+import { BreakpointObserver,
+         Breakpoints }                          from '@angular/cdk/layout';
 
 import { AssessmentsService }			from '../assessments.service';
 
 import { Group }                        	from '../../model/group';
     
+
+const DrawerMode = {
+    OVER: 'over',
+    PUSH: 'push',
+    SIDE: 'side'
+}
+
 @Component({
     templateUrl: './students-list.component.html',
-    styleUrls: ['./students-list.component.css']
+    styleUrls: ['./students-list.component.scss']
 })
 export class StudentsListComponent implements OnInit, OnDestroy {
     year: string;
@@ -19,14 +28,27 @@ export class StudentsListComponent implements OnInit, OnDestroy {
     subjects: any;
     studentStats: any;
 
+    drawerMode: string;
+    drawerOpened: boolean;
+
     private statsSubscription: Subscription;
 
 
     constructor(
 	private assessmentsService: AssessmentsService,
 	private route: ActivatedRoute,
-	private router: Router
-    ) {}
+	private router: Router,
+        breakpointObserver: BreakpointObserver
+    ) {
+	breakpointObserver.observe('(max-width: 720px)')
+            .subscribe(result => {
+                this.drawerMode = result.matches ? DrawerMode.OVER : DrawerMode.SIDE;
+            });
+	breakpointObserver.observe('(min-width: 721px)')
+            .subscribe(result => {
+                this.drawerOpened = result.matches ? true : false;
+            });
+    }
 
     ngOnInit() {
 	this.year = this.route.parent.parent.parent.snapshot.params['year'];
@@ -50,18 +72,22 @@ export class StudentsListComponent implements OnInit, OnDestroy {
         this.statsSubscription.unsubscribe();
     }
 
+    onListClick() {
+	if (this.drawerMode == DrawerMode.OVER) {
+	    this.drawerOpened = false;
+	}
+    }
+
     private hasFailed(student_id: string): boolean {
 	return this.studentStats[student_id].failed > 0;
     }
 
-    private badgeClasses(student_id: string): any {
-	let classes = {'badge': true,
-		       'badge-pill': true};
-    
+    private failedBadgeClasses(student_id: string): any {
+	let classes = {};
 	let failed = this.studentStats[student_id].failed;
 
-	classes['badge-warning'] = failed > 0 && failed <= 2;
-	classes['badge-danger'] = failed > 2;
+	classes['sg-badge-warning'] = failed > 0 && failed <= 2;
+	classes['sg-badge-danger'] = failed > 2;
 
 	return classes;
     }

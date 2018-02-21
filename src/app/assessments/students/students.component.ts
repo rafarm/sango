@@ -1,13 +1,28 @@
-import { Component }				from '@angular/core';
+import { Component }		from '@angular/core';
 
 import { AssessmentsDividerBaseComponent } 	from '../assessments-divider-base.component';
+import { StudentsListComponent }	 	from './students-list.component';
 
 @Component({
     template: `
-	<nav-divider [hasSidebar]="true" [items]="assessments"></nav-divider>
-	<router-outlet></router-outlet>
+	<nav-divider [icon]="'menu'" [items]="assessments" (iconClick)="toggle()"></nav-divider>
+	<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>
     `
 })
 export class StudentsComponent extends AssessmentsDividerBaseComponent {
+    private studentsList: StudentsListComponent;
 
+    onActivate(componentRef: StudentsListComponent) {
+	this.studentsList = componentRef;
+    }
+
+    onDeactivate() {
+	this.studentsList = null;
+    }
+
+    toggle() {
+	if (this.studentsList) {
+	    this.studentsList.drawerOpened = !this.studentsList.drawerOpened;
+	}
+    }
 }

@@ -1,5 +1,5 @@
-import { Component, Input } 	from '@angular/core';
-import { Observable }		from 'rxjs/Observable';
+import { Component, Input, Output, EventEmitter } 	from '@angular/core';
+import { Observable }					from 'rxjs/Observable';
 
 export class NavItem {
     constructor(
@@ -10,20 +10,19 @@ export class NavItem {
 
 @Component({
     selector: 'nav-divider', 
-    templateUrl: './nav-divider.component.html'
+    templateUrl: './nav-divider.component.html',
+    styleUrls: ['./nav-divider.component.scss']
 })
 export class NavDividerComponent {
     @Input()
-    hasSidebar: boolean = false;
+    icon: string;
     @Input()
     items: Observable<NavItem[]>;
 
-    getClasses(): any {
-        let classes = {};
+    @Output()
+    iconClick = new EventEmitter<NavDividerComponent>();
 
-        classes['navbar-toggler'] = true;
-        classes['navbar-toggler-hidden'] = !this.hasSidebar;
-
-        return classes;
+    onIconClick() {
+	this.iconClick.emit(this);
     }
 }

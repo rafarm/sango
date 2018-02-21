@@ -1,4 +1,7 @@
 <nav mat-tab-nav-bar>
+    <button *ngIf="icon" mat-icon-button class="sg-show-small sg-icon-button" (click)="onIconClick()">
+        <mat-icon>{{icon}}</mat-icon>
+    </button>
     <span class="sg-fill-space"></span>
     <a mat-tab-link *ngFor="let i of items | async" [routerLink]="i._id" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">{{i.name}}</a>
     <span class="sg-fill-space"></span>

@@ -7,10 +7,10 @@
 
 $foreground: map-get($sango-theme, foreground);
 $background: map-get($sango-theme, background);
-$failed: map-get($mat-red, A100);
-$failed-hover: map-get($mat-red, A200);
-$missing: map-get($mat-amber, A100);
-$missing-hover: map-get($mat-amber, A200);
+$failed: mat-color($sango-theme-warn, A100);
+$failed-hover: mat-color($sango-theme-warn, A200);
+$missing: mat-color($sango-theme-accent, A100);
+$missing-hover: mat-color($sango-theme-accent, A200);
 $passed-hover: map-get($mat-grey, 400);
 
 table.sg-table {
