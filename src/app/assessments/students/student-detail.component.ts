@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ElementRef }         from '@angular/core'
 import { Router, ActivatedRoute, Params }       from '@angular/router';
 import { Observable }                           from 'rxjs/Observable';
 import { Subscription }                         from 'rxjs/Subscription';
+import { BreakpointObserver }                   from '@angular/cdk/layout';
 
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/merge';
@@ -17,7 +18,7 @@ import { Grades }                               from '../../model/grades';
 
 @Component({
     templateUrl: './student-detail.component.html',
-    styleUrls: ['./student-detail.component.css']
+    styleUrls: ['./student-detail.component.scss']
 })
 export class StudentDetailComponent {
     year: string;
@@ -34,12 +35,20 @@ export class StudentDetailComponent {
 
     private statsSubscription: Subscription;
 
+    cols: number;    
+
     constructor(
 	private el: ElementRef,
 	private assessmentsService: AssessmentsService,
         private route: ActivatedRoute,
-        private router: Router
-    ) {}
+        private router: Router,
+	breakpointObserver: BreakpointObserver
+    ) {
+	breakpointObserver.observe('(max-width: 920px)')
+            .subscribe(result => {
+                this.cols = result.matches ? 1 : 2;
+            });
+    }
 
     ngOnInit() {
         this.year = this.route.parent.parent.parent.parent.snapshot.params['year'];

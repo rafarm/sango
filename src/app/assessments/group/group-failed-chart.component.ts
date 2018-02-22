@@ -18,7 +18,7 @@ export class GroupFailedChartComponent implements OnChanges {
 
     constructor() {
         this.chartOptions = {
-            title: 'Failed Subjects',
+            title: 'Assignatures suspeses',
             titleTextStyle: {
                 fontSize: 18
             },
@@ -40,8 +40,8 @@ export class GroupFailedChartComponent implements OnChanges {
 
     private setData() {
         let data = [];
-        data.push( ['#Failed', '#Students'] );
-        data.push( ['None', 0] );
+        data.push( ['Num. suspeses', 'Num. alumnes'] );
+        data.push( ['Cap', 0] );
         data.push( ['1', 0] );
         data.push( ['2', 0] );
         data.push( ['3', 0] );

@@ -23,7 +23,7 @@ export class GroupPassedChartComponent implements OnChanges {
 
     constructor() {
 	this.chartOptions = {
-            title: 'Passed Subjects',
+            title: 'Assignatures aprovades',
             titleTextStyle: {
                 fontSize: 18
             },
@@ -56,7 +56,7 @@ export class GroupPassedChartComponent implements OnChanges {
 	let data: any[] = [];
 	
 	if (this.students != undefined && this.studentStats != undefined) {
-            data.push( ['Student', 'Passed'] );
+            data.push( ['Alumne', 'Aprovades'] );
 
 	    this.students.forEach((st: Student) => {
 		let stats: Stats = this.studentStats[st._id];

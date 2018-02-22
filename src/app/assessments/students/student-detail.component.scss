@@ -1,0 +1,52 @@
+@import '~@angular/material/theming';
+
+
+.sg-student-detail {
+    $title-color: map-get($mat-grey, 700);
+    $table-header-color: map-get($mat-grey, 500);
+    $table-data-color: map-get($mat-grey, 800);
+    $summary-height: 100px;
+    $pic-dimension: $summary-height;
+
+    .mat-card {
+	flex: 1 0 220px;
+	margin: 0px 8px;
+    }
+    
+    .mat-card-title {
+	color: $title-color;
+	margin-bottom: 26px;
+    }
+
+    .mat-card-avatar {
+	width: $pic-dimension;
+	height: $pic-dimension;
+	border-radius: 50%;
+	flex-shrink: 0;
+    }
+    
+    table {
+	height: $summary-height;
+	border-collapse: collapse;
+	width: 100%;
+	text-align: center;
+    }
+
+    th {
+	height: $summary-height * 0.28;
+	font-size: 20px;
+	font-weight: normal;
+	color: $table-header-color;
+
+	&.sg-student-pic {
+	    width: $pic-dimension;
+	}
+    }
+    
+    td {
+	height: $summary-height * 0.68;
+	font-size: 28px;
+	font-weight: bold;
+	color: $table-data-color;
+    }
+}

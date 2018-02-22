@@ -1,43 +1,35 @@
-<div class="bg-white">
-    <div *ngIf="student && studentStats">
-        <div class="row first-row">
-	    <div class="col student-card">
-		<div class="card">
-		    <div class="card-header">
-			<h5 class="card-title">{{student.last_name + ', ' + student.first_name | uppercase}}</h5>
-		    </div>
-                    <div class="card-body">
-			<table class="table table-sm">
-			    <tbody>
-				<tr>
-				    <td rowspan="2">
-					<img class="card-img" src="{{'assets/pics/' + student._id + '.jpg'}}" onerror="this.src='assets/student.png'">
-				    </td>
-				    <th><h6 class="text-muted text-right">Age:</h6></th>
-				    <td><h6 class="text-right">{{ageInYears()}}</h6></td>
-				</tr>
-				<tr>
-				    <th><h6 class="text-muted text-right">Average:</h6></th>
-				    <td><h6 class="text-right">{{studentStats[studentStats.length - 1].stats.avg | number:'1.2-2'}}</h6></td>
-				</tr>
-			    </tbody>
-			</table>
-		    </div>
-                </div>
-	    </div>
-	    <div class="col">
-	        <failedChart [stats]="studentStats"></failedChart>
-	    </div>
-        </div>
-        <div class="row">
-	    <div class="col">
-	        <gradesChart [grades]="studentGrades" [subjects]="student.subjects" [subjectStats]="subjectStats"></gradesChart>
-	    </div>
-        </div>
-        <div class="row">
-	    <div class="col">
-	        <deltasChart [grades]="studentGrades" [prev_grades]="studentPrevGrades" [subjects]="student.subjects"></deltasChart>
-	    </div>
-        </div>
-    </div>
-</div>
+<mat-grid-list *ngIf="student && studentStats" [cols]="cols" rowHeight="300px" gutterSize="10px" class="sg-student-detail">
+    <mat-grid-tile>
+	<mat-card>
+	    <mat-card-title>
+		{{student.last_name + ', ' + student.first_name | uppercase}}
+	    </mat-card-title>
+	    <mat-card-content>
+		<table>
+		    <tbody>
+		        <tr>
+			    <th rowspan="2" class="sg-student-pic">
+				<img mat-card-avatar src="{{'assets/pics/' + student._id + '.jpg'}}" onerror="this.src='assets/student.png'">
+			   </th>
+			   <th>Edat</th>
+			   <th>Mitjana</th>
+			</tr>
+		        <tr>
+			    <td>{{ageInYears()}}</td>
+			    <td>{{studentStats[studentStats.length - 1].stats.avg | number:'1.2-2'}}</td>
+			</tr>
+		    </tbody>
+		</table>
+	    </mat-card-content>    
+	</mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+	<failedChart [stats]="studentStats" class="sg-flex-chart"></failedChart>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="cols">
+	<gradesChart [grades]="studentGrades" [subjects]="student.subjects" [subjectStats]="subjectStats" class="sg-flex-chart"></gradesChart>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="cols">
+	<deltasChart [grades]="studentGrades" [prev_grades]="studentPrevGrades" [subjects]="student.subjects" class="sg-flex-chart"></deltasChart>
+    </mat-grid-tile>
+</mat-grid-list>

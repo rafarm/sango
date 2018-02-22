@@ -25,7 +25,7 @@ export class GroupRatiosChartComponent implements OnChanges {
 
     constructor() {
 	this.chartOptions = {
-            title: 'Ratios by Subject',
+            title: 'Ratios per assignatura',
             titleTextStyle: {
                 fontSize: 18
             },
@@ -63,7 +63,7 @@ export class GroupRatiosChartComponent implements OnChanges {
 	if (this.subjects != undefined && this.subjectStats != undefined && this.levelStats != undefined) {
 
 	    // Headers...
-	    data.push( ['Subject', 'Group Ratio', 'Level Ratio'] );
+	    data.push( ['Assignatura', 'Ratio de grup', 'Ratio de nivell'] );
 
 	    // Values...
 	    this.subjects.forEach((su: Subject) => {

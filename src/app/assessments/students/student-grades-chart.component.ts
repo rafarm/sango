@@ -9,7 +9,7 @@ import { Stats }		from '../../model/stats';
 @Component({
     selector: 'gradesChart',
     template: `
-	<div *ngIf="grades && subjects && subjectStats" id="grades_chart" chartType="ComboChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="chart_300"></div>
+	<div *ngIf="grades && subjects && subjectStats" id="grades_chart" chartType="ComboChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="sg-chart-h300"></div>
     `
 })
 export class StudentGradesChartComponent implements OnChanges {
@@ -25,7 +25,7 @@ export class StudentGradesChartComponent implements OnChanges {
 
     constructor() {
 	this.chartOptions = {
-            title: "Grades",
+            title: "Qualificacions",
             titleTextStyle: {
                 fontSize: 18
             },
@@ -62,7 +62,7 @@ export class StudentGradesChartComponent implements OnChanges {
 
 	if (this.grades != undefined && this.subjects != undefined && this.subjectStats != undefined) {
 	    // Headers...
-	    data.push( ['Subject', 'Grade', 'Group Average'] );
+	    data.push( ['Assignatura', 'Qualificació', 'Mitjana de grup'] );
 
 	    // Values...
 	    this.subjects.forEach((su: any) => {

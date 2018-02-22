@@ -25,7 +25,7 @@ export class GroupAveragesChartComponent implements OnChanges {
 
     constructor() {
 	this.chartOptions = {
-            title: 'Averages by Subject',
+            title: 'Mitjanes per assignatura',
             titleTextStyle: {
                 fontSize: 18
             },
@@ -63,7 +63,7 @@ export class GroupAveragesChartComponent implements OnChanges {
 	if (this.subjects != undefined && this.subjectStats != undefined && this.levelStats != undefined) {
 
 	    // Headers...
-	    data.push( ['Subject', 'Group Average', 'Level Average'] );
+	    data.push( ['Assignatura', 'Mitjana de grup', 'Mijana de nivell'] );
 
 	    // Values...
 	    this.subjects.forEach((su: Subject) => {

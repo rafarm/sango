@@ -9,7 +9,7 @@ import { Stats }		from '../../model/stats';
 @Component({
     selector: 'deltasChart',
     template: `
-	<div *ngIf="grades && prev_grades && subjects" id="deltas_chart" chartType="ColumnChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="chart_300"></div>
+	<div *ngIf="grades && prev_grades && subjects" id="deltas_chart" chartType="ColumnChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="sg-chart-h300"></div>
     `
 })
 export class StudentDeltasChartComponent implements OnChanges {
@@ -25,7 +25,7 @@ export class StudentDeltasChartComponent implements OnChanges {
 
     constructor() {
 	this.chartOptions = {
-	    title: 'Difference with previous assessment',
+	    title: "Diferència amb l'avaluació anterior",
             titleTextStyle: {
                 fontSize: 18
             },
@@ -55,7 +55,7 @@ export class StudentDeltasChartComponent implements OnChanges {
 
 	if (this.grades != undefined && this.prev_grades != undefined && this.subjects != undefined) {
 	    // Headers...
-	    data.push( ['Subject', 'Difference'] );
+	    data.push( ['Assignatura', 'Diferència'] );
 
 	    // Values...
 	    this.subjects.forEach((su: any) => {

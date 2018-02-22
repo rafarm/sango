@@ -8,7 +8,7 @@ import { Stats }		from '../../model/stats';
 @Component({
     selector: 'failedChart',
     template: `
-	<div *ngIf="stats" id="failed_chart" chartType="ColumnChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart style="height: 240px;"></div>
+	<div *ngIf="stats" id="failed_chart" chartType="ColumnChart" [chartData]="chartData" [chartOptions]="chartOptions" GoogleChart class="sg-chart-h300"></div>
     `
 })
 export class StudentFailedChartComponent implements OnChanges {
@@ -20,7 +20,7 @@ export class StudentFailedChartComponent implements OnChanges {
 
     constructor() {
 	this.chartOptions = {
-	    title: 'Failed Subjects',
+	    title: 'Assignatures suspeses',
             titleTextStyle: {
                 fontSize: 18
             },
@@ -50,7 +50,7 @@ export class StudentFailedChartComponent implements OnChanges {
 	
 	if (this.stats != undefined) {
 	    // Headers...
-	    data.push( ['Assessment', 'Failed'] );
+	    data.push( ['Avaluació', 'Suspeses'] );
 
 	    // Values...
 	    this.stats.forEach((st: any) => {
