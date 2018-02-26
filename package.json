@@ -22,7 +22,7 @@
     "ldap_bindCredentials": "adminldap",
     "ldap_searchBase": "ou=users,dc=sango,dc=org",
     "ldap_searchFilter": "(uid={{username}})",
-    "cookie_max_age": "60000"
+    "cookie_max_age": "3600000"
   },
   "repository": {
     "type": "git",

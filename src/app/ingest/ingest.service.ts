@@ -7,7 +7,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/empty';
 
-import { BackendService, CallData } 	from '../core/backend.service';
+import { BackendService, UploadProgress } 	from '../core/backend.service';
  
 @Injectable()
 export class IngestService {
@@ -22,7 +22,7 @@ export class IngestService {
     ingestFile(file: File): Observable<string> {
 	return this.backendService.uploadFile(file)
 	    .concatMap(
-		(value: CallData) => {
+		(value: UploadProgress) => {
 		    switch(value.state) {
 			case 1:
 			    return Observable.of(value.data);

@@ -64,7 +64,7 @@ $background: map-get($sango-theme, background);
 }
 
 .sg-alert-success {
-    background-color: mat-color($sango-theme-accent);
+    background-color: map-get($mat-green, 400);
 }
 
 .sg-progress-bar {

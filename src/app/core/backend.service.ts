@@ -1,18 +1,20 @@
-import { Injectable } 				from '@angular/core';
-import { Http, Response, RequestOptions }	from '@angular/http';
-import { Observable } 				from 'rxjs/Observable';
-import { Observer } 				from 'rxjs/Observer';
+import { Injectable } 		from '@angular/core';
+import { HttpClient,
+	 HttpErrorResponse }	from '@angular/common/http';
+import { Observable } 		from 'rxjs/Observable';
+import { Observer } 		from 'rxjs/Observer';
+import { MatDialog }		from '@angular/material/dialog';
 
-import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/retryWhen';
 import 'rxjs/add/operator/catch';
 
-import { ConfigService }	from './config.service';
+import { ConfigService }		from './config.service';
+import { ConfirmDialogComponent }	from '../utils/confirm-dialog.component';
 
 declare var EventSource: any;
 
-// TODO: Change this class' name, PLEASE!
-export class CallData {
+export class UploadProgress {
     constructor(
 	public state: number,
 	public status: number,
@@ -20,13 +22,17 @@ export class CallData {
     ) {};
 }
 
+
 @Injectable()
 export class BackendService {
     private backendUrl: string;
+    private errorDialogShown: boolean = false;
+    private retryCount: number = 0;
 
     constructor(
+	public dialog: MatDialog,
 	private configService: ConfigService,
-	private http: Http
+	private http: HttpClient
     ) {
 	this.backendUrl = configService.backendUrl;
     }
@@ -38,17 +44,19 @@ export class BackendService {
     get(call: string): Observable<any> {
 	return this.http.get(this.backendUrl + call)
 	    .map(this.extractData)
-	    .catch(this.handleError);
+	    .retryWhen(errors => this.checkUnauthorized(errors, 3))
+	    .catch(error => this.handleError(error));
     }
 
     /* put
      *
      * Backend put call.
      */
-    put(call: string, body: string, options: RequestOptions): Observable<any> {
+    put(call: string, body: any, options: any): Observable<any> {
         return this.http.put(this.backendUrl + call, body, options)
-            .map(this.extractData)
-            .catch(this.handleError);
+	    .map(this.extractData)
+	    .retryWhen(errors => this.checkUnauthorized(errors, 3))
+	    .catch(error => this.handleError(error));
     }
 
     /*
@@ -56,8 +64,8 @@ export class BackendService {
      *
      * Uploads a file to server.
      */
-    uploadFile(file: File): Observable<CallData> {
-        let request = Observable.create((observer: Observer<CallData>) => {
+    uploadFile(file: File): Observable<UploadProgress> {
+        let request = Observable.create((observer: Observer<UploadProgress>) => {
             let formData = new FormData();
             let xhr = new XMLHttpRequest();
 
@@ -70,11 +78,11 @@ export class BackendService {
 		    msg = ""+completed;
                 }
 
-                observer.next(new CallData(xhr.readyState, xhr.status, msg));
+                observer.next(new UploadProgress(xhr.readyState, xhr.status, msg));
             };
 
             xhr.onreadystatechange = () => {
-		observer.next(new CallData(xhr.readyState, xhr.status, xhr.response));
+		observer.next(new UploadProgress(xhr.readyState, xhr.status, xhr.response));
 		if (xhr.readyState == 4) {
 		    observer.complete();
 		}
@@ -119,28 +127,72 @@ export class BackendService {
      *
      * Extracts json embedded data in backend's response.
      */
-    private extractData(res: Response) {
-	let body = res.json();
-	return body.data || { };
+    private extractData(res: any) {
+	return res['data'] || { };
+    }
+
+    /* checkUnauthorized
+     *
+     * Checks for unauthorized access
+     */
+    private checkUnauthorized(errors: Observable<HttpErrorResponse>, maxRetries: number): Observable<any> {
+	return errors.concatMap(err => {
+	    if (err.status == 401 || this.retryCount >= maxRetries) {
+		this.retryCount = 0;
+		return Observable.throw(err);
+	    }
+	    
+	    this.retryCount++;
+	    return Observable.of(true);
+	    //return Observable.throw(err);
+        });
     }
 
     /* handleError
      *
      * General error handling.
      */
-    private handleError (error: Response | any) {
-	let errMsg: string;
-	if (error instanceof Response) {
-	    const body = error.json() || '';
-	    const err = body.error || JSON.stringify(body);
-	    errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-	}
+    private handleError (error: HttpErrorResponse) {
+	let errMsg: string = `${error.status} - ${error.message}`;
+	let title: string = 'Error de comunicació';
+	let content: string = 'Ha hagut un error de comunicació amb el servidor. Per favor, torneu a intentar-ho més tard.';
+	let action: () => void = () => {this.errorDialogShown = false};
+    
+	if (error.status == 401) {
+            // Unauthorized access
+	    title = 'Accès no autoritzat'
+	    content = 'La sessió ha caducat.';
+	    action = () => {window.location.href = 'logout';};
+        }
 	else {
-	    errMsg = error.message ? error.message : error.toString();
+	    if (error.error instanceof ErrorEvent) {
+		errMsg = 'Backend error: ' + error.error.message;
+	    }
+	}
+
+	this.showErrorDialog(title, content).subscribe(action);
+    
+	return Observable.throw(errMsg);
+    }
+
+    private showErrorDialog(title: string, content: string): Observable<boolean> {
+	if (!this.errorDialogShown) {
+	    this.errorDialogShown = true;
+	    let dialogRef = this.dialog.open(ConfirmDialogComponent, {
+		closeOnNavigation: true,
+		data: {
+		    title: title,
+		    content: content,
+		    cancel: null,
+		    action: 'Accepta'
+		},
+		disableClose: true
+	    });
+            
+	    return dialogRef.afterClosed();
 	}
     
-	console.error(errMsg);
-	return Observable.throw(errMsg);
-  }
+	return Observable.of(false);
+    }
 }
 

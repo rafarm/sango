@@ -1,5 +1,5 @@
 import { Injectable } 			from '@angular/core';
-import { RequestOptions, Headers }      from '@angular/http';
+import { HttpHeaders }      		from '@angular/common/http';
 import { Observable } 			from 'rxjs/Observable';
 import { Observer } 			from 'rxjs/Observer';
 
@@ -267,11 +267,12 @@ export class AssessmentsService {
         };
 
         let call = 'assessments/' + a_id + '/qualifications';
-        let body = JSON.stringify(a_grades);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+        //let body = JSON.stringify(a_grades);
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        let options = { headers: headers };
 
-        return this.backendService.put(call, body, options);
+        //return this.backendService.put(call, body, options);
+        return this.backendService.put(call, a_grades, options);
     }
 
     /*
