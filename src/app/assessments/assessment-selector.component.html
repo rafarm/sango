@@ -5,18 +5,18 @@
 	    <div class="sg-assessment-section sg-hide-small">
 		<span class="sg-fill-space"></span>
 		<div *ngIf="isNavVisible()">
-		    <a mat-button class="sg-growing-font" routerLink="grades" routerLinkActive="active">Qualificacions</a>
-		    <a mat-button class="sg-growing-font" routerLink="group" routerLinkActive="active">Grup</a>
-		    <a mat-button class="sg-growing-font" routerLink="students" routerLinkActive="active">Alumnes</a>
+		    <a mat-button class="sg-growing-font" [routerLink]="childRoute('grades')" routerLinkActive="active">Qualificacions</a>
+		    <a mat-button class="sg-growing-font" [routerLink]="childRoute('group')" routerLinkActive="active">Grup</a>
+		    <a mat-button class="sg-growing-font" [routerLink]="childRoute('students')" routerLinkActive="active">Alumnes</a>
 		</div>
 	    </div>
 	</nav>
     </mat-toolbar-row>
     <mat-toolbar-row *ngIf="isNavVisible()" class="sg-show-small">
 	<span class="sg-fill-space"></span>
-	<a mat-button class="sg-growing-font" routerLink="grades" routerLinkActive="active">Qualificacions</a>
-	<a mat-button class="sg-growing-font" routerLink="group" routerLinkActive="active">Grup</a>
-	<a mat-button class="sg-growing-font" routerLink="students" routerLinkActive="active">Alumnes</a>
+	<a mat-button class="sg-growing-font" [routerLink]="childRoute('grades')" routerLinkActive="active">Qualificacions</a>
+	<a mat-button class="sg-growing-font" [routerLink]="childRoute('group')" routerLinkActive="active">Grup</a>
+	<a mat-button class="sg-growing-font" [routerLink]="childRoute('students')" routerLinkActive="active">Alumnes</a>
 	<span class="sg-fill-space"></span>
     </mat-toolbar-row>
 </mat-toolbar>

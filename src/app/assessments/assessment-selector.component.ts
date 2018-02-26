@@ -145,32 +145,25 @@ export class AssessmentSelectorComponent implements OnInit, OnDestroy {
 	}
     }
 
-    onNavigate(child: string) {
-	let route = [child];
-
-	// Awful code. I know...
-	if (this.route.children.length > 0 && 
-	    this.route.children[0].children.length > 0 &&
-            this.route.children[0].children[0].children.length > 0) {
-	    route.push(this.route.children[0].children[0].children[0].snapshot.params['assessment_id']);
-        }
-
-	this.router.navigate(route, {relativeTo: this.route});
-    }
-
-    isNavActive(navItem: string): boolean {
-	let url = this.route.snapshot.url.join('/') + '/' + navItem;
-	let parent = this.route.snapshot.parent;
-	while(parent != null) {
-	    url = parent.url.join('/') + '/' + url;
-	    parent = parent.parent;
-	}
-	
-	return this.router.isActive(url, false);
-    }
-
     isNavVisible(): boolean {
 	return this.selectedYear != '-1' && this.selectedCourseId != '-1' && this.selectedGroupId != '-1';
+    }
+
+    childRoute(child: string): string {
+	let route = child;
+	let groupRoute = this.route.snapshot.firstChild;
+
+	if (groupRoute != null) {
+	    let sectionRoute = groupRoute.firstChild;
+	    if (sectionRoute != null) {
+		let assessmentRoute = sectionRoute.firstChild;
+		if (assessmentRoute != null) {
+		    route = route + '/' + assessmentRoute.params['assessment_id'];
+		}
+	    }
+	}
+	
+	return route;
     }
 
     private emptySelect(index: number): ComposedSelectorSelect {
