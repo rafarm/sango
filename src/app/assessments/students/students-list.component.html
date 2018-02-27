@@ -1,6 +1,6 @@
 <mat-drawer-container class="sg-students-list stretchable">
     <mat-drawer [(opened)]="drawerOpened" [mode]="drawerMode">
-	<mat-nav-list (click)="onListClick($event)">
+	<mat-nav-list (click)="onListClick()">
 	    <a mat-list-item *ngFor="let st of students" routerLink="{{st._id}}" routerLinkActive="active">
 		<span class="sg-student-name">{{st.last_name + ', ' + st.first_name}}</span>
 		<span class="sg-fill-space"></span>

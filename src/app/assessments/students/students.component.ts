@@ -6,7 +6,7 @@ import { StudentsListComponent }	 	from './students-list.component';
 @Component({
     template: `
 	<nav-divider [icon]="'menu'" [items]="assessments" (iconClick)="toggle()"></nav-divider>
-	<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>
+	<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate()"></router-outlet>
     `
 })
 export class StudentsComponent extends AssessmentsDividerBaseComponent {
