@@ -1,9 +1,7 @@
 var session = require('express-session');
 var MongoStore = require('connect-mongodb-session')(session);
 
-const db_sessions_uri = process.env.npm_package_config_db_url + 
-    '/' +
-    process.env.npm_package_config_db_name;
+const db_sessions_uri = process.env.npm_package_config_db_url;
 const db_sessions_collection = 'sessions';
 
 module.exports = session({

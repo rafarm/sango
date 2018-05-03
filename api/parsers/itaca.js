@@ -4,6 +4,8 @@ var xmldoc = require('xmldoc');
 var fs = require('fs');
 var path = process.env.npm_package_config_upload_path;
 
+const excluded_content = "Tutoria";
+
 
 function parser(req, res) {
 // Synchronous processing...
@@ -337,7 +339,7 @@ function processCourse(child, doc) {
 }
 
 function processSubject(child, doc) {
-    if (child.name == 'contenido') {
+    if (child.name == 'contenido' && !child.attr.nombre_val.includes(excluded_content)) {
         var op = {
             updateOne: {
                 filter: { _id: child.attr.codigo },

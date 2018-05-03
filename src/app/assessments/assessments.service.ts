@@ -213,8 +213,10 @@ export class AssessmentsService {
 
             	student.subjects.forEach(subject => {
                     let mark = marks[subject.subject_id];
-                    mark.adapted = subject.adapted;
-                    mark.enroled = true;
+                    if (mark != undefined) {
+                        mark.adapted = subject.adapted;
+                        mark.enroled = true;
+                    }
             	});
 
            	let qualifications = {};

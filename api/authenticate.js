@@ -58,7 +58,7 @@ module.exports = (app, mongodb) => {
                 const db_user = {
                     uid: user.uid,
                     dn: user.dn,
-                    cn: user.cn,
+                    cn: user.displayName,
                     uidNumber: user.uidNumber,
                     gidNumber: user.gidNumber
                 }

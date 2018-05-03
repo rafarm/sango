@@ -72,7 +72,7 @@ export class StudentsListComponent implements OnInit, OnDestroy {
         this.statsSubscription.unsubscribe();
     }
 
-    onListClick() {
+    onListClick(event: any) {
 	if (this.drawerMode == DrawerMode.OVER) {
 	    this.drawerOpened = false;
 	}

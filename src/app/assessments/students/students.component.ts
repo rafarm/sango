@@ -16,7 +16,7 @@ export class StudentsComponent extends AssessmentsDividerBaseComponent {
 	this.studentsList = componentRef;
     }
 
-    onDeactivate() {
+    onDeactivate(componentRef: any) {
 	this.studentsList = null;
     }
 
